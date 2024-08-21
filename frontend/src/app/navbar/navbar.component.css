@@ -1,0 +1,39 @@
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 30px;
+  background: whitesmoke;
+  color: black;
+  width: auto;
+}
+
+.left-container {
+  display: flex;
+  align-items: center;
+
+}
+
+.right-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  padding-right: 10px;
+}
+
+h2 {
+  background: linear-gradient(to top, #ff0000, #ff7e5f, #ffa500, #feb47b );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.material-icons {
+  font-size: 30px;
+  color: #b95714;
+}
