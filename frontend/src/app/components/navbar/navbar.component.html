@@ -1,0 +1,26 @@
+<div class="nav-container">
+
+  <div class="left-container">
+    <i class="material-icons">menu</i>
+    <div class="language-switcher" (click)="toggleLanguageDropdown()">
+      <img class="flag" [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
+    </div>
+
+    <div class="language-dropdown" *ngIf="showLanguageDropdown">
+      <h3>{{getTranslation('chooseLanguage')}} </h3>
+      <div class="language-option" (click)="setLanguage('pl')">
+        <img class="flag" [src]="apiUrl + plFlag" alt="Polish Flag">
+        <span>{{getTranslation('polish')}}</span>
+      </div>
+      <div class="language-option" (click)="setLanguage('en')">
+        <img class="flag" [src]="apiUrl + ukFlag" alt="English Flag">
+        <span>{{getTranslation('english')}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-container">
+    <img class="logo" [src]="apiUrl + logo" alt="Your Image">
+    <h2>Webstaurator</h2>
+  </div>
+</div>
