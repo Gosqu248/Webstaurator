@@ -1,4 +1,33 @@
 <div class="home-container">
+  <div class="first-section">
+    <img class="home-image" [src]="apiUrl + background" alt="Background">
+    <div class="search-container gradient-border">
+      <div class="search-background">
+        <h1>{{getTranslation('home1')}}</h1>
+        <h2> {{getTranslation('home2')}}</h2>
+        <div class="search-bar">
+          <input class="search-input" type="text" placeholder="{{getTranslation('address')}}">
+          <button >{{getTranslation('search')}}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="second-section">
+      <h2> {{getTranslation('second1')}}</h2>
+      <h1> {{getTranslation('second2')}}</h1>
+    <div class="steps-container">
+      <div class="step">
+        <i class="fa-solid fa-location-dot"></i>
+
+      </div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+  </div>
+
+  <div class="third-section"></div>
 
 </div>
 
