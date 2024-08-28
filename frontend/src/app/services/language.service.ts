@@ -27,7 +27,24 @@ export class LanguageService {
       address: 'Podaj adres...',
       search: 'Szukaj',
       second1: 'Zamawianie jest proste.',
-      second2: 'Wystarczą 3 kroki!'
+      second2: 'Wystarczą 3 kroki!',
+      step1_1: 'Podaj swoją lokalizację',
+      step1_2: 'Znajdziemy wszystkie restauracje w Twojej okolicy.',
+      step2_1: 'Znajdź to, czego szukasz',
+      step2_2: 'Szukaj interesującego Cię jedzenia w różnych restauracjach.',
+      step3_1: 'Złóż zamówienie',
+      step3_2: 'Wybierz dostawę lub osobisty odbiór.',
+      third1: 'Dlaczego warto zamawiać na',
+      third2: 'Webstraurator?',
+      why1_1: 'Szybkość i wygoda',
+      why1_2: 'Zamów jedzenie poprzez kilka kliknięć bez wychodzenia z domu.',
+      why2_1: 'Bogata oferta',
+      why2_2: 'Ponad 10 000 restauracji do wyboru w całym kraju.',
+      why3_1: 'Gwarancja jakości',
+      why3_2: 'Współpracujemy tylko z zaufanymi restauracjami, które oferują najwyższą jakość.',
+      why4_1: 'Bezpieczeństwo',
+      why4_2: 'Płatności online są szyfrowane, a dane są chronione.',
+
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -38,8 +55,23 @@ export class LanguageService {
       address: 'Enter address...',
       search: 'Search',
       second1: 'Ordering is easy.',
-      second2: 'Just 3 steps!'
-
+      second2: 'Just 3 steps!',
+      step1_1: 'Enter your location',
+      step1_2: 'We will find all the restaurants in your area',
+      step2_1: 'Find what you are looking for',
+      step2_2: 'Search for the food you are interested in in different restaurants.',
+      step3_1: 'Place an order',
+      step3_2: 'Choose delivery or personal pickup.',
+      third1: 'Why is it worth ordering at',
+      third2: 'Webstraurator?',
+      why1_1: 'Speed and convenience',
+      why1_2: 'Order food in a few clicks without leaving your home.',
+      why2_1: 'Rich offer',
+      why2_2: 'Over 10,000 restaurants to choose from nationwide.',
+      why3_1: 'Quality guarantee',
+      why3_2: 'We only cooperate with trusted restaurants that offer the highest quality.',
+      why4_1: 'Security',
+      why4_2: 'Online payments are encrypted and data is protected.',
     }
   };
 

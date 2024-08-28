@@ -164,47 +164,101 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 70%;
+  width: 1100px;
   height: 300px;
   align-items: center;
   margin-top: 20px;
-
 }
 
 .step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
+  width: 380px;
   height: 300px;
 }
 
+.fa-location-dot, .fa-burger, .fa-clipboard-check {
+  font-size: 100px;
+  color: #f38837;
+}
+
+.step h3 {
+  font-weight: bold;
+  font-size: 22px;
+  font-family: 'Roboto', sans-serif;
+  height: 5px;
+}
+
+.transition-blur {
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 171, 106, 1));
+  filter: blur(0.2px);
+}
 
 .third-section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
   width: 100%;
-  height: 420px;
+  height: 570px;
+  background: #ffab6a;
+}
+
+.third-section h1 {
+  font-size: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+  text-shadow: #feb47b  1px 1px 1px;
+  color: #e52802;
+}
+
+.third-section h2 {
+  font-size: 30px;
+  font-weight: bold;
+  height: 5px;
+}
+
+.why-container {
   display: flex;
   flex-direction: row;
-  background: #ff1515;
-
+  justify-content: space-between;
+  width: 1200px;
+  height: 400px;
+  align-items: center;
 }
 
-.left-container {
-  height: 100%;
-  width: 50%;
-  background: #ff1515;
+.why {
+  margin-top: 40px;
+  padding-top: 30px;
   display: flex;
-}
-
-
-.right-container {
-  height: auto;
-  width: 50%;
-  background: #e0dbdb;
-}
-
-.XboOIa {
-  fill: #ff1515;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  height: 320px;
+  background: white;
+  border-radius: 20px 20px 20px 20px;
+  border : 1px solid #fab5a1;
+  box-shadow: 0 8px 10px rgba(140, 0, 0, 0.6); /* Add this line for shadow */
 
 }
 
+.fa-award, .fa-truck-fast, .fa-user-shield, .fa-list {
+  font-size: 70px;
+  color: #e52802;
+}
+
+.why h3 {
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 23px;
+  font-family: 'Roboto', sans-serif;
+  height: 5px;
+}
+
+.why h4 {
+  width: 80%;
+
+}
