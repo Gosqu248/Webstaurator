@@ -1,0 +1,57 @@
+
+
+h1 {
+  font-size: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+  text-shadow: #feb47b  1px 1px 1px;
+  color: #d50000;
+}
+
+ h2 {
+  font-size: 30px;
+  font-weight: bold;
+  height: 10px;
+}
+
+.why-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1200px;
+  height: 400px;
+  align-items: center;
+}
+
+.why {
+  margin-top: 40px;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  height: 320px;
+  background: white;
+  border-radius: 20px 20px 20px 20px;
+  border : 1px solid #fab5a1;
+  box-shadow: 0 8px 10px rgba(140, 0, 0, 0.6); /* Add this line for shadow */
+
+}
+
+.fa-award, .fa-truck-fast, .fa-user-shield, .fa-list {
+  font-size: 70px;
+  color: #e52802;
+}
+
+.why h3 {
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 23px;
+  font-family: 'Roboto', sans-serif;
+  height: 5px;
+}
+
+.why h4 {
+  width: 80%;
+
+}

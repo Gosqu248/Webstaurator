@@ -22,6 +22,7 @@ export class NavbarComponent {
   currentLanguage: string;
   currentFlag: string;
   showLanguageDropdown = false;
+  showMenu = false;
 
 
   constructor(private languageService: LanguageService) {
@@ -31,6 +32,10 @@ export class NavbarComponent {
 
   toggleLanguageDropdown() {
     this.showLanguageDropdown = !this.showLanguageDropdown;
+  }
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
   }
 
   setLanguage(language: string) {

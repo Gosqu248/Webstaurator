@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {environment} from "../../../../environments/environment";
+import {LanguageService} from "../../../services/language.service";
 
 @Component({
   selector: 'app-home-first-section',
@@ -10,10 +11,17 @@ import {environment} from "../../../../environments/environment";
   styleUrl: './home-first-section.component.css'
 })
 export class HomeFirstSectionComponent {
+  currentLanguage: string;
   apiUrl = environment.api;
   background: string = '/img/background.webp';
 
-  @Input() getTranslation!: <K extends keyof LanguageTranslations>(key: K) => LanguageTranslations[K];
+  constructor(private languageService: LanguageService) {
+    this.currentLanguage = this.languageService.getCurrentLanguage();
 
+  }
+
+  getTranslation<K extends keyof LanguageTranslations>(key: K) {
+    return this.languageService.getTranslation(key);
+  }
 
 }

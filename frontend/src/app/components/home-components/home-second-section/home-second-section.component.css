@@ -1,0 +1,48 @@
+h1 {
+  font-size: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+  text-shadow: #feb47b  1px 1px 1px;
+  color: #f38837;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  height: 10px;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1100px;
+  height: 300px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 380px;
+  height: 300px;
+}
+
+.fa-location-dot, .fa-burger, .fa-clipboard-check {
+  font-size: 100px;
+  color: #f38837;
+}
+
+.step h3 {
+  font-weight: bold;
+  font-size: 22px;
+  font-family: 'Roboto', sans-serif;
+  height: 5px;
+}
+
+.step h4 {
+  width: 90%;
+
+}

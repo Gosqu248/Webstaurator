@@ -1,70 +1,16 @@
 <div class="home-container">
 
   <div class="first-section">
-    <img class="home-image" [src]="apiUrl + background" alt="Background">
-    <div class="search-container gradient-border">
-      <div class="search-background">
-        <h1>{{getTranslation('home1')}}</h1>
-        <h2> {{getTranslation('home2')}}</h2>
-        <div class="search-bar">
-          <input class="search-input" type="text" placeholder="{{getTranslation('address')}}">
-          <button >{{getTranslation('search')}}</button>
-        </div>
-      </div>
-    </div>
-
+    <app-home-first-section></app-home-first-section>
   </div>
 
   <div class="second-section">
-      <h2> {{getTranslation('second1')}}</h2>
-      <h1> {{getTranslation('second2')}}</h1>
-    <div class="steps-container">
-      <div class="step">
-        <i class="fa-solid fa-location-dot"></i>
-        <h3> {{getTranslation('step1_1')}}</h3>
-        <h4> {{getTranslation('step1_2')}}</h4>
-      </div>
-      <div class="step">
-        <i class="fa-solid fa-burger"></i>
-        <h3> {{getTranslation('step2_1')}}</h3>
-        <h4> {{getTranslation('step2_2')}}</h4>
-      </div>
-      <div class="step">
-        <i class="fa-solid fa-clipboard-check"></i>
-        <h3> {{getTranslation('step3_1')}}</h3>
-        <h4> {{getTranslation('step3_2')}}</h4>
-      </div>
-    </div>
+    <app-home-second-section></app-home-second-section>
   </div>
 
-  <div class="transition-blur"></div>
 
   <div class="third-section">
-    <h2> {{getTranslation('third1')}}</h2>
-    <h1> {{getTranslation('third2')}}</h1>
-    <div class="why-container">
-      <div class="why">
-        <i class="fa-solid fa-truck-fast"></i>
-        <h3> {{getTranslation('why1_1')}}</h3>
-        <h4> {{getTranslation('why1_2')}}</h4>
-      </div>
-      <div class="why">
-        <i class="fa-solid fa-list"></i>
-        <h3> {{getTranslation('why2_1')}}</h3>
-        <h4> {{getTranslation('why2_2')}}</h4>
-      </div>
-      <div class="why">
-        <i class="fa-solid fa-award"></i>
-        <h3> {{getTranslation('why3_1')}}</h3>
-        <h4> {{getTranslation('why3_2')}}</h4>
-      </div>
-      <div class="why">
-        <i class="fa-solid fa-user-shield"></i>
-        <h3> {{getTranslation('why4_1')}}</h3>
-        <h4> {{getTranslation('why4_2')}}</h4>
-      </div>
-
-    </div>
+    <app-home-third-section></app-home-third-section>
   </div>
 
 </div>

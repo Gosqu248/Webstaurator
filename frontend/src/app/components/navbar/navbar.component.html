@@ -1,7 +1,7 @@
 <div class="nav-container">
 
   <div class="left-container">
-    <i class="material-icons">menu</i>
+    <i class="material-icons" (click)="toggleMenu()">menu</i>
     <div class="language-switcher" (click)="toggleLanguageDropdown()">
       <img class="flag" [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
     </div>
@@ -17,6 +17,10 @@
         <span>{{getTranslation('english')}}</span>
       </div>
     </div>
+  </div>
+
+  <div class="menu" *ngIf="showMenu">
+
   </div>
 
   <div class="right-container">
