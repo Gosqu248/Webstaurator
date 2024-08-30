@@ -29,7 +29,7 @@
   width: 100%;
   max-width: 180%;
   height: auto;
-  z-index: -1;
+
 
 }
 
@@ -104,10 +104,10 @@
   padding: 0 10px;
   font-size: 16px;
   border-radius: 40px 40px 40px 40px;
-  z-index: auto;
-
+  z-index: 1; /* Ensure the input is above other elements */
+  position: relative; /* Ensure it is positioned correctly */
+  background: white; /* Ensure the background is white */
 }
-
 
 .search-bar button {
   width: 23%;
@@ -119,14 +119,11 @@
   color: white;
   font-size: 18px;
   cursor: pointer;
-
-
 }
 
 .search-bar button:hover {
   background-color: #ff5a36;
 }
-
 
 @media (max-width: 800px) {
 

@@ -50,6 +50,9 @@ export class LanguageService {
       why3_2: 'Współpracujemy tylko z zaufanymi restauracjami, które oferują najwyższą jakość.',
       why4_1: 'Bezpieczeństwo',
       why4_2: 'Płatności online są szyfrowane, a dane są chronione.',
+      myAccount: 'Moje konto',
+      createAccount: 'Załóż konto',
+      login: 'Zaloguj się',
 
     },
     en: {
@@ -78,6 +81,9 @@ export class LanguageService {
       why3_2: 'We only cooperate with trusted restaurants that offer the highest quality.',
       why4_1: 'Security',
       why4_2: 'Online payments are encrypted and data is protected.',
+      myAccount: 'My account',
+      createAccount: 'Create account',
+      login: 'Log in',
     }
   };
 

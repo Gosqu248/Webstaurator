@@ -24,6 +24,9 @@ export interface LanguageTranslations {
   why3_2: string;
   why4_1: string;
   why4_2: string;
+  myAccount: string;
+  createAccount: string;
+  login: string;
 
 }
 

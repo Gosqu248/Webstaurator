@@ -1,14 +1,16 @@
 import {Component, HostListener} from '@angular/core';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../../environments/environment";
 import {NgIf} from "@angular/common";
-import {LanguageService} from "../../services/language.service";
-import {LanguageTranslations} from "../../interfaces/language.interface";
+import {LanguageService} from "../../../services/language.service";
+import {LanguageTranslations} from "../../../interfaces/language.interface";
+import {NavMenuComponent} from "../nav-menu/nav-menu.component";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    NavMenuComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -56,9 +58,15 @@ export class NavbarComponent {
   toggleMenu() {
     this.showMenu = !this.showMenu;
     const overlay = document.querySelector('.overlay') as HTMLElement;
-    if (this.showMenu) {
-      overlay.style.display = 'block';
-    } else {
+    if (overlay) {
+      overlay.style.display = this.showMenu ? 'block' : 'none';
+    }
+  }
+
+  closeMenu() {
+    this.showMenu = !this.showMenu;
+    const overlay = document.querySelector('.overlay') as HTMLElement;
+    if (overlay) {
       overlay.style.display = 'none';
     }
   }
@@ -67,11 +75,12 @@ export class NavbarComponent {
   onDocumentClick(event: MouseEvent) {
     const menu = document.querySelector('.menu') as HTMLElement;
     const overlay = document.querySelector('.overlay') as HTMLElement;
-    if(this.showMenu && !menu.contains(event.target as Node)) {
+    if (this.showMenu && menu && !menu.contains(event.target as Node)) {
       this.showMenu = false;
-      overlay.style.display = 'none';
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
     }
   }
-
 
 }

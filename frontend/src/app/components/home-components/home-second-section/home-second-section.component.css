@@ -5,8 +5,9 @@ h1 {
   text-shadow: #feb47b 1px 1px 1px;
   color: #f38837;
   width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   height: auto;
-  margin: auto;
 }
 
 h2 {

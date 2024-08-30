@@ -1,7 +1,11 @@
 <div class="nav-container">
 
   <div class="left-container">
-    <i class="material-icons" (click)="toggleMenu()">menu</i>
+    <img class="logo" [src]="apiUrl + logo" alt="Your Image">
+    <h2>Webstaurator</h2>
+    <div class="language-switcher" (click)="toggleLanguageDropdown()">
+      <img  [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
+    </div>
 
     <div class="language-dropdown" *ngIf="showLanguageDropdown">
       <h3>{{getTranslation('chooseLanguage')}} </h3>
@@ -17,12 +21,12 @@
   </div>
 
   <div class="menu" *ngIf="showMenu">
+    <app-nav-menu (menuClosed)="closeMenu()"></app-nav-menu>
 
   </div>
 
   <div class="right-container">
-    <img class="logo" [src]="apiUrl + logo" alt="Your Image">
-    <h2>Webstaurator</h2>
+    <i class="material-icons" (click)="toggleMenu()">menu</i>
   </div>
 </div>
 

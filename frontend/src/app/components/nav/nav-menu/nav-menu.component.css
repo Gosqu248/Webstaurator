@@ -1,0 +1,77 @@
+.menu {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the element */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: 600px;
+  padding: 10px 30px;
+  text-align: center;
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  border-radius: 30px;
+}
+
+.menu-first {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 95%;
+  height: 12%;
+}
+
+.menu-first h2{
+  color: #1c1a1a;
+}
+
+.menu-first .fa-circle-xmark {
+  font-size: 30px;
+  color: #1c1a1a;
+  margin-top: 20px;
+}
+
+.menu-first .fa-circle-xmark:hover {
+  color: #ff6200;
+}
+
+.menu-login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  height: 10%;
+}
+
+.menu-login button {
+  width: 48%;
+  height: 72%;
+  border: none;
+  border-radius: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bolder;
+
+}
+
+.login-button {
+  background-color: #f80a0a;
+  color: white;
+}
+
+.login-button:hover {
+  background-color: #bd0202;
+}
+
+.registry-button {
+  background-color: #e7e4e4;
+}
+
+.registry-button:hover {
+  background-color: #d2d0d0;
+}
