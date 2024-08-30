@@ -66,14 +66,14 @@ h1 {
 .why h3 {
   padding-top: 20px;
   font-weight: bold;
-  font-size: 23px;
+  font-size: 25px;
   font-family: 'Roboto', sans-serif;
   height: 5px;
 }
 
 .why h4 {
   width: 80%;
-
+  font-size: 19px;
 }
 
 @media (max-width: 1200px) {
@@ -123,13 +123,7 @@ h1 {
     font-size: 50px;
   }
 
-  .why h3 {
-    font-size: 18px;
-  }
 
-  .why h4 {
-    font-size: 16px;
-  }
 
   .why-container::-webkit-scrollbar {
     display: none;
