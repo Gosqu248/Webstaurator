@@ -1,20 +1,17 @@
   <h2> {{getTranslation('second1')}}</h2>
   <h1> {{getTranslation('second2')}}</h1>
-  <div class="steps-container">
-    <div class="step">
-      <i class="fa-solid fa-location-dot"></i>
-      <h3> {{getTranslation('step1_1')}}</h3>
-      <h4> {{getTranslation('step1_2')}}</h4>
+  <div class="steps-container" (scroll)="onScroll($event)">
+    <div class="step" *ngFor="let step of steps; let i = index">
+      <i [ngClass]="step.icon"></i>
+      <h3> {{step.title}}</h3>
+      <h4> {{step.description}}</h4>
     </div>
-    <div class="step">
-      <i class="fa-solid fa-burger"></i>
-      <h3> {{getTranslation('step2_1')}}</h3>
-      <h4> {{getTranslation('step2_2')}}</h4>
-    </div>
-    <div class="step">
-      <i class="fa-solid fa-clipboard-check"></i>
-      <h3> {{getTranslation('step3_1')}}</h3>
-      <h4> {{getTranslation('step3_2')}}</h4>
-    </div>
+
   </div>
 
+  <div class="dots-container">
+    <span *ngFor="let item of steps; let i = index"
+        class="dot"
+        [ngClass]="{'active': i === activeStepIndex}">
+    </span>
+  </div>

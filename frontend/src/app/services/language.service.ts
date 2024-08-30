@@ -1,18 +1,24 @@
 // language.service.ts
 import { Injectable } from '@angular/core';
 import { Translations } from "../interfaces/language.interface";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
   private currentLanguage: 'pl' | 'en' = 'pl';
+  private languageChangeSubject = new BehaviorSubject<'pl' | 'en'>('pl');
+  languageChange$ = this.languageChangeSubject.asObservable();
+
+
 
   constructor() {
     if(this.isLocalStorageAvailable()) {
       const savedLanguage = localStorage.getItem('language');
       if(savedLanguage === 'pl' || savedLanguage === 'en') {
         this.currentLanguage = savedLanguage;
+        this.languageChangeSubject.next(this.currentLanguage);
       }
     }
   }
@@ -82,6 +88,7 @@ export class LanguageService {
   switchLanguage() {
     this.currentLanguage = this.currentLanguage === 'pl' ? 'en' : 'pl';
     localStorage.setItem('language', this.currentLanguage);
+    this.languageChangeSubject.next(this.currentLanguage);
   }
 
   getTranslation<K extends keyof Translations[typeof this.currentLanguage]>(key: K) {

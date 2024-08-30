@@ -1,4 +1,6 @@
-
+:host {
+  width: 100%;
+}
 
 h1 {
   font-size: 40px;
@@ -6,12 +8,19 @@ h1 {
   font-weight: bolder;
   text-shadow: #feb47b  1px 1px 1px;
   color: #d50000;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
 }
 
  h2 {
   font-size: 30px;
   font-weight: bold;
-  height: 10px;
+   height: auto;
+   width: 90%;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 .why-container {
@@ -19,24 +28,35 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
   width: 1200px;
-  height: 400px;
+  height: auto;
+  margin: auto;
   align-items: center;
+  padding-bottom: 10px;
 }
 
 .why {
-  margin-top: 40px;
-  padding-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 280px;
   height: 320px;
+
+}
+
+.why-background {
+  width: 280px;
+  padding-top: 30px;
+  align-items: center;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
   background: white;
   border-radius: 20px 20px 20px 20px;
   border : 1px solid #fab5a1;
   box-shadow: 0 8px 10px rgba(140, 0, 0, 0.6); /* Add this line for shadow */
 
 }
+
 
 .fa-award, .fa-truck-fast, .fa-user-shield, .fa-list {
   font-size: 70px;
@@ -53,5 +73,71 @@ h1 {
 
 .why h4 {
   width: 80%;
+
+}
+
+@media (max-width: 1200px) {
+  .why-container {
+    width: 100%;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+
+  .dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .dot.active {
+    background-color: #d50000; /* Zmiana koloru aktywnej kropki */
+  }
+
+
+  .why {
+    width: 100%;
+    height: auto;
+    scroll-snap-align: start;
+    flex: none;
+  }
+
+  .why-background {
+    width: 70%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 10px rgba(140, 0, 0, 0.6);
+  }
+
+  .fa-award, .fa-truck-fast, .fa-user-shield, .fa-list {
+    font-size: 50px;
+  }
+
+  .why h3 {
+    font-size: 18px;
+  }
+
+  .why h4 {
+    font-size: 16px;
+  }
+
+  .why-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .why-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
 }

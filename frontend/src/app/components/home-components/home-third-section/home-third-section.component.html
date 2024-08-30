@@ -1,25 +1,18 @@
 <h2> {{getTranslation('third1')}}</h2>
   <h1> {{getTranslation('third2')}}</h1>
-  <div class="why-container">
-    <div class="why">
-      <i class="fa-solid fa-truck-fast"></i>
-      <h3> {{getTranslation('why1_1')}}</h3>
-      <h4> {{getTranslation('why1_2')}}</h4>
-    </div>
-    <div class="why">
-      <i class="fa-solid fa-list"></i>
-      <h3> {{getTranslation('why2_1')}}</h3>
-      <h4> {{getTranslation('why2_2')}}</h4>
-    </div>
-    <div class="why">
-      <i class="fa-solid fa-award"></i>
-      <h3> {{getTranslation('why3_1')}}</h3>
-      <h4> {{getTranslation('why3_2')}}</h4>
-    </div>
-    <div class="why">
-      <i class="fa-solid fa-user-shield"></i>
-      <h3> {{getTranslation('why4_1')}}</h3>
-      <h4> {{getTranslation('why4_2')}}</h4>
+  <div class="why-container" (scroll)="onScroll($event)">
+    <div class="why" *ngFor="let item of whyItems; let i = index">
+      <div class="why-background">
+        <i [ngClass]="item.icon"> </i>
+        <h3> {{item.title}}</h3>
+        <h4> {{item.description}}</h4>
+      </div>
     </div>
   </div>
 
+<div class="dots-container">
+  <span *ngFor="let item of whyItems; let i = index"
+        class="dot"
+        [ngClass]="{'active': i === activeWhyIndex}">
+  </span>
+</div>

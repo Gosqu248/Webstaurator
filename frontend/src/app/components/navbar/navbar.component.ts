@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {NgIf} from "@angular/common";
 import {LanguageService} from "../../services/language.service";
@@ -34,10 +34,6 @@ export class NavbarComponent {
     this.showLanguageDropdown = !this.showLanguageDropdown;
   }
 
-  toggleMenu() {
-    this.showMenu = !this.showMenu;
-  }
-
   setLanguage(language: string) {
     if(this.currentLanguage !== language) {
       this.languageService.switchLanguage();
@@ -55,6 +51,26 @@ export class NavbarComponent {
 
   private getCurrentFlag() {
     return this.currentLanguage === 'pl' ? this.plFlag : this.ukFlag;
+  }
+
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
+    const overlay = document.querySelector('.overlay') as HTMLElement;
+    if (this.showMenu) {
+      overlay.style.display = 'block';
+    } else {
+      overlay.style.display = 'none';
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const menu = document.querySelector('.menu') as HTMLElement;
+    const overlay = document.querySelector('.overlay') as HTMLElement;
+    if(this.showMenu && !menu.contains(event.target as Node)) {
+      this.showMenu = false;
+      overlay.style.display = 'none';
+    }
   }
 
 

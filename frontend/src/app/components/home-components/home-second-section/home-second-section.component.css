@@ -2,14 +2,19 @@ h1 {
   font-size: 40px;
   font-family: 'Roboto', sans-serif;
   font-weight: bolder;
-  text-shadow: #feb47b  1px 1px 1px;
+  text-shadow: #feb47b 1px 1px 1px;
   color: #f38837;
+  width: 90%;
+  height: auto;
+  margin: auto;
 }
 
 h2 {
   font-size: 30px;
   font-weight: bold;
-  height: 10px;
+  width: 90%;
+  height: auto;
+  margin: auto;
 }
 
 .steps-container {
@@ -20,6 +25,7 @@ h2 {
   height: 300px;
   align-items: center;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .step {
@@ -28,6 +34,7 @@ h2 {
   align-items: center;
   width: 380px;
   height: 300px;
+  flex-shrink: 0;
 }
 
 .fa-location-dot, .fa-burger, .fa-clipboard-check {
@@ -40,9 +47,69 @@ h2 {
   font-size: 22px;
   font-family: 'Roboto', sans-serif;
   height: 5px;
+
 }
 
 .step h4 {
   width: 90%;
+}
+
+
+@media (max-width: 1200px) {
+  .steps-container {
+    width: 100%;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+
+  .dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .dot.active {
+    background-color: #f38837;
+  }
+
+  .step {
+    width: 100%;
+    height: auto;
+    scroll-snap-align: start;
+    flex: none;
+  }
+
+  .fa-location-dot, .fa-burger, .fa-clipboard-check {
+    font-size: 80px;
+  }
+
+  .step h3 {
+    font-size: 18px;
+  }
+
+  .step h4 {
+    font-size: 16px;
+  }
+
+  .steps-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .steps-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
 
 }
