@@ -7,7 +7,6 @@
   align-items: center;
   width: 80%;
   height: 100%;
-  padding: 10px 30px;
   text-align: center;
   position: fixed;
   background-color: #fff;
@@ -21,7 +20,7 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   height: 15%;
   margin-bottom: 10px;
   margin-top: 10px;
@@ -44,7 +43,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   height: 15%;
 }
 
@@ -63,4 +62,17 @@
 .fa-check {
   color: #1c1a1a;
   font-size: 30px;
+}
+
+@media (max-width: 1024px) {
+  .language-menu {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .menu-first {
+    margin-top: 10px;
+  }
 }
