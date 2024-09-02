@@ -27,6 +27,13 @@ export interface LanguageTranslations {
   myAccount: string;
   createAccount: string;
   login: string;
+  profile: string;
+  orders: string;
+  favourites: string;
+  opinions: string;
+  help: string;
+  changeLanguage: string;
+  language: string;
 
 }
 

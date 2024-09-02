@@ -1,0 +1,28 @@
+<div class="language-menu">
+  <div class="first-section">
+    <i class="fa-solid fa-chevron-left" (click)="closeMenu()"></i>
+    <h2>{{getTranslation('language')}}</h2>
+  </div>
+  <div class="language-item" (click)="setLanguage('pl')">
+    <div class="language">
+      <img class="flag" [src]="apiUrl + plFlag" alt="Polish Flag">
+      <span>{{getTranslation('polish')}}</span>
+    </div>
+    <div class="current-check">
+      <i class="fa-solid fa-check" *ngIf="getCurrentLanguage() === 'pl'"></i>
+
+    </div>
+
+  </div>
+  <div class="language-item" (click)="setLanguage('en')">
+    <div class="language">
+      <img class="flag" [src]="apiUrl + ukFlag" alt="English Flag">
+      <span>{{getTranslation('english')}}</span>
+    </div>
+    <div class="current-check">
+      <i class="fa-solid fa-check" *ngIf="getCurrentLanguage() === 'en'"></i>
+    </div>
+
+  </div>
+
+</div>

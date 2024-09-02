@@ -1,4 +1,4 @@
-<div class="menu">
+<div class="menu" *ngIf="!showLanguageMenu">
   <div class="menu-first">
     <h2>{{getTranslation('myAccount')}}</h2>
     <i class="fa-regular fa-circle-xmark" (click)="closeMenu()"></i>
@@ -7,9 +7,33 @@
     <button class="registry-button"> {{getTranslation('createAccount')}} </button>
     <button class="login-button"> {{getTranslation('login')}}  </button>
   </div>
-  <div class="menu-orders">
+  <div class="menu-item">
+    <i class="fa-solid fa-user"></i>
+    <h3>{{getTranslation('profile')}}</h3>
+  </div>
+  <div class="menu-item">
     <i class="fa-solid fa-bag-shopping"></i>
-
-
+    <h3>{{getTranslation('orders')}}</h3>
+  </div>
+  <div class="menu-item">
+    <i class="fa-solid fa-heart"></i>
+    <h3>{{getTranslation('favourites')}}</h3>
+  </div>
+  <div class="menu-item">
+    <i class="fa-solid fa-comment-dots"></i>
+    <h3>{{getTranslation('opinions')}}</h3>
+  </div>
+  <div class="menu-item">
+    <i class="fa-solid fa-circle-question"></i>
+    <h3>{{getTranslation('help')}}</h3>
+  </div>
+  <div class="menu-item" *ngIf="showLanguageOption" (click)="toggleLanguageMenu()">
+    <i class="fa-solid fa-language"></i>
+    <h3>{{getTranslation('changeLanguage')}}</h3>
   </div>
 </div>
+
+<app-nav-menu-language *ngIf="showLanguageMenu" (closeLanguageMenu)="closeLanguageMenu()"></app-nav-menu-language>
+
+
+

@@ -53,6 +53,13 @@ export class LanguageService {
       myAccount: 'Moje konto',
       createAccount: 'Załóż konto',
       login: 'Zaloguj się',
+      profile: 'Profil',
+      orders: 'Zamówienia',
+      favourites: 'Ulubione',
+      opinions: 'Opinie',
+      help: 'Pomoc i Regulaminy',
+      changeLanguage: 'Zmień język',
+      language: 'Język',
 
     },
     en: {
@@ -84,6 +91,13 @@ export class LanguageService {
       myAccount: 'My account',
       createAccount: 'Create account',
       login: 'Log in',
+      profile: 'Profile',
+      orders: 'Orders',
+      favourites: 'Favourites',
+      opinions: 'Opinions',
+      help: 'Help and Terms',
+      changeLanguage: 'Change language',
+      language: 'Language',
     }
   };
 

@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px;
-  height: 600px;
+  width: 100%;
+  height: auto;
   padding: 10px 30px;
   text-align: center;
   position: fixed;
@@ -21,8 +21,9 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  width: 95%;
+  width: 90%;
   height: 12%;
+  margin-bottom: 10px;
 }
 
 .menu-first h2{
@@ -46,11 +47,12 @@
   justify-content: space-between;
   width: 90%;
   height: 10%;
+  margin-bottom: 20px;
 }
 
 .menu-login button {
   width: 48%;
-  height: 72%;
+  height: 40px;
   border: none;
   border-radius: 40px;
   font-size: 18px;
@@ -74,4 +76,43 @@
 
 .registry-button:hover {
   background-color: #d2d0d0;
+}
+
+
+.menu-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  height: 10%;
+  margin-top: 10px;
+}
+
+.menu-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.fa-bag-shopping, .fa-heart, .fa-user, .fa-comment-dots, .fa-language, .fa-circle-question {
+  font-size: 20px;
+  color: #ff6200;
+  padding: 20px;
+}
+
+.menu-item h3 {
+  color: #1c1a1a;
+  font-weight: normal;
+
+}
+
+@media (max-width: 1024px) {
+  .menu {
+    width: 85%;
+    height: 100%;
+  }
+
+  .menu-first {
+    margin-top: 10px;
+  }
 }

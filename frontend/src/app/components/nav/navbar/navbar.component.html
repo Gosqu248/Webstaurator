@@ -3,7 +3,7 @@
   <div class="left-container">
     <img class="logo" [src]="apiUrl + logo" alt="Your Image">
     <h2>Webstaurator</h2>
-    <div class="language-switcher" (click)="toggleLanguageDropdown()">
+    <div class="language-switcher"  *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">
       <img  [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
     </div>
 
