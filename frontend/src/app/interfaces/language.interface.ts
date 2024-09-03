@@ -34,6 +34,10 @@ export interface LanguageTranslations {
   help: string;
   changeLanguage: string;
   language: string;
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 
 }
 

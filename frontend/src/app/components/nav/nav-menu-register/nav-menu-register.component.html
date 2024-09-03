@@ -1,1 +1,29 @@
-<p>nav-menu-register works!</p>
+<div class="register-menu">
+  <div class="first-section">
+    <i class="fa-solid fa-chevron-left" (click)="backToMenu()"></i>
+    <h2>{{getTranslation('createAccount')}}</h2>
+  </div>
+  <form>
+    <div class="input-container">
+      <label for="name">{{getTranslation('name')}}</label>
+      <input id="name" type="text" [(ngModel)]="name" name="name" placeholder="{{getTranslation('name')}}" required>
+    </div>
+    <div class="input-container">
+      <label for="email">{{getTranslation('email')}}</label>
+      <input id="email" type="email" [(ngModel)]="email" name="email" placeholder="{{getTranslation('email')}}" required>
+    </div>
+    <div class="input-container">
+      <label for="password">{{getTranslation('password')}}</label>
+      <input id="password" type="password" [(ngModel)]="password" name="password" placeholder="{{getTranslation('password')}}" required>
+    </div>
+    <div class="input-container">
+      <label for="confirmPassword">{{getTranslation('confirmPassword')}}</label>
+      <input id="confirmPassword" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="{{getTranslation('confirmPassword')}}" required>
+    </div>
+
+    <button type="submit" (click)="register()">{{getTranslation('createAccount')}}</button>
+  </form>
+
+
+
+</div>

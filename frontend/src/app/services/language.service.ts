@@ -60,6 +60,10 @@ export class LanguageService {
       help: 'Pomoc i Regulaminy',
       changeLanguage: 'Zmień język',
       language: 'Język',
+      name: 'Nazwisko',
+      email: 'E-mail',
+      password: 'Hasło',
+      confirmPassword: 'Potwierdź hasło',
 
     },
     en: {
@@ -98,6 +102,10 @@ export class LanguageService {
       help: 'Help and Terms',
       changeLanguage: 'Change language',
       language: 'Language',
+      name: 'Name',
+      email: 'Email address',
+      password: 'Password',
+      confirmPassword: 'Confirm password',
     }
   };
 

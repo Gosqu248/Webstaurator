@@ -1,0 +1,101 @@
+.register-menu {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the element */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  position: fixed;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  border-radius: 30px;
+}
+
+.first-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 80%;
+  height: 15%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.first-section h2{
+  color: #1c1a1a;
+  font-size: 30px;
+
+}
+
+.fa-chevron-left {
+  font-size: 30px;
+  color: #1c1a1a;
+  margin-top: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.input-container label {
+  color: #1c1a1a;
+  align-self: flex-start; /* Ensure label is aligned to the start */
+  margin-bottom: 10px;
+  font-weight: bolder;
+}
+
+.input-container input {
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 5px 0 5px 10px;
+}
+
+button {
+  width: 80%;
+  background: red;
+  height: 50px;
+  border: none;
+  border-radius: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+
+
+@media (max-width: 1024px) {
+  .language-menu {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .menu-first {
+    margin-top: 10px;
+  }
+}
