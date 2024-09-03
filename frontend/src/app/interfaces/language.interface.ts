@@ -38,7 +38,11 @@ export interface LanguageTranslations {
   email: string;
   password: string;
   confirmPassword: string;
-
+  registerAccept: string;
+  haveAccount: string;
+  emailError: string;
+  passwordError: string;
+  confirmPasswordError: string;
 }
 
 export interface Translations {

@@ -64,6 +64,11 @@ export class LanguageService {
       email: 'E-mail',
       password: 'Hasło',
       confirmPassword: 'Potwierdź hasło',
+      registerAccept: "Klikając przycisk 'Załóż konto', akceptujesz regulamin serwisu i polityką prywatności.",
+      haveAccount: 'Mam już konto',
+      emailError: 'Nieprawidłowy adres email',
+      passwordError: 'Hasło musi zawierać co najmniej 8 znaków, jedną wielką literę i jeden znak specjalny',
+      confirmPasswordError: 'Hasła muszą być takie same'
 
     },
     en: {
@@ -106,6 +111,11 @@ export class LanguageService {
       email: 'Email address',
       password: 'Password',
       confirmPassword: 'Confirm password',
+      registerAccept: "By clicking the 'Create account' button, you accept the terms of service and privacy policy.",
+      haveAccount: 'I already have an account',
+      emailError: 'Invalid email address',
+      passwordError: 'The password must be at least 8 characters long, contain one uppercase letter and one special character',
+      confirmPasswordError: 'Passwords must match'
     }
   };
 

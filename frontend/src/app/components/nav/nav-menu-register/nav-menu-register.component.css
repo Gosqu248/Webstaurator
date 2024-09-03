@@ -7,6 +7,7 @@
   align-items: center;
   width: 100%;
   height: auto;
+  max-height: 90vh;
   text-align: center;
   position: fixed;
   background-color: #fff;
@@ -28,14 +29,26 @@
 
 .first-section h2{
   color: #1c1a1a;
-  font-size: 30px;
+  font-size: 25px;
 
 }
 
 .fa-chevron-left {
-  font-size: 30px;
+  font-size: 25px;
   color: #1c1a1a;
   margin-top: 20px;
+}
+
+.fa-chevron-left:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.form-container {
+  flex-grow: 1; /* Allow the form to grow and take available space */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  padding: 20px; /* Add some padding for better visual appearance */
+  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
 }
 
 form {
@@ -45,6 +58,7 @@ form {
   justify-content: center;
   width: 100%;
   height: auto;
+
 
 }
 
@@ -75,7 +89,8 @@ form {
 
 button {
   width: 80%;
-  background: red;
+  background: #fa2525;
+  color: white;
   height: 50px;
   border: none;
   border-radius: 40px;
@@ -85,14 +100,65 @@ button {
   margin-bottom: 10px;
 }
 
+.invalid-button {
+  background-color: grey;
+}
+
+button:hover {
+  background: #cb0505;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90%;
+  height: auto;
+  color: red;
+}
+
+.error-container p {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.terms-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: auto;
+  font-size: 14px;
+  color: #4f4e4e;
+}
+
+.last-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: auto;
+}
+
+.last-container h2 {
+  color: #1c1a1a;
+  font-size: 20px;
+  margin-bottom: 10px;
+
+}
+
 
 
 @media (max-width: 1024px) {
-  .language-menu {
+  .register-menu {
     width: 100%;
     height: 100%;
     padding: 0;
     border-radius: 0;
+    max-height: 100%;
   }
 
   .menu-first {
