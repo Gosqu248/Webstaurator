@@ -3,6 +3,10 @@ package pl.urban.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +15,7 @@ import pl.urban.backend.model.User;
 import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
 import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.service.DetailsUserService;
 import pl.urban.backend.service.UserService;
 
 
@@ -18,17 +23,18 @@ import pl.urban.backend.service.UserService;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
     private final UserService userService;
-
-    @Autowired
     private final JwtUtil jwtToken;
+    private final AuthenticationManager authenticationManager;
+    private final DetailsUserService detailsUserService;
 
 
 
-    public AuthController(UserService userService, JwtUtil tokenProvider) {
+    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, DetailsUserService detailsUserService) {
         this.userService = userService;
         this.jwtToken = tokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.detailsUserService = detailsUserService;
     }
 
     @PostMapping("/register")
@@ -38,12 +44,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-       if (userService.checkUserCredentials(loginRequest.getEmail(), loginRequest.getPassword())) {
-           String token = jwtToken.createToken(loginRequest.getEmail());
-           return ResponseEntity.ok(new JwtResponse(token));
-       }
-       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect email or password", e);
+        }
+
+        final UserDetails userDetails = detailsUserService.loadUserByUsername(loginRequest.getEmail());
+
+        final String jwt = jwtToken.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
 }

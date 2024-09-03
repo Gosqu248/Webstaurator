@@ -7,15 +7,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import pl.urban.backend.model.User;
+import pl.urban.backend.service.UserService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -23,8 +29,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
 
     @Override
@@ -32,15 +36,25 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String jwtToken = extractJwtFromRequest(request);
 
-        if (jwtToken != null && jwtUtil.validateToken(jwtToken)) {
-            String email = jwtUtil.getEmailFromJWT(jwtToken);
+        try {
+            Claims claims = jwtUtil.extractAllClaims(jwtToken);
+            String email = claims.getSubject();
+            List<String> authorities = claims.get("authorities", List.class);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            if (authorities == null) {
+                authorities = new ArrayList<>();
+            }
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    email,
+                    null,
+                    authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        } catch (Exception e) {
+            // Log exception for debugging
+            System.out.println("JWT Token parsing error: " + e.getMessage());
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

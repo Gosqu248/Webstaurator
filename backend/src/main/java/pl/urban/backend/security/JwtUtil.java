@@ -6,10 +6,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class JwtUtil {
@@ -18,17 +22,22 @@ public class JwtUtil {
     private Long expirationTime;
     private Key secretKey;
 
-    public String createToken(String email) {
-        Date now = new Date();
-        Date expiryDate = new Date((now.getTime() + expirationTime));
+    public String generateToken(UserDetails userDetails) {
+       Map<String, Object> claims = new HashMap<>();
+         return createToken(claims, userDetails.getUsername());
+    }
 
+    public String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
+
+
 
     public boolean validateToken(String token) {
         try {
@@ -40,14 +49,13 @@ public class JwtUtil {
         return false;
     }
 
-    public String getEmailFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
+    public Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.getSubject();
     }
 
 

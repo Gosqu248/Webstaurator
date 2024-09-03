@@ -10,7 +10,6 @@ import pl.urban.backend.repository.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -18,6 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
 
     public User registerUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
@@ -31,6 +31,11 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
         return user != null && bCryptPasswordEncoder.matches(password, user.getPassword());
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 
 
