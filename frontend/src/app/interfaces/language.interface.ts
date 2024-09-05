@@ -43,6 +43,8 @@ export interface LanguageTranslations {
   emailError: string;
   passwordError: string;
   confirmPasswordError: string;
+  loginError: string;
+
 }
 
 export interface Translations {

@@ -1,11 +1,11 @@
-<div class="menu" *ngIf="!showLanguageMenu && !showRegister">
+<div class="menu" *ngIf="!showLanguageMenu && !showRegister && !showLogin">
   <div class="menu-first">
     <h2>{{getTranslation('myAccount')}}</h2>
     <i class="fa-regular fa-circle-xmark" (click)="closeMenu()"></i>
   </div>
   <div class="menu-login">
     <button class="registry-button" (click)="toggleRegister()"> {{getTranslation('createAccount')}} </button>
-    <button class="login-button"> {{getTranslation('login')}}  </button>
+    <button class="login-button" (click)="toggleLogin()"> {{getTranslation('login')}}  </button>
   </div>
   <div class="menu-item">
     <i class="fa-solid fa-user"></i>
@@ -35,6 +35,7 @@
 
 <app-nav-menu-language *ngIf="showLanguageMenu" (closeLanguageMenu)="toggleLanguageMenu()"></app-nav-menu-language>
 <app-nav-menu-register *ngIf="showRegister" (closeRegistry)="toggleRegister()"></app-nav-menu-register>
+<app-nav-menu-login *ngIf="showLogin" (closeLogin)="toggleLogin()"></app-nav-menu-login>
 
 
 

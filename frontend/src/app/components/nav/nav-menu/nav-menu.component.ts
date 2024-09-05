@@ -4,6 +4,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgIf} from "@angular/common";
 import {NavMenuLanguageComponent} from "../nav-menu-language/nav-menu-language.component";
 import {NavMenuRegisterComponent} from "../nav-menu-register/nav-menu-register.component";
+import {NavMenuLoginComponent} from "../nav-menu-login/nav-menu-login.component";
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,7 +12,8 @@ import {NavMenuRegisterComponent} from "../nav-menu-register/nav-menu-register.c
   imports: [
     NgIf,
     NavMenuLanguageComponent,
-    NavMenuRegisterComponent
+    NavMenuRegisterComponent,
+    NavMenuLoginComponent
   ],
   templateUrl: './nav-menu.component.html',
   styleUrl: './nav-menu.component.css'
@@ -22,6 +24,8 @@ export class NavMenuComponent implements OnInit{
   showLanguageOption: boolean = false;
   showLanguageMenu: boolean = false;
   showRegister: boolean = false;
+  showLogin: boolean = false;
+  isLogged: boolean = false;
 
   constructor(private languageService: LanguageService) {}
 
@@ -47,6 +51,10 @@ export class NavMenuComponent implements OnInit{
 
   toggleRegister() {
     this.showRegister = !this.showRegister;
+  }
+
+  toggleLogin() {
+    this.showLogin = !this.showLogin;
   }
 
 
