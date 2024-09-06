@@ -6,11 +6,11 @@
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="input-container">
         <label for="email">{{getTranslation('email')}}</label>
-        <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" required>
+        <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
       </div>
       <div class="input-container">
         <label for="password">{{getTranslation('password')}}</label>
-        <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" required>
+        <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" autocomplete="current-password" required>
       </div>
 
       <div class="error-container" *ngIf="isloginError">
@@ -21,7 +21,7 @@
       <button type="submit">{{getTranslation('login')}}</button>
 
       <div class="last-container">
-        <h2> {{getTranslation('createAccount')}}</h2>
+        <h2 (click)="changeToRegister()"> {{getTranslation('createAccount')}}</h2>
       </div>
     </form>
 

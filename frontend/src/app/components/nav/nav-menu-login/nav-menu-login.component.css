@@ -8,7 +8,7 @@
   width: 100%;
   height: auto;
   max-height: 90vh;
-  min-height: 70vh;
+  min-height: 500px;
   text-align: center;
   position: fixed;
   background-color: #fff;
@@ -92,7 +92,7 @@ button {
   cursor: pointer;
   font-weight: bolder;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 button:hover {
@@ -127,7 +127,12 @@ button:hover {
   color: #1c1a1a;
   font-size: 20px;
   margin-bottom: 10px;
+  text-decoration: underline;
+}
 
+.last-container h2:hover {
+  cursor: pointer;
+  text-decoration: none;
 }
 
 

@@ -29,6 +29,7 @@ import {User} from "../../../interfaces/user.interface";
 })
 export class NavMenuRegisterComponent {
   @Output() closeRegistry = new EventEmitter<void>();
+  @Output() openLogin = new EventEmitter<void>();
   registerForm: FormGroup;
 
 
@@ -94,6 +95,11 @@ export class NavMenuRegisterComponent {
       return control ? control.invalid && (control.dirty || control.touched) || this.registerForm.hasError('passwordMismatch') : false;
     }
     return control ? control.invalid && (control.dirty || control.touched) : false;
+  }
+
+  changeToLogin() {
+    this.backToMenu();
+    this.openLogin.emit();
   }
 
 }

@@ -98,6 +98,7 @@ button {
   cursor: pointer;
   font-weight: bolder;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .invalid-button {
@@ -147,9 +148,14 @@ button:hover {
   color: #1c1a1a;
   font-size: 20px;
   margin-bottom: 10px;
+  text-decoration: underline;
 
 }
 
+.last-container h2:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
 
 
 @media (max-width: 1024px) {

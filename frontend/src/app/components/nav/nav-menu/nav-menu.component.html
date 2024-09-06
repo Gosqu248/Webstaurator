@@ -1,9 +1,12 @@
 <div class="menu" *ngIf="!showLanguageMenu && !showRegister && !showLogin">
   <div class="menu-first">
-    <h2>{{getTranslation('myAccount')}}</h2>
+      <h2 *ngIf="!checkAuth(); else notAuth"> {{getTranslation('myAccount')}} </h2>
+    <ng-template #notAuth>
+      <h2> {{name}}</h2>
+    </ng-template>
     <i class="fa-regular fa-circle-xmark" (click)="closeMenu()"></i>
   </div>
-  <div class="menu-login">
+  <div class="menu-login" *ngIf="!checkAuth()">
     <button class="registry-button" (click)="toggleRegister()"> {{getTranslation('createAccount')}} </button>
     <button class="login-button" (click)="toggleLogin()"> {{getTranslation('login')}}  </button>
   </div>
@@ -31,11 +34,16 @@
     <i class="fa-solid fa-language"></i>
     <h3>{{getTranslation('changeLanguage')}}</h3>
   </div>
+  <div class="menu-item" *ngIf="checkAuth()" (click)="logout()">
+    <i class="fa-solid fa-sign-out" ></i>
+    <h3>{{getTranslation('logout')}}</h3>
+  </div>
+
 </div>
 
 <app-nav-menu-language *ngIf="showLanguageMenu" (closeLanguageMenu)="toggleLanguageMenu()"></app-nav-menu-language>
-<app-nav-menu-register *ngIf="showRegister" (closeRegistry)="toggleRegister()"></app-nav-menu-register>
-<app-nav-menu-login *ngIf="showLogin" (closeLogin)="toggleLogin()"></app-nav-menu-login>
+<app-nav-menu-register *ngIf="showRegister" (closeRegistry)="toggleRegister()" (openLogin)="toggleLogin()"></app-nav-menu-register>
+<app-nav-menu-login *ngIf="showLogin" (closeLogin)="toggleLogin()" (openRegistry)="toggleRegister()"></app-nav-menu-login>
 
 
 

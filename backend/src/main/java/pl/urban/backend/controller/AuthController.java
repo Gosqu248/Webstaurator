@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class AuthController {
 
@@ -61,6 +61,12 @@ public class AuthController {
         final String jwt = jwtToken.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(jwt));
+    }
+
+    @GetMapping("/user")
+    public User getUser(@RequestHeader("Authorization") String token) {
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        return userService.getCustomerBySubject(subject);
     }
 
 }

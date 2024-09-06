@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 @Component
 public class JwtUtil {
@@ -38,16 +39,17 @@ public class JwtUtil {
     }
 
 
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Invalid JWT token");
-        }
-        return false;
+    public String extractSubjectFromToken(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+        return claimsResolver.apply(claims);
+    }
+
+
+
 
     public Claims extractAllClaims(String token) {
         return Jwts

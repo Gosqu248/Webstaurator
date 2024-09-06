@@ -27,14 +27,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean checkUserCredentials(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
-        return user != null && bCryptPasswordEncoder.matches(password, user.getPassword());
-    }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public User getCustomerBySubject(String subject) {
+        return userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 

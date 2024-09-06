@@ -70,6 +70,7 @@ export class LanguageService {
       passwordError: 'Hasło musi zawierać co najmniej 8 znaków, jedną wielką literę i jeden znak specjalny',
       confirmPasswordError: 'Hasła muszą być takie same',
       loginError: 'Nieprawidłowy login lub hasło',
+      logout: 'Wyloguj',
 
     },
     en: {
@@ -118,6 +119,7 @@ export class LanguageService {
       passwordError: 'The password must be at least 8 characters long, contain one uppercase letter and one special character',
       confirmPasswordError: 'Passwords must match',
       loginError: 'Invalid login or password',
+      logout: 'Logout',
     }
   };
 

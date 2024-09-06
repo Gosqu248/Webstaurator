@@ -11,7 +11,7 @@
       </div>
       <div class="input-container">
         <label for="email">{{getTranslation('email')}}</label>
-        <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" required>
+        <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
         <div class="error-container" *ngIf="showErrorFor('email')">
           <i class="fa-solid fa-circle-exclamation"></i>
           <p>{{getTranslation('emailError')}}</p>
@@ -19,7 +19,7 @@
       </div>
       <div class="input-container">
         <label for="password">{{getTranslation('password')}}</label>
-        <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" required>
+        <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" autocomplete="new-password" required>
         <div class="error-container" *ngIf="showErrorFor('password')">
           <i class="fa-solid fa-circle-exclamation"></i>
           <p>{{getTranslation('passwordError')}}</p>
@@ -27,7 +27,7 @@
       </div>
       <div class="input-container">
         <label for="confirmPassword">{{getTranslation('confirmPassword')}}</label>
-        <input id="confirmPassword" type="password" formControlName="confirmPassword" name="confirmPassword" placeholder="{{getTranslation('confirmPassword')}}" required>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" name="confirmPassword" placeholder="{{getTranslation('confirmPassword')}}" autocomplete="new-password" required>
         <div class="error-container" *ngIf="showErrorFor('confirmPassword')">
           <i class="fa-solid fa-circle-exclamation"></i>
           <p>{{getTranslation('confirmPasswordError')}}</p>
@@ -39,7 +39,7 @@
         <p> {{getTranslation('registerAccept')}}</p>
       </div>
       <div class="last-container">
-        <h2> {{getTranslation('haveAccount')}}</h2>
+        <h2 (click)="changeToLogin()"> {{getTranslation('haveAccount')}}</h2>
       </div>
     </form>
   </div>

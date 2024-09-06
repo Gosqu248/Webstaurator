@@ -19,6 +19,7 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class NavMenuLoginComponent {
   @Output() closeLogin = new EventEmitter<void>();
+  @Output() openRegistry = new EventEmitter<void>();
   loginForm: FormGroup;
   isloginError: boolean = false;
 
@@ -55,5 +56,10 @@ export class NavMenuLoginComponent {
 
   backToMenu() {
     this.closeLogin.emit();
+  }
+
+  changeToRegister() {
+    this.backToMenu();
+    this.openRegistry.emit();
   }
 }
