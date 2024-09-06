@@ -102,4 +102,13 @@ export class NavMenuRegisterComponent {
     this.openLogin.emit();
   }
 
+  togglePasswordVisibility(fieldId: string) {
+    const inputField = document.getElementById(fieldId) as HTMLInputElement;
+    if (inputField.type === 'password') {
+      inputField.type = 'text';
+    } else {
+      inputField.type = 'password';
+    }
+  }
+
 }

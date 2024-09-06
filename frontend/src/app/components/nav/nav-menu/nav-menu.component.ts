@@ -6,6 +6,7 @@ import {NavMenuLanguageComponent} from "../nav-menu-language/nav-menu-language.c
 import {NavMenuRegisterComponent} from "../nav-menu-register/nav-menu-register.component";
 import {NavMenuLoginComponent} from "../nav-menu-login/nav-menu-login.component";
 import {AuthService} from "../../../services/auth.service";
+import {NavMenuProfileComponent} from "../nav-menu-profile/nav-menu-profile.component";
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,7 +15,8 @@ import {AuthService} from "../../../services/auth.service";
     NgIf,
     NavMenuLanguageComponent,
     NavMenuRegisterComponent,
-    NavMenuLoginComponent
+    NavMenuLoginComponent,
+    NavMenuProfileComponent
   ],
   templateUrl: './nav-menu.component.html',
   styleUrl: './nav-menu.component.css'
@@ -27,8 +29,9 @@ export class NavMenuComponent implements OnInit{
   showRegister: boolean = false;
   showLogin: boolean = false;
   name: string = '';
+  showProfile: boolean = false;
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private cdr: ChangeDetectorRef) {
+  constructor(private languageService: LanguageService, private authService: AuthService) {
     this.checkAuth();
   }
 
@@ -50,7 +53,6 @@ export class NavMenuComponent implements OnInit{
           sessionStorage.setItem('name', user.name);
           this.name = user.name
           sessionStorage.setItem('email', user.email);
-          this.cdr.detectChanges();
         },
         error: error => {
           console.error('Error fetching user data', error);
@@ -94,4 +96,11 @@ export class NavMenuComponent implements OnInit{
   }
 
 
+  toggleProfile() {
+    if (this.checkAuth()) {
+      this.showProfile = !this.showProfile;
+    } else {
+      this.showLogin = true;
+    }
+  }
 }

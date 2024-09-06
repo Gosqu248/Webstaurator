@@ -45,6 +45,7 @@ export interface LanguageTranslations {
   confirmPasswordError: string;
   loginError: string;
   logout: string;
+  newName: string;
 
 }
 

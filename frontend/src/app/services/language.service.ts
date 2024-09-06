@@ -53,7 +53,7 @@ export class LanguageService {
       myAccount: 'Moje konto',
       createAccount: 'Załóż konto',
       login: 'Zaloguj się',
-      profile: 'Profil',
+      profile: 'Twoje dane',
       orders: 'Zamówienia',
       favourites: 'Ulubione',
       opinions: 'Opinie',
@@ -71,6 +71,7 @@ export class LanguageService {
       confirmPasswordError: 'Hasła muszą być takie same',
       loginError: 'Nieprawidłowy login lub hasło',
       logout: 'Wyloguj',
+      newName: "Zaktualizuj nazwisko"
 
     },
     en: {
@@ -102,7 +103,7 @@ export class LanguageService {
       myAccount: 'My account',
       createAccount: 'Create account',
       login: 'Log in',
-      profile: 'Profile',
+      profile: 'Your data',
       orders: 'Orders',
       favourites: 'Favourites',
       opinions: 'Opinions',
@@ -120,6 +121,7 @@ export class LanguageService {
       confirmPasswordError: 'Passwords must match',
       loginError: 'Invalid login or password',
       logout: 'Logout',
+      newName: "Update name"
     }
   };
 

@@ -1,4 +1,4 @@
-<div class="menu" *ngIf="!showLanguageMenu && !showRegister && !showLogin">
+<div class="menu" *ngIf="!showLanguageMenu && !showRegister && !showLogin && !showProfile">
   <div class="menu-first">
       <h2 *ngIf="!checkAuth(); else notAuth"> {{getTranslation('myAccount')}} </h2>
     <ng-template #notAuth>
@@ -10,7 +10,7 @@
     <button class="registry-button" (click)="toggleRegister()"> {{getTranslation('createAccount')}} </button>
     <button class="login-button" (click)="toggleLogin()"> {{getTranslation('login')}}  </button>
   </div>
-  <div class="menu-item">
+  <div class="menu-item" (click)="toggleProfile()">
     <i class="fa-solid fa-user"></i>
     <h3>{{getTranslation('profile')}}</h3>
   </div>
@@ -44,6 +44,7 @@
 <app-nav-menu-language *ngIf="showLanguageMenu" (closeLanguageMenu)="toggleLanguageMenu()"></app-nav-menu-language>
 <app-nav-menu-register *ngIf="showRegister" (closeRegistry)="toggleRegister()" (openLogin)="toggleLogin()"></app-nav-menu-register>
 <app-nav-menu-login *ngIf="showLogin" (closeLogin)="toggleLogin()" (openRegistry)="toggleRegister()"></app-nav-menu-login>
+<app-nav-menu-profile *ngIf="showProfile" (closeProfile)="toggleProfile()"></app-nav-menu-profile>
 
 
 

@@ -1,7 +1,7 @@
 .register-menu {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Center the element */
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,10 +27,9 @@
   margin-top: 10px;
 }
 
-.first-section h2{
+.first-section h2 {
   color: #1c1a1a;
   font-size: 25px;
-
 }
 
 .fa-chevron-left {
@@ -45,10 +44,10 @@
 }
 
 .form-container {
-  flex-grow: 1; /* Allow the form to grow and take available space */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
-  padding: 20px; /* Add some padding for better visual appearance */
-  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 form {
@@ -58,8 +57,6 @@ form {
   justify-content: center;
   width: 100%;
   height: auto;
-
-
 }
 
 .input-container {
@@ -74,7 +71,7 @@ form {
 
 .input-container label {
   color: #1c1a1a;
-  align-self: flex-start; /* Ensure label is aligned to the start */
+  align-self: flex-start;
   margin-bottom: 10px;
   font-weight: bolder;
 }
@@ -149,7 +146,6 @@ button:hover {
   font-size: 20px;
   margin-bottom: 10px;
   text-decoration: underline;
-
 }
 
 .last-container h2:hover {
@@ -157,6 +153,24 @@ button:hover {
   text-decoration: none;
 }
 
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.password-wrapper .fa-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
 
 @media (max-width: 1024px) {
   .register-menu {
