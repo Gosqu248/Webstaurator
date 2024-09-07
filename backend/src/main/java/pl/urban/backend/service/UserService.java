@@ -33,5 +33,12 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 
+    public String changeName(String subject, String name) {
+        User user = getCustomerBySubject(subject);
+        user.setName(name);
+        userRepository.save(user);
+        return name;
+    }
+
 
 }

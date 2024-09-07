@@ -1,7 +1,5 @@
 package pl.urban.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -68,5 +66,14 @@ public class AuthController {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));
         return userService.getCustomerBySubject(subject);
     }
+
+    @PutMapping("/changeName")
+    public ResponseEntity<String>  changeUserName(@RequestHeader("Authorization") String token, @RequestBody String name) {
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        String updatedName = userService.changeName(subject, name);
+        return ResponseEntity.ok(updatedName);
+    }
+
+
 
 }

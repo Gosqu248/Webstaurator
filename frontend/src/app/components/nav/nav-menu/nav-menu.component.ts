@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgIf} from "@angular/common";
@@ -30,12 +30,13 @@ export class NavMenuComponent implements OnInit{
   showLogin: boolean = false;
   name: string = '';
   showProfile: boolean = false;
+  private isFetchingUserData: boolean = false;
+  private isAuthChecked: boolean = false;
 
-  constructor(private languageService: LanguageService, private authService: AuthService) {
-    this.checkAuth();
-  }
+  constructor(private languageService: LanguageService, private authService: AuthService) {}
 
   ngOnInit() {
+    this.checkAuth();
     this.checkWindowWidth();
     window.addEventListener('resize', this.checkWindowWidth.bind(this));
   }
@@ -44,23 +45,29 @@ export class NavMenuComponent implements OnInit{
     return this.languageService.getTranslation(key)
   }
 
-  getUserData() {
-    const token = sessionStorage.getItem('jwt');
+  getUserData(token: string) {
+    if (this.isFetchingUserData) return;
+    this.isFetchingUserData = true;
 
     if (token) {
-      this.authService.getUser(token).subscribe( {
+      this.authService.getUser(token).subscribe({
         next: user => {
-          sessionStorage.setItem('name', user.name);
-          this.name = user.name
+          const userData = JSON.parse(user.name);
+          sessionStorage.setItem('name', userData.name);
+          this.name = userData.name;
           sessionStorage.setItem('email', user.email);
+          console.log('User data fetched: ', user);
+          this.isFetchingUserData = false;
         },
         error: error => {
           console.error('Error fetching user data', error);
+          this.isFetchingUserData = false;
         }
       });
+    } else {
+      this.isFetchingUserData = false;
     }
   }
-
 
   closeMenu() {
     this.menuClosed.emit();
@@ -83,18 +90,21 @@ export class NavMenuComponent implements OnInit{
   }
 
   checkAuth(): boolean {
-    if (!!sessionStorage.getItem('jwt')) {
-      this.getUserData();
-      return true;
-    } else return false;
+    if (!this.isAuthChecked) {
+      this.isAuthChecked = true;
+      const token = sessionStorage.getItem('jwt');
+
+      if (token) {
+        this.getUserData(token);
+        return true;
+      }
+    }
+    return !!sessionStorage.getItem('jwt');
   }
 
   logout() {
-    sessionStorage.removeItem('jwt');
-    sessionStorage.removeItem('name');
-    sessionStorage.removeItem('email');
+    this.authService.logout();
   }
-
 
   toggleProfile() {
     if (this.checkAuth()) {

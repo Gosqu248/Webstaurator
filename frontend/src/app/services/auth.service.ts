@@ -3,7 +3,6 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../interfaces/user.interface";
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {response} from "express";
 import {isPlatformBrowser} from "@angular/common";
 
 @Injectable({
@@ -41,6 +40,19 @@ export class AuthService {
   getUser(token: string): Observable<User> {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
     return this.http.get<User>(`${this.apiUrl}/user`, {headers});
+  }
+
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem('jwt');
+      sessionStorage.removeItem('name');
+      sessionStorage.removeItem('email');
+    }
+  }
+
+  changeUserName(token: string, name: string): Observable<string> {
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
+    return this.http.put<string>(`${this.apiUrl}/changeName`, {name}, {headers});
   }
 
 }

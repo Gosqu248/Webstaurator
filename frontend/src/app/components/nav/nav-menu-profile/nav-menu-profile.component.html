@@ -7,7 +7,7 @@
       <label for="name">{{getTranslation('name')}}</label>
       <input id="name" type="text" name="email" placeholder="{{getTranslation('name')}}" [(ngModel)]="name" (ngModelChange)="showNameButton()" required>
     </div>
-  <button *ngIf="isNameChanged" type="submit">{{getTranslation('newName')}}</button>
+  <button *ngIf="isNameChanged" (click)="changeName()" type="submit">{{getTranslation('newName')}}</button>
 
   <div class="input-container">
       <label for="email">{{getTranslation('email')}}</label>
