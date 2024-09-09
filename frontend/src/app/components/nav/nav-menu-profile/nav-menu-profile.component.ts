@@ -18,21 +18,22 @@ import {AuthService} from "../../../services/auth.service";
 })
 export class NavMenuProfileComponent implements OnInit {
   @Output() closeProfile = new EventEmitter<void>();
+  @Output() profileClosedAndReload = new EventEmitter<void>();
   name: string = '';
   email: string = '';
   originalName: string = this.name;
   isNameChanged: boolean = false;
 
+
   constructor(
     private languageService: LanguageService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
   ) {}
 
 
   ngOnInit() {
-    this.name = sessionStorage.getItem('name') || '';
-    this.email = sessionStorage.getItem('email') || '';
+    this.name = localStorage.getItem('name') || '';
+    this.email = localStorage.getItem('email') || '';
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
@@ -41,7 +42,7 @@ export class NavMenuProfileComponent implements OnInit {
 
   backToMenu() {
     this.closeProfile.emit();
-    this.cdr.detectChanges();
+
   }
 
   showNameButton() {
@@ -49,11 +50,11 @@ export class NavMenuProfileComponent implements OnInit {
   }
 
   changeName() {
-    const jwt = sessionStorage.getItem('jwt');
+    const jwt = localStorage.getItem('jwt');
     if (jwt) {
       this.authService.changeUserName(jwt, this.name).subscribe({
           next: updatedName => {
-          sessionStorage.setItem('name', updatedName);
+          localStorage.setItem('name', updatedName);
           this.originalName = updatedName;
           this.isNameChanged = false;
         },

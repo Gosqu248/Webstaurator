@@ -23,7 +23,7 @@ export class AuthService {
       tap(response => {
         if (isPlatformBrowser(this.platformId)) {
           if (response.jwt) {
-            sessionStorage.setItem('jwt', response.jwt);
+            localStorage.setItem('jwt', response.jwt);
           } else {
             console.error('No JWT token in response: ', response)
           }
@@ -44,9 +44,9 @@ export class AuthService {
 
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.removeItem('jwt');
-      sessionStorage.removeItem('name');
-      sessionStorage.removeItem('email');
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('name');
+      localStorage.removeItem('email');
     }
   }
 
@@ -55,4 +55,8 @@ export class AuthService {
     return this.http.put<string>(`${this.apiUrl}/changeName`, {name}, {headers});
   }
 
+  changePassword(token: string, password: string, newPassword: string): Observable<boolean> {
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
+    return this.http.put<boolean>(`${this.apiUrl}/changePassword`, {password, newPassword}, {headers});
+  }
 }

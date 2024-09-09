@@ -40,5 +40,16 @@ public class UserService {
         return name;
     }
 
+    public Boolean changePassword(String subject, String password, String newPassword) {
+        User user = getCustomerBySubject(subject);
+        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
+            return false;
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
+
 
 }

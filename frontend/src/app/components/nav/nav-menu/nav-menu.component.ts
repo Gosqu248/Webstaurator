@@ -53,9 +53,9 @@ export class NavMenuComponent implements OnInit{
       this.authService.getUser(token).subscribe({
         next: user => {
           const userData = JSON.parse(user.name);
-          sessionStorage.setItem('name', userData.name);
+          localStorage.setItem('name', userData.name);
           this.name = userData.name;
-          sessionStorage.setItem('email', user.email);
+          localStorage.setItem('email', user.email);
           console.log('User data fetched: ', user);
           this.isFetchingUserData = false;
         },
@@ -87,19 +87,24 @@ export class NavMenuComponent implements OnInit{
 
   toggleLogin() {
     this.showLogin = !this.showLogin;
+
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      this.getUserData(token);
+    }
   }
 
   checkAuth(): boolean {
     if (!this.isAuthChecked) {
       this.isAuthChecked = true;
-      const token = sessionStorage.getItem('jwt');
+      const token = localStorage.getItem('jwt');
 
       if (token) {
         this.getUserData(token);
         return true;
       }
     }
-    return !!sessionStorage.getItem('jwt');
+    return !!localStorage.getItem('jwt');
   }
 
   logout() {
@@ -112,5 +117,7 @@ export class NavMenuComponent implements OnInit{
     } else {
       this.showLogin = true;
     }
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) this.getUserData(jwt);
   }
 }
