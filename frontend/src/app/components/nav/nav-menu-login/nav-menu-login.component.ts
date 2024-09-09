@@ -22,6 +22,7 @@ export class NavMenuLoginComponent {
   @Output() openRegistry = new EventEmitter<void>();
   loginForm: FormGroup;
   isloginError: boolean = false;
+  isVisible: boolean = false;
 
 
   constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder) {
@@ -70,5 +71,6 @@ export class NavMenuLoginComponent {
     } else {
       inputField.type = 'password';
     }
+    this.isVisible = !this.isVisible;
   }
 }

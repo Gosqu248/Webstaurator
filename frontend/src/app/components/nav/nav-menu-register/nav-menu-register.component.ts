@@ -31,6 +31,8 @@ export class NavMenuRegisterComponent {
   @Output() closeRegistry = new EventEmitter<void>();
   @Output() openLogin = new EventEmitter<void>();
   registerForm: FormGroup;
+  isVisiblePassword: boolean = false;
+  isVisibleConfirm: boolean = false;
 
 
 
@@ -109,6 +111,8 @@ export class NavMenuRegisterComponent {
     } else {
       inputField.type = 'password';
     }
+    fieldId === 'password' ? this.isVisiblePassword = !this.isVisiblePassword : this.isVisibleConfirm = !this.isVisibleConfirm;
+
   }
 
 }

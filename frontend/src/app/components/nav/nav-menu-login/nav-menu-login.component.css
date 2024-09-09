@@ -83,7 +83,7 @@ form {
 }
 
 
-.input-container .fa-eye {
+.input-container .fa-eye, .fa-eye-slash{
   position: absolute;
   right: 100px;
   top: 50%;

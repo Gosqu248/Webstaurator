@@ -11,7 +11,7 @@
       <div class="input-container">
         <label for="password">{{getTranslation('password')}}</label>
           <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" autocomplete="new-password" required>
-          <i class="fa-solid fa-eye" (click)="togglePasswordVisibility('password')"></i>
+          <i class="fa-solid" [ngClass]="isVisible ? 'fa-eye-slash' : 'fa-eye'"  (click)="togglePasswordVisibility('password')"></i>
       </div>
 
       <div class="error-container" *ngIf="isloginError">

@@ -21,7 +21,7 @@
         <label for="password">{{getTranslation('password')}}</label>
         <div class="password-wrapper">
           <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" autocomplete="new-password" required>
-          <i class="fa-solid fa-eye" (click)="togglePasswordVisibility('password')"></i>
+          <i class="fa-solid" [ngClass]="isVisiblePassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('password')"></i>
         </div>
         <div class="error-container" *ngIf="showErrorFor('password')">
           <i class="fa-solid fa-circle-exclamation"></i>
@@ -32,7 +32,7 @@
         <label for="confirmPassword">{{getTranslation('confirmPassword')}}</label>
         <div class="password-wrapper">
           <input id="confirmPassword" type="password" formControlName="confirmPassword" name="confirmPassword" placeholder="{{getTranslation('confirmPassword')}}" autocomplete="new-password" required>
-          <i class="fa-solid fa-eye" (click)="togglePasswordVisibility('confirmPassword')"></i>
+          <i class="fa-solid" [ngClass]="isVisibleConfirm ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('confirmPassword')"></i>
         </div>
         <div class="error-container" *ngIf="showErrorFor('confirmPassword')">
           <i class="fa-solid fa-circle-exclamation"></i>

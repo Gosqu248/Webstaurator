@@ -164,7 +164,7 @@ button:hover {
   width: 100%;
 }
 
-.password-wrapper .fa-eye {
+.password-wrapper .fa-eye , .fa-eye-slash{
   position: absolute;
   right: 10px;
   top: 50%;
