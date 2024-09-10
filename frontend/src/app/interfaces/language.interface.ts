@@ -46,6 +46,11 @@ export interface LanguageTranslations {
   loginError: string;
   logout: string;
   newName: string;
+  wannaChangePassword: string;
+  clickHere: string;
+  changePassword: string;
+  oldPassword: string;
+  newPassword: string;
 
 }
 

@@ -3,14 +3,14 @@ import {environment} from "../../../../environments/environment";
 import {isPlatformBrowser, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {NavMenuComponent} from "../nav-menu/nav-menu.component";
+import {MenuComponent} from "../../menu-components/menu/menu.component";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     NgIf,
-    NavMenuComponent
+    MenuComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

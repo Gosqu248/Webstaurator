@@ -1,22 +1,23 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AuthService} from "../../../services/auth.service";
+import {LanguageTranslations} from "../../../interfaces/language.interface";
 
 @Component({
-  selector: 'app-nav-menu-profile',
+  selector: 'app-menu-profile',
   standalone: true,
-    imports: [
-        FormsModule,
-        NgIf,
-        ReactiveFormsModule
-    ],
-  templateUrl: './nav-menu-profile.component.html',
-  styleUrl: './nav-menu-profile.component.css'
+  imports: [
+    FormsModule,
+    NgIf,
+    ReactiveFormsModule,
+    NgClass,
+  ],
+  templateUrl: './menu-profile.component.html',
+  styleUrl: './menu-profile.component.css'
 })
-export class NavMenuProfileComponent implements OnInit {
+export class MenuProfileComponent implements OnInit {
   @Output() closeProfile = new EventEmitter<void>();
   @Output() profileClosedAndReload = new EventEmitter<void>();
   name: string = '';
@@ -46,14 +47,14 @@ export class NavMenuProfileComponent implements OnInit {
   }
 
   showNameButton() {
-    this.isNameChanged = this.name !== this.originalName;
+    this.isNameChanged = this.name !== this.originalName && this.name.length > 0;
   }
 
   changeName() {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       this.authService.changeUserName(jwt, this.name).subscribe({
-          next: updatedName => {
+        next: updatedName => {
           localStorage.setItem('name', updatedName);
           this.originalName = updatedName;
           this.isNameChanged = false;
@@ -64,5 +65,6 @@ export class NavMenuProfileComponent implements OnInit {
       })
     }
   }
+
 
 }

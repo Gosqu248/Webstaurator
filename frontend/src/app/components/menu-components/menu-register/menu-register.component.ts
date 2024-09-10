@@ -1,22 +1,21 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {NgClass, NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  FormsModule,
-  ReactiveFormsModule, ValidationErrors,
+  FormsModule, ReactiveFormsModule,
+  ValidationErrors,
   ValidatorFn,
   Validators
 } from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/language.service";
 import {User} from "../../../interfaces/user.interface";
-
+import {LanguageTranslations} from "../../../interfaces/language.interface";
+import {NgClass, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-nav-menu-register',
+  selector: 'app-menu-register',
   standalone: true,
   imports: [
     NgIf,
@@ -24,10 +23,10 @@ import {User} from "../../../interfaces/user.interface";
     ReactiveFormsModule,
     NgClass
   ],
-  templateUrl: './nav-menu-register.component.html',
-  styleUrl: './nav-menu-register.component.css'
+  templateUrl: './menu-register.component.html',
+  styleUrl: './menu-register.component.css'
 })
-export class NavMenuRegisterComponent {
+export class MenuRegisterComponent {
   @Output() closeRegistry = new EventEmitter<void>();
   @Output() openLogin = new EventEmitter<void>();
   registerForm: FormGroup;
@@ -45,8 +44,8 @@ export class NavMenuRegisterComponent {
         Validators.minLength(8),
         Validators.pattern(/^(?=.*[A-Z])(?=.*[!#]).*$/)
       ]],
-        confirmPassword: ['', Validators.required],
-   }, {validators: this.passwordMatchValidator});
+      confirmPassword: ['', Validators.required],
+    }, {validators: this.passwordMatchValidator});
   }
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

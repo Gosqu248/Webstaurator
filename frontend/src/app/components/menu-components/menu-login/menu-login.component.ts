@@ -2,11 +2,11 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AuthService} from "../../../services/auth.service";
+import {LanguageTranslations} from "../../../interfaces/language.interface";
 
 @Component({
-  selector: 'app-nav-menu-login',
+  selector: 'app-menu-login',
   standalone: true,
   imports: [
     FormsModule,
@@ -14,10 +14,10 @@ import {AuthService} from "../../../services/auth.service";
     ReactiveFormsModule,
     NgClass
   ],
-  templateUrl: './nav-menu-login.component.html',
-  styleUrl: './nav-menu-login.component.css'
+  templateUrl: './menu-login.component.html',
+  styleUrl: './menu-login.component.css'
 })
-export class NavMenuLoginComponent {
+export class MenuLoginComponent {
   @Output() closeLogin = new EventEmitter<void>();
   @Output() openRegistry = new EventEmitter<void>();
   loginForm: FormGroup;
@@ -66,11 +66,7 @@ export class NavMenuLoginComponent {
 
   togglePasswordVisibility(fieldId: string): void {
     const inputField = document.getElementById(fieldId) as HTMLInputElement;
-    if (inputField.type === 'password') {
-      inputField.type = 'text';
-    } else {
-      inputField.type = 'password';
-    }
+    inputField.type === 'password' ? inputField.type = 'text' : inputField.type = 'password';
     this.isVisible = !this.isVisible;
   }
 }

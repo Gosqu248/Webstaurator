@@ -1,19 +1,19 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {NgIf} from "@angular/common";
 import {environment} from "../../../../environments/environment";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-nav-menu-language',
+  selector: 'app-menu-language',
   standalone: true,
-  imports: [
-    NgIf
-  ],
-  templateUrl: './nav-menu-language.component.html',
-  styleUrl: './nav-menu-language.component.css'
+    imports: [
+        NgIf
+    ],
+  templateUrl: './menu-language.component.html',
+  styleUrl: './menu-language.component.css'
 })
-export class NavMenuLanguageComponent {
+export class MenuLanguageComponent {
   @Output() closeLanguageMenu = new EventEmitter<void>();
   apiUrl = environment.api;
   ukFlag = '/img/uk-logo.png';

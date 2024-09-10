@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavMenuProfileComponent } from './nav-menu-profile.component';
+import { MenuProfileComponent } from './menu-profile.component';
 
-describe('NavMenuProfileComponent', () => {
-  let component: NavMenuProfileComponent;
-  let fixture: ComponentFixture<NavMenuProfileComponent>;
+describe('MenuProfileComponent', () => {
+  let component: MenuProfileComponent;
+  let fixture: ComponentFixture<MenuProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavMenuProfileComponent]
+      imports: [MenuProfileComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NavMenuProfileComponent);
+    fixture = TestBed.createComponent(MenuProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

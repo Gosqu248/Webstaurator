@@ -1,27 +1,28 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
+
 import {NgIf} from "@angular/common";
-import {NavMenuLanguageComponent} from "../nav-menu-language/nav-menu-language.component";
-import {NavMenuRegisterComponent} from "../nav-menu-register/nav-menu-register.component";
-import {NavMenuLoginComponent} from "../nav-menu-login/nav-menu-login.component";
+import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
-import {NavMenuProfileComponent} from "../nav-menu-profile/nav-menu-profile.component";
+import {LanguageTranslations} from "../../../interfaces/language.interface";
+import {MenuLanguageComponent} from "../menu-language/menu-language.component";
+import {MenuRegisterComponent} from "../menu-register/menu-register.component";
+import {MenuLoginComponent} from "../menu-login/menu-login.component";
+import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 
 @Component({
-  selector: 'app-nav-menu',
+  selector: 'app-menu',
   standalone: true,
   imports: [
     NgIf,
-    NavMenuLanguageComponent,
-    NavMenuRegisterComponent,
-    NavMenuLoginComponent,
-    NavMenuProfileComponent
+    MenuLanguageComponent,
+    MenuRegisterComponent,
+    MenuLoginComponent,
+    MenuProfileComponent
   ],
-  templateUrl: './nav-menu.component.html',
-  styleUrl: './nav-menu.component.css'
+  templateUrl: './menu.component.html',
+  styleUrl: './menu.component.css'
 })
-export class NavMenuComponent implements OnInit{
+export class MenuComponent implements OnInit {
   @Output() menuClosed = new EventEmitter<void>();
 
   showLanguageOption: boolean = false;
@@ -61,6 +62,7 @@ export class NavMenuComponent implements OnInit{
         },
         error: error => {
           console.error('Error fetching user data', error);
+
           this.isFetchingUserData = false;
         }
       });

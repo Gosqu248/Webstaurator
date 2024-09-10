@@ -71,7 +71,12 @@ export class LanguageService {
       confirmPasswordError: 'Hasła muszą być takie same',
       loginError: 'Nieprawidłowy login lub hasło',
       logout: 'Wyloguj',
-      newName: "Zaktualizuj nazwisko"
+      newName: "Zaktualizuj nazwisko",
+      wannaChangePassword: 'Chcesz zmienić hasło?',
+      clickHere: 'Kliknij tutaj',
+      changePassword: "Zmień hasło",
+      oldPassword: "Stare hasło",
+      newPassword: "Nowe hasło",
 
     },
     en: {
@@ -121,7 +126,12 @@ export class LanguageService {
       confirmPasswordError: 'Passwords must match',
       loginError: 'Invalid login or password',
       logout: 'Logout',
-      newName: "Update name"
+      newName: "Update name",
+      wannaChangePassword: 'Do you want to change your password?',
+      clickHere: 'Click here',
+      changePassword: "Change password",
+      oldPassword: "Old password",
+      newPassword: "New password",
     }
   };
 

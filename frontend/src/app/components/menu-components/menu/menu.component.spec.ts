@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavMenuLanguageComponent } from './nav-menu-language.component';
+import { MenuComponent } from './menu.component';
 
-describe('NavMenuLanguageComponent', () => {
-  let component: NavMenuLanguageComponent;
-  let fixture: ComponentFixture<NavMenuLanguageComponent>;
+describe('MenuComponent', () => {
+  let component: MenuComponent;
+  let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavMenuLanguageComponent]
+      imports: [MenuComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NavMenuLanguageComponent);
+    fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

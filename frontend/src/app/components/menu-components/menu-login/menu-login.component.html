@@ -1,0 +1,29 @@
+<div class="login-menu">
+  <div class="first-section">
+    <i class="fa-solid fa-chevron-left" (click)="backToMenu()"></i>
+    <h2>{{getTranslation('login')}}</h2>
+  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="input-container">
+      <label for="email">{{getTranslation('email')}}</label>
+      <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
+    </div>
+    <div class="input-container">
+      <label for="password">{{getTranslation('password')}}</label>
+      <input id="password" type="password" formControlName="password" name="password" placeholder="{{getTranslation('password')}}" autocomplete="new-password" required>
+      <i class="fa-solid" [ngClass]="isVisible ? 'fa-eye-slash' : 'fa-eye'"  (click)="togglePasswordVisibility('password')"></i>
+    </div>
+
+    <div class="error-container" *ngIf="isloginError">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p>{{getTranslation('loginError')}}</p>
+    </div>
+
+    <button type="submit">{{getTranslation('login')}}</button>
+
+    <div class="last-container">
+      <h2 (click)="changeToRegister()"> {{getTranslation('createAccount')}}</h2>
+    </div>
+  </form>
+
+</div>
