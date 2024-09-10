@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
 
 import {NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
@@ -8,6 +8,7 @@ import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-menu',
@@ -17,30 +18,28 @@ import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
     MenuLanguageComponent,
     MenuRegisterComponent,
     MenuLoginComponent,
-    MenuProfileComponent
+    MenuProfileComponent,
+    RouterLink
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
 export class MenuComponent implements OnInit {
-  @Output() menuClosed = new EventEmitter<void>();
-
   showLanguageOption: boolean = false;
-  showLanguageMenu: boolean = false;
-  showRegister: boolean = false;
-  showLogin: boolean = false;
   name: string = '';
-  showProfile: boolean = false;
   private isFetchingUserData: boolean = false;
   private isAuthChecked: boolean = false;
 
-  constructor(private languageService: LanguageService, private authService: AuthService) {}
+  constructor(private languageService: LanguageService, private authService: AuthService, private router: Router, private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.checkAuth();
     this.checkWindowWidth();
     window.addEventListener('resize', this.checkWindowWidth.bind(this));
+
   }
+
+
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {
     return this.languageService.getTranslation(key)
@@ -71,30 +70,10 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  closeMenu() {
-    this.menuClosed.emit();
-  }
-
   checkWindowWidth() {
     this.showLanguageOption = window.innerWidth < 768;
   }
 
-  toggleLanguageMenu() {
-    this.showLanguageMenu = !this.showLanguageMenu;
-  }
-
-  toggleRegister() {
-    this.showRegister = !this.showRegister;
-  }
-
-  toggleLogin() {
-    this.showLogin = !this.showLogin;
-
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      this.getUserData(token);
-    }
-  }
 
   checkAuth(): boolean {
     if (!this.isAuthChecked) {
@@ -113,13 +92,16 @@ export class MenuComponent implements OnInit {
     this.authService.logout();
   }
 
-  toggleProfile() {
-    if (this.checkAuth()) {
-      this.showProfile = !this.showProfile;
-    } else {
-      this.showLogin = true;
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    const targetElement = event.target as HTMLElement;
+
+    if (targetElement.classList.contains('fa-chevron-left')) {
+      return;
     }
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) this.getUserData(jwt);
+    
+    if (!this.elementRef.nativeElement.contains(targetElement) && !targetElement.closest('.menu-button')) {
+      this.router.navigate(['']);
+    }
   }
 }

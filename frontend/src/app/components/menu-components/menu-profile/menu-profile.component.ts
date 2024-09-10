@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
+import { RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-menu-profile',
@@ -13,13 +14,12 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
     NgIf,
     ReactiveFormsModule,
     NgClass,
+    RouterLink,
   ],
   templateUrl: './menu-profile.component.html',
   styleUrl: './menu-profile.component.css'
 })
 export class MenuProfileComponent implements OnInit {
-  @Output() closeProfile = new EventEmitter<void>();
-  @Output() profileClosedAndReload = new EventEmitter<void>();
   name: string = '';
   email: string = '';
   originalName: string = this.name;
@@ -41,10 +41,6 @@ export class MenuProfileComponent implements OnInit {
     return this.languageService.getTranslation(key)
   }
 
-  backToMenu() {
-    this.closeProfile.emit();
-
-  }
 
   showNameButton() {
     this.isNameChanged = this.name !== this.originalName && this.name.length > 0;
@@ -65,6 +61,5 @@ export class MenuProfileComponent implements OnInit {
       })
     }
   }
-
 
 }

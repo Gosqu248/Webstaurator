@@ -1,20 +1,20 @@
 .login-menu {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center the element */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  max-height: 90vh;
-  min-height: 500px;
-  text-align: center;
-  position: fixed;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  z-index: 100;
-  border-radius: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the element */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
+    height: auto;
+    padding: 10px 30px;
+    text-align: center;
+    position: fixed;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 100;
+    border-radius: 30px;
+    font-family: 'Fira Sans', sans-serif;
 }
 
 .first-section {
@@ -83,13 +83,25 @@ form {
 }
 
 
-.input-container .fa-eye, .fa-eye-slash{
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.password-wrapper .fa-eye , .fa-eye-slash{
   position: absolute;
-  right: 100px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
 }
+
 
 button {
   width: 80%;
@@ -131,6 +143,7 @@ button:hover {
   justify-content: center;
   width: 80%;
   height: auto;
+  margin-bottom: 20px;
 }
 
 .last-container h2 {

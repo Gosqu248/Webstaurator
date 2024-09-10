@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component,} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-menu-login',
@@ -12,20 +13,19 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
     FormsModule,
     NgIf,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './menu-login.component.html',
   styleUrl: './menu-login.component.css'
 })
 export class MenuLoginComponent {
-  @Output() closeLogin = new EventEmitter<void>();
-  @Output() openRegistry = new EventEmitter<void>();
   loginForm: FormGroup;
   isloginError: boolean = false;
   isVisible: boolean = false;
 
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder) {
+  constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
       password: ['']
@@ -40,7 +40,7 @@ export class MenuLoginComponent {
     this.authService.login(email, password)
       .subscribe((isAuthenticated: boolean) => {
         if (isAuthenticated) {
-          this.closeLogin.emit();
+          this.router.navigate(['/menu']);
           console.log("Login " + this.loginForm.value.email);
         } else {
           this.isloginError = !this.isloginError;
@@ -53,15 +53,6 @@ export class MenuLoginComponent {
 
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
-  }
-
-  backToMenu() {
-    this.closeLogin.emit();
-  }
-
-  changeToRegister() {
-    this.backToMenu();
-    this.openRegistry.emit();
   }
 
   togglePasswordVisibility(fieldId: string): void {

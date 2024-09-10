@@ -1,6 +1,6 @@
 <div class="register-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" (click)="backToMenu()"></i>
+    <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
     <h2>{{getTranslation('createAccount')}}</h2>
   </div>
   <div class="form-container">
@@ -45,7 +45,7 @@
         <p> {{getTranslation('registerAccept')}}</p>
       </div>
       <div class="last-container">
-        <h2 (click)="changeToLogin()"> {{getTranslation('haveAccount')}}</h2>
+        <h2 [routerLink]="['/login']"> {{getTranslation('haveAccount')}}</h2>
       </div>
     </form>
   </div>

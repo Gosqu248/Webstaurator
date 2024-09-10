@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import {LanguageService} from "../../services/language.service";
-import {LanguageTranslations} from "../../interfaces/language.interface";
-import {environment} from "../../../environments/environment";
+import {Component, OnInit} from '@angular/core';
 import {HomeFirstSectionComponent} from "../home-components/home-first-section/home-first-section.component";
 import {HomeSecondSectionComponent} from "../home-components/home-second-section/home-second-section.component";
 import {HomeThirdSectionComponent} from "../home-components/home-third-section/home-third-section.component";
+import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
+import {filter} from "rxjs";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-home',
@@ -12,12 +12,25 @@ import {HomeThirdSectionComponent} from "../home-components/home-third-section/h
   imports: [
     HomeFirstSectionComponent,
     HomeSecondSectionComponent,
-    HomeThirdSectionComponent
+    HomeThirdSectionComponent,
+    RouterOutlet,
+    NgClass
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  isDimmed: boolean = false;
 
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.isDimmed = event.url != '/';
+      }
+    )
+  }
 
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +13,7 @@ import {LanguageService} from "../../../services/language.service";
 import {User} from "../../../interfaces/user.interface";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-menu-register',
@@ -21,21 +22,20 @@ import {NgClass, NgIf} from "@angular/common";
     NgIf,
     FormsModule,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './menu-register.component.html',
   styleUrl: './menu-register.component.css'
 })
 export class MenuRegisterComponent {
-  @Output() closeRegistry = new EventEmitter<void>();
-  @Output() openLogin = new EventEmitter<void>();
   registerForm: FormGroup;
   isVisiblePassword: boolean = false;
   isVisibleConfirm: boolean = false;
 
 
 
-  constructor(private authService: AuthService ,private languageService: LanguageService, private fb: FormBuilder) {
+  constructor(private authService: AuthService ,private languageService: LanguageService, private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -71,7 +71,7 @@ export class MenuRegisterComponent {
       this.authService.register(user).subscribe({
         next: (response: any) => {
           alert(response.message);
-          this.closeRegistry.emit();
+          this.router.navigate(['/menu']);
         },
         error: (err) => {
           console.error('Registration failed', err);
@@ -86,9 +86,6 @@ export class MenuRegisterComponent {
     return this.languageService.getTranslation(key)
   }
 
-  backToMenu() {
-    this.closeRegistry.emit();
-  }
 
   showErrorFor(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
@@ -98,10 +95,6 @@ export class MenuRegisterComponent {
     return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 
-  changeToLogin() {
-    this.backToMenu();
-    this.openLogin.emit();
-  }
 
   togglePasswordVisibility(fieldId: string) {
     const inputField = document.getElementById(fieldId) as HTMLInputElement;

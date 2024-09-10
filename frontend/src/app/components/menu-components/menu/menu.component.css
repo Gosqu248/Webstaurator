@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 800px;
+  min-height: 550px;
   height: auto;
   padding: 10px 30px;
   text-align: center;
@@ -14,6 +15,7 @@
   border: 1px solid #ccc;
   z-index: 100;
   border-radius: 30px;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 .menu-first {

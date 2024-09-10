@@ -20,14 +20,8 @@
     </div>
   </div>
 
-  <div class="menu" *ngIf="showMenu">
-    <app-menu (menuClosed)="closeMenu()"></app-menu>
-
-  </div>
-
   <div class="right-container">
-    <i class="material-icons" (click)="toggleMenu()">menu</i>
+    <i class="material-icons menu-button" [routerLink]="['/menu']">menu</i>
   </div>
 </div>
 
-<div class="overlay"></div>
