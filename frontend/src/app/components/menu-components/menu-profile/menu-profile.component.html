@@ -2,6 +2,7 @@
   <div class="first-section">
     <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
     <h2>{{getTranslation('profile')}}</h2>
+    <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
   </div>
   <div class="input-container">
     <label for="name">{{getTranslation('name')}}</label>
@@ -16,7 +17,7 @@
 
   <div class="password-container">
     <h3>{{ getTranslation('wannaChangePassword') }}</h3>
-    <button >{{getTranslation('clickHere')}}</button>
+    <button [routerLink]="['/change-password']">{{getTranslation('clickHere')}} </button>
   </div>
 
 </div>

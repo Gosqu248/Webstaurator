@@ -90,11 +90,10 @@ export class MenuRegisterComponent {
   showErrorFor(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
     if (controlName === 'confirmPassword') {
-      return control ? control.invalid && (control.dirty || control.touched) || this.registerForm.hasError('passwordMismatch') : false;
+      return control ? control.invalid && (control.dirty || control.touched) && control.value !== '' || this.registerForm.hasError('passwordMismatch') && control.value : false;
     }
-    return control ? control.invalid && (control.dirty || control.touched) : false;
+    return control ? control.invalid && (control.dirty || control.touched) && control.value !== '' : false;
   }
-
 
   togglePasswordVisibility(fieldId: string) {
     const inputField = document.getElementById(fieldId) as HTMLInputElement;

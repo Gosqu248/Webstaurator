@@ -2,6 +2,7 @@
   <div class="first-section">
     <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
     <h2>{{getTranslation('login')}}</h2>
+    <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
   </div>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="input-container">

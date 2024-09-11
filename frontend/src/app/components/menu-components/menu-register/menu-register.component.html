@@ -2,6 +2,7 @@
   <div class="first-section">
     <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
     <h2>{{getTranslation('createAccount')}}</h2>
+    <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
   </div>
   <div class="form-container">
     <form [formGroup]="registerForm" (ngSubmit)="register()">

@@ -43,7 +43,7 @@ public class UserService {
     public Boolean changePassword(String subject, String password, String newPassword) {
         User user = getCustomerBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            return false;
+            throw new IllegalArgumentException("Old password does not match");
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));

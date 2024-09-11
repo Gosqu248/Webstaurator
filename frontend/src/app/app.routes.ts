@@ -29,6 +29,10 @@ export const routes: Routes = [
       {
         path: 'menu-language',
         loadComponent: () => import('./components/menu-components/menu-language/menu-language.component').then(m => m.MenuLanguageComponent)
+      },
+      {
+        path: 'change-password',
+        loadComponent: () => import('./components/menu-components/menu-change-password/menu-change-password.component').then(m => m.MenuChangePasswordComponent)
       }
     ]
   },

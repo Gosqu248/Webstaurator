@@ -36,6 +36,8 @@
   font-size: 30px;
   color: #1c1a1a;
   margin-top: 20px;
+  cursor: pointer;
+
 }
 
 .menu-first .fa-circle-xmark:hover {

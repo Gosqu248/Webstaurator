@@ -51,6 +51,7 @@ export interface LanguageTranslations {
   changePassword: string;
   oldPassword: string;
   newPassword: string;
+  changePasswordError: string;
 
 }
 

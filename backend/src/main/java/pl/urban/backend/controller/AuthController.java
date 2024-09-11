@@ -75,8 +75,10 @@ public class AuthController {
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<Boolean> changePassword(@RequestHeader("Authorization") String token, @RequestBody String password, String newPassword) {
+    public ResponseEntity<Boolean> changePassword(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> passwords) {
         String subject =jwtToken.extractSubjectFromToken(token.substring(7));
+        String password = passwords.get("password");
+        String newPassword = passwords.get("newPassword");
         Boolean updatePassword = userService.changePassword(subject, password, newPassword);
         return ResponseEntity.ok(updatePassword);
     }

@@ -45,6 +45,17 @@
   color: red;
 }
 
+.first-section .fa-circle-xmark {
+  font-size: 30px;
+  color: #1c1a1a;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.first-section .fa-circle-xmark:hover {
+  color: #ff6200;
+}
+
 .form-container {
   flex-grow: 1;
   overflow-y: auto;
