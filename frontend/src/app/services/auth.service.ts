@@ -24,6 +24,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
           if (response.jwt) {
             localStorage.setItem('jwt', response.jwt);
+            console.log('JWT token saved: ', response.jwt);
           } else {
             console.error('No JWT token in response: ', response)
           }
@@ -52,7 +53,7 @@ export class AuthService {
 
   changeUserName(token: string, name: string): Observable<string> {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.put<string>(`${this.apiUrl}/changeName`, {name}, {headers});
+    return this.http.put(`${this.apiUrl}/changeName`, name, {headers, responseType: 'text'});
   }
 
   changePassword(token: string, password: string, newPassword: string): Observable<boolean> {

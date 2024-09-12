@@ -52,16 +52,14 @@ export class MenuComponent implements OnInit {
     if (token) {
       this.authService.getUser(token).subscribe({
         next: user => {
-          const userData = JSON.parse(user.name);
-          localStorage.setItem('name', userData.name);
-          this.name = userData.name;
+          this.name = user.name;
+          localStorage.setItem('name', user.name);
           localStorage.setItem('email', user.email);
           console.log('User data fetched: ', user);
           this.isFetchingUserData = false;
         },
         error: error => {
           console.error('Error fetching user data', error);
-
           this.isFetchingUserData = false;
         }
       });
@@ -99,7 +97,7 @@ export class MenuComponent implements OnInit {
     if (targetElement.classList.contains('fa-chevron-left')) {
       return;
     }
-    
+
     if (!this.elementRef.nativeElement.contains(targetElement) && !targetElement.closest('.menu-button')) {
       this.router.navigate(['']);
     }

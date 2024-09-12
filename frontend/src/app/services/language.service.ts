@@ -78,6 +78,7 @@ export class LanguageService {
       oldPassword: "Stare hasło",
       newPassword: "Nowe hasło",
       changePasswordError: "Błąd zmiany hasła",
+      addresses: "Adresy",
 
     },
     en: {
@@ -134,6 +135,7 @@ export class LanguageService {
       oldPassword: "Old password",
       newPassword: "New password",
       changePasswordError: "Error changing password",
+      addresses: "Addresses"
     }
   };
 
