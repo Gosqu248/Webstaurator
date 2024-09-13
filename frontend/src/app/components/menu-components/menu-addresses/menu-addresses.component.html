@@ -1,0 +1,11 @@
+<div class="addresses-menu">
+  <div class="first-section">
+    <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
+    <h2>{{getTranslation('addresses')}}</h2>
+    <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
+  </div>
+
+  <button [routerLink]="['/add-address']"> {{getTranslation('addAddress')}}</button>
+
+
+</div>

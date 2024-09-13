@@ -53,6 +53,14 @@ export interface LanguageTranslations {
   newPassword: string;
   changePasswordError: string;
   addresses: string;
+  addAddress: string;
+  street: string;
+  houseNumber: string;
+  city: string;
+  zipCode: string;
+  phoneNumber: string;
+  floorNumber: string;
+  accessCode: string;
 
 }
 

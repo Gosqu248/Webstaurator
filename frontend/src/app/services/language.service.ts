@@ -79,6 +79,15 @@ export class LanguageService {
       newPassword: "Nowe hasło",
       changePasswordError: "Błąd zmiany hasła",
       addresses: "Adresy",
+      addAddress: "Dodaj adres",
+      street: "Ulica: *",
+      houseNumber: "Numer mieszkania: *",
+      floorNumber: "Piętro",
+      accessCode: "Kod dostępu",
+      city: "Miasto: *",
+      zipCode: "Kod pocztowy: *",
+      phoneNumber: "Numer telefonu: *",
+
 
     },
     en: {
@@ -135,7 +144,15 @@ export class LanguageService {
       oldPassword: "Old password",
       newPassword: "New password",
       changePasswordError: "Error changing password",
-      addresses: "Addresses"
+      addresses: "Addresses",
+      addAddress: "Add address",
+      street: "Street: *",
+      houseNumber: "House number: *",
+      floorNumber: "Floor",
+      accessCode: "Access code",
+      city: "City: *",
+      zipCode: "Zip code: *",
+      phoneNumber: "Phone number: *",
     }
   };
 

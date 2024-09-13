@@ -33,6 +33,14 @@ export const routes: Routes = [
       {
         path: 'change-password',
         loadComponent: () => import('./components/menu-components/menu-change-password/menu-change-password.component').then(m => m.MenuChangePasswordComponent)
+      },
+      {
+        path: 'addresses',
+        loadComponent: () => import('./components/menu-components/menu-addresses/menu-addresses.component').then(m => m.MenuAddressesComponent)
+      },
+      {
+        path: 'add-address',
+        loadComponent: () => import('./components/menu-components/menu-add-address/menu-add-address.component').then(m => m.MenuAddAddressComponent)
       }
     ]
   },
