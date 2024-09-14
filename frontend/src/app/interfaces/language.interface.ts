@@ -61,7 +61,9 @@ export interface LanguageTranslations {
   phoneNumber: string;
   floorNumber: string;
   accessCode: string;
-
+  changeAddress: string;
+  delete: string;
+  updateAddress: string;
 }
 
 export interface Translations {

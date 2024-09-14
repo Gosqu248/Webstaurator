@@ -65,7 +65,7 @@ public class AuthController {
     @GetMapping("/user")
     public User getUser(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));
-        return userService.getCustomerBySubject(subject);
+        return userService.getUserBySubject(subject);
     }
 
     @PutMapping("/changeName")

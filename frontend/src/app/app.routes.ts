@@ -41,6 +41,10 @@ export const routes: Routes = [
       {
         path: 'add-address',
         loadComponent: () => import('./components/menu-components/menu-add-address/menu-add-address.component').then(m => m.MenuAddAddressComponent)
+      },
+      {
+        path: 'change-address/:id',
+        loadComponent: () => import('./components/menu-components/menu-address-change/menu-address-change.component').then(m => m.MenuAddressChangeComponent)
       }
     ]
   },

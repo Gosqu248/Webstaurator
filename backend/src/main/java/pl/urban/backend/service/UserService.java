@@ -28,20 +28,20 @@ public class UserService {
     }
 
 
-    public User getCustomerBySubject(String subject) {
+    public User getUserBySubject(String subject) {
         return userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 
     public String changeName(String subject, String name) {
-        User user = getCustomerBySubject(subject);
+        User user = getUserBySubject(subject);
         user.setName(name);
         userRepository.save(user);
         return name;
     }
 
     public Boolean changePassword(String subject, String password, String newPassword) {
-        User user = getCustomerBySubject(subject);
+        User user = getUserBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("Old password does not match");
         }

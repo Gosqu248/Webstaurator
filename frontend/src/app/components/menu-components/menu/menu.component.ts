@@ -77,6 +77,7 @@ export class MenuComponent implements OnInit {
     if (!this.isAuthChecked) {
       this.isAuthChecked = true;
       const token = localStorage.getItem('jwt');
+      console.log('Token: ', token);
 
       if (token) {
         this.getUserData(token);

@@ -1,0 +1,22 @@
+<div class="item-container">
+  <div class="left-container">
+    <div class="street">{{address?.street}} {{address?.houseNumber}}</div>
+    <div class="connection">
+      <div class="zipCode">{{address?.zipCode}}</div>
+      <div class="city">{{address?.city}}</div>
+    </div>
+
+  </div>
+
+  <div class="right-container">
+    <div class="edit-container" [routerLink]="['/change-address', address?.id]">
+      <h4>{{getTranslation('changeAddress')}}</h4>
+      <i class="fa-solid fa-pencil"></i>
+    </div>
+    <div class="delete-container" (click)="removeAddress()">
+      <h4>{{getTranslation('delete')}}</h4>
+      <i class="fa-regular fa-circle-xmark"></i>
+    </div>
+
+  </div>
+</div>

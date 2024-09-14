@@ -5,7 +5,13 @@
     <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
   </div>
 
+  <div class="addresses-container">
+    <div class="item-container" *ngFor="let address of addresses">
+      <app-menu-addresses-item [address]="address" (reloadAddress)="onAddressRemoved()"></app-menu-addresses-item>
+    </div>
+  </div>
+
   <button [routerLink]="['/add-address']"> {{getTranslation('addAddress')}}</button>
 
-
 </div>
+

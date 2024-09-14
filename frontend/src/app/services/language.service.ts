@@ -87,8 +87,9 @@ export class LanguageService {
       city: "Miasto: *",
       zipCode: "Kod pocztowy: *",
       phoneNumber: "Numer telefonu: *",
-
-
+      changeAddress: "Edytuj adres",
+      delete: "Usuń",
+      updateAddress: "Zaktualizuj adres"
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -153,6 +154,10 @@ export class LanguageService {
       city: "City: *",
       zipCode: "Zip code: *",
       phoneNumber: "Phone number: *",
+      changeAddress: "Edit address",
+      delete: "Delete",
+      updateAddress: "Update address"
+
     }
   };
 

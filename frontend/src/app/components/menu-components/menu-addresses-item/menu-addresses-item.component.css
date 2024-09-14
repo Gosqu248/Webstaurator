@@ -1,0 +1,89 @@
+.item-container {
+  width: 500px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  box-shadow: #9f9d9d 2px 2px 3px 2px;
+
+}
+
+.address-line {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.left-container {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Fira Code", monospace;
+
+}
+
+.street {
+  font-weight: bold;
+  font-size: 30px;
+  justify-content: flex-start;
+  display: flex;
+  padding: 10px;
+
+}
+
+.connection {
+  font-size: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+  padding: 10px;
+
+}
+
+.zipCode {
+  padding: 0 10px 0 0;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto
+}
+
+.edit-container, .delete-container  {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.edit-container:hover, .delete-container:hover  {
+  color: #fd710c;
+
+}
+
+
+.edit-container h4, .delete-container h4 {
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .item-container {
+    width: 100%;
+  }
+  .left-container {
+    width: 70%;
+  }
+  .right-container {
+    width: 30%;
+  }
+
+}
+

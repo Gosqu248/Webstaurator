@@ -1,5 +1,6 @@
 package pl.urban.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,18 +32,8 @@ public class User {
     private String role = "user";
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("user")
+    @JsonIgnore
     private List<UserAddress> addresses = new ArrayList<>();
 
-
-    public void addAddress(UserAddress address) {
-        addresses.add(address);
-        address.setUser(this);
-    }
-
-    public void removeAddress(UserAddress address) {
-        addresses.remove(address);
-        address.setUser(null);
-    }
 
 }
