@@ -18,11 +18,12 @@
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
   transition: background-color 0.5s ease;
+  z-index: -1;
 }
 
 .overlay.dimmed {
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  z-index: 0;
 }
 
 .first-section {
@@ -46,7 +47,6 @@
   background: white;
   padding-top: 20px;
 }
-
 
 .third-section {
   width: 100%;

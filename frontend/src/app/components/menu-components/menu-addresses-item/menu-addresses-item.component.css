@@ -76,14 +76,23 @@
 
 @media (max-width: 1024px) {
   .item-container {
-    width: 100%;
+    width: 90%;
+    flex-direction: column;
   }
+
   .left-container {
-    width: 70%;
+    width: 100%;
+    flex-direction: column;
+    margin-bottom: 30px;
   }
+
   .right-container {
-    width: 30%;
+    width: 100%;
+    flex-direction: row;
+    font-size: 25px;
   }
+
+
 
 }
 

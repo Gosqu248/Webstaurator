@@ -171,4 +171,9 @@ button:hover {
   .menu-first {
     margin-top: 10px;
   }
+
+  .password-container {
+    width: 100%;
+      flex-direction: column;
+  }
 }

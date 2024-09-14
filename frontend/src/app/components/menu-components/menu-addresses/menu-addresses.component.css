@@ -102,6 +102,11 @@ button:hover {
     max-height: 100%;
   }
 
+  .addresses-container {
+    width: 95%;
+    height: auto;
+  }
+
   .menu-first {
     margin-top: 10px;
   }
