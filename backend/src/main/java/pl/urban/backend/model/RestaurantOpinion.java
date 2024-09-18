@@ -1,35 +1,29 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name="open_hour")
-public class OpenHour {
+@Table(name = "restaurant_opinions")
+public class RestaurantOpinion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private int DayOfWeek;
+    private int qualityRating;
 
-    private String openTime;
+    @Column(nullable = false)
+    private int deliveryRating;
 
-    private String closeTime;
+    private String comment;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
 }
-
-

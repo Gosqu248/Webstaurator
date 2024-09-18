@@ -27,23 +27,12 @@ public class Restaurant {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
-    private int deliveryMinTime;
-
-    @Column(nullable = false)
-    private int deliveryMaxTime;
-
-    private Long pickupTime;
-
-    @Column(nullable = false)
-    private int deliveryPrice;
-
-    @Column(nullable = false)
-    private int minimumPrice;
-
     private String logoUrl;
 
     private String imageUrl;
+
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Delivery delivery;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private RestaurantAddress restaurantAddress;
@@ -56,10 +45,11 @@ public class Restaurant {
     )
     private Set<Menu> menu = new HashSet<>();
 
-
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<DeliveryHour> deliveryHours;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<OpenHour> openHour;
+    private List<RestaurantOpinion> restaurantOpinions;
 
 
 }

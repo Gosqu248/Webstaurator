@@ -21,6 +21,9 @@ public class Menu {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String category;
+
     private String ingredients;
 
     @Column(nullable = false)

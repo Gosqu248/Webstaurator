@@ -7,5 +7,5 @@ import pl.urban.backend.model.Menu;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    Menu findByNameAndIngredientsAndPriceAndImage(String name, String ingredients, double price, String image);
+    Menu findByNameAndIngredientsAndPriceAndCategory(String name, String ingredients, double price, String category);
 }
