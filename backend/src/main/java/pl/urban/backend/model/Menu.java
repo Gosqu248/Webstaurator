@@ -1,18 +1,18 @@
 package pl.urban.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name="menu")
+public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +21,15 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    private String ingredients;
 
     @Column(nullable = false)
-    private String password;
+    private Long price;
 
-    private String role = "user";
+    private String image;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<UserAddress> addresses = new ArrayList<>();
-
+    @ManyToMany(mappedBy = "menu")
+    private Set<Restaurant> restaurant;
 
 }
