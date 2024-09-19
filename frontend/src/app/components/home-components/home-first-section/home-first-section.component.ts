@@ -2,11 +2,14 @@ import {Component} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {environment} from "../../../../environments/environment";
 import {LanguageService} from "../../../services/language.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-home-first-section',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './home-first-section.component.html',
   styleUrl: './home-first-section.component.css'
 })

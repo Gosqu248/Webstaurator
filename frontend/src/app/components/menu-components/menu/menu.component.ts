@@ -1,5 +1,4 @@
 import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
-
 import {NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
@@ -8,7 +7,8 @@ import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu',
@@ -19,30 +19,38 @@ import {Router, RouterLink} from "@angular/router";
     MenuRegisterComponent,
     MenuLoginComponent,
     MenuProfileComponent,
-    RouterLink
+    RouterLink,
+    RouterOutlet
   ],
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.css'
+  styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;
   name: string = '';
   private isFetchingUserData: boolean = false;
   private isAuthChecked: boolean = false;
+  showRegister: boolean = false;
+  showLogin: boolean = false;
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private router: Router, private elementRef: ElementRef) {}
+  constructor(private languageService: LanguageService,
+              private authService: AuthService,
+              private elementRef: ElementRef,
+              private route: ActivatedRoute,
+              private fragmentService: FragmentsService) {}
 
   ngOnInit() {
     this.checkAuth();
     this.checkWindowWidth();
     window.addEventListener('resize', this.checkWindowWidth.bind(this));
-
+    this.route.fragment.subscribe(fragment => {
+      this.showRegister = fragment === 'register';
+      this.showLogin = fragment === 'login';
+    });
   }
 
-
-
   getTranslation<K extends keyof LanguageTranslations>(key: K) {
-    return this.languageService.getTranslation(key)
+    return this.languageService.getTranslation(key);
   }
 
   getUserData(token: string) {
@@ -72,7 +80,6 @@ export class MenuComponent implements OnInit {
     this.showLanguageOption = window.innerWidth < 768;
   }
 
-
   checkAuth(): boolean {
     if (!this.isAuthChecked) {
       this.isAuthChecked = true;
@@ -100,7 +107,11 @@ export class MenuComponent implements OnInit {
     }
 
     if (!this.elementRef.nativeElement.contains(targetElement) && !targetElement.closest('.menu-button')) {
-      this.router.navigate(['']);
+      this.removeFragment();
     }
+  }
+
+  removeFragment() {
+    this.fragmentService.removeFragment();
   }
 }

@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {HomeFirstSectionComponent} from "../home-components/home-first-section/home-first-section.component";
 import {HomeSecondSectionComponent} from "../home-components/home-second-section/home-second-section.component";
 import {HomeThirdSectionComponent} from "../home-components/home-third-section/home-third-section.component";
-import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {filter} from "rxjs";
-import {NgClass} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
+import {MenuComponent} from "../menu-components/menu/menu.component";
 
 @Component({
   selector: 'app-home',
@@ -14,23 +15,16 @@ import {NgClass} from "@angular/common";
     HomeSecondSectionComponent,
     HomeThirdSectionComponent,
     RouterOutlet,
-    NgClass
+    NgClass,
+    MenuComponent,
+    NgIf
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
-  isDimmed: boolean = false;
+export class HomeComponent {
 
-  constructor(private router: Router) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.isDimmed = event.url != '/';
-      }
-    )
-  }
 
 }

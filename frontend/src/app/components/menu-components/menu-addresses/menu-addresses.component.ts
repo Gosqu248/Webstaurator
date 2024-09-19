@@ -8,6 +8,7 @@ import {AddressesService} from "../../../services/addresses.service";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
 import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu-addresses',
@@ -26,7 +27,7 @@ import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-ch
 export class MenuAddressesComponent implements OnInit{
   addresses: UserAddress[] = [];
 
-  constructor(private languageService: LanguageService, private addressesService: AddressesService) {}
+  constructor(private languageService: LanguageService, private addressesService: AddressesService, private fragmentService:FragmentsService) {}
 
   ngOnInit() {
     this.getAddresses();
@@ -57,4 +58,9 @@ export class MenuAddressesComponent implements OnInit{
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
   }
+
+  removeFragment() {
+    this.fragmentService.removeFragment();
+  }
+
 }

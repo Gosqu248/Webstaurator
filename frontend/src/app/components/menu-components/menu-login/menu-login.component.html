@@ -1,8 +1,8 @@
 <div class="login-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="['/menu']"></i>
+    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
     <h2>{{getTranslation('login')}}</h2>
-    <i class="fa-regular fa-circle-xmark" [routerLink]="['']"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
   </div>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="input-container">
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="error-container" *ngIf="isloginError">
+    <div class="error-container" *ngIf="isLoginError">
       <i class="fa-solid fa-circle-exclamation"></i>
       <p>{{getTranslation('loginError')}}</p>
     </div>
@@ -25,7 +25,7 @@
     <button type="submit">{{getTranslation('login')}}</button>
 
     <div class="last-container">
-      <h2 [routerLink]="['/register']"> {{getTranslation('createAccount')}}</h2>
+      <h2 [routerLink]="[]" fragment="register"> {{getTranslation('createAccount')}}</h2>
     </div>
   </form>
 

@@ -1,14 +1,12 @@
 <div class="nav-container">
-
   <div class="left-container">
     <img class="logo" [src]="apiUrl + logo" alt="Your Image">
     <h2>Webstaurator</h2>
-    <div class="language-switcher"  *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">
-      <img  [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
+    <div class="language-switcher" *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">
+      <img [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
     </div>
-
     <div class="language-dropdown" *ngIf="showLanguageDropdown">
-      <h3>{{getTranslation('chooseLanguage')}} </h3>
+      <h3>{{getTranslation('chooseLanguage')}}</h3>
       <div class="language-option" (click)="setLanguage('pl')">
         <img class="flag" [src]="apiUrl + plFlag" alt="Polish Flag">
         <span>{{getTranslation('polish')}}</span>
@@ -19,9 +17,23 @@
       </div>
     </div>
   </div>
-
   <div class="right-container">
-    <i class="material-icons menu-button" [routerLink]="['/menu']">menu</i>
+    <i class="material-icons menu-button" [routerLink]="[]" fragment="menu">menu</i>
   </div>
+
 </div>
+
+<div class="overlay" [ngClass]="{'dimmed': isDimmed}"></div>
+
+
+<app-menu *ngIf="showMenu"></app-menu>
+<app-menu-login *ngIf="showLogin"></app-menu-login>
+<app-menu-register *ngIf="showRegister"></app-menu-register>
+<app-menu-profile *ngIf="showProfile"></app-menu-profile>
+<app-menu-language *ngIf="showLanguage"></app-menu-language>
+<app-menu-change-password *ngIf="showChangePassword"></app-menu-change-password>
+<app-menu-addresses *ngIf="showAddresses"></app-menu-addresses>
+<app-menu-add-address *ngIf="showAddAddress"></app-menu-add-address>
+<app-menu-address-change *ngIf="showChangeAddress"></app-menu-address-change>
+
 

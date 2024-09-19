@@ -14,6 +14,7 @@ import {User} from "../../../interfaces/user.interface";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu-register',
@@ -35,7 +36,7 @@ export class MenuRegisterComponent {
 
 
 
-  constructor(private authService: AuthService ,private languageService: LanguageService, private fb: FormBuilder, private router: Router) {
+  constructor(private authService: AuthService ,private languageService: LanguageService, private fb: FormBuilder, private router: Router, private fragmentService: FragmentsService) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -71,7 +72,7 @@ export class MenuRegisterComponent {
       this.authService.register(user).subscribe({
         next: (response: any) => {
           alert(response.message);
-          this.router.navigate(['/menu']);
+          this.router.navigate([], {fragment: 'menu'});
         },
         error: (err) => {
           console.error('Registration failed', err);
@@ -103,7 +104,10 @@ export class MenuRegisterComponent {
       inputField.type = 'password';
     }
     fieldId === 'password' ? this.isVisiblePassword = !this.isVisiblePassword : this.isVisibleConfirm = !this.isVisibleConfirm;
+  }
 
+  removeFragment() {
+    this.fragmentService.removeFragment();
   }
 
 }

@@ -5,6 +5,7 @@ import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Router, RouterLink} from "@angular/router";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu-login',
@@ -21,11 +22,11 @@ import {Router, RouterLink} from "@angular/router";
 })
 export class MenuLoginComponent {
   loginForm: FormGroup;
-  isloginError: boolean = false;
+  isLoginError: boolean = false;
   isVisible: boolean = false;
 
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder, private router: Router) {
+  constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder, private router: Router, private fragmentService: FragmentsService) {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
       password: ['']
@@ -35,15 +36,15 @@ export class MenuLoginComponent {
   login() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-    this.isloginError = false;
+    this.isLoginError = false;
 
     this.authService.login(email, password)
       .subscribe((isAuthenticated: boolean) => {
         if (isAuthenticated) {
-          this.router.navigate(['/menu']);
+          this.router.navigate([], {fragment: 'menu'});
           console.log("Login " + this.loginForm.value.email);
         } else {
-          this.isloginError = !this.isloginError;
+          this.isLoginError = !this.isLoginError;
           console.log("Invalid login or password");
           console.log(email);
           console.log(password);
@@ -60,4 +61,8 @@ export class MenuLoginComponent {
     inputField.type === 'password' ? inputField.type = 'text' : inputField.type = 'password';
     this.isVisible = !this.isVisible;
   }
+  removeFragment() {
+    this.fragmentService.removeFragment();
+  }
+
 }

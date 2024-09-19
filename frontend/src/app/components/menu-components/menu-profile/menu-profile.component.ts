@@ -5,6 +5,7 @@ import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import { RouterLink} from "@angular/router";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu-profile',
@@ -29,6 +30,7 @@ export class MenuProfileComponent implements OnInit {
   constructor(
     private languageService: LanguageService,
     private authService: AuthService,
+    private fragmentService: FragmentsService
   ) {}
 
 
@@ -60,6 +62,10 @@ export class MenuProfileComponent implements OnInit {
         }
       })
     }
+  }
+
+  removeFragment() {
+    this.fragmentService.removeFragment();
   }
 
 }

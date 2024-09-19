@@ -1,0 +1,10 @@
+.restaurant-container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.8);
+  font-family: 'Raleway', sans-serif;
+}

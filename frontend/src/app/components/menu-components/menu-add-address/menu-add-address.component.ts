@@ -5,6 +5,7 @@ import { Router, RouterLink} from "@angular/router";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AddressesService} from "../../../services/addresses.service";
+import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({
   selector: 'app-menu-add-address',
@@ -25,7 +26,8 @@ export class MenuAddAddressComponent {
     private languageService: LanguageService,
     private addressService: AddressesService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private fragmentService: FragmentsService
   ) {
     this.addressForm = this.fb.group({
       street: ['', Validators.required],
@@ -59,5 +61,9 @@ export class MenuAddAddressComponent {
 
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
+  }
+
+  removeFragment() {
+    this.fragmentService.removeFragment();
   }
 }
