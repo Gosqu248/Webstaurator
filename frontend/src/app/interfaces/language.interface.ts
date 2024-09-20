@@ -64,6 +64,8 @@ export interface LanguageTranslations {
   changeAddress: string;
   delete: string;
   updateAddress: string;
+  delivery: string;
+  pickup: string;
 }
 
 export interface Translations {

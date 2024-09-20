@@ -7,7 +7,7 @@ import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
-import {ActivatedRoute, Router, RouterLink, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, RouterLink, RouterOutlet} from "@angular/router";
 import {FragmentsService} from "../../../services/fragments.service";
 
 @Component({

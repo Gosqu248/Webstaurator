@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FragmentsService {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   removeFragment() {
+    const queryParams = this.route.snapshot.queryParams;
     this.router.navigate([], {
-      fragment: undefined,
-      queryParamsHandling: 'preserve'
+      queryParams: queryParams,
+      fragment: undefined
     });
   }
 }

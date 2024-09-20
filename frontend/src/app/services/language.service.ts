@@ -1,4 +1,3 @@
-// language.service.ts
 import { Injectable } from '@angular/core';
 import { Translations } from "../interfaces/language.interface";
 import {BehaviorSubject} from "rxjs";
@@ -89,7 +88,9 @@ export class LanguageService {
       phoneNumber: "Numer telefonu: *",
       changeAddress: "Edytuj adres",
       delete: "Usuń",
-      updateAddress: "Zaktualizuj adres"
+      updateAddress: "Zaktualizuj adres",
+      delivery: "Dostawa",
+      pickup: "Odbiór"
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -156,7 +157,9 @@ export class LanguageService {
       phoneNumber: "Phone number: *",
       changeAddress: "Edit address",
       delete: "Delete",
-      updateAddress: "Update address"
+      updateAddress: "Update address",
+      delivery: "Delivery",
+      pickup: "Pickup"
 
     }
   };

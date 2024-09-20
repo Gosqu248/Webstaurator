@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, PLATFORM_ID, SimpleChanges} from '@angular/core';
 import { environment } from "../../../../environments/environment";
 import { isPlatformBrowser, NgClass, NgIf } from "@angular/common";
 import { LanguageService } from "../../../services/language.service";
@@ -36,7 +36,7 @@ import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/me
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnChanges{
   apiUrl = environment.api;
   logo = '/img/webstaurator-logo.png';
   ukFlag = '/img/uk-logo.png';
@@ -57,6 +57,8 @@ export class NavbarComponent implements OnInit {
   showAddAddress: boolean = false;
   showChangeAddress: boolean = false;
   currentRoute!: string;
+  address: string | null = '';
+  selectedOption: string = '';
 
 
   constructor(private languageService: LanguageService,
@@ -74,6 +76,11 @@ export class NavbarComponent implements OnInit {
       const menuItems = ['menu', 'menu-profile', 'menu-language', 'change-password', 'addresses', 'add-address', 'change-address', 'register', 'login'];
       this.isDimmed = menuItems.some(item => event.url.endsWith(item));
       this.currentRoute = event.url;
+      if (this.currentRoute === '/restaurants') {
+        this.address = sessionStorage.getItem('address');
+        this.selectedOption = sessionStorage.getItem('selectedOption') || 'delivery';
+      }
+
     });
 
 
@@ -96,6 +103,16 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['currentRoute'] && this.currentRoute === '/restaurants') {
+      this.address = sessionStorage.getItem('address');
+    }
+  }
+
+  goToHome() {
+    this.router.navigate(['/']);
+    sessionStorage.removeItem('address');
+  }
 
   checkWindowWidth() {
     if (isPlatformBrowser(this.platformId)) {
@@ -122,5 +139,11 @@ export class NavbarComponent implements OnInit {
 
   private getCurrentFlag() {
     return this.currentLanguage === 'pl' ? this.plFlag : this.ukFlag;
+  }
+
+  selectOption(option: string) {
+    this.selectedOption = option;
+    sessionStorage.setItem('selectedOption', option);
+
   }
 }

@@ -15,7 +15,6 @@ import {NgIf} from "@angular/common";
   styleUrl: './restaurant.component.css'
 })
 export class RestaurantComponent {
-
   constructor() {}
 
 
