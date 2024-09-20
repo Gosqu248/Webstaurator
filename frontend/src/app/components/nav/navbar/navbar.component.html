@@ -1,5 +1,8 @@
 <div class="nav-container">
   <div class="left-container">
+    <ng-container *ngIf="currentRoute === '/restaurants'">
+      <i  class="fa-solid fa-angle-left" [routerLink]="['/']"></i>
+    </ng-container>
     <img class="logo" [src]="apiUrl + logo" alt="Your Image">
     <h2>Webstaurator</h2>
     <div class="language-switcher" *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">

@@ -2,13 +2,15 @@ import {Component} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {environment} from "../../../../environments/environment";
 import {LanguageService} from "../../../services/language.service";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-home-first-section',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    FormsModule
   ],
   templateUrl: './home-first-section.component.html',
   styleUrl: './home-first-section.component.css'
@@ -17,10 +19,14 @@ export class HomeFirstSectionComponent {
   currentLanguage: string;
   apiUrl = environment.api;
   background: string = '/img/background.webp';
+  searchAddress: string = '';
 
-  constructor(private languageService: LanguageService) {
+  constructor(private languageService: LanguageService, private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
+  }
 
+  searchRestaurants() {
+    this.router.navigate(['/restaurants'], {queryParams: {address: this.searchAddress}})
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {

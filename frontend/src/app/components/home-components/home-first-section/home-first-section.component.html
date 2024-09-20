@@ -4,8 +4,8 @@
             <h1>{{getTranslation('home1')}}</h1>
             <h2> {{getTranslation('home2')}}</h2>
             <div class="search-bar">
-                <input class="search-input" type="text" placeholder="{{getTranslation('address')}}">
-                <button [routerLink]="['/restaurants/']">{{getTranslation('search')}}</button>
+                <input class="search-input" type="text" [(ngModel)]="searchAddress" placeholder="{{getTranslation('address')}}">
+                <button (click)="searchRestaurants()">{{getTranslation('search')}}</button>
             </div>
         </div>
     </div>

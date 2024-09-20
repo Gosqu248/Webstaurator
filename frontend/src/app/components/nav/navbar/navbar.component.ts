@@ -56,6 +56,8 @@ export class NavbarComponent implements OnInit {
   showChangePassword: boolean = false;
   showAddAddress: boolean = false;
   showChangeAddress: boolean = false;
+  currentRoute!: string;
+
 
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
@@ -69,8 +71,11 @@ export class NavbarComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      this.isDimmed = event.url !== '/' && event.url !== '/restaurants';
+      const menuItems = ['menu', 'menu-profile', 'menu-language', 'change-password', 'addresses', 'add-address', 'change-address', 'register', 'login'];
+      this.isDimmed = menuItems.some(item => event.url.endsWith(item));
+      this.currentRoute = event.url;
     });
+
 
     if (isPlatformBrowser(this.platformId)) {
       this.checkWindowWidth();
@@ -90,6 +95,7 @@ export class NavbarComponent implements OnInit {
       this.isDimmed = this.showMenu;
     });
   }
+
 
   checkWindowWidth() {
     if (isPlatformBrowser(this.platformId)) {
