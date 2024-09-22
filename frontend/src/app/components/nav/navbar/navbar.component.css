@@ -106,6 +106,7 @@
   width: 120px;
   border: none;
   cursor: pointer;
+  transition: background 0.7s ease, color 0.7s ease;
 }
 
 .delivery-option h4 {

@@ -1,0 +1,10 @@
+<div class="category-container ">
+  <app-category-item
+    class="category-item"
+    *ngFor="let item of categories"
+    [name]="item.name"
+    [image]="item.image"
+    [ngClass]="{'selected': selectedCategories.includes(item)}"
+    (click)="selectCategory(item)"
+  ></app-category-item>
+</div>
