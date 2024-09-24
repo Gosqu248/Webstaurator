@@ -1,0 +1,16 @@
+<h4 class="sorted-h4"> {{getTranslation('sortBy')}}</h4>
+  <app-sort-item
+      class="sort-item"
+      *ngFor="let item of sortItems"
+      [description]="item.description"
+      [icon]="item.icon"
+      [selected]="selectedSortItem === item"
+      (click)="selectSortItem(item)"
+  ></app-sort-item>
+
+<div class="maps-container">
+  <button class="maps-button">
+    <i class="fa-solid fa-location-crosshairs"></i>
+    <h4> {{getTranslation('seeMap')}} </h4>
+  </button>
+</div>

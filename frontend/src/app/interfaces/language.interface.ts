@@ -66,6 +66,12 @@ export interface LanguageTranslations {
   updateAddress: string;
   delivery: string;
   pickup: string;
+  sortBy: string;
+  closeToMe: string;
+  grades: string;
+  cheapestDelivery: string;
+  seeMap: string;
+
 }
 
 export interface Translations {

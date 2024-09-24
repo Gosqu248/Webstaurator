@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { CategoryItemComponent } from '../category-item/category-item.component';
 import {NgClass, NgForOf} from "@angular/common";
+import {RestaurantsService} from "../../../services/restaurants.service";
 
 @Component({
   selector: 'app-resturant-category',
@@ -13,27 +14,49 @@ import {NgClass, NgForOf} from "@angular/common";
   templateUrl: './resturant-category.component.html',
   styleUrls: ['./resturant-category.component.css']
 })
-export class ResturantCategoryComponent {
-  url: string = 'http://localhost:8080/img/';
-  selectedCategories: any[] = [];
+export class ResturantCategoryComponent implements OnInit, OnChanges{
+  @Input() selectedOption!: string;
+  selectedCategories:  string[] = [];
+  deliveryCategories: string[] = [];
+  pickupCategories: string[] = [];
+  categories: string[] = [];
 
-  categories: { name: string, image: string }[] = [
-    { name: 'Amerykańska', image: this.url + 'american.jpg' },
-    { name: 'Polska', image: this.url + 'polish.jpg' },
-    { name: 'Kebaby', image: this.url + 'kebab.jpg' },
-    { name: 'Burgery', image: this.url + 'burger.jpg' },
-    { name: 'Pizza', image: this.url + 'pizza.jpg' },
-    { name: 'Sushi', image: this.url + 'sushi.jpg' },
-    { name: 'Włoska', image: this.url + 'italian.jpg' },
+  constructor(private restaurantService: RestaurantsService) {}
 
-  ];
+  ngOnInit() {
+    this.loadCategories();
+  }
 
-  selectCategory(category: any) {
+  ngOnChanges() {
+    this.updateCategories();
+  }
+
+  private loadCategories() {
+    this.restaurantService.getDeliveryCategories().subscribe((categories: string[]) => {
+      this.deliveryCategories = categories;
+      this.updateCategories();
+
+    });
+    this.restaurantService.getPickupCategories().subscribe((categories: string[]) => {
+      this.pickupCategories = categories;
+      this.updateCategories();
+
+    });
+  }
+
+  private updateCategories() {
+    this.categories = this.selectedOption === 'delivery' ? this.deliveryCategories : this.pickupCategories;
+  }
+
+
+  selectCategory(category: string) {
     const index = this.selectedCategories.indexOf(category);
     if (index > -1) {
       this.selectedCategories.splice(index, 1);
+      sessionStorage.removeItem('selectedCategories')
     } else {
       this.selectedCategories.push(category);
+      sessionStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
     }
   }
 }

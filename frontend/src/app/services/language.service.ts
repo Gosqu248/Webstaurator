@@ -90,7 +90,13 @@ export class LanguageService {
       delete: "Usuń",
       updateAddress: "Zaktualizuj adres",
       delivery: "Dostawa",
-      pickup: "Odbiór"
+      pickup: "Odbiór",
+      sortBy: "Sortuj według",
+      closeToMe: "Blisko mnie",
+      grades: "Oceny",
+      cheapestDelivery: "Opłata za dostawę",
+      seeMap: "Zobacz na mapie",
+
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -159,7 +165,12 @@ export class LanguageService {
       delete: "Delete",
       updateAddress: "Update address",
       delivery: "Delivery",
-      pickup: "Pickup"
+      pickup: "Pickup",
+      sortBy: "Sort by",
+      closeToMe: "Close to me",
+      grades: "Grades",
+      cheapestDelivery: "Delivery fee",
+      seeMap: "See on map",
 
     }
   };

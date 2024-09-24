@@ -1,8 +1,13 @@
 package pl.urban.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Setter
 @Getter
@@ -15,14 +20,24 @@ public class RestaurantOpinion {
     private Long id;
 
     @Column(nullable = false)
-    private int qualityRating;
+    private double qualityRating;
 
     @Column(nullable = false)
-    private int deliveryRating;
+    private double deliveryRating;
 
     private String comment;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private ZonedDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
+    }
+
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

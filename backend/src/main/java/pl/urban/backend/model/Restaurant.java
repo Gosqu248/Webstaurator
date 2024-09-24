@@ -35,6 +35,7 @@ public class Restaurant {
     private Delivery delivery;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonIgnore
     private RestaurantAddress restaurantAddress;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -43,9 +44,11 @@ public class Restaurant {
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id")
     )
+    @JsonIgnore
     private Set<Menu> menu = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<DeliveryHour> deliveryHours;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

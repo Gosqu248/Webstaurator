@@ -1,0 +1,16 @@
+<div class="restaurant-item">
+  <img class="image" [src]="restaurant.imageUrl" alt="restaurant image" />
+  <img class="logo" [src]="restaurant.logoUrl" alt="restaurant logo" />
+  <div class="rating-container">
+    <i class="fa-solid fa-star"></i>
+    <h5>{{ getAverageRating() }}</h5>
+    <h6>({{getRatingLength() }})</h6>
+
+  </div>
+
+  <h3>{{restaurant.name}} </h3>
+  <div class="description">
+    <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}}min</h5>
+    <h5>{{restaurant.category}}</h5>
+  </div>
+</div>

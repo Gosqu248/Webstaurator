@@ -14,6 +14,8 @@ import {MenuLanguageComponent} from "../../menu-components/menu-language/menu-la
 import {MenuAddressChangeComponent} from "../../menu-components/menu-address-change/menu-address-change.component";
 import {MenuChangePasswordComponent} from "../../menu-components/menu-change-password/menu-change-password.component";
 import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/menu-add-address.component";
+import {ResturantCategoryComponent} from "../../resturants-components/resturant-category/resturant-category.component";
+import {OptionService} from "../../../services/option.service";
 
 @Component({
   selector: 'app-navbar',
@@ -31,7 +33,8 @@ import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/me
     MenuLanguageComponent,
     MenuAddressChangeComponent,
     MenuChangePasswordComponent,
-    MenuAddAddressComponent
+    MenuAddAddressComponent,
+    ResturantCategoryComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -64,6 +67,7 @@ export class NavbarComponent implements OnInit, OnChanges{
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
               private route: ActivatedRoute,
+              private optionService: OptionService,
               private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.currentFlag = this.getCurrentFlag();
@@ -79,6 +83,7 @@ export class NavbarComponent implements OnInit, OnChanges{
       if (this.currentRoute === '/restaurants') {
         this.address = sessionStorage.getItem('address');
         this.selectedOption = sessionStorage.getItem('selectedOption') || 'delivery';
+        console.log('Selected: ' + sessionStorage.getItem('selectedOption'))
       }
 
     });
@@ -108,6 +113,7 @@ export class NavbarComponent implements OnInit, OnChanges{
       this.address = sessionStorage.getItem('address');
     }
   }
+
 
   goToHome() {
     this.router.navigate(['/']);
@@ -143,7 +149,7 @@ export class NavbarComponent implements OnInit, OnChanges{
 
   selectOption(option: string) {
     this.selectedOption = option;
-    sessionStorage.setItem('selectedOption', option);
-
+    this.optionService.setSelectedOption(option);
   }
+
 }

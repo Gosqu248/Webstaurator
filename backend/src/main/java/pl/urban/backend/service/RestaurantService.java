@@ -10,6 +10,7 @@ import pl.urban.backend.repository.MenuRepository;
 import pl.urban.backend.repository.RestaurantRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -54,5 +55,21 @@ public class RestaurantService {
         }
 
         return restaurantRepository.save(restaurant);
+    }
+
+    public List<Restaurant> getAllDeliveryRestaurants() {
+        return restaurantRepository.findAllDeliveryRestaurants();
+    }
+
+    public List<Restaurant> getAllPickupRestaurants() {
+        return restaurantRepository.findAllPickupRestaurants();
+    }
+
+    public Set<String> getDeliveryCategories() {
+        return restaurantRepository.findDeliveryCategories();
+    }
+
+    public Set<String> getPickupCategories() {
+        return restaurantRepository.findPickupCategories();
     }
 }

@@ -1,0 +1,46 @@
+.sorted-h4 {
+  margin-left:10px;
+}
+
+.sort-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.maps-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 120px;
+}
+
+.maps-button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  background: lightgray;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: #949393 2px 1px;
+}
+
+.fa-location-crosshairs {
+  font-size: 32px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
+  color: #000000;
+}

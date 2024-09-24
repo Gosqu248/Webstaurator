@@ -1,0 +1,81 @@
+.restaurant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 280px;
+  margin-top: 20px;
+  margin-right: 50px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+
+}
+
+.restaurant-item:hover {
+  scale: 1.05;
+}
+
+.image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.logo {
+  width: 60px;
+  height: 50px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+
+.rating-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 20px;
+  padding: 8px;
+  border-radius: 30px;
+  background-color: #f8f9fa;
+  top: 130px;
+  right: 5px;
+}
+
+.rating-container h5 {
+  font-weight: bolder;
+}
+
+.fa-star {
+  color: #fa6c06;
+  margin-right: 5px;
+}
+
+h6 {
+  margin-left: 3px;
+  font-size: 13px;
+  font-weight: normal;
+}
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+}
+
+h5 {
+  font-size: 15px;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}

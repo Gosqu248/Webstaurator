@@ -1,4 +1,22 @@
 <div class="restaurant-container">
-  <app-resturant-category></app-resturant-category>
+  <div class="main-container">
+    <div class="first-section">
+      <app-restaurant-sort></app-restaurant-sort>
+      </div>
+    <div class="second-section">
+      <input class="search-input" type="text" [(ngModel)]="searchRestaurant" placeholder="{{getTranslation('address')}}">
+
+      <h3>Zamawiaj z {{ getRestaurantQuantity() }} restauracji</h3>
+
+      <div class="restaurants">
+        <app-restaurant-item
+          *ngFor="let restaurant of restaurants"
+          [restaurant]="restaurant"
+        ></app-restaurant-item>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 

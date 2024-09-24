@@ -1,54 +1,58 @@
 <div class="nav-container">
-  <div class="left-container">
-    <ng-container *ngIf="currentRoute === '/restaurants'">
-      <i  class="fa-solid fa-angle-left" (click)="goToHome()"></i>
-    </ng-container>
-    <img class="logo" [src]="apiUrl + logo" alt="Your Image">
-    <h2>Webstaurator</h2>
+  <div class="nav-main">
+    <div class="left-container">
+      <ng-container *ngIf="currentRoute === '/restaurants'">
+        <i  class="fa-solid fa-angle-left" (click)="goToHome()"></i>
+      </ng-container>
+      <img class="logo" [src]="apiUrl + logo" alt="Your Image">
+      <h2>Webstaurator</h2>
 
-  </div>
-
-  <div class="mid-container" *ngIf="currentRoute === '/restaurants'">
-    <div class="address-container">
-      <i class="fa-solid fa-location-dot"></i>
-      <h4> {{address}} </h4>
     </div>
-    <div class="delivery-container">
-        <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'delivery'}" (click)="selectOption('delivery')">
-          <i class="fa-solid fa-bicycle" [ngClass]="{'selected' : selectedOption === 'delivery'}"></i>
-          <h4>{{getTranslation('delivery')}} </h4>
-        </button>
-        <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'pickup'}" (click)="selectOption('pickup')">
-          <i class="fa-solid fa-store" [ngClass]="{'selected' : selectedOption === 'pickup'}"></i>
-          <h4>{{getTranslation('pickup')}} </h4>
-        </button>
-    </div>
-  </div>
 
-  <div class="right-container">
-    <div class="language-switcher" *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">
-    <img [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
-  </div>
-    <div class="language-dropdown" *ngIf="showLanguageDropdown">
-      <h3>{{getTranslation('chooseLanguage')}}</h3>
-      <div class="language-option" (click)="setLanguage('pl')">
-        <img class="flag" [src]="apiUrl + plFlag" alt="Polish Flag">
-        <span>{{getTranslation('polish')}}</span>
+    <div class="mid-container" *ngIf="currentRoute === '/restaurants'">
+      <div class="address-container">
+        <i class="fa-solid fa-location-dot"></i>
+        <h4> {{address}} </h4>
       </div>
-      <div class="language-option" (click)="setLanguage('en')">
-        <img class="flag" [src]="apiUrl + ukFlag" alt="English Flag">
-        <span>{{getTranslation('english')}}</span>
+      <div class="delivery-container">
+          <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'delivery'}" (click)="selectOption('delivery')">
+            <i class="fa-solid fa-bicycle" [ngClass]="{'selected' : selectedOption === 'delivery'}"></i>
+            <h4>{{getTranslation('delivery')}} </h4>
+          </button>
+          <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'pickup'}" (click)="selectOption('pickup')">
+            <i class="fa-solid fa-store" [ngClass]="{'selected' : selectedOption === 'pickup'}"></i>
+            <h4>{{getTranslation('pickup')}} </h4>
+          </button>
       </div>
     </div>
 
-    <i class="material-icons menu-button" [routerLink]="[]" fragment="menu">menu</i>
+    <div class="right-container">
+      <div class="language-switcher" *ngIf="showLanguageOption" (click)="toggleLanguageDropdown()">
+      <img [src]="apiUrl + currentFlag" alt="Current LanguageInterface Flag">
+    </div>
+      <div class="language-dropdown" *ngIf="showLanguageDropdown">
+        <h3>{{getTranslation('chooseLanguage')}}</h3>
+        <div class="language-option" (click)="setLanguage('pl')">
+          <img class="flag" [src]="apiUrl + plFlag" alt="Polish Flag">
+          <span>{{getTranslation('polish')}}</span>
+        </div>
+        <div class="language-option" (click)="setLanguage('en')">
+          <img class="flag" [src]="apiUrl + ukFlag" alt="English Flag">
+          <span>{{getTranslation('english')}}</span>
+        </div>
+      </div>
 
+      <i class="material-icons menu-button" [routerLink]="[]" fragment="menu">menu</i>
+    </div>
   </div>
+
+  <ng-container *ngIf="currentRoute === '/restaurants'">
+    <app-resturant-category [selectedOption]="selectedOption"></app-resturant-category>
+  </ng-container>
 
 </div>
 
 <div class="overlay" [ngClass]="{'dimmed': isDimmed}"></div>
-
 
 <app-menu *ngIf="showMenu"></app-menu>
 <app-menu-login *ngIf="showLogin"></app-menu-login>
