@@ -33,6 +33,9 @@ export class RestaurantComponent implements OnInit, OnChanges {
   deliveryRestaurants: Restaurant[] = [];
   pickupRestaurants: Restaurant[] = [];
   restaurants: Restaurant[] = [];
+  filteredRestaurants: Restaurant[] = [];
+  categories: string[] = [];
+
 
   constructor(
     private languageService: LanguageService,
@@ -45,6 +48,9 @@ export class RestaurantComponent implements OnInit, OnChanges {
     this.optionService.selectedOption$.subscribe(() => {
       this.updateRestaurant();
     });
+    this.optionService.selectedCategories$.subscribe(() => {
+      this.filterRestaurants();
+    })
   }
 
   ngOnChanges() {
@@ -65,13 +71,30 @@ export class RestaurantComponent implements OnInit, OnChanges {
   private updateRestaurant() {
     const deliveryOption = this.optionService.selectedOption.value;
     this.restaurants = deliveryOption === 'delivery' ? this.deliveryRestaurants : this.pickupRestaurants;
+    this.filterRestaurants();
+  }
+
+  private filterRestaurants() {
+    this.categories = this.optionService.selectedCategories.value;
+    this.categories.length > 0
+      ? this.filteredRestaurants = this.restaurants.filter((restaurant) => this.categories.includes(restaurant.category))
+      : this.filteredRestaurants = this.restaurants;
+
+    this.searchRestaurant
+      ? this.filteredRestaurants = this.filteredRestaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(this.searchRestaurant.toLowerCase()))
+      : null
+
+  }
+
+
+  onSearchChange(searchValue: string): void {
+    this.searchRestaurant = searchValue;
+    this.filterRestaurants();
   }
 
   getRestaurantQuantity() {
-    return this.restaurants.length;
+    return this.filteredRestaurants.length;
   }
-
-
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {
     return this.languageService.getTranslation(key);

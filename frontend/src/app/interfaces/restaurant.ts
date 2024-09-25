@@ -1,3 +1,5 @@
+import {Delivery} from "./delivery.interface";
+
 export interface Restaurant {
   id: number;
   name: string;
@@ -9,13 +11,7 @@ export interface Restaurant {
 }
 
 
-export interface Delivery {
-  id: number;
-  deliveryMinTime: number;
-  deliveryMaxTime: number;
-  deliveryPrice: number;
-  minimumPrice: number;
-}
+
 
 export interface RestaurantOpinions {
   id: number;

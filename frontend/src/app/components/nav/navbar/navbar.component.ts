@@ -63,7 +63,6 @@ export class NavbarComponent implements OnInit, OnChanges{
   address: string | null = '';
   selectedOption: string = '';
 
-
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
               private route: ActivatedRoute,
@@ -83,8 +82,7 @@ export class NavbarComponent implements OnInit, OnChanges{
       if (this.currentRoute === '/restaurants') {
         this.address = sessionStorage.getItem('address');
         this.selectedOption = sessionStorage.getItem('selectedOption') || 'delivery';
-        console.log('Selected: ' + sessionStorage.getItem('selectedOption'))
-      }
+          }
 
     });
 

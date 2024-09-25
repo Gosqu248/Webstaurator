@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
+  width: 450px;
   height: 280px;
   margin-top: 20px;
   margin-right: 50px;
@@ -41,7 +41,7 @@
   padding: 8px;
   border-radius: 30px;
   background-color: #f8f9fa;
-  top: 130px;
+  top: 55%;
   right: 5px;
 }
 
@@ -73,9 +73,31 @@ h3 {
   width: 90%;
 }
 
+.left-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.description-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.fa-regular, .fa-solid {
+  margin-right: 5px;
+}
 h5 {
   font-size: 15px;
   font-weight: normal;
   padding: 0;
   margin: 0;
+}
+
+.closed {
+  color: #cb0000;
 }

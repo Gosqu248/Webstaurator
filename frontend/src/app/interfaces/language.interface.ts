@@ -71,7 +71,10 @@ export interface LanguageTranslations {
   grades: string;
   cheapestDelivery: string;
   seeMap: string;
-
+  order: string;
+  restaurants: string;
+  searchRestaurant: string;
+  deliveryClosed: string;
 }
 
 export interface Translations {

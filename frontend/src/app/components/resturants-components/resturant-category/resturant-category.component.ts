@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { CategoryItemComponent } from '../category-item/category-item.component';
 import {NgClass, NgForOf} from "@angular/common";
 import {RestaurantsService} from "../../../services/restaurants.service";
+import {OptionService} from "../../../services/option.service";
 
 @Component({
   selector: 'app-resturant-category',
@@ -19,9 +20,9 @@ export class ResturantCategoryComponent implements OnInit, OnChanges{
   selectedCategories:  string[] = [];
   deliveryCategories: string[] = [];
   pickupCategories: string[] = [];
-  categories: string[] = [];
+  options: string[] = [];
 
-  constructor(private restaurantService: RestaurantsService) {}
+  constructor(private restaurantService: RestaurantsService, private optionService: OptionService) {}
 
   ngOnInit() {
     this.loadCategories();
@@ -45,18 +46,14 @@ export class ResturantCategoryComponent implements OnInit, OnChanges{
   }
 
   private updateCategories() {
-    this.categories = this.selectedOption === 'delivery' ? this.deliveryCategories : this.pickupCategories;
+    this.options = this.selectedOption === 'delivery' ? this.deliveryCategories : this.pickupCategories;
   }
 
 
   selectCategory(category: string) {
     const index = this.selectedCategories.indexOf(category);
-    if (index > -1) {
-      this.selectedCategories.splice(index, 1);
-      sessionStorage.removeItem('selectedCategories')
-    } else {
-      this.selectedCategories.push(category);
-      sessionStorage.setItem('selectedCategories', JSON.stringify(this.selectedCategories));
-    }
+    (index > -1) ? this.selectedCategories.splice(index, 1) : this.selectedCategories.push(category);
+    this.optionService.setSelectedCategories(this.selectedCategories);
   }
+
 }

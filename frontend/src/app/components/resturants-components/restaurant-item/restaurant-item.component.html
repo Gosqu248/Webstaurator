@@ -10,7 +10,22 @@
 
   <h3>{{restaurant.name}} </h3>
   <div class="description">
-    <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}}min</h5>
+    <div class="left-description" >
+      <div class="description-item" *ngIf="isOpen">
+        <i class="fa-solid fa-truck"></i>
+        <h5>{{restaurant.delivery.deliveryPrice}} zł</h5>
+      </div>
+      <div class="description-item" *ngIf="isOpen">
+        <i class="fa-regular fa-clock"></i>
+        <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}} min</h5>
+      </div>
+
+      <div class="description-item closed" *ngIf="!isOpen">
+        <i class="fa-regular  fa-clock"></i>
+        <h5>{{getTranslation('deliveryClosed')}}</h5>
+      </div>
+    </div>
+
     <h5>{{restaurant.category}}</h5>
   </div>
 </div>

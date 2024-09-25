@@ -22,10 +22,10 @@ public class Delivery {
     private int deliveryMaxTime;
 
     @Column(nullable = false)
-    private int deliveryPrice;
+    private double deliveryPrice;
 
     @Column(nullable = false)
-    private int minimumPrice;
+    private double minimumPrice;
 
     private int pickupTime;
 

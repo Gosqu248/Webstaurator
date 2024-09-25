@@ -4,13 +4,13 @@
       <app-restaurant-sort></app-restaurant-sort>
       </div>
     <div class="second-section">
-      <input class="search-input" type="text" [(ngModel)]="searchRestaurant" placeholder="{{getTranslation('address')}}">
+      <input class="search-input" type="text" [(ngModel)]="searchRestaurant" (ngModelChange)="onSearchChange($event)" placeholder="{{getTranslation('searchRestaurant')}}">
 
-      <h3>Zamawiaj z {{ getRestaurantQuantity() }} restauracji</h3>
+      <h3>{{getTranslation('order')}} {{ getRestaurantQuantity() }} {{getTranslation('restaurants')}}</h3>
 
       <div class="restaurants">
         <app-restaurant-item
-          *ngFor="let restaurant of restaurants"
+          *ngFor="let restaurant of filteredRestaurants"
           [restaurant]="restaurant"
         ></app-restaurant-item>
       </div>

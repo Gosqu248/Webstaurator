@@ -96,6 +96,10 @@ export class LanguageService {
       grades: "Oceny",
       cheapestDelivery: "Opłata za dostawę",
       seeMap: "Zobacz na mapie",
+      order: "Zamawiaj z ",
+      restaurants: "restauracji",
+      searchRestaurant: "Wyszukaj restaurację po nazwie...",
+      deliveryClosed: "Dostawa wstrzymana",
 
     },
     en: {
@@ -171,7 +175,10 @@ export class LanguageService {
       grades: "Grades",
       cheapestDelivery: "Delivery fee",
       seeMap: "See on map",
-
+      order: "Order from ",
+      restaurants: "restaurants",
+      searchRestaurant: "Search for a restaurant by name...",
+      deliveryClosed: "Closed to delivery",
     }
   };
 

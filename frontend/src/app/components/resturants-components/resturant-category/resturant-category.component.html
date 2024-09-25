@@ -1,7 +1,7 @@
 <div class="category-container ">
   <app-category-item
     class="category-item"
-    *ngFor="let category of categories"
+    *ngFor="let category of options"
     [name]="category"
     [ngClass]="{'selected': selectedCategories.includes(category)}"
     (click)="selectCategory(category)"
