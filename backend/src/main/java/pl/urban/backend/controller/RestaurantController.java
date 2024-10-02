@@ -40,5 +40,9 @@ public class RestaurantController {
         return restaurantService.getPickupCategories();
     }
 
+    @GetMapping("/getRestaurant")
+    public Restaurant getRestaurant(@RequestParam Long id) {
+        return restaurantService.getRestaurantById(id);
+    }
 
 }

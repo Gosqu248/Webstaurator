@@ -5,6 +5,7 @@ import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-restaurant-item',
@@ -20,7 +21,7 @@ export class RestaurantItemComponent implements OnInit{
   deliveryTime: DeliveryHour[] = [];
   isOpen: boolean = false;
 
-  constructor(private deliveryService: DeliveryService, private languageService:LanguageService) {}
+  constructor(private deliveryService: DeliveryService, private languageService:LanguageService, private router:Router) {}
 
   ngOnInit() {
     this.getDeliveryTime();
@@ -56,7 +57,6 @@ export class RestaurantItemComponent implements OnInit{
     const currentMinutes = currentTime.getMinutes();
     const currentTotalMinutes = currentHour * 60 + currentMinutes;
 
-    console.log(currentDay + " " + currentHour + " " + currentMinutes + " " + currentTotalMinutes)
 
     const todayDeliveryHour = this.deliveryTime.find(d => d.dayOfWeek === (currentDay === 0 ? 7 : currentDay)); // Adjust for Sunday
 
@@ -72,7 +72,12 @@ export class RestaurantItemComponent implements OnInit{
       this.isOpen = false;
     }
 
-    console.log("Is Open: " + this.isOpen);
+  }
+
+  goToMenu(restaurant: Restaurant) {
+    const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
+    const id = restaurant.id;
+    this.router.navigate(['/menu', formattedName], { queryParams: { id } });
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {

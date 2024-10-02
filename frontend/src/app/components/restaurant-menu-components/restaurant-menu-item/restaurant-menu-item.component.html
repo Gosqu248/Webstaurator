@@ -1,0 +1,22 @@
+<div *ngIf="(menu | filterByCategory: category).length > 0">
+  <h2>{{ category }}</h2>
+  <div class="item-container">
+    <div class="item" *ngFor="let item of menu | filterByCategory: category">
+      <h3>{{ item.name }} </h3>
+      <p class="ingredients"> {{item.ingredients}}</p>
+      <div class="top-container">
+        <div class="image-container">
+          <img class="image" *ngIf="item.image" [src]="item.image" alt="">
+        </div>
+        <div class="add">
+          <h2>{{ item.price | number:'1.2-2' }} zł</h2>
+
+          <div class="plus-container">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

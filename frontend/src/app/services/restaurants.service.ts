@@ -27,4 +27,8 @@ export class RestaurantsService {
     return this.http.get<string[]>(`${this.apiUrl}/pickup-categories`);
   }
 
+  getRestaurantById(id: number): Observable<Restaurant> {
+    return this.http.get<Restaurant>(`${this.apiUrl}/getRestaurant?id=${id}`);
+  }
+
 }

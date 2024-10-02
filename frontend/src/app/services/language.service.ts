@@ -100,6 +100,11 @@ export class LanguageService {
       restaurants: "restauracji",
       searchRestaurant: "Wyszukaj restaurację po nazwie...",
       deliveryClosed: "Dostawa wstrzymana",
+      yourOrder: "Twoje zamówienie",
+      basketEmpty: "Koszyk jest pusty",
+      didntAdd: "Nie dodałeś jeszcze żadnych produktów.",
+      notAvailable: "Niedostępne",
+      searchMenu: "Wyszukaj w menu..."
 
     },
     en: {
@@ -179,6 +184,11 @@ export class LanguageService {
       restaurants: "restaurants",
       searchRestaurant: "Search for a restaurant by name...",
       deliveryClosed: "Closed to delivery",
+      yourOrder: "Your order",
+      basketEmpty: "Basket is empty",
+      didntAdd: "You haven't added any products yet.",
+      notAvailable: "Not available",
+      searchMenu: "Search in menu..."
     }
   };
 

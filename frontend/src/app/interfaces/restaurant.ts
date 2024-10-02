@@ -11,8 +11,6 @@ export interface Restaurant {
 }
 
 
-
-
 export interface RestaurantOpinions {
   id: number;
   qualityRating: number;

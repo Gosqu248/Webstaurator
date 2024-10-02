@@ -1,0 +1,47 @@
+<div class="info-container">
+  <div class="left-container">
+    <img class="image" [src]="restaurant.logoUrl" alt="restaurant image" />
+    <h2 class="name">{{ restaurant.name }}</h2>
+    <div class="icons-container">
+      <div class="rating-container">
+        <i class="fa-solid fa-star"></i>
+        <h5>{{ getAverageRating() }}</h5>
+        <h6>({{getRatingLength() }})</h6>
+      </div>
+      <div class="description-item" >
+        <i class="fa-solid fa-truck"></i>
+        <h5>{{restaurant.delivery.deliveryPrice}} zł</h5>
+      </div>
+      <div class="description-item" >
+        <i class="fa-regular fa-clock"></i>
+        <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}} min</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="icons-container">
+    <i class="fa-regular fa-heart"></i>
+    <i class="fa-solid fa-info"></i>
+  </div>
+</div>
+
+<div class="menu-container">
+  <div class="search-container">
+    <input class="search-input" type="text" [(ngModel)]="searchMenu" (ngModelChange)="filterMenu()" placeholder="{{getTranslation('searchMenu')}}">
+    <div class="categories-container">
+      <app-menu-category-item
+        *ngFor="let category of categories"
+        [category]=category
+        (click)="selectCategory(category)">
+      </app-menu-category-item>
+    </div>
+  </div>
+  <app-restaurant-menu-item
+    *ngFor="let category of categories"
+    [menu]="selectedCategory ? (filteredMenu | filterByCategory: selectedCategory) : filteredMenu"
+    [category]=category
+    class="menu-item"
+  ></app-restaurant-menu-item>
+
+
+</div>

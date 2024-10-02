@@ -72,4 +72,8 @@ public class RestaurantService {
     public Set<String> getPickupCategories() {
         return restaurantRepository.findPickupCategories();
     }
+
+    public Restaurant getRestaurantById(Long id) {
+        return restaurantRepository.findById(id).orElse(null);
+    }
 }

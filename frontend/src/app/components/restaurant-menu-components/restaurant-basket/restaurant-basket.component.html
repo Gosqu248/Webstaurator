@@ -1,0 +1,27 @@
+<div class="basket-container">
+  <h2> {{getTranslation('yourOrder')}}</h2>
+
+  <div class="delivery-container">
+    <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'delivery'}" (click)="selectOption('delivery')">
+      <i class="fa-solid fa-bicycle" [ngClass]="{'selected' : selectedOption === 'delivery'}"></i>
+      <div class="top">
+        <h4>{{getTranslation('delivery')}} </h4>
+        <h5> {{deliveryOrder}}</h5>
+      </div>
+    </button>
+    <button class="delivery-option" [ngClass]="{'selected' : selectedOption === 'pickup'}" (click)="selectOption('pickup')" [disabled]="isNotPickUp">
+      <i class="fa-solid fa-store" [ngClass]="{'selected' : selectedOption === 'pickup'}"></i>
+      <div class="top">
+        <h4>{{getTranslation('pickup')}} </h4>
+        <h5> {{pickupOrder}}</h5>
+      </div>
+    </button>
+  </div>
+
+  <ng-container *ngIf="order === null">
+    <i class="fa-solid fa-basket-shopping"></i>
+    <h2> {{getTranslation('basketEmpty')}}</h2>
+    <h5> {{getTranslation('didntAdd')}}</h5>
+  </ng-container>
+
+</div>

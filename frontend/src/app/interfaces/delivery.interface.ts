@@ -4,6 +4,7 @@ export interface Delivery {
   deliveryMaxTime: number;
   deliveryPrice: number;
   minimumPrice: number;
+  pickupTime: number;
 }
 export interface DeliveryHour {
   id: number;

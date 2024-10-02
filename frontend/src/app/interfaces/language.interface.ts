@@ -75,6 +75,11 @@ export interface LanguageTranslations {
   restaurants: string;
   searchRestaurant: string;
   deliveryClosed: string;
+  yourOrder: string;
+  basketEmpty: string;
+  didntAdd: string;
+  notAvailable: string;
+  searchMenu: string;
 }
 
 export interface Translations {

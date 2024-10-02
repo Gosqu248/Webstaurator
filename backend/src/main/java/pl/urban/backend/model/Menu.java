@@ -27,7 +27,7 @@ public class Menu {
     private String ingredients;
 
     @Column(nullable = false)
-    private Long price;
+    private double price;
 
     private String image;
 
