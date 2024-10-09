@@ -63,6 +63,7 @@ export class MenuComponent implements OnInit {
           this.name = user.name;
           localStorage.setItem('name', user.name);
           localStorage.setItem('email', user.email);
+          user.id ? localStorage.setItem('userId', user.id.toString()) : null;
           console.log('User data fetched: ', user);
           this.isFetchingUserData = false;
         },

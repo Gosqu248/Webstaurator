@@ -3,7 +3,7 @@ package pl.urban.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.FavouriteRestaurantDTO;
-import pl.urban.backend.model.FavouriteRestaurant;
+import pl.urban.backend.request.FavouriteRequest;
 import pl.urban.backend.service.FavouriteRestaurantService;
 
 import java.util.List;
@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/favourite")
 public class FavouriteRestaurantController {
 
-    @Autowired
-    private FavouriteRestaurantService favouriteRestaurantService;
+    private final FavouriteRestaurantService favouriteRestaurantService;
+
+    public FavouriteRestaurantController(FavouriteRestaurantService favouriteRestaurantService) {
+        this.favouriteRestaurantService = favouriteRestaurantService;
+    }
 
     @GetMapping("/all")
     public List<FavouriteRestaurantDTO> getAllUserFavouriteRestaurants(@RequestParam Long userId) {
@@ -22,12 +25,12 @@ public class FavouriteRestaurantController {
     }
 
     @PostMapping("/add")
-    public void addFavouriteRestaurant(@RequestParam Long userId, @RequestParam Long restaurantId) {
-        favouriteRestaurantService.addFavouriteRestaurant(userId, restaurantId);
+    public void addFavouriteRestaurant(@RequestBody FavouriteRequest favouriteRequest) {
+        favouriteRestaurantService.addFavouriteRestaurant(favouriteRequest.getUserId(), favouriteRequest.getRestaurantId());
     }
 
     @DeleteMapping("/delete")
-    public void deleteFavouriteRestaurant(@RequestParam Long id) {
-        favouriteRestaurantService.deleteFavouriteRestaurant(id);
+    public void deleteFavouriteRestaurant(@RequestBody FavouriteRequest favouriteRequest) {
+        favouriteRestaurantService.deleteFavouriteRestaurant(favouriteRequest.getUserId(), favouriteRequest.getRestaurantId());
     }
 }

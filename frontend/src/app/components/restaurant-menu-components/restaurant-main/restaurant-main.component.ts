@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RestaurantOpinions} from "../../../interfaces/restaurant";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
@@ -10,8 +9,10 @@ import {MenuCategoryItemComponent} from "../menu-category-item/menu-category-ite
 import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
 import {RestaurantMenuItemComponent} from "../restaurant-menu-item/restaurant-menu-item.component";
 import {OptionService} from "../../../services/option.service";
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {RatingUtil} from "../../../utils/rating-util";
+import {Favourites} from "../../../interfaces/favourites";
+import {FavouriteService} from "../../../services/favourite.service";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -23,7 +24,8 @@ import {RatingUtil} from "../../../utils/rating-util";
     MenuCategoryItemComponent,
     NgForOf,
     FilterByCategoryPipe,
-    RestaurantMenuItemComponent
+    RestaurantMenuItemComponent,
+    NgOptimizedImage
   ],
   templateUrl: './restaurant-main.component.html',
   styleUrl: './restaurant-main.component.css'
@@ -36,31 +38,72 @@ export class RestaurantMainComponent implements OnInit{
   selectedCategory: string = '';
   filteredMenu: Menu[] = [];
   isAuthChecked: boolean = false;
+  isFavorite: boolean =  false;
+  userId: number = 0;
+  loading: boolean = true;
 
-  constructor(private languageService:LanguageService, private menuService: MenuService, private optionService: OptionService, private router: Router) {}
+
+  constructor(private languageService:LanguageService,
+              private menuService: MenuService,
+              private optionService: OptionService,
+              private favouriteService: FavouriteService,
+              private router: Router) {}
 
   ngOnInit() {
-    this.getMenu();
-    this.getCategories();
-    this.getSelected();
-    this.filterMenu();
+    this.checkIfFavourite();
   }
 
-  toggleFavorite() {
-    if(this.checkAuth()) {
-      this.restaurant.isFavorite = !this.restaurant.isFavorite;
+  toggleFavourite() {
+    if (this.checkAuth()) {
+        if (this.isFavorite) {
+          this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
+            next: () => {
+              this.isFavorite = false;
+              console.log("Favourite deleted");
+            },
+            error: () => {
+              console.log("Error deleting favourite");
+            }
+          });
+        }  else {
+          this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
+            next: () => {
+              this.isFavorite = true;
+              console.log("Favourite added");
+            },
+            error: () => {
+              console.log("Error adding favourite");
+            }
+          });
+        }
     } else {
       this.router.navigate([], {fragment: 'login'});
     }
   }
 
-
   checkAuth() {
     const token = localStorage.getItem('jwt');
     this.isAuthChecked = token != null;
-    console.log(this.isAuthChecked)
     return this.isAuthChecked;
   }
+
+
+  checkIfFavourite() {
+    this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
+    if (this.userId !== 0) {
+      this.favouriteService.getUserFavourites(this.userId).subscribe((favourites: Favourites[]) => {
+        this.isFavorite = favourites.some((fav: Favourites) => fav.restaurantId === this.restaurant.id);
+        this.loading = false;
+        this.getMenu();
+        this.getCategories();
+        this.getSelected();
+        this.filterMenu();
+      });
+    } else {
+      this.loading = false;
+    }
+  }
+
 
 
   getMenu() {
@@ -82,7 +125,6 @@ export class RestaurantMainComponent implements OnInit{
     this.menuService.getCategories(this.restaurant.id).subscribe(categories => {
       this.categories = categories;
     });
-    console.log(this.categories);
   }
 
   selectCategory(category: string) {

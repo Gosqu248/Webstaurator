@@ -63,6 +63,7 @@ export class MenuRegisterComponent {
     if (this.registerForm.valid) {
 
       const user: User = {
+        id: undefined,
         name: this.registerForm.value.name,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,

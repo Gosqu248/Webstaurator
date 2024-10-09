@@ -12,7 +12,24 @@ export class FavouriteService {
 
   constructor(private http:HttpClient) { }
 
-  getUserFavourites(id: number) : Observable<Favourites>{
-    return this.http.get<Favourites>(`${this.apiUrl}/all?userId=${id}`);
+  getUserFavourites(id: number): Observable<Favourites[]>{
+    return this.http.get<Favourites[]>(`${this.apiUrl}/all?userId=${id}`);
   }
+
+  addFavourite(userId: number, restaurantId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/add`, {
+      userId,
+      restaurantId
+    });
+  }
+
+  deleteFavourite(userId: number, restaurantId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete`, {
+      body: {
+        userId,
+        restaurantId
+      }
+    });
+  }
+
 }

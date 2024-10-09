@@ -7,6 +7,8 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
 import {RatingUtil} from "../../../utils/rating-util";
+import {FavouriteService} from "../../../services/favourite.service";
+import {Favourites} from "../../../interfaces/favourites";
 
 @Component({
   selector: 'app-restaurant-item',
@@ -20,9 +22,12 @@ import {RatingUtil} from "../../../utils/rating-util";
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurant!: Restaurant;
   deliveryTime: DeliveryHour[] = [];
-  isOpen: boolean = false;
+  isOpen: boolean = true;
+  isFavorite: boolean = false;
 
-  constructor(private deliveryService: DeliveryService, private languageService:LanguageService, private router:Router) {}
+  constructor(private deliveryService: DeliveryService,
+              private languageService:LanguageService,
+              private router:Router) {}
 
   ngOnInit() {
     this.getDeliveryTime();
@@ -64,12 +69,8 @@ export class RestaurantItemComponent implements OnInit{
       const openingTotalMinutes = parseInt(openingTime[0]) * 60 + parseInt(openingTime[1]);
       const closingTotalMinutes = parseInt(closingTime[0]) * 60 + parseInt(closingTime[1]);
 
-      console.log("TOTAL: " + openingTotalMinutes)
-
-
       this.isOpen = currentTotalMinutes >= openingTotalMinutes && currentTotalMinutes <= closingTotalMinutes;
     } else {
-      console.log("NO DELIVERY TIME")
       this.isOpen = false;
     }
   }
@@ -83,4 +84,5 @@ export class RestaurantItemComponent implements OnInit{
   getTranslation<k extends keyof LanguageTranslations>(key: k) {
     return this.languageService.getTranslation(key);
   }
+
 }

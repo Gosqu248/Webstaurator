@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   background: white;
+  border-radius: 20px;
 }
 
 h2 {
@@ -85,7 +86,6 @@ h5 {
   display: flex;
   flex-direction: column;
   width: 95%;
-  max-height: 43%;
   margin-top: 20px;
   border-radius: 20px;
   overflow-y: auto;
@@ -139,6 +139,7 @@ h5 {
   cursor: pointer;
   font-weight: bolder;
   align-self: center; /* Center the button horizontally */
+  margin-bottom: 20px;
 }
 
 order-button:hover {

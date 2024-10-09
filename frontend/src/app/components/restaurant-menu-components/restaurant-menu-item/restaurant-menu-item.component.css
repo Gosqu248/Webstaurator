@@ -19,7 +19,7 @@
   padding: 10px;
   margin: 20px 10px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.9); /* Optional: Add a background for better readability */
   box-shadow: #4f4e4e 0 0 10px;
 }
 

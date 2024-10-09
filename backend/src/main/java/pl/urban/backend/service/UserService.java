@@ -49,5 +49,8 @@ public class UserService {
         return true;
     }
 
+    public Long getUserId(String subject) {
+        return getUserBySubject(subject).getId();
+    }
 
 }

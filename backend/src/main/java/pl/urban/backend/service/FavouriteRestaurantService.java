@@ -32,6 +32,28 @@ public class FavouriteRestaurantService {
     }
 
     public void addFavouriteRestaurant(Long userId, Long restaurantId) {
+        try {
+            FavouriteRestaurant favouriteRestaurant = getFavouriteRestaurant(userId, restaurantId);
+            favouriteRestaurantRepository.save(favouriteRestaurant);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Add Invalid user or restaurant ID");
+        }
+    }
+
+
+
+    public void deleteFavouriteRestaurant(Long userId, Long restaurantId) {
+        try {
+            FavouriteRestaurant favouriteRestaurant = favouriteRestaurantRepository.findFirstByUserIdAndRestaurantId(userId, restaurantId)
+                    .orElseThrow(() -> new IllegalArgumentException("Favourite not found"));
+            favouriteRestaurantRepository.delete(favouriteRestaurant);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Delete Invalid user or restaurant ID");
+        }
+
+    }
+
+    private FavouriteRestaurant getFavouriteRestaurant(Long userId, Long restaurantId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -39,11 +61,7 @@ public class FavouriteRestaurantService {
         FavouriteRestaurant favouriteRestaurant = new FavouriteRestaurant();
         favouriteRestaurant.setUser(user);
         favouriteRestaurant.setRestaurant(restaurant);
-        favouriteRestaurantRepository.save(favouriteRestaurant);
-    }
-
-    public void deleteFavouriteRestaurant(Long id) {
-        favouriteRestaurantRepository.deleteById(id);
+        return favouriteRestaurant;
     }
 
     public FavouriteRestaurantDTO convertToDTO(FavouriteRestaurant favouriteRestaurant) {
