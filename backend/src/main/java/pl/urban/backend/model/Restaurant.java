@@ -54,5 +54,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RestaurantOpinion> restaurantOpinions;
 
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    private List<FavouriteRestaurant> favouriteRestaurants;
+
 
 }

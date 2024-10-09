@@ -3,20 +3,18 @@
   <div class="item-container">
     <div class="item" *ngFor="let item of menu | filterByCategory: category">
       <h3>{{ item.name }} </h3>
-      <p class="ingredients"> {{item.ingredients}}</p>
+      <p class="ingredients" *ngIf="item.ingredients"> {{item.ingredients}}</p>
       <div class="top-container">
-        <div class="image-container">
-          <img class="image" *ngIf="item.image" [src]="item.image" alt="">
+        <div>
+          <img class="image" *ngIf="item.image" [ngClass]="{'exist' : item.image}" [src]="item.image" alt="">
         </div>
         <div class="add">
           <h2>{{ item.price | number:'1.2-2' }} zł</h2>
-
-          <div class="plus-container">
+          <div class="plus-container" (click)="addToCart(item)">
             <i class="fa-solid fa-plus"></i>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {Menu} from "../interfaces/menu";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OptionService {
+
   selectedOption = new BehaviorSubject<string>('delivery');
   selectedOption$ = this.selectedOption.asObservable();
 
@@ -32,5 +34,7 @@ export class OptionService {
   setSelectedMenuCategories(category: string) {
     this.selectedMenuCategory.next(category);
   }
+
+
 
 }

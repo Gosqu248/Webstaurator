@@ -10,6 +10,8 @@ import {MenuCategoryItemComponent} from "../menu-category-item/menu-category-ite
 import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
 import {RestaurantMenuItemComponent} from "../restaurant-menu-item/restaurant-menu-item.component";
 import {OptionService} from "../../../services/option.service";
+import {Router, RouterLink} from "@angular/router";
+import {RatingUtil} from "../../../utils/rating-util";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -33,8 +35,9 @@ export class RestaurantMainComponent implements OnInit{
   categories: string[] = [];
   selectedCategory: string = '';
   filteredMenu: Menu[] = [];
+  isAuthChecked: boolean = false;
 
-  constructor(private languageService:LanguageService, private menuService: MenuService, private optionService: OptionService) {}
+  constructor(private languageService:LanguageService, private menuService: MenuService, private optionService: OptionService, private router: Router) {}
 
   ngOnInit() {
     this.getMenu();
@@ -42,6 +45,23 @@ export class RestaurantMainComponent implements OnInit{
     this.getSelected();
     this.filterMenu();
   }
+
+  toggleFavorite() {
+    if(this.checkAuth()) {
+      this.restaurant.isFavorite = !this.restaurant.isFavorite;
+    } else {
+      this.router.navigate([], {fragment: 'login'});
+    }
+  }
+
+
+  checkAuth() {
+    const token = localStorage.getItem('jwt');
+    this.isAuthChecked = token != null;
+    console.log(this.isAuthChecked)
+    return this.isAuthChecked;
+  }
+
 
   getMenu() {
     this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu=> {
@@ -88,14 +108,7 @@ export class RestaurantMainComponent implements OnInit{
   }
 
   getAverageRating(): number {
-    if (this.restaurant.restaurantOpinions.length === 0) {
-      return 0;
-    }
-    const totalRating = this.restaurant.restaurantOpinions
-      .map((opinion: RestaurantOpinions) => opinion.qualityRating + opinion.deliveryRating)
-      .reduce((acc:number, rating:number) => acc + rating, 0);
-
-    return totalRating / this.restaurant.restaurantOpinions.length / 2;
+    return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
   }
 
   getRatingLength(): number {

@@ -104,7 +104,11 @@ export class LanguageService {
       basketEmpty: "Koszyk jest pusty",
       didntAdd: "Nie dodałeś jeszcze żadnych produktów.",
       notAvailable: "Niedostępne",
-      searchMenu: "Wyszukaj w menu..."
+      searchMenu: "Wyszukaj w menu...",
+      together: "Razem",
+      deliveryCost: "Koszt dostawy",
+      total: "Kwota całkowita",
+      orderNow: "Zamów"
 
     },
     en: {
@@ -188,7 +192,11 @@ export class LanguageService {
       basketEmpty: "Basket is empty",
       didntAdd: "You haven't added any products yet.",
       notAvailable: "Not available",
-      searchMenu: "Search in menu..."
+      searchMenu: "Search in menu...",
+      together: "Subtotal",
+      deliveryCost: "Delivery cost",
+      total: "Total",
+      orderNow: "Order"
     }
   };
 

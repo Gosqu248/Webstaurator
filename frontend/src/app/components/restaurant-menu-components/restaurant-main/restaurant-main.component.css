@@ -59,7 +59,10 @@
 
 .fa-regular, .fa-solid {
   margin-right: 5px;
+  cursor: pointer;
 }
+
+
 h5 {
   font-size: 15px;
   font-weight: normal;
@@ -80,6 +83,10 @@ h5 {
   background: #f8f9fa;
   padding: 10px 15px 10px 15px;
   border-radius: 50%;
+}
+
+.fa-heart:hover, .fa-info:hover {
+  background: #cccccc;
 }
 
 .menu-container {

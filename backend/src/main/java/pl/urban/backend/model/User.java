@@ -33,5 +33,7 @@ public class User {
     @JsonIgnore
     private List<UserAddress> addresses = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<FavouriteRestaurant> favouriteRestaurants;
 }

@@ -80,6 +80,10 @@ export interface LanguageTranslations {
   didntAdd: string;
   notAvailable: string;
   searchMenu: string;
+  together: string;
+  deliveryCost: string;
+  total: string;
+  orderNow: string;
 }
 
 export interface Translations {

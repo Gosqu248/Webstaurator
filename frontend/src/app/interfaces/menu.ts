@@ -6,4 +6,5 @@ export interface Menu {
   price: number;
   image: string;
   restaurantId: number;
+  quantity?: number;
 }

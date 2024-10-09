@@ -6,6 +6,7 @@ import {NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
+import {RatingUtil} from "../../../utils/rating-util";
 
 @Component({
   selector: 'app-restaurant-item',
@@ -28,14 +29,7 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   getAverageRating(): number {
-    if (this.restaurant.restaurantOpinions.length === 0) {
-      return 0;
-    }
-    const totalRating = this.restaurant.restaurantOpinions
-      .map((opinion: RestaurantOpinions) => opinion.qualityRating + opinion.deliveryRating)
-      .reduce((acc:number, rating:number) => acc + rating, 0);
-
-    return totalRating / this.restaurant.restaurantOpinions.length / 2;
+    return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
   }
 
   getRatingLength(): number {
@@ -56,22 +50,28 @@ export class RestaurantItemComponent implements OnInit{
     const currentHour = currentTime.getHours();
     const currentMinutes = currentTime.getMinutes();
     const currentTotalMinutes = currentHour * 60 + currentMinutes;
+    console.log(currentDay)
 
 
-    const todayDeliveryHour = this.deliveryTime.find(d => d.dayOfWeek === (currentDay === 0 ? 7 : currentDay)); // Adjust for Sunday
+    const todayDeliveryHour = this.deliveryTime.find(d => d.dayOfWeek === currentDay); // Adjust for Sunday
+    console.log(this.deliveryTime)
 
     if (todayDeliveryHour) {
       const openingTime = todayDeliveryHour.openTime.split(':');
       const closingTime = todayDeliveryHour.closeTime.split(':');
 
+
       const openingTotalMinutes = parseInt(openingTime[0]) * 60 + parseInt(openingTime[1]);
       const closingTotalMinutes = parseInt(closingTime[0]) * 60 + parseInt(closingTime[1]);
 
+      console.log("TOTAL: " + openingTotalMinutes)
+
+
       this.isOpen = currentTotalMinutes >= openingTotalMinutes && currentTotalMinutes <= closingTotalMinutes;
     } else {
+      console.log("NO DELIVERY TIME")
       this.isOpen = false;
     }
-
   }
 
   goToMenu(restaurant: Restaurant) {

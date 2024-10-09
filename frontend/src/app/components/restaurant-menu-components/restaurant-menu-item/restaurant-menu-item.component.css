@@ -20,7 +20,11 @@
   margin: 20px 10px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 1);
-  box-shadow: #4f4e4e 0px 0px 10px;
+  box-shadow: #4f4e4e 0 0 10px;
+}
+
+.item h3 {
+  margin: 10px;
 }
 
 .top-container {
@@ -32,14 +36,21 @@
 }
 
 .image-container {
-  width: 150px;
+  width: 200px;
   height: 150px;
+  border-radius: 20px;
+  margin-left: 20px;
 }
 
 .image {
-  width: 150px;
+  width: 200px;
   height: 150px;
   border-radius: 20px;
+}
+
+.exist {
+  box-shadow: #d9d9d9 10px 10px 10px;
+
 }
 
 .add {
@@ -62,7 +73,12 @@
   border-radius: 50%;
   background: #fa6c06;
   color: white;
+  cursor: pointer;
   font-size: 20px;
+}
+
+.plus-container:hover {
+  background: #ff8c3a;
 }
 
 .ingredients {
@@ -73,6 +89,7 @@
   width: 90%;
   height: 40px;
   margin: 0;
+  margin-bottom: 10px;
 }
 
 
