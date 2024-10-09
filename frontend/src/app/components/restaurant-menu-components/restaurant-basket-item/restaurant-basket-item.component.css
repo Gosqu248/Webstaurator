@@ -42,6 +42,7 @@
 .third-section p {
   text-decoration: #000000  underline;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .quantity {

@@ -84,6 +84,7 @@ export interface LanguageTranslations {
   deliveryCost: string;
   total: string;
   orderNow: string;
+  edit: string;
 }
 
 export interface Translations {

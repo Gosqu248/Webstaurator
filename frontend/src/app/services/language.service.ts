@@ -108,7 +108,8 @@ export class LanguageService {
       together: "Razem",
       deliveryCost: "Koszt dostawy",
       total: "Kwota całkowita",
-      orderNow: "Zamów"
+      orderNow: "Zamów",
+      edit: "Edytuj",
 
     },
     en: {
@@ -196,7 +197,8 @@ export class LanguageService {
       together: "Subtotal",
       deliveryCost: "Delivery cost",
       total: "Total",
-      orderNow: "Order"
+      orderNow: "Order",
+      edit: "Edit",
     }
   };
 
