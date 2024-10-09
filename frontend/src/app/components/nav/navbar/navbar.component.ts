@@ -111,14 +111,21 @@ export class NavbarComponent implements OnInit, OnChanges{
       this.address = sessionStorage.getItem('address');
     }
   }
-
-
   goToHome() {
     this.router.navigate(['/']);
     sessionStorage.removeItem('address');
   }
 
-  checkWindowWidth() {
+  goToRestaurants() {
+    this.router.navigate(['/restaurants']);
+  }
+
+  isMenuRoute() {
+    return this.currentRoute ? this.currentRoute.includes('menu') : false;
+  }
+
+
+    checkWindowWidth() {
     if (isPlatformBrowser(this.platformId)) {
       this.showLanguageOption = window.innerWidth > 768;
     }
