@@ -1,0 +1,22 @@
+.first-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+  width: 95%;
+
+}
+
+.first-section mat-icon {
+  font-size: 30px;
+}
+
+mat-icon:hover {
+  color: #f44336;
+}
+
+mat-tab-group {
+  color: black; /* lub inny kolor, który kontrastuje z tłem */
+}
+

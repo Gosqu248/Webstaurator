@@ -85,6 +85,9 @@ export interface LanguageTranslations {
   total: string;
   orderNow: string;
   edit: string;
+  aboutThisBusiness: string;
+  reviews: string;
+  info: string;
 }
 
 export interface Translations {

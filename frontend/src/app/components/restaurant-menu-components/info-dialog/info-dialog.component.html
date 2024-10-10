@@ -1,0 +1,15 @@
+<div class="first-section">
+  <h2 mat-dialog-title>{{ getTranslation('aboutThisBusiness')}}</h2>
+  <mat-icon fontIcon="close" (click)="closeDialog()"></mat-icon>
+</div>
+
+<mat-tab-group>
+  <mat-tab label='{{getTranslation("reviews")}}'>
+    <div>
+
+    </div>
+  </mat-tab>
+  <mat-tab label="{{getTranslation('info')}}">
+    <p>Here is some static content for Info.</p>
+  </mat-tab>
+</mat-tab-group>

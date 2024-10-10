@@ -1,18 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {MenuService} from "../../../services/menu.service";
+import { Component, Input, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NgIf, NgForOf } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LanguageService } from '../../../services/language.service';
+import { MenuService } from '../../../services/menu.service';
+import { OptionService } from '../../../services/option.service';
+import { FavouriteService } from '../../../services/favourite.service';
+import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
+import { MenuCategoryItemComponent } from '../menu-category-item/menu-category-item.component';
+import { FilterByCategoryPipe } from '../../../pipes/filter-by-category.pipe';
+import { RestaurantMenuItemComponent } from '../restaurant-menu-item/restaurant-menu-item.component';
+import { NgOptimizedImage } from '@angular/common';
 import {Menu} from "../../../interfaces/menu";
-import {MenuCategoryItemComponent} from "../menu-category-item/menu-category-item.component";
-import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
-import {RestaurantMenuItemComponent} from "../restaurant-menu-item/restaurant-menu-item.component";
-import {OptionService} from "../../../services/option.service";
-import {Router} from "@angular/router";
-import {RatingUtil} from "../../../utils/rating-util";
 import {Favourites} from "../../../interfaces/favourites";
-import {FavouriteService} from "../../../services/favourite.service";
+import {RatingUtil} from "../../../utils/rating-util";
+import {LanguageTranslations} from "../../../interfaces/language.interface";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -25,12 +28,13 @@ import {FavouriteService} from "../../../services/favourite.service";
     NgForOf,
     FilterByCategoryPipe,
     RestaurantMenuItemComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    InfoDialogComponent
   ],
   templateUrl: './restaurant-main.component.html',
-  styleUrl: './restaurant-main.component.css'
+  styleUrls: ['./restaurant-main.component.css']
 })
-export class RestaurantMainComponent implements OnInit{
+export class RestaurantMainComponent implements OnInit {
   @Input() restaurant!: any;
   searchMenu: any;
   menu: Menu[] = [];
@@ -38,16 +42,18 @@ export class RestaurantMainComponent implements OnInit{
   selectedCategory: string = '';
   filteredMenu: Menu[] = [];
   isAuthChecked: boolean = false;
-  isFavorite: boolean =  false;
+  isFavorite: boolean = false;
   userId: number = 0;
   loading: boolean = true;
 
-
-  constructor(private languageService:LanguageService,
-              private menuService: MenuService,
-              private optionService: OptionService,
-              private favouriteService: FavouriteService,
-              private router: Router) {}
+  constructor(
+    private languageService: LanguageService,
+    private menuService: MenuService,
+    private optionService: OptionService,
+    private favouriteService: FavouriteService,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.checkIfFavourite();
@@ -55,29 +61,29 @@ export class RestaurantMainComponent implements OnInit{
 
   toggleFavourite() {
     if (this.checkAuth()) {
-        if (this.isFavorite) {
-          this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
-            next: () => {
-              this.isFavorite = false;
-              console.log("Favourite deleted");
-            },
-            error: () => {
-              console.log("Error deleting favourite");
-            }
-          });
-        }  else {
-          this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
-            next: () => {
-              this.isFavorite = true;
-              console.log("Favourite added");
-            },
-            error: () => {
-              console.log("Error adding favourite");
-            }
-          });
-        }
+      if (this.isFavorite) {
+        this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
+          next: () => {
+            this.isFavorite = false;
+            console.log('Favourite deleted');
+          },
+          error: () => {
+            console.log('Error deleting favourite');
+          }
+        });
+      } else {
+        this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
+          next: () => {
+            this.isFavorite = true;
+            console.log('Favourite added');
+          },
+          error: () => {
+            console.log('Error adding favourite');
+          }
+        });
+      }
     } else {
-      this.router.navigate([], {fragment: 'login'});
+      this.router.navigate([], { fragment: 'login' });
     }
   }
 
@@ -86,7 +92,6 @@ export class RestaurantMainComponent implements OnInit{
     this.isAuthChecked = token != null;
     return this.isAuthChecked;
   }
-
 
   checkIfFavourite() {
     this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
@@ -104,13 +109,10 @@ export class RestaurantMainComponent implements OnInit{
     }
   }
 
-
-
   getMenu() {
-    this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu=> {
+    this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu => {
       this.menu = menu;
       this.filterMenu();
-
     });
   }
 
@@ -140,12 +142,13 @@ export class RestaurantMainComponent implements OnInit{
 
   filterMenu() {
     if (this.searchMenu) {
-      this.filteredMenu = this.menu.filter(item =>
-        item.name.toLowerCase().includes(this.searchMenu.toLowerCase()) &&
-        (!this.selectedCategory || item.category === this.selectedCategory)
+      this.filteredMenu = this.menu.filter(
+        item =>
+          item.name.toLowerCase().includes(this.searchMenu.toLowerCase()) &&
+          (!this.selectedCategory || item.category === this.selectedCategory)
       );
     } else {
-      this.filteredMenu = this.menu
+      this.filteredMenu = this.menu;
     }
   }
 
@@ -158,10 +161,18 @@ export class RestaurantMainComponent implements OnInit{
     return this.restaurant.restaurantOpinions.length;
   }
 
+  openInfo(): void {
+    const dialogRef = this.dialog.open(InfoDialogComponent, {
+      width: '1200px',  // Adjusted width
+      height: '80vh',  // Adjusted height
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dialog was closed');
+    });
+  }
+
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);
   }
-
-
-
 }

@@ -110,6 +110,9 @@ export class LanguageService {
       total: "Kwota całkowita",
       orderNow: "Zamów",
       edit: "Edytuj",
+      aboutThisBusiness: "O firmie",
+      reviews: "Opinie",
+      info: "Informacje",
 
     },
     en: {
@@ -199,6 +202,9 @@ export class LanguageService {
       total: "Total",
       orderNow: "Order",
       edit: "Edit",
+      aboutThisBusiness: "About this business",
+      reviews: "Reviews",
+      info: "Information",
     }
   };
 
