@@ -3,7 +3,7 @@ package pl.urban.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.FavouriteRestaurantDTO;
-import pl.urban.backend.dto.RestaurantOpinionDTO;
+import pl.urban.backend.dto.OpinionDTO;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.FavouriteRestaurantRepository;
 import pl.urban.backend.repository.RestaurantRepository;
@@ -83,9 +83,9 @@ public class FavouriteRestaurantService {
                 dto.setFlatNumber(address.getFlatNumber());
             }
 
-            List<RestaurantOpinionDTO> opinions = restaurant.getRestaurantOpinions().stream()
+            List<OpinionDTO> opinions = restaurant.getRestaurantOpinions().stream()
                     .map(restaurantOpinion -> {
-                        RestaurantOpinionDTO opinion = new RestaurantOpinionDTO();
+                        OpinionDTO opinion = new OpinionDTO();
                         opinion.setId(restaurantOpinion.getId());
                         opinion.setQualityRating(restaurantOpinion.getQualityRating());
                         opinion.setDeliveryRating(restaurantOpinion.getDeliveryRating());

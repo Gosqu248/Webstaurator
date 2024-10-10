@@ -17,6 +17,6 @@ public class FavouriteRestaurantDTO {
     private String street;
     private String flatNumber;
 
-    private List<RestaurantOpinionDTO> restaurantOpinion;
+    private List<OpinionDTO> restaurantOpinion;
 
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RestaurantOpinionDTO {
+public class OpinionDTO {
 
     private Long id;
     private double qualityRating;
