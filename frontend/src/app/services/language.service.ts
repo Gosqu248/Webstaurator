@@ -113,6 +113,11 @@ export class LanguageService {
       aboutThisBusiness: "O firmie",
       reviews: "Opinie",
       info: "Informacje",
+      overallScore: "Średnia ocena",
+      outOf: "na podstawie ",
+      reviews2: "opinii",
+      allReviews: "Wszystkie opinie pochodzą od klientów Webstaurator, którzy zamówili jedzenie z ",
+
 
     },
     en: {
@@ -205,6 +210,10 @@ export class LanguageService {
       aboutThisBusiness: "About this business",
       reviews: "Reviews",
       info: "Information",
+      overallScore: "Overall score",
+      outOf: "out of ",
+      reviews2: "reviews",
+      allReviews: "All reviews come from Webstaurator customers who ordered food from ",
     }
   };
 

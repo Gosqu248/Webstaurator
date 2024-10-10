@@ -1,6 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgIf, NgForOf } from '@angular/common';
+import {NgIf, NgForOf, DecimalPipe} from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../services/language.service';
@@ -29,7 +29,8 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
     FilterByCategoryPipe,
     RestaurantMenuItemComponent,
     NgOptimizedImage,
-    InfoDialogComponent
+    InfoDialogComponent,
+    DecimalPipe
   ],
   templateUrl: './restaurant-main.component.html',
   styleUrls: ['./restaurant-main.component.css']
@@ -103,6 +104,7 @@ export class RestaurantMainComponent implements OnInit {
         this.getCategories();
         this.getSelected();
         this.filterMenu();
+        this.setSessionRestaurantId();
       });
     } else {
       this.loading = false;
@@ -157,7 +159,6 @@ export class RestaurantMainComponent implements OnInit {
   }
 
   getRatingLength(): number {
-    sessionStorage.setItem('ratingLength', this.restaurant.restaurantOpinions.length.toString());
     return this.restaurant.restaurantOpinions.length;
   }
 
@@ -170,6 +171,10 @@ export class RestaurantMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       console.log('Dialog was closed');
     });
+  }
+
+  setSessionRestaurantId() {
+    sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

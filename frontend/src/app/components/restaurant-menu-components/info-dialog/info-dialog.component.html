@@ -3,10 +3,25 @@
   <mat-icon fontIcon="close" (click)="closeDialog()"></mat-icon>
 </div>
 
-<mat-tab-group>
+<mat-tab-group class="xd">
   <mat-tab label='{{getTranslation("reviews")}}'>
-    <div>
-
+    <div class="black-div">
+      <h2>{{getTranslation('overallScore')}}</h2>
+      <div class="rating-container">
+        <h1>{{getAverageRating() | number:'1.1-1'}}</h1>
+        <div class="vertical-line"></div>
+        <div>
+          <div class="rating-stars">
+            <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
+              'full': i <= getAverageRating(),
+              'half': (i - 0.5 === getAverageRating()) || (i - 0.5 < getAverageRating() && getAverageRating() < i),
+              'empty': i > getAverageRating()
+            }"></mat-icon>
+          </div>
+          <p>{{getTranslation('outOf')}} {{opinionLength}} {{getTranslation('reviews2')}}</p>
+          <p>{{getTranslation('allReviews')}}</p>
+        </div>
+      </div>
     </div>
   </mat-tab>
   <mat-tab label="{{getTranslation('info')}}">

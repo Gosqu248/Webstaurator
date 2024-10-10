@@ -154,3 +154,7 @@ h5 {
   color: red;
 }
 
+.mat-mdc-dialog-surface {
+  background: #ffffff;
+  padding: 50px;
+}

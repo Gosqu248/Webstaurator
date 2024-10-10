@@ -5,7 +5,6 @@
   cursor: pointer;
   align-items: center;
   width: 95%;
-
 }
 
 .first-section mat-icon {
@@ -16,7 +15,52 @@ mat-icon:hover {
   color: #f44336;
 }
 
-mat-tab-group {
-  color: black; /* lub inny kolor, który kontrastuje z tłem */
+.black-div {
+  width: 90%;
+  padding: 28px;
+  height: 180px;
+  background-color: #373f48;
+  margin-top: 5px;
+  color: white;
 }
 
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.vertical-line {
+  width: 1px;
+  height: 100%;
+  background-color: white;
+  margin-left: 10px;
+}
+
+.rating-stars {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars mat-icon {
+  color: #ff9800;
+}
+
+.rating-stars mat-icon.full {
+  color: #ff9800;
+}
+
+.rating-stars mat-icon.half {
+  position: relative;
+}
+
+.rating-stars mat-icon.half::before {
+  color: #ff9800;
+  position: absolute;
+  width: 50%;
+  overflow: hidden;
+}
+
+.rating-stars mat-icon.empty {
+  color: #ffffff;
+}

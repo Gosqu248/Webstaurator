@@ -88,6 +88,10 @@ export interface LanguageTranslations {
   aboutThisBusiness: string;
   reviews: string;
   info: string;
+  overallScore: string;
+  outOf: string;
+  reviews2: string;
+  allReviews: string;
 }
 
 export interface Translations {

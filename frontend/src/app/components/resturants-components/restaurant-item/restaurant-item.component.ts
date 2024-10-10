@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Restaurant, RestaurantOpinions} from "../../../interfaces/restaurant";
 import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
-import {NgIf} from "@angular/common";
+import {DecimalPipe, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
@@ -13,9 +13,10 @@ import {Favourites} from "../../../interfaces/favourites";
 @Component({
   selector: 'app-restaurant-item',
   standalone: true,
-  imports: [
-    NgIf
-  ],
+    imports: [
+        NgIf,
+        DecimalPipe
+    ],
   templateUrl: './restaurant-item.component.html',
   styleUrl: './restaurant-item.component.css'
 })
