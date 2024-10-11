@@ -135,6 +135,7 @@ export class LanguageService {
       payU: "PayU",
       creditCard: "Karta kredytowa",
       cash: "Gotówka",
+      minimumOrder: "Do minimalnej wartości zamówienia brakuje: "
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -248,6 +249,7 @@ export class LanguageService {
       payU: "PayU",
       creditCard: "Credit Card",
       cash: "Cash",
+      minimumOrder: "The minimum order value is missing: "
     }
   };
 

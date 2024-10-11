@@ -110,7 +110,7 @@ export interface LanguageTranslations {
   payU: string;
   creditCard: string;
   cash: string;
-
+  minimumOrder: string;
 }
 
 export interface Translations {

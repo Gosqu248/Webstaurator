@@ -31,6 +31,9 @@ export class RestaurantBasketComponent implements OnInit{
   ordersPrice: number = 0;
   deliveryPrice: string | null = null;
   totalPrice: number = 0;
+  minimumPrice: number = 0;
+  isPriceValid: boolean = true;
+  missingPrice: number = 0;
 
 
   constructor(private languageService: LanguageService, private optionService: OptionService, private cartService: CartService) {}
@@ -46,6 +49,7 @@ export class RestaurantBasketComponent implements OnInit{
     this.cartService.cart$.subscribe(order => {
       this.orders = order;
       this.calculateOrderPrice();
+      this.getMinimumPrice();
     })
   }
 
@@ -57,6 +61,18 @@ export class RestaurantBasketComponent implements OnInit{
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);
+  }
+
+  getMinimumPrice() {
+    const minPrice = sessionStorage.getItem("minPrice");
+    this.minimumPrice = minPrice ? +minPrice : 0;
+
+    this.minimumPrice > this.ordersPrice ? this.isPriceValid = false : this.isPriceValid = true;
+    this.missingPrice = this.roundToTwoDecimals(this.minimumPrice - this.ordersPrice);
+  }
+
+  roundToTwoDecimals(value: number): number {
+    return Math.round(value * 100) / 100;
   }
 
   selectOption(option: string) {
