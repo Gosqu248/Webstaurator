@@ -6,6 +6,7 @@ import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgForOf} from "@angular/common";
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-info',
@@ -19,10 +20,12 @@ import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 })
 export class InfoComponent implements OnInit{
   @Input() restaurantId!: number;
+  @Input() restaurantName!: string;
   deliveryTime: DeliveryHour[] = [];
   deliveryPrice: number = 0;
   minimumPrice: number = 0;
   restaurantAddress: RestaurantAddress = {} as RestaurantAddress;
+  payments: { src: string, name: string }[] = [];
 
   constructor(private languageService: LanguageService,
               private restaurantAddressService: RestaurantAddressService,
@@ -32,12 +35,12 @@ export class InfoComponent implements OnInit{
     this.getDeliveryTime();
     this.getDeliveryInfo();
     this.getRestaurantAddress();
+    this.setPayments();
   }
 
   getDeliveryTime(): void {
     this.deliveryService.getDeliveryTIme(this.restaurantId).subscribe((data) => {
       this.deliveryTime = data;
-      console.log(this.deliveryTime);
     });
   }
 
@@ -65,6 +68,14 @@ export class InfoComponent implements OnInit{
     this.deliveryPrice = price ? +price : 0;
     const minPrice = sessionStorage.getItem("minPrice");
     this.minimumPrice = minPrice ? +minPrice : 0;
+  }
+
+  setPayments() {
+    this.payments = [
+      { src: environment.api + '/img/payU.png', name: this.getTranslation('payU') },
+      { src: environment.api + '/img/creditCard.png', name: this.getTranslation('creditCard') },
+      { src: environment.api + '/img/cash.png', name: this.getTranslation('cash') },
+    ];
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

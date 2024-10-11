@@ -132,6 +132,9 @@ export class LanguageService {
       feesComment: "Minimalna kwota zamówienia",
       paymentMethods: "Metody płatności",
       restaurantInfo: "Informacje o restauracji",
+      payU: "PayU",
+      creditCard: "Karta kredytowa",
+      cash: "Gotówka",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -242,6 +245,9 @@ export class LanguageService {
       feesComment: "Minimum order amount",
       paymentMethods: "Payment methods",
       restaurantInfo: "Restaurant information",
+      payU: "PayU",
+      creditCard: "Credit Card",
+      cash: "Cash",
     }
   };
 

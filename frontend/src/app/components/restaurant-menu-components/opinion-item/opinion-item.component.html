@@ -4,17 +4,18 @@
     <p>{{formattedDate}}</p>
   </div>
   <div class="rating-container">
-      <p>{{getTranslation('quality')}}</p>
-      <div class="rating-stars">
-        <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
+      <p class="quantityP">{{getTranslation('quality')}}</p>
+      <p class="deliveryP">{{getTranslation('deliveryTime')}}</p>
+  </div>
+
+  <div class="rating-container">
+    <div class="rating-stars">
+      <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
           'full': i <= opinion.qualityRating,
           'half': (i - 0.5 === opinion.qualityRating) || (i - 0.5 < opinion.qualityRating && opinion.qualityRating < i),
           'empty': i > opinion.qualityRating
         }"></mat-icon>
-      </div>
-  </div>
-  <div class="rating-container">
-    <p>{{getTranslation('deliveryTime')}}</p>
+    </div>
     <div class="rating-stars">
       <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
           'full': i <= opinion.deliveryRating,

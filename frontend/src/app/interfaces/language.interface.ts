@@ -107,6 +107,10 @@ export interface LanguageTranslations {
   feesComment: string;
   paymentMethods: string;
   restaurantInfo: string;
+  payU: string;
+  creditCard: string;
+  cash: string;
+
 }
 
 export interface Translations {

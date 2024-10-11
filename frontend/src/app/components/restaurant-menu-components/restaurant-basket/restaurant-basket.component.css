@@ -91,6 +91,10 @@ h5 {
   overflow-y: auto;
 }
 
+.cart-container::-webkit-scrollbar {
+  display: none;
+}
+
 .summary-container {
   width: 85%;
   height: auto;

@@ -27,7 +27,6 @@ export class RestaurantMenuComponent implements OnInit {
     });
     this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
       this.restaurant = data;
-      console.log(this.restaurant);
       sessionStorage.setItem("deliveryPrice", this.restaurant.delivery.deliveryPrice)
       sessionStorage.setItem("minPrice", this.restaurant.delivery.minimumPrice)
     });

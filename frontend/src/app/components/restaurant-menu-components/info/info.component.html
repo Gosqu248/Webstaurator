@@ -31,7 +31,20 @@
   </div>
   <div class="item-container">
     <div class="payment">
-
+      <div class="payment-item" *ngFor="let payment of payments">
+        <img [src]="payment.src" [title]="payment.name" alt="">
+      </div>
     </div>
   </div>
+
+  <div class="title">
+    <i class="fa-regular fa-circle-question"></i>
+    <h3>{{getTranslation('info')}}</h3>
+  </div>
+  <div class="item-container">
+      <p class="info-item"> {{restaurantName}}</p>
+      <p class="info-item"> {{restaurantAddress.street}} {{restaurantAddress.flatNumber}}</p>
+      <p class="info-item"> {{restaurantAddress.zipCode}} {{restaurantAddress.city}}</p>
+  </div>
+
 </div>
