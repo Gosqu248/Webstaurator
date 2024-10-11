@@ -16,6 +16,8 @@ import {RestaurantOpinionService} from "../../../services/restaurant-opinion.ser
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RatingUtil} from "../../../utils/rating-util";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
+import {OpinionItemComponent} from "../opinion-item/opinion-item.component";
+import {InfoComponent} from "../info/info.component";
 
 
 @Component({
@@ -32,7 +34,9 @@ import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
     MatTabsModule,
     NgClass,
     NgForOf,
-    DecimalPipe
+    DecimalPipe,
+    OpinionItemComponent,
+    InfoComponent
   ],
   templateUrl: './info-dialog.component.html',
   styleUrls: ['./info-dialog.component.css']
@@ -41,6 +45,7 @@ export class InfoDialogComponent implements OnInit{
   restaurantId: number = 0;
   opinions: RestaurantOpinion[] = [];
   opinionLength: number = 0;
+  restaurantName: string = '';
 
   constructor(
     private languageService: LanguageService,
@@ -49,7 +54,7 @@ export class InfoDialogComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.getRestaurantId();
+    this.getRestaurant();
     this.getRestaurantOpinions();
   }
 
@@ -73,9 +78,11 @@ export class InfoDialogComponent implements OnInit{
     this.dialogRef.close();
   }
 
-  getRestaurantId() {
+  getRestaurant() {
     const id = sessionStorage.getItem('restaurantId');
+    const name = sessionStorage.getItem('restaurantName');
     this.restaurantId = id ? parseInt(id) : 0;
+    this.restaurantName = name ? name : '';
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

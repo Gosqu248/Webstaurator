@@ -1,0 +1,66 @@
+.opinion-container {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  height: auto;
+  border-radius: 10px;
+  border: #cccccc solid 1px;
+  margin: 20px 0 0 0;
+  padding: 0 20px 0 20px;
+  align-items: center;
+
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+}
+
+.rating-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+  height: auto;
+  align-items: center;
+}
+
+rating-stars {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars mat-icon {
+  color: #ff9800;
+}
+
+.rating-stars mat-icon.full {
+  color: #ff9800;
+}
+
+.rating-stars mat-icon.half {
+  position: relative;
+}
+
+.rating-stars mat-icon.half::before {
+  color: #ff9800;
+  position: absolute;
+  width: 50%;
+  overflow: hidden;
+}
+
+.rating-stars mat-icon.empty {
+  color: #d3d3d3;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: auto;
+}

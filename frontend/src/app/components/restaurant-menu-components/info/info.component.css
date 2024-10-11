@@ -1,0 +1,51 @@
+.info-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: auto;
+  margin: 20px auto;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  height: 30px;
+}
+
+.fa-clock {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin: 10px 0 10px 0;
+  background-color: #e8e6e6;
+  border-radius: 20px;
+  border: 1px solid #a1a0a0;
+}
+
+.hour-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: auto;
+  margin: auto;
+}
+
+.hour-item p {
+  font-size: 14px;
+  margin: 7px 0 7px 0;
+}
+
+.payment {
+
+}

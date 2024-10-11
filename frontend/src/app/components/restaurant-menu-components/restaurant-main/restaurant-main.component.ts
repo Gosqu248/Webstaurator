@@ -104,7 +104,7 @@ export class RestaurantMainComponent implements OnInit {
         this.getCategories();
         this.getSelected();
         this.filterMenu();
-        this.setSessionRestaurantId();
+        this.setSessionRestaurant();
       });
     } else {
       this.loading = false;
@@ -165,7 +165,7 @@ export class RestaurantMainComponent implements OnInit {
   openInfo(): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       width: '1200px',  // Adjusted width
-      height: '80vh',  // Adjusted height
+      height: '90vh',  // Adjusted height
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -173,8 +173,9 @@ export class RestaurantMainComponent implements OnInit {
     });
   }
 
-  setSessionRestaurantId() {
+  setSessionRestaurant() {
     sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
+    sessionStorage.setItem('restaurantName', this.restaurant.name);
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

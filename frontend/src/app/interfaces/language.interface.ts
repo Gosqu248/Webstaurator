@@ -92,6 +92,21 @@ export interface LanguageTranslations {
   outOf: string;
   reviews2: string;
   allReviews: string;
+  quality: string;
+  deliveryTime: string;
+  deliveryHour: string;
+  monday: string;
+  tuesday: string;
+  wednesday: string;
+  thursday: string;
+  friday: string;
+  saturday: string;
+  sunday: string;
+  fees: string;
+  deliveryFee: string;
+  feesComment: string;
+  paymentMethods: string;
+  restaurantInfo: string;
 }
 
 export interface Translations {

@@ -3,14 +3,18 @@
   <mat-icon fontIcon="close" (click)="closeDialog()"></mat-icon>
 </div>
 
-<mat-tab-group class="xd">
+<mat-tab-group class="info-dialog">
+  <mat-tab label="{{getTranslation('info')}}">
+    <app-info [restaurantId]="restaurantId"></app-info>
+  </mat-tab>
+
   <mat-tab label='{{getTranslation("reviews")}}'>
     <div class="black-div">
       <h2>{{getTranslation('overallScore')}}</h2>
       <div class="rating-container">
         <h1>{{getAverageRating() | number:'1.1-1'}}</h1>
         <div class="vertical-line"></div>
-        <div>
+        <div class="first-main">
           <div class="rating-stars">
             <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
               'full': i <= getAverageRating(),
@@ -19,12 +23,13 @@
             }"></mat-icon>
           </div>
           <p>{{getTranslation('outOf')}} {{opinionLength}} {{getTranslation('reviews2')}}</p>
-          <p>{{getTranslation('allReviews')}}</p>
+          <p>{{getTranslation('allReviews')}}  {{restaurantName}}</p>
         </div>
       </div>
     </div>
-  </mat-tab>
-  <mat-tab label="{{getTranslation('info')}}">
-    <p>Here is some static content for Info.</p>
+
+    <div class="opinion-container">
+      <app-opinion-item *ngFor="let opinion of opinions" [opinion]="opinion"></app-opinion-item>
+    </div>
   </mat-tab>
 </mat-tab-group>

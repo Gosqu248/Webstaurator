@@ -1,0 +1,30 @@
+<div class="opinion-container">
+  <div class="main">
+    <h3>{{opinion.user.name}}</h3>
+    <p>{{formattedDate}}</p>
+  </div>
+  <div class="rating-container">
+      <p>{{getTranslation('quality')}}</p>
+      <div class="rating-stars">
+        <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
+          'full': i <= opinion.qualityRating,
+          'half': (i - 0.5 === opinion.qualityRating) || (i - 0.5 < opinion.qualityRating && opinion.qualityRating < i),
+          'empty': i > opinion.qualityRating
+        }"></mat-icon>
+      </div>
+  </div>
+  <div class="rating-container">
+    <p>{{getTranslation('deliveryTime')}}</p>
+    <div class="rating-stars">
+      <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
+          'full': i <= opinion.deliveryRating,
+          'half': (i - 0.5 === opinion.deliveryRating) || (i - 0.5 < opinion.deliveryRating && opinion.deliveryRating < i),
+          'empty': i > opinion.deliveryRating
+        }"></mat-icon>
+    </div>
+  </div>
+  <div class="comment">
+    <h4>{{opinion.comment}}</h4>
+  </div>
+
+</div>
