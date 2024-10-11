@@ -4,6 +4,8 @@ import { LanguageService } from '../../../services/language.service';
 import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgForOf} from "@angular/common";
+import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 
 @Component({
   selector: 'app-info',
@@ -20,19 +22,28 @@ export class InfoComponent implements OnInit{
   deliveryTime: DeliveryHour[] = [];
   deliveryPrice: number = 0;
   minimumPrice: number = 0;
+  restaurantAddress: RestaurantAddress = {} as RestaurantAddress;
 
   constructor(private languageService: LanguageService,
+              private restaurantAddressService: RestaurantAddressService,
               private deliveryService: DeliveryService) {}
 
   ngOnInit() {
     this.getDeliveryTime();
     this.getDeliveryInfo();
+    this.getRestaurantAddress();
   }
 
   getDeliveryTime(): void {
     this.deliveryService.getDeliveryTIme(this.restaurantId).subscribe((data) => {
       this.deliveryTime = data;
       console.log(this.deliveryTime);
+    });
+  }
+
+  getRestaurantAddress(): void {
+    this.restaurantAddressService.getRestaurantAddress(this.restaurantId).subscribe((data) => {
+      this.restaurantAddress = data;
     });
   }
 
@@ -54,7 +65,6 @@ export class InfoComponent implements OnInit{
     this.deliveryPrice = price ? +price : 0;
     const minPrice = sessionStorage.getItem("minPrice");
     this.minimumPrice = minPrice ? +minPrice : 0;
-
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

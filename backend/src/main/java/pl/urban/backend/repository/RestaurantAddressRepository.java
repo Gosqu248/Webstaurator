@@ -6,4 +6,6 @@ import pl.urban.backend.model.RestaurantAddress;
 
 @Repository
 public interface RestaurantAddressRepository extends JpaRepository<RestaurantAddress, Long> {
+
+    RestaurantAddress findByRestaurantId(Long restaurantId);
 }
