@@ -6,7 +6,7 @@ export interface Favourites {
   restaurantLogoUrl: string;
   street: string;
   flatNumber: string;
-  restaurantOpinions: RestaurantOpinionDTO[];
+  restaurantOpinion: RestaurantOpinionDTO[];
 }
 
 export interface RestaurantOpinionDTO {

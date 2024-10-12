@@ -79,7 +79,8 @@ export class RestaurantItemComponent implements OnInit{
   goToMenu(restaurant: Restaurant) {
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
     const id = restaurant.id;
-    this.router.navigate(['/menu', formattedName], { queryParams: { id } });
+    sessionStorage.setItem('restaurantId', id.toString());
+    this.router.navigate(['/menu', formattedName]);
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {

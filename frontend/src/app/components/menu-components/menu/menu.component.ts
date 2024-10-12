@@ -9,6 +9,7 @@ import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 import {ActivatedRoute, RouterLink, RouterOutlet} from "@angular/router";
 import {FragmentsService} from "../../../services/fragments.service";
+import {OptionService} from "../../../services/option.service";
 
 @Component({
   selector: 'app-menu',
@@ -37,7 +38,8 @@ export class MenuComponent implements OnInit {
               private authService: AuthService,
               private elementRef: ElementRef,
               private route: ActivatedRoute,
-              private fragmentService: FragmentsService) {}
+              private fragmentService: FragmentsService,
+              private optionService: OptionService) {}
 
   ngOnInit() {
     this.checkAuth();
@@ -63,8 +65,13 @@ export class MenuComponent implements OnInit {
           this.name = user.name;
           localStorage.setItem('name', user.name);
           localStorage.setItem('email', user.email);
-          user.id ? localStorage.setItem('userId', user.id.toString()) : null;
+          if (user.id) {
+            localStorage.setItem('userId', user.id.toString())
+            this.optionService.fetchFavouritesFromDatabase(user.id);
+          }
+
           console.log('User data fetched: ', user);
+
           this.isFetchingUserData = false;
         },
         error: error => {
@@ -97,6 +104,7 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.optionService.clearFavourites();
   }
 
   @HostListener('document:click', ['$event'])

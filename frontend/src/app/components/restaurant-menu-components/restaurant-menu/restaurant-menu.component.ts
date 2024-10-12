@@ -23,7 +23,8 @@ export class RestaurantMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.restaurantId = +params['id'];
+      const id = sessionStorage.getItem('restaurantId');
+      this.restaurantId = id ? parseInt(id) : 0;
     });
     this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
       this.restaurant = data;

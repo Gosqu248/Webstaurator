@@ -57,7 +57,16 @@ export class RestaurantMainComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading = false;
+    this.getMenu();
+    this.getCategories();
+    this.getSelected();
+    this.filterMenu();
+    this.setSessionRestaurant();
     this.checkIfFavourite();
+    this.optionService.favouriteRestaurantIds$.subscribe((restaurantIds: number[]) => {
+      this.isFavorite = restaurantIds.includes(this.restaurant.id);
+    });
   }
 
   toggleFavourite() {
@@ -66,12 +75,14 @@ export class RestaurantMainComponent implements OnInit {
         this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
           next: () => {
             this.isFavorite = false;
+
             console.log('Favourite deleted');
           },
           error: () => {
             console.log('Error deleting favourite');
           }
         });
+        this.optionService.removeFavourite(this.restaurant.id)
       } else {
         this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
           next: () => {
@@ -82,6 +93,7 @@ export class RestaurantMainComponent implements OnInit {
             console.log('Error adding favourite');
           }
         });
+        this.optionService.addFavourite(this.restaurant.id)
       }
     } else {
       this.router.navigate([], { fragment: 'login' });
@@ -95,22 +107,23 @@ export class RestaurantMainComponent implements OnInit {
   }
 
   checkIfFavourite() {
-    this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
-    if (this.userId !== 0) {
-      this.favouriteService.getUserFavourites(this.userId).subscribe((favourites: Favourites[]) => {
-        this.isFavorite = favourites.some((fav: Favourites) => fav.restaurantId === this.restaurant.id);
-        this.loading = false;
-        this.getMenu();
-        this.getCategories();
-        this.getSelected();
-        this.filterMenu();
-        this.setSessionRestaurant();
-      });
+    if (!this.checkAuth()) {
+      this.isFavorite = false;
     } else {
-      this.loading = false;
-    }
-  }
+      this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
+      if (this.userId !== 0) {
+        this.favouriteService.getUserFavourites(this.userId).subscribe((favourites: Favourites[]) => {
+          this.isFavorite = favourites.some((fav: Favourites) => fav.restaurantId === this.restaurant.id);
+        });
+      } else {
+        this.isFavorite = false; // Set isFavorite to false if the user is not logged in
+        this.loading = false;
+      }
 
+    }
+
+    console.log('Is favourite: ', this.isFavorite);
+  }
   getMenu() {
     this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu => {
       this.menu = menu;
@@ -181,4 +194,5 @@ export class RestaurantMainComponent implements OnInit {
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);
   }
+
 }

@@ -1,0 +1,19 @@
+<div class="fav-container">
+  <div class="first-section">
+    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
+    <h2>{{getTranslation('favourites')}}</h2>
+    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+  </div>
+
+  <div class="fav-section">
+      <app-menu-fav-item
+      *ngFor="let favourite of favourites"
+      [favourite]="favourite"
+      [userId]="userId"
+      class="item-container"
+      (getFavourites)="getFavourites()">
+
+      >
+      </app-menu-fav-item>
+  </div>
+</div>

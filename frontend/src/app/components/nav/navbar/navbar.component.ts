@@ -16,6 +16,7 @@ import {MenuChangePasswordComponent} from "../../menu-components/menu-change-pas
 import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/menu-add-address.component";
 import {ResturantCategoryComponent} from "../../resturants-components/resturant-category/resturant-category.component";
 import {OptionService} from "../../../services/option.service";
+import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
 
 @Component({
   selector: 'app-navbar',
@@ -34,7 +35,8 @@ import {OptionService} from "../../../services/option.service";
     MenuAddressChangeComponent,
     MenuChangePasswordComponent,
     MenuAddAddressComponent,
-    ResturantCategoryComponent
+    ResturantCategoryComponent,
+    MenuFavouriteComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -59,6 +61,7 @@ export class NavbarComponent implements OnInit, OnChanges{
   showChangePassword: boolean = false;
   showAddAddress: boolean = false;
   showChangeAddress: boolean = false;
+  showFavourite: boolean = false;
   currentRoute!: string;
   address: string | null = '';
   selectedOption: string = '';
@@ -76,7 +79,7 @@ export class NavbarComponent implements OnInit, OnChanges{
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      const menuItems = ['menu', 'menu-profile', 'menu-language', 'change-password', 'addresses', 'add-address', 'change-address', 'register', 'login'];
+      const menuItems = ['menu', 'menu-profile', 'menu-language', 'change-password', 'addresses', 'add-address', 'change-address', 'register', 'login', 'favourite'];
       this.isDimmed = menuItems.some(item => event.url.endsWith(item));
       this.currentRoute = event.url;
       if (this.currentRoute === '/restaurants') {
@@ -102,6 +105,7 @@ export class NavbarComponent implements OnInit, OnChanges{
       this.showAddresses = fragment === 'addresses';
       this.showAddAddress = fragment === 'add-address';
       this.showChangeAddress = fragment === 'change-address';
+      this.showFavourite = fragment === 'favourite';
       this.isDimmed = this.showMenu;
     });
   }

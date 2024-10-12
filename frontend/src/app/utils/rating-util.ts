@@ -1,7 +1,7 @@
 import {RestaurantOpinions} from "../interfaces/restaurant";
 
 export class RatingUtil {
-  static getAverageRating(opinions: RestaurantOpinions[]): number {
+  static getAverageRating(opinions: any): number {
     if (opinions.length === 0) {
       return 0;
     }

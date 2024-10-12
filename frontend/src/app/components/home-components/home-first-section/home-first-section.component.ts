@@ -27,7 +27,6 @@ export class HomeFirstSectionComponent {
 
   searchRestaurants() {
     this.router.navigate(['/restaurants'])
-    sessionStorage.setItem('address', this.searchAddress);
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {

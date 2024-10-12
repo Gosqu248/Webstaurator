@@ -26,7 +26,11 @@ export class MenuLoginComponent {
   isVisible: boolean = false;
 
 
-  constructor(private languageService: LanguageService, private authService: AuthService, private fb: FormBuilder, private router: Router, private fragmentService: FragmentsService) {
+  constructor(private languageService: LanguageService,
+              private authService: AuthService,
+              private fb: FormBuilder,
+              private router: Router,
+              private fragmentService: FragmentsService) {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
       password: ['']
