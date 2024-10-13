@@ -26,6 +26,7 @@ export class HomeFirstSectionComponent {
   }
 
   searchRestaurants() {
+    sessionStorage.setItem('address', this.searchAddress);
     this.router.navigate(['/restaurants'])
   }
 
