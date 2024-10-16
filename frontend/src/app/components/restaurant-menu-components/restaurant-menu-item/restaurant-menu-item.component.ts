@@ -2,8 +2,9 @@ import {Component, Input} from '@angular/core';
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {Menu} from "../../../interfaces/menu";
 import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
-import {OptionService} from "../../../services/option.service";
 import {CartService} from "../../../services/cart.service";
+import {MatDialog} from "@angular/material/dialog";
+import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
 
 @Component({
   selector: 'app-restaurant-menu-item',
@@ -21,10 +22,25 @@ import {CartService} from "../../../services/cart.service";
 export class RestaurantMenuItemComponent {
   @Input() menu!: Menu[];
   @Input() category!: string;
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService,
+              private dialog: MatDialog ) {}
 
   addToCart(item: Menu) {
-    this.cartService.addToCart(item);
+     if (item.additives?.length === 0) {
+       this.cartService.addToCart(item);
+     } else {
+
+        const dialogRef = this.dialog.open(AdditivesDialogComponent, {
+          width: '1000px',
+          maxWidth: '100vw',
+          height: '600px',
+          data: {item}
+        });
+
+       dialogRef.afterClosed().subscribe(() => {
+         console.log('Dialog was closed');
+       });
+      }
   }
 
 }

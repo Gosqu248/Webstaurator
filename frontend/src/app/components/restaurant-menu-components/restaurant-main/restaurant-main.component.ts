@@ -127,6 +127,7 @@ export class RestaurantMainComponent implements OnInit {
   getMenu() {
     this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu => {
       this.menu = menu;
+      console.log('Menu: ', this.menu)
       this.filterMenu();
     });
   }

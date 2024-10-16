@@ -14,11 +14,14 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class UserAddressController {
 
-    @Autowired
-    private UserAddressService userAddressService;
 
-    @Autowired
-    private JwtUtil jwtToken;
+    private final UserAddressService userAddressService;
+    private final JwtUtil jwtToken;
+
+    public UserAddressController(UserAddressService userAddressService, JwtUtil jwtToken) {
+        this.userAddressService = userAddressService;
+        this.jwtToken = jwtToken;
+    }
 
 
     @GetMapping("/all")

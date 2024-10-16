@@ -6,5 +6,15 @@ export interface Menu {
   price: number;
   image: string;
   restaurantId: number;
+  additives?: Additives[];
+  chooseAdditives?: Additives[];
   quantity?: number;
+}
+
+
+export interface Additives {
+  id: number;
+  name: string;
+  value: string;
+  price?: number;
 }

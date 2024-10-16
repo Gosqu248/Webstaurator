@@ -3,10 +3,12 @@
   <p> {{orderPrice | number:'1.2-2'}} zł</p>
 </div>
 <div class="ingredients">
-  <p> {{order.ingredients}}</p>
+  <p [innerText]="formatAdditives()"></p>
 </div>
 <div class="third-section">
-  <p> {{getTranslate('edit')}}</p>
+  <div>
+    <p *ngIf="hasChooseAdditives()" (click)="openDialogToChange(order)"> {{getTranslate('edit')}}</p>
+  </div>
   <div class="quantity">
     <button (click)="removeOne()">
       <i class="fa-solid fa-minus"></i>

@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class DeliveryHourService {
 
-    @Autowired
-    private DeliveryHourRepository deliveryHourRepository;
+
+    private final DeliveryHourRepository deliveryHourRepository;
+
+    public DeliveryHourService(DeliveryHourRepository deliveryHourRepository) {
+        this.deliveryHourRepository = deliveryHourRepository;
+    }
 
     public List<DeliveryHour> getDeliveryTimeFromRestaurantId(Long restaurantId) {
         return deliveryHourRepository.findByRestaurantId(restaurantId);

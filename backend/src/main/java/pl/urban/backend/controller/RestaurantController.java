@@ -1,6 +1,5 @@
 package pl.urban.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.RestaurantService;
@@ -12,8 +11,11 @@ import java.util.Set;
 @RequestMapping("/api/restaurant")
 public class RestaurantController {
 
-    @Autowired
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
+
+    public RestaurantController(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
 
     @PostMapping("/add")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {

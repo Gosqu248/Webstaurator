@@ -17,11 +17,13 @@ import java.util.Set;
 @Service
 public class RestaurantService {
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
+     private final RestaurantRepository restaurantRepository;
+     private final MenuRepository menuRepository;
 
-    @Autowired
-    private MenuRepository menuRepository;
+    public RestaurantService(RestaurantRepository restaurantRepository, MenuRepository menuRepository) {
+        this.restaurantRepository = restaurantRepository;
+        this.menuRepository = menuRepository;
+    }
 
 
     @Transactional

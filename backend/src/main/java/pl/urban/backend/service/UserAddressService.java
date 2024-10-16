@@ -1,6 +1,5 @@
 package pl.urban.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserAddress;
@@ -12,11 +11,14 @@ import java.util.List;
 @Service
 public class UserAddressService {
 
-    @Autowired
-    private UserAddressRepository userAddressRepository;
+     private  final UserAddressRepository userAddressRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+     private final UserRepository userRepository;
+
+    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository) {
+        this.userAddressRepository = userAddressRepository;
+        this.userRepository = userRepository;
+    }
 
 
     public UserAddress addAddress(String subject, UserAddress userAddress) {

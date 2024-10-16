@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Menu} from "../interfaces/menu";
+import {Additives, Menu} from "../interfaces/menu";
 import {BehaviorSubject} from "rxjs";
 
 @Injectable({
@@ -16,30 +16,53 @@ export class CartService {
     this.cart.next(this.loadCartFromLocalStorage());
   }
 
-  addToCart(item: Menu) {
+  addToCart(item: Menu, quantity: number = 1) {
     const currentCart = this.cart.value;
-    const existingItem = currentCart.find(i => i.name === item.name);
+    const clonedItem = { ...item, chooseAdditives: [...(item.chooseAdditives || [])] };
 
-    if(existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    const existingItem = currentCart.find(i =>
+      i.name === clonedItem.name &&
+      JSON.stringify(i.chooseAdditives) === JSON.stringify(clonedItem.chooseAdditives)
+    );
+
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + quantity;
     } else {
-      item.quantity = 1;
-      currentCart.push(item);
+      clonedItem.quantity = quantity;
+      currentCart.push(clonedItem);
     }
+
     this.cart.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
   }
 
   removeFromCart(item: Menu) {
     const currentCart = this.cart.value;
-    const existingItem = currentCart.find(i => i.name === item.name);
+    const existingItem = currentCart.find(i =>
+      i.name === item.name &&
+      JSON.stringify(i.chooseAdditives) === JSON.stringify(item.chooseAdditives)
+    );
 
-    if(existingItem) {
-      if(existingItem.quantity && existingItem.quantity > 1) {
+    if (existingItem) {
+      if (existingItem.quantity && existingItem.quantity > 1) {
         existingItem.quantity -= 1;
       } else {
         currentCart.splice(currentCart.indexOf(existingItem), 1);
       }
+    }
+    this.cart.next(currentCart);
+    this.saveCartToLocalStorage(currentCart);
+  }
+
+  removeProductFromCart(item: Menu) {
+    const currentCart = this.cart.value;
+    const existingItem = currentCart.find(i =>
+      i.name === item.name &&
+      JSON.stringify(i.chooseAdditives) === JSON.stringify(item.chooseAdditives)
+    );
+
+    if (existingItem) {
+      currentCart.splice(currentCart.indexOf(existingItem), 1);
     }
     this.cart.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
@@ -57,6 +80,14 @@ export class CartService {
       return cart ? JSON.parse(cart) : [];
     }
     return [];
+  }
+
+  calculateAdditivePrice(additives: Additives[]): number {
+    let price = 0; // Reset the additivesPrice to 0
+    additives.forEach(a => {
+      price += a.price || 0;
+    });
+    return price;
   }
 
 

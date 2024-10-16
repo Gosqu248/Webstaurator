@@ -15,14 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class FavouriteRestaurantService {
 
-    @Autowired
-    private FavouriteRestaurantRepository favouriteRestaurantRepository;
+    private final FavouriteRestaurantRepository favouriteRestaurantRepository;
+    private final UserRepository userRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RestaurantRepository restaurantRepository;
+    public FavouriteRestaurantService(FavouriteRestaurantRepository favouriteRestaurantRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
+        this.favouriteRestaurantRepository = favouriteRestaurantRepository;
+        this.userRepository = userRepository;
+        this.restaurantRepository = restaurantRepository;
+    }
 
     public List<FavouriteRestaurantDTO> getAllUserFavouriteRestaurants(Long userId) {
         List<FavouriteRestaurant> favouriteRestaurants = favouriteRestaurantRepository.findByUserId(userId);

@@ -111,6 +111,8 @@ export interface LanguageTranslations {
   creditCard: string;
   cash: string;
   minimumOrder: string;
+  chooseIngredients: string;
+  addToBasket: string;
 }
 
 export interface Translations {

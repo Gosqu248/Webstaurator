@@ -1,0 +1,137 @@
+.additive-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  margin: 10px 0;
+  background-color: white;
+  position: relative; /* Ensure the container is the reference for absolute positioning */
+
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 45%;
+  height: 100%;
+  margin: 0;
+}
+
+.image {
+  width: 250px;
+  height: 250px;
+  border-radius: 30%;
+}
+
+.name h5{
+  font-size: 22px;
+  margin: 20px;
+}
+
+.name p {
+  font-size: 15px;
+  margin: 20px;
+}
+
+.name h6 {
+  font-size: 20px;
+  display: flex;
+  margin: 20px;
+}
+
+.quantity {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 13px;
+  width: 40%;
+  height: auto;
+  align-items: center;
+}
+
+.quantity h4 {
+  font-size: 18px;
+  margin: 0;
+
+}
+
+.minus, .plus {
+  background-color: #fac49d;
+  width: 50px;
+  height: 50px;
+  align-content: center;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.fa-solid {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff6f00;
+}
+
+.addBasket-button {
+  width: 80%;
+  text-align: center;
+  background: #fd710c;
+  color: white;
+  height: 50px;
+  border: none;
+  border-radius: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bolder;
+  margin: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addBasket-button.invalid {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
+}
+.additive-background {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 55%;
+  height: 100%;
+}
+
+.additive-background p {
+  font-size: 26px;
+  margin-left: 100px;
+  padding: 30px;
+}
+
+.additive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.fa-times{
+  font-size: 30px;
+  font-weight: bold;
+  color: #ff6f00;
+}

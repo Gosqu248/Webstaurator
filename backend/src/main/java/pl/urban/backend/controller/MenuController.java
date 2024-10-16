@@ -12,8 +12,12 @@ import java.util.Set;
 @RequestMapping("/api/menu")
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class MenuController {
-    @Autowired
-    private MenuService menuService;
+
+    private final MenuService menuService;
+
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
 
     @GetMapping("/getRestaurantMenu")
     public List<Menu> getRestaurantMenu(@RequestParam Long restaurantId) {

@@ -7,8 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeyRotationScheduler {
 
-    @Autowired
-    private JwtUtil jwtUtil;
+
+    private  final JwtUtil jwtUtil;
+
+    public KeyRotationScheduler(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     @Scheduled(cron = "0 0 0 * * SUN") // Co niedzielę o północy
     private void rotateKeys() {

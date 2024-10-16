@@ -12,8 +12,12 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class DeliveryTimeController {
 
-    @Autowired
-    private DeliveryHourService deliveryHourService;
+
+    private final DeliveryHourService deliveryHourService;
+
+    public DeliveryTimeController(DeliveryHourService deliveryHourService) {
+        this.deliveryHourService = deliveryHourService;
+    }
 
     @GetMapping("/time")
     public List<DeliveryHour> getDeliveryTime(@RequestParam Long restaurantId) {

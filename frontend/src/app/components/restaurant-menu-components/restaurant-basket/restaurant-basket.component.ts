@@ -6,7 +6,6 @@
  import {Menu} from "../../../interfaces/menu";
  import {RestaurantBasketItemComponent} from "../restaurant-basket-item/restaurant-basket-item.component";
  import {CartService} from "../../../services/cart.service";
- import {totalmem} from "node:os";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -54,7 +53,10 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   calculateOrderPrice() {
-    this.ordersPrice = this.orders.reduce((total, order) => total + (order.price * (order.quantity || 1)), 0);
+    this.ordersPrice = this.orders.reduce((total, order) => {
+      const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
+      return  total + ((order.price + additivePrice)  * (order.quantity || 1))
+      }, 0);
     sessionStorage ? this.deliveryPrice = sessionStorage.getItem("deliveryPrice") : null;
     this.totalPrice = this.ordersPrice + (this.deliveryPrice ? parseFloat(this.deliveryPrice) : 0);
   }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -30,6 +31,9 @@ public class Menu {
     private double price;
 
     private String image;
+
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<MenuAdditives> additives;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "menu")

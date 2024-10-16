@@ -135,7 +135,9 @@ export class LanguageService {
       payU: "PayU",
       creditCard: "Karta kredytowa",
       cash: "Gotówka",
-      minimumOrder: "Do minimalnej wartości zamówienia brakuje: "
+      minimumOrder: "Do minimalnej wartości zamówienia brakuje: ",
+      chooseIngredients: "Wybierz składniki",
+      addToBasket: "Dodaj do koszyka "
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -249,7 +251,9 @@ export class LanguageService {
       payU: "PayU",
       creditCard: "Credit Card",
       cash: "Cash",
-      minimumOrder: "The minimum order value is missing: "
+      minimumOrder: "The minimum order value is missing: ",
+      chooseIngredients: "Choose ingredients",
+      addToBasket: "Add to basket "
     }
   };
 

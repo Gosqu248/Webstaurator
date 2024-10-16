@@ -1,0 +1,46 @@
+<div class="additive-container">
+
+  <div class="menu">
+      <img class="image" [src]="data.item.image" alt="additive image" />
+      <div class="name">
+        <h5>{{data.item.name}}</h5>
+        <p *ngIf="data.item.ingredients">{{data.item.ingredients}}</p>
+        <h6>{{productPrice | number:'1.2-2'}} zł</h6>
+      </div>
+    <div class="quantity">
+      <div class="minus"  (click)="removeOne()">
+        <i class="fa-solid fa-minus" ></i>
+      </div>
+      <h4>{{quantity}}</h4>
+      <div class="plus" (click)="addOne()">
+        <i class="fa-solid fa-plus" ></i>
+      </div>
+    </div>
+
+    <div class="addBasket-button" [ngClass]="{'invalid': !isButtonValid}" (click)="addToBasket()">
+      {{getTranslation('addToBasket')}} ({{price | number: '1.2-2'}} zł)
+    </div>
+  </div>
+
+
+  <div class="additive-background">
+    <p> {{getTranslation('chooseIngredients')}}</p>
+    <mat-tab-group class="additive">
+      <mat-tab *ngFor="let additiveName of Object.keys(groupedAdditives)" [label]="additiveName">
+        <ng-container *ngFor="let additive of groupedAdditives[additiveName]">
+          <app-additive-item
+            [isSelected]="isSelected(additive)"
+            (select)="selectAdditive(additive)"
+            [additive]="additive">
+
+          </app-additive-item>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div class="close" (click)="closeDialog()">
+    <i class="fa-solid fa-times close" ></i>
+  </div>
+
+</div>

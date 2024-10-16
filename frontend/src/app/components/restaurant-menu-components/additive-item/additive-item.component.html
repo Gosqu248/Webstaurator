@@ -1,0 +1,6 @@
+<div class="item" [ngClass]="{'selected': isSelected}" (click)="addAdditive()">
+  <p> {{additive.value}} <span *ngIf="additive.price" class="price">(+{{additive.price.toFixed(2)}} zł)</span></p>
+  <div class="icon-background" *ngIf="isSelected">
+    <i class="fa-solid fa-check"></i>
+  </div>
+</div>
