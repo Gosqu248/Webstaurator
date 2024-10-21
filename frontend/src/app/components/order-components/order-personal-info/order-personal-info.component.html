@@ -1,0 +1,30 @@
+<div class="main">
+
+ <div class="container">
+   <h3>{{getTranslation('personalData')}}</h3>
+   <form [formGroup]="personalForm">
+     <div class="input-container">
+       <label for="name">{{getTranslation('name')}}</label>
+       <input id="name" type="text" formControlName="name" name="name" placeholder="{{getTranslation('name')}}" required>
+     </div>
+     <div class="input-container">
+       <label for="email">{{getTranslation('email')}}</label>
+       <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
+     </div>
+     <div class="input-container">
+       <label for="phoneNumber">{{getTranslation('phoneNumber')}}</label>
+       <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" placeholder="{{getTranslation('phoneNumber')}}" autocomplete="phoneNumber" required>
+     </div>
+   </form>
+ </div>
+
+ <div class="container">
+   <h3>{{getTranslation('additionalInformation')}}</h3>
+   <div class="input-container">
+     <label for="relevantInfo">{{getTranslation('relevantInformation')}}</label>
+     <input id="relevantInfo" type="text" [(ngModel)]="relevantInformation"  required>
+
+   </div>
+ </div>
+
+</div>

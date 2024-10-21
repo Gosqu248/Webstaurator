@@ -113,6 +113,15 @@ export interface LanguageTranslations {
   minimumOrder: string;
   chooseIngredients: string;
   addToBasket: string;
+  personalData: string;
+  additionalInformation: string;
+  deliveryAddress: string;
+  relevantInformation: string;
+  deliveryOptions: string;
+  lackOfAddress: string;
+  asSoonAsPossible: string;
+  plan: string;
+  chooseHour: string;
 }
 
 export interface Translations {

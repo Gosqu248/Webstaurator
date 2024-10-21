@@ -6,6 +6,8 @@
  import {Menu} from "../../../interfaces/menu";
  import {RestaurantBasketItemComponent} from "../restaurant-basket-item/restaurant-basket-item.component";
  import {CartService} from "../../../services/cart.service";
+ import {Router} from "@angular/router";
+ import {OrderService} from "../../../services/order.service";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -35,13 +37,18 @@ export class RestaurantBasketComponent implements OnInit{
   missingPrice: number = 0;
 
 
-  constructor(private languageService: LanguageService, private optionService: OptionService, private cartService: CartService) {}
+  constructor(private languageService: LanguageService,
+              private optionService: OptionService,
+              private router: Router,
+              private orderService: OrderService,
+              private cartService: CartService) {}
 
   ngOnInit() {
     this.deliveryOrder = this.restaurant.delivery.deliveryMinTime + "-" + this.restaurant.delivery.deliveryMaxTime + " min";
     this.getPickUp();
     this.cartService.setCurrentRestaurantId(this.restaurant.id)
     this.getCart();
+    console.log(this.orders)
   }
 
   getCart() {
@@ -52,13 +59,16 @@ export class RestaurantBasketComponent implements OnInit{
     })
   }
 
+  goToOrder() {
+    this.orderService.setOrders(this.orders);
+    this.router.navigate(['/checkout']);
+  }
+
   calculateOrderPrice() {
-    this.ordersPrice = this.orders.reduce((total, order) => {
-      const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
-      return  total + ((order.price + additivePrice)  * (order.quantity || 1))
-      }, 0);
-    sessionStorage ? this.deliveryPrice = sessionStorage.getItem("deliveryPrice") : null;
-    this.totalPrice = this.ordersPrice + (this.deliveryPrice ? parseFloat(this.deliveryPrice) : 0);
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orders);
+    this.ordersPrice = ordersPrice;
+    this.deliveryPrice = deliveryPrice;
+    this.totalPrice = totalPrice;
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

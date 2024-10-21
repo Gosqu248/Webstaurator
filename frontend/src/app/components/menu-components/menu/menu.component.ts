@@ -10,6 +10,7 @@ import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 import {ActivatedRoute, RouterLink, RouterOutlet} from "@angular/router";
 import {FragmentsService} from "../../../services/fragments.service";
 import {OptionService} from "../../../services/option.service";
+import {AddressesService} from "../../../services/addresses.service";
 
 @Component({
   selector: 'app-menu',
@@ -39,6 +40,7 @@ export class MenuComponent implements OnInit {
               private elementRef: ElementRef,
               private route: ActivatedRoute,
               private fragmentService: FragmentsService,
+              private addressService: AddressesService,
               private optionService: OptionService) {}
 
   ngOnInit() {
@@ -105,6 +107,7 @@ export class MenuComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.optionService.clearFavourites();
+    this.addressService.clearAddresses();
   }
 
   @HostListener('document:click', ['$event'])
@@ -122,5 +125,6 @@ export class MenuComponent implements OnInit {
 
   removeFragment() {
     this.fragmentService.removeFragment();
+
   }
 }

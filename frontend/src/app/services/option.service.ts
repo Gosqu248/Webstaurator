@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Menu} from "../interfaces/menu";
 import {FavouriteService} from "./favourite.service";
 
 @Injectable({
@@ -18,7 +17,6 @@ export class OptionService {
   selectedCategories$ = this.selectedCategories.asObservable();
 
   selectBasketDelivery = new BehaviorSubject<string>('delivery');
-  selectBasketDelivery$ = this.selectBasketDelivery.asObservable();
 
   selectedMenuCategory = new BehaviorSubject<string>('');
   selectedMenuCategory$ = this.selectedMenuCategory.asObservable();
@@ -57,9 +55,6 @@ export class OptionService {
     this.favouriteRestaurantIdsSource.next(currentFavourites);
   }
 
-  isFavourite(restaurantId: number): boolean {
-    return this.favouriteRestaurantIdsSource.value.includes(restaurantId);
-  }
 
   fetchFavouritesFromDatabase(userId: number) {
     this.favouriteService.getUserFavourites(userId).subscribe(favourites => {

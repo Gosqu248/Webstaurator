@@ -22,14 +22,14 @@ export class RestaurantMenuComponent implements OnInit {
   constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe(() => {
       const id = sessionStorage.getItem('restaurantId');
       this.restaurantId = id ? parseInt(id) : 0;
     });
     this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
       this.restaurant = data;
-      sessionStorage.setItem("deliveryPrice", this.restaurant.delivery.deliveryPrice)
-      sessionStorage.setItem("minPrice", this.restaurant.delivery.minimumPrice)
+      sessionStorage.setItem("restaurantName", this.restaurant.name)
+
     });
   }
 }

@@ -127,7 +127,6 @@ export class RestaurantMainComponent implements OnInit {
   getMenu() {
     this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu => {
       this.menu = menu;
-      console.log('Menu: ', this.menu)
       this.filterMenu();
     });
   }
@@ -177,19 +176,17 @@ export class RestaurantMainComponent implements OnInit {
   }
 
   openInfo(): void {
-    const dialogRef = this.dialog.open(InfoDialogComponent, {
+    this.dialog.open(InfoDialogComponent, {
       width: '1200px',  // Adjusted width
       height: '90vh',  // Adjusted height
-    });
-
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('Dialog was closed');
     });
   }
 
   setSessionRestaurant() {
     sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
     sessionStorage.setItem('restaurantName', this.restaurant.name);
+    sessionStorage.setItem('deliveryMin', this.restaurant.delivery.deliveryMinTime.toString());
+    sessionStorage.setItem('deliveryMax', this.restaurant.delivery.deliveryMaxTime.toString());
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

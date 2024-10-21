@@ -1,0 +1,66 @@
+.order-home {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f1f1f1;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 820px;
+  height: 88%;
+  overflow-y: auto;
+
+}
+
+.left-container::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+  background-color: white;
+  width: 800px;
+  margin-top: 20px;
+  border-radius: 18px;
+  border: 3px solid #e8e8e8;
+  box-shadow: #b7b7b7 0 5px 10px 0;
+}
+
+.container button {
+  width: 100px;
+  height: 40px;
+  align-content: center;
+  border: none;
+  border-radius: 30px;
+  margin: 20px;
+  background-color: #ff781e;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.container p {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.basket {
+  margin-left: 50px;
+  display: flex;
+  width: auto;
+  height: 90%;
+  z-index: 1; /* Ensure the basket is above the background image */
+  align-self: flex-start; /* Align the basket to the top */
+  margin-top: 5px;
+  overflow-y: auto; /* Allow vertical scrolling */
+}

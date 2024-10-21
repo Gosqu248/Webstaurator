@@ -1,0 +1,14 @@
+<div class="order-home">
+  <div class="left-container">
+    <div *ngIf="!checkAuth()" class="container">
+      <p>{{getTranslation('haveAccount')}}</p>
+      <button class="login" (click)="login()" >{{getTranslation('login')}}</button>
+    </div>
+      <app-order-delivery [addresses]="addresses"></app-order-delivery>
+      <app-order-personal-info></app-order-personal-info>
+  </div>
+  <div class="basket">
+    <app-order-basket></app-order-basket>
+  </div>
+
+</div>

@@ -124,6 +124,15 @@ export class NavbarComponent implements OnInit, OnChanges{
     this.router.navigate(['/restaurants']);
   }
 
+  goToMenu() {
+    const name = sessionStorage.getItem('restaurantName');
+    let formattedName = '';
+    if (name) {
+       formattedName = name.replace(/[\s,]+/g, '-');
+    }
+    this.router.navigate(['/menu', formattedName]);
+  }
+
   isMenuRoute() {
     return this.currentRoute ? this.currentRoute.includes('menu') : false;
   }

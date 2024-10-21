@@ -8,12 +8,12 @@
   <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
     <div class="address-container">
       <div class="input-container">
-        <label for="street">{{getTranslation('street')}}</label>
+        <label for="street">{{getTranslation('street')}}: *</label>
         <input id="street" type="text" formControlName="street" name="street" autocomplete="text" required>
       </div>
 
       <div class="input-container">
-        <label for="houseNumber">{{getTranslation('houseNumber')}}</label>
+        <label for="houseNumber">{{getTranslation('houseNumber')}}: *</label>
         <input id="houseNumber" type="text" formControlName="houseNumber" name="houseNumber" autocomplete="text" required>
       </div>
     </div>
@@ -32,19 +32,19 @@
 
     <div class="address-container">
       <div class="input-container">
-        <label for="zipCode">{{getTranslation('zipCode')}}</label>
+        <label for="zipCode">{{getTranslation('zipCode')}}: *</label>
         <input id="zipCode" type="text" formControlName="zipCode" name="zipCode" autocomplete="text" required>
       </div>
 
       <div class="input-container">
-        <label for="city">{{getTranslation('city')}}</label>
+        <label for="city">{{getTranslation('city')}}: *</label>
         <input id="city" type="text" formControlName="city" name="city" autocomplete="text" required>
       </div>
     </div>
 
     <div class="address-container">
       <div class="input-container">
-        <label for="phoneNumber">{{getTranslation('phoneNumber')}}</label>
+        <label for="phoneNumber">{{getTranslation('phoneNumber')}}: *</label>
         <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" autocomplete="text" required>
       </div>
 

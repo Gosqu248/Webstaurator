@@ -19,16 +19,6 @@ export class AdditiveItemComponent {
 
   constructor() {}
 
-  showName() {
-    if(this.additive.price) {
-      const price = this.additive.price.toFixed(2);
-
-      return `${this.additive.value}  (+${price} zł)`
-    } else {
-      return this.additive.value;
-    }
-  }
-
   addAdditive() {
     this.select.emit(this.additive);
   }

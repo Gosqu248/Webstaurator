@@ -29,10 +29,7 @@ export class RestaurantBasketItemComponent implements OnInit{
   }
 
   formatAdditives(): string {
-    if (!this.order.chooseAdditives || this.order.chooseAdditives.length === 0) {
-      return '';
-    }
-    return this.order.chooseAdditives.map(a => `${a.name}: ${a.value}`).join('\n');
+   return this.cartService.formatAdditives(this.order.chooseAdditives || [])
   }
 
   addOne() {

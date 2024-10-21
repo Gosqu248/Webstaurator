@@ -78,8 +78,6 @@ export class RestaurantItemComponent implements OnInit{
 
   goToMenu(restaurant: Restaurant) {
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
-    const id = restaurant.id;
-    sessionStorage.setItem('restaurantId', id.toString());
     this.router.navigate(['/menu', formattedName]);
   }
 

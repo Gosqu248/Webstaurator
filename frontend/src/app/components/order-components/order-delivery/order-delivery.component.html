@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="address">
+    <h3>{{getTranslation('deliveryAddress')}}</h3>
+    <app-order-delivery-item
+      *ngFor="let address of addresses"
+      (setAddress)="setAddress(address)"
+      [isSelected]="isAddressSelected(address)"
+      [address]="address">
+    </app-order-delivery-item>
+
+    <div class="lack" *ngIf="addresses.length === 0">
+      <i class="fa-regular fa-address-book"></i>
+      <p>{{getTranslation('lackOfAddress')}}</p>
+    </div>
+
+    <button (click)="openAddAddress()"> {{getTranslation('addAddress')}}</button>
+
+
+  </div>
+
+  <div class="option">
+    <h3>{{getTranslation('deliveryOptions')}}</h3>
+    <div class="item" [ngClass]="{'selected': isDeliveryOptionSelected('fastest')}" (click)="setDelivery('fastest')">
+      <div class="main-item">
+        <i class="fa-regular fa-hourglass-half"></i>
+        <div class="text">
+          <h3>{{getTranslation('asSoonAsPossible')}}</h3>
+          <p>{{minTime}}-{{maxTime}}min</p>
+        </div>
+      </div>
+      <div class="icon-background" *ngIf="isDeliveryOptionSelected('fastest')">
+        <i class="fa-solid fa-check"></i>
+      </div>
+    </div>
+    <div class="item" [ngClass]="{'selected': isDeliveryOptionSelected('scheduled')}" (click)="setDelivery('scheduled')">
+      <div class="main-item">
+        <i class="fa-solid fa-calendar-days"></i>
+        <div class="text">
+          <h3>{{getTranslation('plan')}}</h3>
+          <p>{{getTranslation('chooseHour')}}</p>
+        </div>
+      </div>
+      <div class="icon-background" *ngIf="isDeliveryOptionSelected('scheduled')">
+        <i class="fa-solid fa-check"></i>
+      </div>
+    </div>
+  </div>
+
+</div>

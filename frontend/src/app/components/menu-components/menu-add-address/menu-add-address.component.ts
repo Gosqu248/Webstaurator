@@ -47,7 +47,7 @@ export class MenuAddAddressComponent {
         this.addressService.addAddress(jwt, this.addressForm.value).subscribe({
           next: response => {
             console.log('Address added successfully', response);
-            this.router.navigate(['/addresses']);
+            this.router.navigate([], {fragment: 'addresses'});
           },
           error: error => {
             console.log('Error adding address', error);

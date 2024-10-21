@@ -90,5 +90,12 @@ export class CartService {
     return price;
   }
 
+  formatAdditives(additives: Additives[]): string {
+    if (!additives || additives.length === 0) {
+      return '';
+    }
+    return additives.map(a => `${a.name}: ${a.value}`).join('\n');
+  }
+
 
 }

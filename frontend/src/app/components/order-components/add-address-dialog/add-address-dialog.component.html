@@ -1,11 +1,9 @@
-<div class="change-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="addresses"></i>
-    <h2>{{getTranslation('changeAddress')}}</h2>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <h2>{{getTranslation('addAddress')}}</h2>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
 
-  <form [formGroup]="changeForm" (ngSubmit)="changeAddress()">
+  <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
     <div class="address-container">
       <div class="input-container">
         <label for="street">{{getTranslation('street')}}: *</label>
@@ -47,9 +45,11 @@
         <label for="phoneNumber">{{getTranslation('phoneNumber')}}: *</label>
         <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" autocomplete="text" required>
       </div>
+
+
     </div>
-    <button type="submit" >{{getTranslation('updateAddress')}}</button>
+
+    <button type="submit" >{{getTranslation('addAddress')}}</button>
+
   </form>
 
-
-</div>

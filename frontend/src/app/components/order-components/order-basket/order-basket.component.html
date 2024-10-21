@@ -1,0 +1,31 @@
+<div class="basket-container">
+  <h2> {{restaurantName}}</h2>
+
+  <ng-container>
+    <div class="cart-container">
+      <app-order-basket-item
+        *ngFor="let order of orders"
+        [order]="order"
+        class="order-item"
+      ></app-order-basket-item>
+    </div>
+
+    <div class="summary-container">
+      <div class="first-container">
+        <p>{{getTranslation('together')}}</p>
+        <p>{{ ordersPrice | number:'1.2-2'}} zł</p>
+      </div>
+      <div class="first-container">
+        <p>{{getTranslation('deliveryCost')}}</p>
+        <p>{{deliveryPrice | number: '1.2-2'}} zł</p>
+      </div>
+      <div class="total">
+        <h3>{{getTranslation('total')}}</h3>
+        <h3>{{totalPrice | number: '1.2-2'}} zł</h3>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

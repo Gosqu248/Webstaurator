@@ -13,6 +13,10 @@ export const routes: Routes = [
   {
     path: 'menu/:restaurantName',
     loadComponent: () => import('./components/restaurant-menu-components/restaurant-menu/restaurant-menu.component').then(m => m.RestaurantMenuComponent),
+  },
+  {
+    path: 'checkout',
+    loadComponent: () => import('./components/order-components/order-home/order-home.component').then(m => m.OrderHomeComponent),
   }
 
 ];

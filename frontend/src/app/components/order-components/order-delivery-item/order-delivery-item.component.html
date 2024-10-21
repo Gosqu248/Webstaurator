@@ -1,0 +1,6 @@
+<div class="item" [ngClass]="{'selected': isSelected}" (click)="select()">
+  <p> {{address.street}} {{address.houseNumber}}</p>
+  <div class="icon-background" *ngIf="isSelected">
+    <i class="fa-solid fa-check"></i>
+  </div>
+</div>

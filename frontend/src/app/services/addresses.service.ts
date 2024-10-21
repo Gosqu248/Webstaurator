@@ -1,34 +1,54 @@
-import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {UserAddress} from "../interfaces/user.address.interface";
-import {Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserAddress } from '../interfaces/user.address.interface';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressesService {
-
   private apiUrl = environment.api + '/api/address';
+  private addresses = new BehaviorSubject<UserAddress[]>([]);
+  addresses$ = this.addresses.asObservable();
+
   constructor(private http: HttpClient) {}
 
   addAddress(token: string, address: UserAddress): Observable<UserAddress> {
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.post<UserAddress>(`${this.apiUrl}/add`, address, {headers});
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<UserAddress>(`${this.apiUrl}/add`, address, { headers });
   }
 
   getUserAddresses(token: string): Observable<UserAddress[]> {
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.get<UserAddress[]>(`${this.apiUrl}/all`, {headers});
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<UserAddress[]>(`${this.apiUrl}/all`, { headers });
   }
 
   removeAddress(token: string, id: number): Observable<void> {
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {headers});
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 
   changeAddress(token: string, address: UserAddress): Observable<UserAddress> {
-    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.put<UserAddress>(`${this.apiUrl}/${address.id}`, address, {headers});
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<UserAddress>(`${this.apiUrl}/${address.id}`, address, { headers });
   }
+
+  loadAddresses(token: string | null): void {
+    if (token) {
+      sessionStorage.removeItem('logoutAddress');
+      this.getUserAddresses(token).subscribe((addresses) => {
+        this.addresses.next(addresses);
+      });
+    } else {
+      const logout = sessionStorage.getItem('logoutAddress');
+      const addresses = logout ? [JSON.parse(logout)] : [];
+      this.addresses.next(addresses);
+    }
+  }
+
+  clearAddresses(): void {
+    this.addresses.next([]);
+  }
+
 }

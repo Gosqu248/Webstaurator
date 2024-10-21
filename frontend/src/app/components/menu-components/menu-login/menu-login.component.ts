@@ -6,6 +6,7 @@ import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Router, RouterLink} from "@angular/router";
 import {FragmentsService} from "../../../services/fragments.service";
+import {AddressesService} from "../../../services/addresses.service";
 
 @Component({
   selector: 'app-menu-login',
@@ -30,6 +31,7 @@ export class MenuLoginComponent {
               private authService: AuthService,
               private fb: FormBuilder,
               private router: Router,
+              private addressService: AddressesService,
               private fragmentService: FragmentsService) {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
@@ -47,16 +49,17 @@ export class MenuLoginComponent {
         if (isAuthenticated) {
           this.router.navigate([], {fragment: 'menu'});
           console.log("Login " + this.loginForm.value.email);
+          const token = localStorage.getItem('jwt');
+          this.addressService.loadAddresses(token);
         } else {
           this.isLoginError = !this.isLoginError;
           console.log("Invalid login or password");
-          console.log(email);
-          console.log(password);
         }
       });
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
+
     return this.languageService.getTranslation(key)
   }
 

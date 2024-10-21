@@ -1,10 +1,10 @@
 <div class="restaurant-menu-container">
-  <img class="image-background" [src]="restaurant.imageUrl" alt="restaurant-image">
-
+  <img class="image-background" [src]="restaurant!.imageUrl" alt="restaurant-image">
 
   <div class="left-container">
     <app-restaurant-main class="main-container" [restaurant]="restaurant"></app-restaurant-main>
   </div>
+
   <app-restaurant-basket class="basket" [restaurant]="restaurant"></app-restaurant-basket>
 
 
