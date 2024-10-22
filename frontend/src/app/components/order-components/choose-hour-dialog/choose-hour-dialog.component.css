@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 12px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333333;
+}
+
+.hour-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.hour-options button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4e9ff3;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.hour-options button:hover {
+  background-color: #ff9143;
+  transform: scale(1.05);
+}
+
+.hour-options button.selected {
+  background-color: #ff9143;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 50%;
+}
+
+.actions button {
+  padding: 12px 24px;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+}
+
+.actions .cancel-btn {
+  background-color: #dc3545;
+}
+
+.actions .cancel-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.actions .confirm-btn {
+  background-color: #28a745;
+}
+
+.actions .confirm-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}

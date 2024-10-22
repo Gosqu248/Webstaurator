@@ -12,6 +12,7 @@ import {OrderDeliveryComponent} from "../order-delivery/order-delivery.component
 import {User} from "../../../interfaces/user.interface";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {AddressesService} from "../../../services/addresses.service";
+import {OrderPaymentComponent} from "../order-payment/order-payment.component";
 
 @Component({
   selector: 'app-order-home',
@@ -20,7 +21,8 @@ import {AddressesService} from "../../../services/addresses.service";
     OrderBasketComponent,
     NgIf,
     OrderPersonalInfoComponent,
-    OrderDeliveryComponent
+    OrderDeliveryComponent,
+    OrderPaymentComponent
   ],
   templateUrl: './order-home.component.html',
   styleUrl: './order-home.component.css'

@@ -7,8 +7,9 @@ import { UserAddress } from '../../../interfaces/user.address.interface';
 import { OrderDeliveryItemComponent } from '../order-delivery-item/order-delivery-item.component';
 import { AddAddressDialogComponent } from '../add-address-dialog/add-address-dialog.component';
 import {AddressesService} from "../../../services/addresses.service";
-import {Restaurant} from "../../../interfaces/restaurant";
-import {RestaurantsService} from "../../../services/restaurants.service";
+import {DeliveryService} from "../../../services/delivery.service";
+import {DeliveryHour} from "../../../interfaces/delivery.interface";
+import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
 
 
 @Component({
@@ -29,16 +30,17 @@ export class OrderDeliveryComponent implements OnInit{
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;
   maxTime: number = 0;
+  deliveryTime: DeliveryHour[] = [];
+  selectedHour: string | null = null;
 
 
   constructor(private languageService: LanguageService,
               private addressService: AddressesService,
-              private restaurantService: RestaurantsService,
+              private deliveryService: DeliveryService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
     this.getDeliveryTime();
-
   }
 
   setAddress(address: UserAddress) {
@@ -55,11 +57,16 @@ export class OrderDeliveryComponent implements OnInit{
   getDeliveryTime() {
     const minTime = sessionStorage.getItem('deliveryMin');
     const maxTime = sessionStorage.getItem('deliveryMax');
-    console.log(minTime, maxTime)
-
+    const id = sessionStorage.getItem('restaurantId');
     this.minTime = minTime ? parseInt(minTime) : 0;
     this.maxTime = maxTime ? parseInt(maxTime) : 0;
+    const Id = id ? parseInt(id) : 0;
+
+    this.deliveryService.getDeliveryTIme(Id).subscribe((data) => {
+      this.deliveryTime = data;
+    });
   }
+
 
   openAddAddress(): void {
     const dialog = this.dialog.open(AddAddressDialogComponent, {
@@ -79,7 +86,27 @@ export class OrderDeliveryComponent implements OnInit{
 
   setDelivery(option: string): void {
     this.selectedDeliveryOption = option;
+    this.selectedHour = null;
+    if (option === 'scheduled') {
+      this.openHourDialog();
+    }
   }
+
+  openHourDialog() {
+    const dialogRef = this.dialog.open(ChooseHourDialogComponent, {
+      width: '700px',
+      maxWidth: '100%',
+      height: '600px',
+      data: {maxTime: this.maxTime, deliveryTime: this.deliveryTime}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.selectedHour = result;
+      }
+    });
+  }
+
 
   isDeliveryOptionSelected(option: string): boolean {
     return this.selectedDeliveryOption === option;

@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: auto;
+  background-color: white;
+  width: 800px;
+  margin-top: 20px;
+  border-radius: 18px;
+  border: 3px solid #e8e8e8;
+  box-shadow: #b7b7b7 0 5px 10px 0;
+}
+
+.container h3 {
+  font-size: 22px;
+  margin-left: 20px;
+}

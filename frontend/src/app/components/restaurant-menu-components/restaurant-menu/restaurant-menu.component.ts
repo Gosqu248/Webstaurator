@@ -17,19 +17,30 @@ import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.compon
 })
 export class RestaurantMenuComponent implements OnInit {
   restaurantId: number = 0;
-  restaurant: any;
+  restaurant: Restaurant = {} as Restaurant;
+  image: string = '';
 
   constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService) {}
 
   ngOnInit(): void {
+    this.getRestaurantId();
+    this.getRestaurant();
+
+  }
+
+  getRestaurantId() {
     this.route.queryParams.subscribe(() => {
       const id = sessionStorage.getItem('restaurantId');
       this.restaurantId = id ? parseInt(id) : 0;
     });
-    this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
-      this.restaurant = data;
-      sessionStorage.setItem("restaurantName", this.restaurant.name)
+  }
 
-    });
+  getRestaurant() {
+    if (this.restaurantId) {
+      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
+        this.restaurant = data;
+        this.image = data.imageUrl;
+      });
+    }
   }
 }

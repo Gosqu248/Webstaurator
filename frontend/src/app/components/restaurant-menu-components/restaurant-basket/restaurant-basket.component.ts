@@ -8,6 +8,8 @@
  import {CartService} from "../../../services/cart.service";
  import {Router} from "@angular/router";
  import {OrderService} from "../../../services/order.service";
+ import {Restaurant} from "../../../interfaces/restaurant";
+ import {RestaurantsService} from "../../../services/restaurants.service";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -23,7 +25,8 @@
   styleUrl: './restaurant-basket.component.css'
 })
 export class RestaurantBasketComponent implements OnInit{
-  @Input() restaurant!: any;
+  @Input() restaurantId!: number;
+  restaurant: Restaurant = {} as Restaurant;
   orders: Menu[] = [];
   selectedOption: string = 'delivery';
   deliveryOrder: string = "";
@@ -40,15 +43,25 @@ export class RestaurantBasketComponent implements OnInit{
   constructor(private languageService: LanguageService,
               private optionService: OptionService,
               private router: Router,
+              private restaurantService: RestaurantsService,
               private orderService: OrderService,
               private cartService: CartService) {}
 
   ngOnInit() {
-    this.deliveryOrder = this.restaurant.delivery.deliveryMinTime + "-" + this.restaurant.delivery.deliveryMaxTime + " min";
-    this.getPickUp();
-    this.cartService.setCurrentRestaurantId(this.restaurant.id)
-    this.getCart();
-    console.log(this.orders)
+    this.getRestaurant();
+      this.getCart();
+  }
+
+  getRestaurant() {
+    if (this.restaurantId) {
+      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
+        this.restaurant = data;
+        this.getPickUp();
+        this.cartService.setCurrentRestaurantId(data.id);
+        this.deliveryOrder = this.restaurant.delivery?.deliveryMinTime + "-" + this.restaurant.delivery?.deliveryMaxTime + " min";
+
+      });
+    }
   }
 
   getCart() {
@@ -93,7 +106,7 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   getPickUp() {
-   const pickup = this.restaurant.delivery.pickupTime ;
+   const pickup = this.restaurant.delivery?.pickupTime ;
    pickup > 0 ? this.pickupOrder = pickup + " min" : this.pickupOrder = this.getTranslation('notAvailable'); this.isNotPickUp = true;
   }
 

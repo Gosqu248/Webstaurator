@@ -28,7 +28,7 @@ export class OrderService {
       const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
       return total + ((order.price + additivePrice) * (order.quantity || 1));
     }, 0);
-    const deliveryPrice = sessionStorage.getItem("deliveryPrice");
+    const deliveryPrice = sessionStorage.getItem("deliveryPrice")
     const totalPrice = ordersPrice + (deliveryPrice ? parseFloat(deliveryPrice) : 0);
     return { ordersPrice, deliveryPrice, totalPrice };
   }

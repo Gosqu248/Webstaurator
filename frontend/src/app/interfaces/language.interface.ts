@@ -122,6 +122,11 @@ export interface LanguageTranslations {
   asSoonAsPossible: string;
   plan: string;
   chooseHour: string;
+  selectHour: string;
+  confirm: string;
+  cancel: string;
+  payment: string;
+  paymentMethod: string;
 }
 
 export interface Translations {

@@ -1,11 +1,11 @@
 <div class="restaurant-menu-container">
-  <img class="image-background" [src]="restaurant!.imageUrl" alt="restaurant-image">
+  <img class="image-background" [src]="image" alt="restaurant-image">
 
   <div class="left-container">
-    <app-restaurant-main class="main-container" [restaurant]="restaurant"></app-restaurant-main>
+    <app-restaurant-main class="main-container" [restaurantId]="restaurantId"></app-restaurant-main>
   </div>
 
-  <app-restaurant-basket class="basket" [restaurant]="restaurant"></app-restaurant-basket>
+  <app-restaurant-basket class="basket" [restaurantId]="restaurantId"></app-restaurant-basket>
 
 
 </div>

@@ -16,6 +16,8 @@ import {Menu} from "../../../interfaces/menu";
 import {Favourites} from "../../../interfaces/favourites";
 import {RatingUtil} from "../../../utils/rating-util";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
+import {Restaurant} from "../../../interfaces/restaurant";
+import {RestaurantsService} from "../../../services/restaurants.service";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -36,7 +38,8 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
   styleUrls: ['./restaurant-main.component.css']
 })
 export class RestaurantMainComponent implements OnInit {
-  @Input() restaurant!: any;
+  @Input() restaurantId!: number;
+  restaurant: Restaurant = {} as Restaurant;
   searchMenu: any;
   menu: Menu[] = [];
   categories: string[] = [];
@@ -52,23 +55,32 @@ export class RestaurantMainComponent implements OnInit {
     private menuService: MenuService,
     private optionService: OptionService,
     private favouriteService: FavouriteService,
+    private restaurantService: RestaurantsService,
     private dialog: MatDialog,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.loading = false;
-    this.getMenu();
-    this.getCategories();
-    this.getSelected();
-    this.filterMenu();
-    this.setSessionRestaurant();
-    this.checkIfFavourite();
-    this.optionService.favouriteRestaurantIds$.subscribe((restaurantIds: number[]) => {
-      this.isFavorite = restaurantIds.includes(this.restaurant.id);
-    });
+      this.getRestaurant();
+      this.checkIfFavourite();
+      this.getCategories();
+      this.getSelected();
+      this.getMenu();
+      this.filterMenu();
+      this.optionService.favouriteRestaurantIds$.subscribe((restaurantIds: number[]) => {
+        this.isFavorite = restaurantIds.includes(this.restaurant.id);
+      });
+
   }
 
+  getRestaurant() {
+    if (this.restaurantId) {
+      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
+        this.restaurant = data;
+      });
+    }
+  }
   toggleFavourite() {
     if (this.checkAuth()) {
       if (this.isFavorite) {
@@ -125,12 +137,21 @@ export class RestaurantMainComponent implements OnInit {
     console.log('Is favourite: ', this.isFavorite);
   }
   getMenu() {
-    this.menuService.getMenuByRestaurantId(this.restaurant.id).subscribe(menu => {
-      this.menu = menu;
-      this.filterMenu();
-    });
+    if (this.restaurantId) {
+      this.menuService.getMenuByRestaurantId(this.restaurantId).subscribe(menu => {
+        this.menu = menu;
+        this.filterMenu();
+      });
+    }
   }
 
+  getCategories() {
+    if (this.restaurantId) {
+      this.menuService.getCategories(this.restaurantId).subscribe(categories => {
+        this.categories = categories;
+      });
+    }
+  }
   getSelected() {
     this.optionService.selectedMenuCategory$.subscribe(category => {
       this.selectedCategory = category;
@@ -138,11 +159,7 @@ export class RestaurantMainComponent implements OnInit {
     });
   }
 
-  getCategories() {
-    this.menuService.getCategories(this.restaurant.id).subscribe(categories => {
-      this.categories = categories;
-    });
-  }
+
 
   selectCategory(category: string) {
     if (this.selectedCategory === category) {
@@ -168,11 +185,17 @@ export class RestaurantMainComponent implements OnInit {
   }
 
   getAverageRating(): number {
-    return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
+    if (this.restaurant && this.restaurant.restaurantOpinions) {
+      return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
+    }
+    return 0;
   }
 
   getRatingLength(): number {
-    return this.restaurant.restaurantOpinions.length;
+    if (this.restaurant && this.restaurant.restaurantOpinions) {
+      return this.restaurant.restaurantOpinions.length;
+    }
+    return 0;
   }
 
   openInfo(): void {
@@ -182,12 +205,6 @@ export class RestaurantMainComponent implements OnInit {
     });
   }
 
-  setSessionRestaurant() {
-    sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
-    sessionStorage.setItem('restaurantName', this.restaurant.name);
-    sessionStorage.setItem('deliveryMin', this.restaurant.delivery.deliveryMinTime.toString());
-    sessionStorage.setItem('deliveryMax', this.restaurant.delivery.deliveryMaxTime.toString());
-  }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);

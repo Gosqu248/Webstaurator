@@ -24,7 +24,6 @@ export class RestaurantItemComponent implements OnInit{
   @Input() restaurant!: Restaurant;
   deliveryTime: DeliveryHour[] = [];
   isOpen: boolean = true;
-  isFavorite: boolean = false;
 
   constructor(private deliveryService: DeliveryService,
               private languageService:LanguageService,
@@ -32,6 +31,7 @@ export class RestaurantItemComponent implements OnInit{
 
   ngOnInit() {
     this.getDeliveryTime();
+    this.setSessionRestaurant();
   }
 
   getAverageRating(): number {
@@ -46,38 +46,25 @@ export class RestaurantItemComponent implements OnInit{
   getDeliveryTime(): void {
     this.deliveryService.getDeliveryTIme(this.restaurant.id).subscribe((data) => {
       this.deliveryTime = data;
-      this.checkIfOpen();
+      this.isOpen = this.deliveryService.checkIfOpen(this.deliveryTime);
     });
   }
 
-  checkIfOpen(): void {
-    const currentTime = new Date();
-    const currentDay = currentTime.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
-    const currentHour = currentTime.getHours();
-    const currentMinutes = currentTime.getMinutes();
-    const currentTotalMinutes = currentHour * 60 + currentMinutes;
-    console.log(currentDay)
-
-
-    const todayDeliveryHour = this.deliveryTime.find(d => d.dayOfWeek === currentDay); // Adjust for Sunday
-    console.log(this.deliveryTime)
-
-    if (todayDeliveryHour) {
-      const openingTime = todayDeliveryHour.openTime.split(':');
-      const closingTime = todayDeliveryHour.closeTime.split(':');
-
-
-      const openingTotalMinutes = parseInt(openingTime[0]) * 60 + parseInt(openingTime[1]);
-      const closingTotalMinutes = parseInt(closingTime[0]) * 60 + parseInt(closingTime[1]);
-
-      this.isOpen = currentTotalMinutes >= openingTotalMinutes && currentTotalMinutes <= closingTotalMinutes;
-    } else {
-      this.isOpen = false;
+  setSessionRestaurant() {
+    if (this.restaurant && this.restaurant.delivery) {
+      sessionStorage.setItem('restaurantName', this.restaurant.name);
+      sessionStorage.setItem('deliveryMin', this.restaurant.delivery.deliveryMinTime.toString());
+      sessionStorage.setItem('deliveryMax', this.restaurant.delivery.deliveryMaxTime.toString());
+      sessionStorage.setItem('deliveryPrice', this.restaurant.delivery.deliveryPrice.toString());
+      sessionStorage.setItem("minPrice", this.restaurant.delivery.minimumPrice.toString());
     }
   }
 
+
   goToMenu(restaurant: Restaurant) {
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
+    sessionStorage.setItem('restaurantId', restaurant.id.toString());
+
     this.router.navigate(['/menu', formattedName]);
   }
 

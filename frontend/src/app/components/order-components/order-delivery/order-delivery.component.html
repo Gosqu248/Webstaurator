@@ -37,7 +37,7 @@
         <i class="fa-solid fa-calendar-days"></i>
         <div class="text">
           <h3>{{getTranslation('plan')}}</h3>
-          <p>{{getTranslation('chooseHour')}}</p>
+          <p>{{selectedHour ? selectedHour : getTranslation('chooseHour')}}</p>
         </div>
       </div>
       <div class="icon-background" *ngIf="isDeliveryOptionSelected('scheduled')">

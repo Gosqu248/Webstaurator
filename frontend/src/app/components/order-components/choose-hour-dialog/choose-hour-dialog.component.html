@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>{{getTranslation('selectHour')}}</h2>
+  <div class="hour-options">
+    <button *ngFor="let hour of availableHours"
+            [class.selected]="hour === selectedHour"
+            (click)="selectHour(hour)">
+      {{ hour }}
+    </button>
+  </div>
+  <div class="actions">
+    <button class="cancel-btn" (click)="cancel()">{{getTranslation('cancel')}}</button>
+    <button class="confirm-btn" (click)="confirmSelection()">{{getTranslation('confirm')}}</button>
+  </div>
+</div>

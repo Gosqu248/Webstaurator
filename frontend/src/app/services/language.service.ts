@@ -147,6 +147,11 @@ export class LanguageService {
       asSoonAsPossible: "Jak najszybciej",
       plan: "Zaplanuj",
       chooseHour: "Wybierz godzinę",
+      selectHour: "Wybierz godzinę dostawy",
+      confirm: "Potwierdź",
+      cancel: "Anuluj",
+      payment: "Płatność",
+      paymentMethod: "Metoda płatności",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -272,6 +277,11 @@ export class LanguageService {
       asSoonAsPossible: "As soon as possible",
       plan: "Plan",
       chooseHour: "Choose hour",
+      selectHour: "Select delivery hour",
+      confirm: "Confirm",
+      cancel: "Cancel",
+      payment: "Payment",
+      paymentMethod: "Payment method",
     }
   };
 

@@ -8,11 +8,11 @@
         <h5>{{ getAverageRating() | number:'1.1-1' }}</h5>
         <h6>({{getRatingLength() }})</h6>
       </div>
-      <div class="description-item" >
+      <div class="description-item" *ngIf="restaurant.delivery">
         <i class="fa-solid fa-truck"></i>
         <h5>{{restaurant.delivery.deliveryPrice | number:'1.2-2'}} zł</h5>
       </div>
-      <div class="description-item" >
+      <div class="description-item" *ngIf="restaurant.delivery">
         <i class="fa-regular fa-clock"></i>
         <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}} min</h5>
       </div>
@@ -43,4 +43,3 @@
     class="menu-item"
   ></app-restaurant-menu-item>
 </div>
-
