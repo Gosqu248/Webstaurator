@@ -7,6 +7,8 @@ import {DecimalPipe, NgForOf} from "@angular/common";
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import {environment} from "../../../../environments/environment";
+import {Payment} from "../../../interfaces/payment";
+import {PaymentService} from "../../../services/payment.service";
 
 @Component({
   selector: 'app-info',
@@ -25,10 +27,11 @@ export class InfoComponent implements OnInit{
   deliveryPrice: number = 0;
   minimumPrice: number = 0;
   restaurantAddress: RestaurantAddress = {} as RestaurantAddress;
-  payments: { src: string, name: string }[] = [];
+  payments: Payment[] = [];
 
   constructor(private languageService: LanguageService,
               private restaurantAddressService: RestaurantAddressService,
+              private paymentService: PaymentService,
               private deliveryService: DeliveryService) {}
 
   ngOnInit() {
@@ -71,11 +74,12 @@ export class InfoComponent implements OnInit{
   }
 
   setPayments() {
-    this.payments = [
-      { src: environment.api + '/img/payU.png', name: this.getTranslation('payU') },
-      { src: environment.api + '/img/creditCard.png', name: this.getTranslation('creditCard') },
-      { src: environment.api + '/img/cash.png', name: this.getTranslation('cash') },
-    ];
+    this.paymentService.getRestaurantPayments(this.restaurantId).subscribe((data) => {
+      this.payments = data.map((payment) => {
+        payment.image = environment.api + payment.image;
+        return payment;
+      });
+    });
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

@@ -58,10 +58,7 @@
 }
 
 .payment-item {
-  width: 80px;
-  height: 60px;
   display: flex;
-  align-items: center;
   justify-content: center;
   margin: 5px;
   background-color: white;

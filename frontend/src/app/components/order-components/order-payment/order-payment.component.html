@@ -1,5 +1,10 @@
 <div class="container">
-    <h3>{{getTranslation('deliveryAddress')}}</h3>
-
-
+  <h3>{{getTranslation('payment')}}</h3>
+  <div class="payment" *ngIf="selectedPayment">
+    <div class="main">
+      <img [src]="selectedPayment.image" alt="{{selectedPayment.method}}"/>
+      <p>{{selectedPayment.method}}</p>
+    </div>
+    <button (click)="openEditDialog()">{{getTranslation('edit')}}</button>
+  </div>
 </div>

@@ -151,7 +151,6 @@ export class LanguageService {
       confirm: "Potwierdź",
       cancel: "Anuluj",
       payment: "Płatność",
-      paymentMethod: "Metoda płatności",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -281,7 +280,6 @@ export class LanguageService {
       confirm: "Confirm",
       cancel: "Cancel",
       payment: "Payment",
-      paymentMethod: "Payment method",
     }
   };
 

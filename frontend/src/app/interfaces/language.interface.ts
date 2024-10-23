@@ -126,7 +126,6 @@ export interface LanguageTranslations {
   confirm: string;
   cancel: string;
   payment: string;
-  paymentMethod: string;
 }
 
 export interface Translations {

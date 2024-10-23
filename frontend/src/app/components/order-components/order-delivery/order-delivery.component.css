@@ -53,6 +53,11 @@ button {
   margin-bottom: 20px;
 }
 
+button:hover {
+  background: #ee690c;
+}
+
+
 .delete {
   width: 20%;
 }

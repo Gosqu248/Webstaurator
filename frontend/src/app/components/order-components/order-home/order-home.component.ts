@@ -67,7 +67,7 @@ export class OrderHomeComponent implements OnInit{
     }
   }
 
-  getTranslation<k extends keyof LanguageTranslations>(key: k): string {
-    return this.languageService.getTranslation(key);
-  }
+    getTranslation<k extends keyof LanguageTranslations>(key: k): string {
+      return this.languageService.getTranslation(key);
+    }
 }

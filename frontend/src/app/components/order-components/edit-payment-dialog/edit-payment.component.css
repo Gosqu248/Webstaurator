@@ -1,0 +1,51 @@
+.first-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 90%;
+  margin: auto;
+  height: 15%;
+}
+
+.first-section h2{
+  color: #1c1a1a;
+  font-size: 25px;
+
+}
+
+.fa-chevron-left {
+  font-size: 25px;
+  color: #1c1a1a;
+  margin-top: 20px;
+}
+
+.fa-chevron-left:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.first-section .fa-circle-xmark {
+  font-size: 30px;
+  color: #1c1a1a;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.first-section .fa-circle-xmark:hover {
+  color: #ff6200;
+}
+
+.payment-container {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payment-item {
+  width: 100%;
+  margin-left: 50px;
+
+}

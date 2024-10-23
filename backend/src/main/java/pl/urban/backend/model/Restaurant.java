@@ -57,5 +57,12 @@ public class Restaurant {
     @JsonIgnore
     private List<FavouriteRestaurant> favouriteRestaurants;
 
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "restaurant_payment",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "payment_id")
+    )
+    @JsonIgnore
+    private List<Payment> payments;
 }

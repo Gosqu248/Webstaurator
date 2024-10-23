@@ -1,0 +1,11 @@
+<div class="first-section">
+  <h2>{{getTranslation('paymentMethods')}}</h2>
+  <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
+</div>
+
+  <div class="payment-container">
+    <div class="payment-item" *ngFor="let payment of payments">
+      <app-payment-item [payment]="payment" (selectPayment)="changeSelectedPayment($event)" ></app-payment-item>
+    </div>
+  </div>
+
