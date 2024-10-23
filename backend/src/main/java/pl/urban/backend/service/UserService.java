@@ -2,6 +2,7 @@ package pl.urban.backend.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
 
@@ -49,8 +50,13 @@ public class UserService {
         return true;
     }
 
-    public Long getUserId(String subject) {
-        return getUserBySubject(subject).getId();
+    public UserInfoForOrderDTO getUserInfo(String subject) {
+        User user = getUserBySubject(subject);
+        UserInfoForOrderDTO userInfo = new UserInfoForOrderDTO();
+        userInfo.setName(user.getName());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
+        return userInfo;
     }
 
 }

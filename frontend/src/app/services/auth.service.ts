@@ -2,15 +2,17 @@ import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../interfaces/user.interface";
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of, tap} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
+import {UserInfoOrder} from "../interfaces/user-info-order";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   private apiUrl = environment.api + '/api/auth';
+  private userInfo = new BehaviorSubject<UserInfoOrder | null>(null);
+  userInfo$ = this.userInfo.asObservable();
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -24,7 +26,9 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
           if (response.jwt) {
             localStorage.setItem('jwt', response.jwt);
-            console.log('JWT token saved: ', response.jwt);
+            this.getUserInfoForOrder(response.jwt).subscribe(userInfo => {
+              this.userInfo.next(userInfo);
+            });
           } else {
             console.error('No JWT token in response: ', response)
           }
@@ -59,5 +63,22 @@ export class AuthService {
   changePassword(token: string, password: string, newPassword: string): Observable<boolean> {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
     return this.http.put<boolean>(`${this.apiUrl}/changePassword`, {password, newPassword}, {headers});
+  }
+
+  getUserInfoForOrder(token: string): Observable<UserInfoOrder> {
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
+    return this.http.get<UserInfoOrder>(`${this.apiUrl}/userInfo`, {headers});
+  }
+
+  loadUserInfo(token: string | null) {
+    if (token) {
+      this.getUserInfoForOrder(token).subscribe(userInfo => {
+        this.userInfo.next(userInfo);
+      });
+    }
+  }
+
+  clearUserInfo() {
+    this.userInfo.next(null);
   }
 }

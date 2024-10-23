@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
@@ -84,6 +85,11 @@ public class AuthController {
         return ResponseEntity.ok(updatePassword);
     }
 
-
+    @GetMapping("/userInfo")
+    public ResponseEntity<UserInfoForOrderDTO> getUserInfo(@RequestHeader("Authorization") String token) {
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        UserInfoForOrderDTO userInfo = userService.getUserInfo(subject);
+        return ResponseEntity.ok(userInfo);
+    }
 
 }

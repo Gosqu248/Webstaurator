@@ -108,6 +108,7 @@ export class MenuComponent implements OnInit {
     this.authService.logout();
     this.optionService.clearFavourites();
     this.addressService.clearAddresses();
+    this.authService.clearUserInfo();
   }
 
   @HostListener('document:click', ['$event'])
@@ -125,6 +126,5 @@ export class MenuComponent implements OnInit {
 
   removeFragment() {
     this.fragmentService.removeFragment();
-
   }
 }

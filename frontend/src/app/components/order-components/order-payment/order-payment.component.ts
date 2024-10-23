@@ -70,8 +70,4 @@ export class OrderPaymentComponent implements OnInit {
       }
     });
   }
-
-  onPaymentSelected(payment: Payment) {
-    this.selectedPayment = payment;
-  }
 }

@@ -20,6 +20,7 @@
 .payment {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin: 0 50px 10px 50px;
 }
@@ -29,7 +30,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .main img {
@@ -45,6 +45,7 @@
 button {
   margin-top: 10px;
   width: 120px;
+  height: 50px;
   background: #fd710c;
   color: white;
   padding: 15px;
