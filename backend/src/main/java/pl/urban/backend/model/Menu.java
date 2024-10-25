@@ -1,6 +1,5 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,11 +31,15 @@ public class Menu {
 
     private String image;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MenuAdditives> additives;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "menus")
+    private List<Additives> additives;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "menu")
     private Set<Restaurant> restaurant;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products")
+    private List<Order> order;
 
 }

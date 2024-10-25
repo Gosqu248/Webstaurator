@@ -1,6 +1,7 @@
 package pl.urban.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.service.MenuService;
@@ -20,8 +21,13 @@ public class MenuController {
     }
 
     @GetMapping("/getRestaurantMenu")
-    public List<Menu> getRestaurantMenu(@RequestParam Long restaurantId) {
-        return menuService.getRestaurantMenu(restaurantId);
+    public ResponseEntity<List<Menu>> getMenuByRestaurantId(@RequestParam Long restaurantId) {
+        try {
+            List<Menu> menus = menuService.getRestaurantMenu(restaurantId);
+            return ResponseEntity.ok(menus);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/menuCategories")

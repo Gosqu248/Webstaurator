@@ -133,13 +133,12 @@ export class RestaurantMainComponent implements OnInit {
       }
 
     }
-
-    console.log('Is favourite: ', this.isFavorite);
   }
   getMenu() {
     if (this.restaurantId) {
       this.menuService.getMenuByRestaurantId(this.restaurantId).subscribe(menu => {
         this.menu = menu;
+        console.log(menu);
         this.filterMenu();
       });
     }

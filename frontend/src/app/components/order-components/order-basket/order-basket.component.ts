@@ -35,6 +35,7 @@ export class OrderBasketComponent implements OnInit{
 
   ngOnInit() {
     this.orders = this.orderService.getOrders();
+    console.log(this.orders);
     this.calculatePrices();
     this.restaurantName = sessionStorage.getItem("restaurantName");
 

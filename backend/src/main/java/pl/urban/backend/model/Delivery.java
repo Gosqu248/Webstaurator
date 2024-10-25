@@ -27,10 +27,10 @@ public class Delivery {
     @Column(nullable = false)
     private double minimumPrice;
 
+    @Column(nullable = true)
     private int pickupTime;
 
     @JsonIgnore
-
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

@@ -67,9 +67,9 @@
 }
 
 .payment-item img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
+  width: 100px;
+  height: 80px;
+  object-fit: fill;
 }
 
 .info-item {

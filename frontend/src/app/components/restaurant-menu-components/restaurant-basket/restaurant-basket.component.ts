@@ -107,7 +107,12 @@ export class RestaurantBasketComponent implements OnInit{
 
   getPickUp() {
    const pickup = this.restaurant.delivery?.pickupTime ;
-   pickup > 0 ? this.pickupOrder = pickup + " min" : this.pickupOrder = this.getTranslation('notAvailable'); this.isNotPickUp = true;
+   if (pickup && pickup > 0) {
+     this.pickupOrder = pickup + " min"
+   } else {
+      this.pickupOrder = this.getTranslation('notAvailable');
+      this.isNotPickUp = true;
+   }
   }
 
 }
