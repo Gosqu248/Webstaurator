@@ -38,8 +38,6 @@ public class Menu {
     @ManyToMany(mappedBy = "menu")
     private Set<Restaurant> restaurant;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "products")
-    private List<Order> order;
+
 
 }

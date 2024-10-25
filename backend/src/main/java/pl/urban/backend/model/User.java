@@ -37,7 +37,5 @@ public class User {
     @JsonIgnore
     private List<FavouriteRestaurant> favouriteRestaurants;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Order> orders;
+
 }

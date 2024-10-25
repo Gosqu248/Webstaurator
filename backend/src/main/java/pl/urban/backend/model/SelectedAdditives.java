@@ -19,6 +19,5 @@ public class SelectedAdditives {
     private String name;
     private String value;
 
-    @ManyToMany(mappedBy = "selectedAdditives")
-    private List<OrderMenu> orderMenus;
+
 }
