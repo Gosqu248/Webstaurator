@@ -5,6 +5,7 @@ import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
 import {CartService} from "../../../services/cart.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
+import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
   selector: 'app-restaurant-menu-item',
@@ -25,22 +26,31 @@ export class RestaurantMenuItemComponent {
   constructor(private cartService: CartService,
               private dialog: MatDialog ) {}
 
-  addToCart(item: Menu) {
-     if (item.additives?.length === 0) {
-       this.cartService.addToCart(item);
-     } else {
+  addToCart(menu: Menu) {
+    const orderMenu: OrderMenu = {
+      menu: menu,
+      chooseAdditives: [],
+      quantity: 1
+    };
 
-        const dialogRef = this.dialog.open(AdditivesDialogComponent, {
-          width: '1000px',
-          maxWidth: '100vw',
-          height: '600px',
-          data: {item}
-        });
+    if (menu.additives?.length === 0) {
+      this.cartService.addToCart(orderMenu);
+    } else {
+      const dialogRef = this.dialog.open(AdditivesDialogComponent, {
+        width: '1000px',
+        maxWidth: '100vw',
+        height: '600px',
+        data: {orderMenu: orderMenu}
+      });
 
-       dialogRef.afterClosed().subscribe(() => {
-         console.log('Dialog was closed');
-       });
-      }
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          orderMenu.chooseAdditives = result.chooseAdditives;
+          this.cartService.addToCart(orderMenu);
+        }
+        console.log('Dialog was closed');
+      });
+    }
   }
 
 }

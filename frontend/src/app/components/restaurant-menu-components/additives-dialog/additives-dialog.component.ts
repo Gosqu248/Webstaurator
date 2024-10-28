@@ -8,6 +8,7 @@ import {AdditiveItemComponent} from "../additive-item/additive-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {CartService} from "../../../services/cart.service";
+import {OrderMenu} from "../../../interfaces/order";
 
 
 @Component({
@@ -35,20 +36,20 @@ export class AdditivesDialogComponent implements OnInit {
   additivesPrice: number = 0;
   protected readonly Object = Object;
   isButtonValid: boolean = false;
-  order: Menu = {} as Menu;
+  orderMenu: OrderMenu = {} as OrderMenu;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {item: Menu},
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {orderMenu: OrderMenu},
               private cartService: CartService,
               private dialogRef: MatDialogRef<AdditivesDialogComponent>,
               private languageService: LanguageService) {}
 
   ngOnInit() {
-    this.order = this.data.item;
-    this.data.item.quantity ? this.quantity = this.data.item.quantity : null
-    this.data.item.chooseAdditives ? this.selectedAdditives = this.data.item.chooseAdditives : null
+    this.orderMenu = this.data.orderMenu;
+    this.orderMenu.quantity ? this.quantity = this.orderMenu.quantity : null
+    this.orderMenu.chooseAdditives ? this.selectedAdditives = this.orderMenu.chooseAdditives : null
 
-    this.groupedAdditives = this.groupAdditivesByName(this.order.additives || []);
+    this.groupedAdditives = this.groupAdditivesByName(this.orderMenu.menu.additives || []);
     this.calculatePrice();
 
   }
@@ -56,14 +57,14 @@ export class AdditivesDialogComponent implements OnInit {
 
   addToBasket() {
     if (this.isButtonValid) {
-      this.cartService.removeProductFromCart(this.data.item);
-      const menu = { ...this.order };
+      this.cartService.removeProductFromCart(this.data.orderMenu);
+      const orderMenu = { ...this.orderMenu };
 
       if (this.selectedAdditives.length > 0) {
-        menu.chooseAdditives = [...this.selectedAdditives];
+        orderMenu.chooseAdditives = [...this.selectedAdditives];
       }
 
-      this.cartService.addToCart(menu, this.quantity);
+      this.cartService.addToCart(orderMenu, this.quantity);
       this.closeDialog();
     }
 
@@ -86,8 +87,8 @@ export class AdditivesDialogComponent implements OnInit {
 
   calculatePrice() {
     this.additivesPrice = this.cartService.calculateAdditivePrice(this.selectedAdditives);
-    this.productPrice = this.data.item.price+ this.additivesPrice
-    this.price = (this.data.item.price+ this.additivesPrice) * this.quantity;
+    this.productPrice = this.data.orderMenu.menu.price + this.additivesPrice
+    this.price = (this.data.orderMenu.menu.price+ this.additivesPrice) * this.quantity;
     this.isValid();
 
   }

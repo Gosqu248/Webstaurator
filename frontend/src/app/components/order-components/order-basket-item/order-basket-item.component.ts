@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Menu} from "../../../interfaces/menu";
 import {DecimalPipe} from "@angular/common";
 import {CartService} from "../../../services/cart.service";
+import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
   selector: 'app-order-basket-item',
@@ -13,7 +14,7 @@ import {CartService} from "../../../services/cart.service";
   styleUrl: './order-basket-item.component.css'
 })
 export class OrderBasketItemComponent implements OnInit{
-  @Input() order!: Menu;
+  @Input() orderMenus!: OrderMenu;
   orderPrice: number = 0;
 
   constructor(private cartService: CartService) {}
@@ -23,13 +24,13 @@ export class OrderBasketItemComponent implements OnInit{
   }
 
   setOrderPrice() {
-    const additivePrice = this.cartService.calculateAdditivePrice(this.order.chooseAdditives || []);
+    const additivePrice = this.cartService.calculateAdditivePrice(this.orderMenus.chooseAdditives || []);
 
-    this.orderPrice = (this.order.price + additivePrice) * (this.order.quantity || 1);
+    this.orderPrice = (this.orderMenus.menu.price + additivePrice) * (this.orderMenus.quantity || 1);
   }
 
   formatAdditives(): string {
-    return this.cartService.formatAdditives(this.order.chooseAdditives || [])
+    return this.cartService.formatAdditives(this.orderMenus.chooseAdditives || [])
   }
 
 }

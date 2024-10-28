@@ -65,4 +65,8 @@ public class Restaurant {
     )
     @JsonIgnore
     private List<Payment> payments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Order> orders;
 }

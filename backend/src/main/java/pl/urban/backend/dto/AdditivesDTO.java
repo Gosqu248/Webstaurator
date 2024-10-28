@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserInfoForOrderDTO {
+public class AdditivesDTO {
     private Long id;
+
     private String name;
-    private String email;
-    private String phoneNumber;
+    private String value;
 }

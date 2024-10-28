@@ -4,8 +4,8 @@
   <ng-container>
     <div class="cart-container">
       <app-order-basket-item
-        *ngFor="let order of orders"
-        [order]="order"
+        *ngFor="let order of orderMenus"
+        [orderMenus]="order"
         class="order-item"
       ></app-order-basket-item>
     </div>
@@ -25,6 +25,8 @@
       </div>
 
     </div>
+
+    <button (click)="orderAccepted()" [ngClass]="{'invalid': !canOrder}" [disabled]="!canOrder">{{getTranslation('ordering')}}</button>
 
   </ng-container>
 

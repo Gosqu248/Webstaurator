@@ -1,9 +1,10 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
-import {UserInfoOrder} from "../../../interfaces/user-info-order";
+import { User } from '../../../interfaces/user.interface';
+import {AddressesService} from "../../../services/addresses.service";
 
 @Component({
   selector: 'app-order-personal-info',
@@ -16,26 +17,41 @@ import {UserInfoOrder} from "../../../interfaces/user-info-order";
   templateUrl: './order-personal-info.component.html',
   styleUrl: './order-personal-info.component.css'
 })
-export class OrderPersonalInfoComponent implements OnChanges{
-  @Input() userInfo!: UserInfoOrder | null;
+export class OrderPersonalInfoComponent implements OnInit, OnChanges{
+  @Output() personalInfoChanged = new EventEmitter<void>();
+  @Input() user!: User;
   personalForm: FormGroup;
   relevantInformation: string = '';
 
   constructor(private languageService: LanguageService,
+              private addressService: AddressesService,
               private fb: FormBuilder) {
     this.personalForm = this.fb.group({
       name: [''],
       email: [''],
       phoneNumber: [''],
     });
+
+    this.personalForm.valueChanges.subscribe(() => {
+      this.personalInfoChanged.emit();
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes['userInfo'] && this.userInfo) {
+  ngOnInit() {
+    this.addressService.phoneNumber$.subscribe(phoneNumber => {
       this.personalForm.patchValue({
-        name: this.userInfo.name,
-        email: this.userInfo.email,
-        phoneNumber: this.userInfo.phoneNumber
+        phoneNumber: phoneNumber
+      });
+    });
+  }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['user'] && this.user) {
+
+      this.personalForm.patchValue({
+        name: this.user.name,
+        email: this.user.email,
       });
     } else {
       this.personalForm.reset();

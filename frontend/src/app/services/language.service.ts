@@ -151,6 +151,7 @@ export class LanguageService {
       confirm: "Potwierdź",
       cancel: "Anuluj",
       payment: "Płatność",
+      ordering: "Zamawiam",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -280,6 +281,7 @@ export class LanguageService {
       confirm: "Confirm",
       cancel: "Cancel",
       payment: "Payment",
+      ordering: "I'm ordering",
     }
   };
 

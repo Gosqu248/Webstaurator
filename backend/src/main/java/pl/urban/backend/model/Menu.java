@@ -38,6 +38,8 @@ public class Menu {
     @ManyToMany(mappedBy = "menu")
     private Set<Restaurant> restaurant;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderMenu> orderMenus;
 
 }

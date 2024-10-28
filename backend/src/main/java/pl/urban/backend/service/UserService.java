@@ -53,6 +53,7 @@ public class UserService {
     public UserInfoForOrderDTO getUserInfo(String subject) {
         User user = getUserBySubject(subject);
         UserInfoForOrderDTO userInfo = new UserInfoForOrderDTO();
+        userInfo.setId(user.getId());
         userInfo.setName(user.getName());
         userInfo.setEmail(user.getEmail());
         userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());

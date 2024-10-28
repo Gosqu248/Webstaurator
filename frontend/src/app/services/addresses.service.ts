@@ -12,6 +12,9 @@ export class AddressesService {
   private addresses = new BehaviorSubject<UserAddress[]>([]);
   addresses$ = this.addresses.asObservable();
 
+  phoneNumber = new BehaviorSubject<string>('')
+  phoneNumber$ = this.phoneNumber.asObservable();
+
   constructor(private http: HttpClient) {}
 
   addAddress(token: string, address: UserAddress): Observable<UserAddress> {
@@ -50,5 +53,13 @@ export class AddressesService {
   clearAddresses(): void {
     this.addresses.next([]);
   }
+
+  setPhoneNumber(phoneNumber: string): void {
+    this.phoneNumber.next(phoneNumber);
+  }
+  clearPhoneNumber(): void {
+    this.phoneNumber.next('');
+  }
+
 
 }

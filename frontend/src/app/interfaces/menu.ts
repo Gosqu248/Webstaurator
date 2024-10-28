@@ -5,10 +5,7 @@ export interface Menu {
   ingredients: string;
   price: number;
   image: string;
-  restaurantId: number;
   additives?: Additives[];
-  chooseAdditives?: Additives[];
-  quantity?: number;
 }
 
 

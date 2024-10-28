@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { LanguageService } from '../../../services/language.service';
@@ -26,6 +26,9 @@ import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialo
 })
 export class OrderDeliveryComponent implements OnInit{
   @Input() addresses!: UserAddress[];
+  @Output() deliveryChanged = new EventEmitter<void>();
+
+
   selectedAddress: UserAddress | null = null;
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;
@@ -45,6 +48,8 @@ export class OrderDeliveryComponent implements OnInit{
 
   setAddress(address: UserAddress) {
     this.selectedAddress = address;
+    this.addressService.setPhoneNumber(address.phoneNumber);
+    this.deliveryChanged.emit();
   }
 
   isAddressSelected(address: UserAddress): boolean {
@@ -84,12 +89,14 @@ export class OrderDeliveryComponent implements OnInit{
     return this.languageService.getTranslation(key);
   }
 
-  setDelivery(option: string): void {
+  setDelivery(option: string | null): void {
     this.selectedDeliveryOption = option;
     this.selectedHour = null;
     if (option === 'scheduled') {
       this.openHourDialog();
     }
+    this.deliveryChanged.emit();
+
   }
 
   openHourDialog() {
@@ -103,6 +110,8 @@ export class OrderDeliveryComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.selectedHour = result;
+      } else {
+        this.setDelivery(null)
       }
     });
   }

@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
 @Entity
@@ -37,5 +36,7 @@ public class User {
     @JsonIgnore
     private List<FavouriteRestaurant> favouriteRestaurants;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Order> orders;
 }

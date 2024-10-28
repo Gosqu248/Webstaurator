@@ -18,17 +18,17 @@
     </button>
   </div>
 
-  <ng-container *ngIf="orders.length === 0">
+  <ng-container *ngIf="orderMenus.length === 0">
     <i class="fa-solid fa-basket-shopping"></i>
     <h2> {{getTranslation('basketEmpty')}}</h2>
     <h5> {{getTranslation('didntAdd')}}</h5>
   </ng-container>
 
-  <ng-container *ngIf="orders.length > 0">
+  <ng-container *ngIf="orderMenus.length > 0">
     <div class="cart-container">
       <app-restaurant-basket-item
-        *ngFor="let order of orders"
-        [order]="order"
+        *ngFor="let orderMenu of orderMenus"
+        [orderMenu]="orderMenu"
         class="order-item"
       ></app-restaurant-basket-item>
     </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Additives, Menu} from "../interfaces/menu";
 import {BehaviorSubject} from "rxjs";
+import {OrderMenu} from "../interfaces/order";
 
 @Injectable({
   providedIn: 'root'
@@ -8,82 +9,88 @@ import {BehaviorSubject} from "rxjs";
 export class CartService {
   private currentRestaurantId: number | null = null;
 
-  cart = new BehaviorSubject<Menu[]>(this.loadCartFromLocalStorage());
-  cart$ = this.cart.asObservable();
+  orderMenus = new BehaviorSubject<OrderMenu[]>(this.loadCartFromLocalStorage());
+  orderMenus$ = this.orderMenus.asObservable();
 
   setCurrentRestaurantId(restaurantId: number) {
     this.currentRestaurantId = restaurantId;
-    this.cart.next(this.loadCartFromLocalStorage());
+    this.orderMenus.next(this.loadCartFromLocalStorage());
   }
 
-  addToCart(item: Menu, quantity: number = 1) {
-    const currentCart = this.cart.value;
-    const clonedItem = { ...item, chooseAdditives: [...(item.chooseAdditives || [])] };
+  addToCart(orderMenu: OrderMenu, quantity: number = 1) {
+    const currentCart = this.orderMenus.value;
 
     const existingItem = currentCart.find(i =>
-      i.name === clonedItem.name &&
-      JSON.stringify(i.chooseAdditives) === JSON.stringify(clonedItem.chooseAdditives)
+      i.menu.id === orderMenu.menu.id &&
+      JSON.stringify(i.chooseAdditives) === JSON.stringify(orderMenu.chooseAdditives)
     );
 
     if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + quantity;
+      existingItem.quantity += quantity;
     } else {
-      clonedItem.quantity = quantity;
-      currentCart.push(clonedItem);
+      orderMenu.quantity = quantity;
+      currentCart.push(orderMenu);
     }
 
-    this.cart.next(currentCart);
+    this.orderMenus.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
   }
 
-  removeFromCart(item: Menu) {
-    const currentCart = this.cart.value;
+  removeFromCart(item: OrderMenu) {
+    const currentCart = this.orderMenus.value;
     const existingItem = currentCart.find(i =>
-      i.name === item.name &&
+      i.menu.id === item.menu.id &&
       JSON.stringify(i.chooseAdditives) === JSON.stringify(item.chooseAdditives)
     );
 
     if (existingItem) {
-      if (existingItem.quantity && existingItem.quantity > 1) {
+      if (existingItem.quantity > 1) {
         existingItem.quantity -= 1;
       } else {
         currentCart.splice(currentCart.indexOf(existingItem), 1);
       }
     }
-    this.cart.next(currentCart);
+    this.orderMenus.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
   }
 
-  removeProductFromCart(item: Menu) {
-    const currentCart = this.cart.value;
+  removeProductFromCart(orderMenu: OrderMenu) {
+    const currentCart = this.orderMenus.value;
     const existingItem = currentCart.find(i =>
-      i.name === item.name &&
-      JSON.stringify(i.chooseAdditives) === JSON.stringify(item.chooseAdditives)
+      i.menu.id === orderMenu.menu.id &&
+      JSON.stringify(i.chooseAdditives) === JSON.stringify(orderMenu.chooseAdditives)
     );
 
     if (existingItem) {
       currentCart.splice(currentCart.indexOf(existingItem), 1);
     }
-    this.cart.next(currentCart);
+    this.orderMenus.next(currentCart);
     this.saveCartToLocalStorage(currentCart);
   }
 
-  private saveCartToLocalStorage(cart: Menu[]) {
+  private saveCartToLocalStorage(orderMenu: OrderMenu[]) {
     if (this.currentRestaurantId !== null && typeof localStorage !== 'undefined') {
-      localStorage.setItem(`cart_${this.currentRestaurantId}`, JSON.stringify(cart));
+      localStorage.setItem(`orderMenu_${this.currentRestaurantId}`, JSON.stringify(orderMenu));
     }
   }
 
-  private loadCartFromLocalStorage(): Menu[] {
+  private loadCartFromLocalStorage(): OrderMenu[] {
     if (this.currentRestaurantId !== null && typeof localStorage !== 'undefined') {
-      const cart = localStorage.getItem(`cart_${this.currentRestaurantId}`);
+      const cart = localStorage.getItem(`orderMenu_${this.currentRestaurantId}`);
       return cart ? JSON.parse(cart) : [];
     }
     return [];
   }
 
+  deleteCartFromLocalStorage() {
+    if (this.currentRestaurantId !== null && typeof localStorage !== 'undefined') {
+      localStorage.removeItem(`orderMenu_${this.currentRestaurantId}`);
+    }
+
+  }
+
   calculateAdditivePrice(additives: Additives[]): number {
-    let price = 0; // Reset the additivesPrice to 0
+    let price = 0;
     additives.forEach(a => {
       price += a.price || 0;
     });

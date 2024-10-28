@@ -33,4 +33,8 @@ public class Additives {
             inverseJoinColumns = @JoinColumn(name = "menu_id")
     )
     private List<Menu> menus;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "chooseAdditives")
+    private List<OrderMenu> orderMenus;
 }

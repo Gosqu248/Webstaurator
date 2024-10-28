@@ -1,10 +1,10 @@
 <div class="additive-container">
 
   <div class="menu">
-      <img class="image" [src]="data.item.image" alt="additive image" />
+      <img class="image" [src]="data.orderMenu.menu.image" alt="additive image" />
       <div class="name">
-        <h5>{{data.item.name}}</h5>
-        <p *ngIf="data.item.ingredients">{{data.item.ingredients}}</p>
+        <h5>{{data.orderMenu.menu.name}}</h5>
+        <p *ngIf="data.orderMenu.menu.ingredients">{{data.orderMenu.menu.ingredients}}</p>
         <h6>{{productPrice | number:'1.2-2'}} zł</h6>
       </div>
     <div class="quantity">

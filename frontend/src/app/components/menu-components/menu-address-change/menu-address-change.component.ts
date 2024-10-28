@@ -53,8 +53,6 @@ export class MenuAddressChangeComponent implements OnInit {
   loadAddress() {
     if (this.token) {
       this.addressesService.getUserAddresses(this.token).subscribe(addresses => {
-        console.log('Address ID: ', this.addressId);
-        console.log('Addresses:', addresses); // Dodaj to, aby zobaczyć, jakie adresy są pobierane
 
         const address = addresses.find(addr => addr.id === this.addressId);
 

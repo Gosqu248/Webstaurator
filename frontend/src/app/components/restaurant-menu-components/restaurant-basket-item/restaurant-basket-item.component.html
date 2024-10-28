@@ -1,5 +1,5 @@
 <div class="name">
-  <h5> {{order.name}}</h5>
+  <h5> {{orderMenu.menu.name}}</h5>
   <p> {{orderPrice | number:'1.2-2'}} zł</p>
 </div>
 <div class="ingredients">
@@ -7,13 +7,13 @@
 </div>
 <div class="third-section">
   <div>
-    <p *ngIf="hasChooseAdditives()" (click)="openDialogToChange(order)"> {{getTranslate('edit')}}</p>
+    <p *ngIf="hasChooseAdditives()" (click)="openDialogToChange(orderMenu)"> {{getTranslate('edit')}}</p>
   </div>
   <div class="quantity">
     <button (click)="removeOne()">
       <i class="fa-solid fa-minus"></i>
     </button>
-    <h4> {{order.quantity}}</h4>
+    <h4> {{orderMenu.quantity}}</h4>
     <button (click)="addOne()">
       <i class="fa-solid fa-plus"></i>
     </button>

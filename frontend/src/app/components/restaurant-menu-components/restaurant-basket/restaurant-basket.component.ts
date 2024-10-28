@@ -10,6 +10,7 @@
  import {OrderService} from "../../../services/order.service";
  import {Restaurant} from "../../../interfaces/restaurant";
  import {RestaurantsService} from "../../../services/restaurants.service";
+ import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -27,7 +28,7 @@
 export class RestaurantBasketComponent implements OnInit{
   @Input() restaurantId!: number;
   restaurant: Restaurant = {} as Restaurant;
-  orders: Menu[] = [];
+  orderMenus: OrderMenu[] = [];
   selectedOption: string = 'delivery';
   deliveryOrder: string = "";
   pickupOrder: string = "";
@@ -65,20 +66,20 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   getCart() {
-    this.cartService.cart$.subscribe(order => {
-      this.orders = order;
+    this.cartService.orderMenus$.subscribe(cart => {
+      this.orderMenus = cart;
       this.calculateOrderPrice();
       this.getMinimumPrice();
     })
   }
 
   goToOrder() {
-    this.orderService.setOrders(this.orders);
+    this.orderService.setOrders(this.orderMenus);
     this.router.navigate(['/checkout']);
   }
 
   calculateOrderPrice() {
-    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orders);
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
     this.totalPrice = totalPrice;

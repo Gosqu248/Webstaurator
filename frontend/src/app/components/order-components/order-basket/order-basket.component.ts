@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {
     RestaurantBasketItemComponent
 } from "../../restaurant-menu-components/restaurant-basket-item/restaurant-basket-item.component";
@@ -8,6 +8,7 @@ import {LanguageService} from "../../../services/language.service";
 import {Menu} from "../../../interfaces/menu";
 import {OrderService} from "../../../services/order.service";
 import {OrderBasketItemComponent} from "../order-basket-item/order-basket-item.component";
+import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
   selector: 'app-order-basket',
@@ -17,13 +18,16 @@ import {OrderBasketItemComponent} from "../order-basket-item/order-basket-item.c
     NgForOf,
     NgIf,
     RestaurantBasketItemComponent,
-    OrderBasketItemComponent
+    OrderBasketItemComponent,
+    NgClass
   ],
   templateUrl: './order-basket.component.html',
   styleUrl: './order-basket.component.css'
 })
 export class OrderBasketComponent implements OnInit{
-  orders: Menu[] = [];
+  @Output() acceptOrder = new EventEmitter<void>();
+  @Input() canOrder!: boolean;
+  orderMenus: OrderMenu[] = [];
   ordersPrice: number = 0;
   deliveryPrice: string | null = null;
   totalPrice: number = 0;
@@ -34,15 +38,18 @@ export class OrderBasketComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.orders = this.orderService.getOrders();
-    console.log(this.orders);
+    this.orderMenus = this.orderService.getOrders();
+    console.log(this.orderMenus);
     this.calculatePrices();
     this.restaurantName = sessionStorage.getItem("restaurantName");
+  }
 
+  orderAccepted() {
+    this.acceptOrder.emit();
   }
 
   calculatePrices() {
-    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orders);
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
     this.totalPrice = totalPrice;  }

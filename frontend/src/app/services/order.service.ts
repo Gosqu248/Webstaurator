@@ -1,32 +1,53 @@
 import { Injectable } from '@angular/core';
 import {Menu} from "../interfaces/menu";
 import {CartService} from "./cart.service";
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {Order, OrderMenu} from "../interfaces/order";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private orders: Menu[] = [];
+  private orderMenus: OrderMenu[] = [];
+  private apiUrl = environment.api + '/api/order';
 
-  constructor(private cartService: CartService) {
-    const storedOrders = sessionStorage.getItem('orders');
-    this.orders = storedOrders ? JSON.parse(storedOrders) : [];
+
+  constructor(private http: HttpClient, private cartService: CartService) {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      const storedOrders = sessionStorage.getItem('orderMenu');
+      this.orderMenus = storedOrders ? JSON.parse(storedOrders) : [];
+    }
   }
 
-  setOrders(orders: Menu[]) {
-    this.orders = orders;
-    sessionStorage.setItem('orders', JSON.stringify(orders));
-
+  getUserOrders(userId: number) {
+    return this.http.get<Order[]>(`${this.apiUrl}/getUserOrders?userId=${userId}`);
   }
 
-  getOrders(): Menu[] {
-    return this.orders;
+  createOrder(order: Order) {
+    console.log('Order created:', order);
+    return this.http.post<Order>(`${this.apiUrl}/createOrder`, order).subscribe({
+      next: (response) => {
+        this.cartService.deleteCartFromLocalStorage();
+      },
+      error: (error) => {
+        console.error('Error creating order:', error);
+      }
+    });
+  }
+  setOrders(orderMenu: OrderMenu[]) {
+    this.orderMenus = orderMenu;
+    sessionStorage.setItem('orderMenu', JSON.stringify(orderMenu));
+
+  }
+  getOrders(): OrderMenu[] {
+    return this.orderMenus;
   }
 
-  calculateOrderPrice(orders: Menu[]): { ordersPrice: number, deliveryPrice: string | null, totalPrice: number } {
-    const ordersPrice = orders.reduce((total, order) => {
+  calculateOrderPrice(orderMenu: OrderMenu[]): { ordersPrice: number, deliveryPrice: string | null, totalPrice: number } {
+    const ordersPrice = orderMenu.reduce((total, order) => {
       const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
-      return total + ((order.price + additivePrice) * (order.quantity || 1));
+      return total + ((order.menu.price + additivePrice) * (order.quantity || 1));
     }, 0);
     const deliveryPrice = sessionStorage.getItem("deliveryPrice")
     const totalPrice = ordersPrice + (deliveryPrice ? parseFloat(deliveryPrice) : 0);

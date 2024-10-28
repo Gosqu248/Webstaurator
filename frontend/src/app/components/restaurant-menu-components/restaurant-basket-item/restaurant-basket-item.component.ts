@@ -6,6 +6,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
   selector: 'app-restaurant-basket-item',
@@ -18,7 +19,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './restaurant-basket-item.component.css'
 })
 export class RestaurantBasketItemComponent implements OnInit{
-  @Input() order!: Menu;
+  @Input() orderMenu!: OrderMenu;
   orderPrice: number = 0;
   constructor(private cartService: CartService,
               private dialog: MatDialog,
@@ -29,31 +30,31 @@ export class RestaurantBasketItemComponent implements OnInit{
   }
 
   formatAdditives(): string {
-   return this.cartService.formatAdditives(this.order.chooseAdditives || [])
+   return this.cartService.formatAdditives(this.orderMenu.chooseAdditives || [])
   }
 
   addOne() {
-    this.cartService.addToCart(this.order);
+    this.cartService.addToCart(this.orderMenu);
     this.setOrderPrice();
   }
 
   removeOne() {
-    this.cartService.removeFromCart(this.order)
+    this.cartService.removeFromCart(this.orderMenu)
     this.setOrderPrice();
   }
 
   setOrderPrice() {
-    const additivePrice = this.cartService.calculateAdditivePrice(this.order.chooseAdditives || []);
+    const additivePrice = this.cartService.calculateAdditivePrice(this.orderMenu.chooseAdditives || []);
 
-    this.orderPrice = (this.order.price + additivePrice) * (this.order.quantity || 1);
+    this.orderPrice = (this.orderMenu.menu.price + additivePrice) * (this.orderMenu.quantity || 1);
   }
 
-  openDialogToChange(item: Menu) {
+  openDialogToChange(orderMenu: OrderMenu) {
     this.dialog.open(AdditivesDialogComponent, {
         width: '1000px',
         maxWidth: '100vw',
         height: '600px',
-        data: {item}
+        data: {orderMenu}
       });
 
   }
@@ -63,7 +64,7 @@ export class RestaurantBasketItemComponent implements OnInit{
   }
 
   hasChooseAdditives(): boolean {
-    return !!this.order.chooseAdditives && this.order.chooseAdditives.length > 0;
+    return !!this.orderMenu.chooseAdditives && this.orderMenu.chooseAdditives.length > 0;
   }
 
 
