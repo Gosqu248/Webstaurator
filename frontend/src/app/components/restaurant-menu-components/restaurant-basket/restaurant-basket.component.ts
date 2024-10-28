@@ -3,7 +3,6 @@
  import {LanguageService} from "../../../services/language.service";
  import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
  import {OptionService} from "../../../services/option.service";
- import {Menu} from "../../../interfaces/menu";
  import {RestaurantBasketItemComponent} from "../restaurant-basket-item/restaurant-basket-item.component";
  import {CartService} from "../../../services/cart.service";
  import {Router} from "@angular/router";
@@ -75,6 +74,7 @@ export class RestaurantBasketComponent implements OnInit{
 
   goToOrder() {
     this.orderService.setOrders(this.orderMenus);
+    sessionStorage.setItem("deliveryOption", this.selectedOption);
     this.router.navigate(['/checkout']);
   }
 

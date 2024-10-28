@@ -49,8 +49,6 @@ export class MenuLoginComponent {
         if (isAuthenticated) {
           this.router.navigate([], {fragment: 'menu'});
           console.log("Login " + this.loginForm.value.email);
-          const token = localStorage.getItem('jwt');
-          this.addressService.loadAddresses(token);
         } else {
           this.isLoginError = !this.isLoginError;
           console.log("Invalid login or password");

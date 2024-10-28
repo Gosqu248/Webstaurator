@@ -29,7 +29,7 @@ export class OrderDeliveryComponent implements OnInit{
   @Output() deliveryChanged = new EventEmitter<void>();
 
 
-  selectedAddress: UserAddress | null = null;
+  selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;
   maxTime: number = 0;
@@ -81,7 +81,10 @@ export class OrderDeliveryComponent implements OnInit{
 
     dialog.afterClosed().subscribe(() => {
       const token = localStorage.getItem('jwt');
-      this.addressService.loadAddresses(token);
+      token ? this.addressService.getUserAddresses(token).subscribe(addresses => {
+        this.addresses = addresses;
+      }) : null;
+      this.deliveryChanged.emit();
     });
   }
 

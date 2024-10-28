@@ -45,6 +45,7 @@ export class OrderBasketComponent implements OnInit{
   }
 
   orderAccepted() {
+
     this.acceptOrder.emit();
   }
 
@@ -52,7 +53,8 @@ export class OrderBasketComponent implements OnInit{
     const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
-    this.totalPrice = totalPrice;  }
+    this.totalPrice = totalPrice;
+  }
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);
   }

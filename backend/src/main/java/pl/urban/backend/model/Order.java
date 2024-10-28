@@ -28,11 +28,17 @@ public class Order {
 
     private String deliveryTime;
 
+    private String deliveryOption;
+
     private String comment;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_address_id")
+    private UserAddress userAddress;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -40,7 +46,6 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderMenu> orderMenus;
-
 
 
     private ZonedDateTime orderDate;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Menu} from "../interfaces/menu";
 import {CartService} from "./cart.service";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
@@ -27,7 +26,7 @@ export class OrderService {
   createOrder(order: Order) {
     console.log('Order created:', order);
     return this.http.post<Order>(`${this.apiUrl}/createOrder`, order).subscribe({
-      next: (response) => {
+      next: () => {
         this.cartService.deleteCartFromLocalStorage();
       },
       error: (error) => {

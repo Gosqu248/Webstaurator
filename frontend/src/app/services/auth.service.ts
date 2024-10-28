@@ -60,7 +60,6 @@ export class AuthService {
       localStorage.removeItem('jwt');
       localStorage.removeItem('name');
       localStorage.removeItem('email');
-      this.addressService.clearAddresses();
 
     }
     this.userInfo.next({} as User);

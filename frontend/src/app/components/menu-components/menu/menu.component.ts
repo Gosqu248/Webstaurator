@@ -107,7 +107,6 @@ export class MenuComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.optionService.clearFavourites();
-    this.addressService.clearAddresses();
     this.authService.clearUserInfo();
   }
 

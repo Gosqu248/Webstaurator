@@ -9,8 +9,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AddressesService {
   private apiUrl = environment.api + '/api/address';
-  private addresses = new BehaviorSubject<UserAddress[]>([]);
-  addresses$ = this.addresses.asObservable();
 
   phoneNumber = new BehaviorSubject<string>('')
   phoneNumber$ = this.phoneNumber.asObservable();
@@ -37,22 +35,6 @@ export class AddressesService {
     return this.http.put<UserAddress>(`${this.apiUrl}/${address.id}`, address, { headers });
   }
 
-  loadAddresses(token: string | null): void {
-    if (token) {
-      sessionStorage.removeItem('logoutAddress');
-      this.getUserAddresses(token).subscribe((addresses) => {
-        this.addresses.next(addresses);
-      });
-    } else {
-      const logout = sessionStorage.getItem('logoutAddress');
-      const addresses = logout ? [JSON.parse(logout)] : [];
-      this.addresses.next(addresses);
-    }
-  }
-
-  clearAddresses(): void {
-    this.addresses.next([]);
-  }
 
   setPhoneNumber(phoneNumber: string): void {
     this.phoneNumber.next(phoneNumber);

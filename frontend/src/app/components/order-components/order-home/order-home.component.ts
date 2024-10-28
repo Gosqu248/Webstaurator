@@ -42,6 +42,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
   canOrder: boolean = false;
   userId: number | null = null;
   restaurant: Restaurant = {} as Restaurant;
+  deliveryOption: string = '';
 
   constructor(private languageService: LanguageService,
               private authService: AuthService,
@@ -56,10 +57,8 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
     this.checkFragment();
     this.getRestaurant();
     this.authService.loadUserInfoIfAuthenticated();
+    this.getUserAddresses();
 
-    this.addressService.addresses$.subscribe(addresses => {
-      this.addresses = addresses;
-    });
     this.authService.userInfo$.subscribe(user => {
       this.user = user;
     });
@@ -78,9 +77,8 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
     if (!this.isAuthChecked) {
       this.isAuthChecked = true;
 
-      if (this.token) {
-        this.addressService.loadAddresses(this.token);
-      }
+      this.getUserAddresses();
+
     }
 
     return !!localStorage.getItem('jwt');
@@ -101,18 +99,25 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
 
   acceptOrder() {
     const restaurantId = sessionStorage.getItem('restaurantId');
-    const deliveryTime = this.orderDelivery.selectedDeliveryOption === "fastest" ? 'fastest' : this.orderDelivery.selectedHour || '';
+    const deliveryTime = this.orderDelivery.selectedDeliveryOption === "fastest" ? 'Jak najszybciej' : this.orderDelivery.selectedHour || '';
     const user = this.user ;
+    const delOpt = sessionStorage.getItem("deliveryOption");
+    if (delOpt) {
+      delOpt === "delivery" ? this.deliveryOption = "dostawa" : this.deliveryOption = "odbiór";
+    }
+
 
     if (restaurantId) {
-      const order = {
+      const order: Order = {
         paymentMethod: this.orderPayment.selectedPayment?.method || '',
         status: OrderStatus.niezaplacone,
         totalPrice: this.basket.totalPrice,
         deliveryTime: deliveryTime,
+        deliveryOption: this.deliveryOption,
         comment: this.orderPersonalInfo.relevantInformation,
         restaurant: this.restaurant,
         orderMenus: this.basket.orderMenus,
+        userAddress: this.orderDelivery.selectedAddress,
         user: user
       }
       this.orderService.createOrder(order);
@@ -140,9 +145,14 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
   checkFragment(): void {
     const fragment = this.router.url.split('#')[1];
     if (fragment === 'login') {
-      const token = localStorage.getItem('jwt');
-      token ? this.addressService.loadAddresses(token) : null
+      this.getUserAddresses();
     }
+  }
+
+  getUserAddresses() {
+    this.token ? this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+      this.addresses = addresses;
+    }) : null
   }
 
     getTranslation<k extends keyof LanguageTranslations>(key: k): string {

@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -46,4 +48,8 @@ public class UserAddress {
     @Column(name = "user_id")
     @JsonProperty("userId")
     private Long userId;
+
+    @OneToMany(mappedBy = "userAddress")
+    @JsonIgnore
+    private List<Order> order;
 }

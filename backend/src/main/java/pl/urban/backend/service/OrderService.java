@@ -18,15 +18,17 @@ public class OrderService {
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
     private final AdditivesRepository additivesRepository;
+    private final UserAddressRepository userAddressRepository;
 
     public OrderService(OrderRepository orderRepository, RestaurantRepository restaurantRepository,
                         UserRepository userRepository, MenuRepository menuRepository,
-                        AdditivesRepository additivesRepository) {
+                        AdditivesRepository additivesRepository, UserAddressRepository userAddressRepository) {
         this.orderRepository = orderRepository;
         this.restaurantRepository = restaurantRepository;
         this.userRepository = userRepository;
         this.menuRepository = menuRepository;
         this.additivesRepository = additivesRepository;
+        this.userAddressRepository = userAddressRepository;
     }
 
     @Transactional
@@ -86,6 +88,7 @@ public class OrderService {
             order.setStatus(orderRequest.getStatus());
             order.setTotalPrice(orderRequest.getTotalPrice());
             order.setDeliveryTime(orderRequest.getDeliveryTime());
+            order.setDeliveryOption(orderRequest.getDeliveryOption());
             order.setComment(orderRequest.getComment());
 
             Restaurant restaurant = restaurantRepository.findById(orderRequest.getRestaurant().getId())
@@ -95,6 +98,10 @@ public class OrderService {
             User user = userRepository.findById(orderRequest.getUser().getId())
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             order.setUser(user);
+
+            UserAddress userAddress = userAddressRepository.findById(orderRequest.getUserAddress().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("User address not found"));
+            order.setUserAddress(userAddress);
 
             List<OrderMenu> orderMenus = new ArrayList<>();
             if (orderRequest.getOrderMenus() != null && !orderRequest.getOrderMenus().isEmpty()) {
