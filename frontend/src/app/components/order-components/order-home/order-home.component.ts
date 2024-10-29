@@ -45,7 +45,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
   deliveryOption: string = '';
 
   constructor(private languageService: LanguageService,
-              private authService: AuthService,
+              protected authService: AuthService,
               private addressService: AddressesService,
               private orderService: OrderService,
               private restaurantService: RestaurantsService,
@@ -53,15 +53,9 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
 
 
   ngOnInit() {
-    this.checkAuth();
-    this.checkFragment();
+    this.subscribeToAuthChanges();
     this.getRestaurant();
-    this.authService.loadUserInfoIfAuthenticated();
-    this.getUserAddresses();
 
-    this.authService.userInfo$.subscribe(user => {
-      this.user = user;
-    });
   }
 
   ngAfterViewInit() {
@@ -73,16 +67,23 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
 
   }
 
-  checkAuth(): boolean {
-    if (!this.isAuthChecked) {
-      this.isAuthChecked = true;
-
-      this.getUserAddresses();
-
-    }
-
-    return !!localStorage.getItem('jwt');
+  subscribeToAuthChanges() {
+    this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.getUserAddresses();
+        this.authService.userInfo$.subscribe(user => {
+          this.user = user;
+        });
+      } else {
+        this.clearAddresses();
+      }
+    });
   }
+
+  clearAddresses() {
+    this.addresses = [];
+  }
+
 
 
   updateCanOrder() {
@@ -142,17 +143,12 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
     }
   }
 
-  checkFragment(): void {
-    const fragment = this.router.url.split('#')[1];
-    if (fragment === 'login') {
-      this.getUserAddresses();
-    }
-  }
 
   getUserAddresses() {
-    this.token ? this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+    if(this.token)
+    this.addressService.getUserAddresses(this.token).subscribe(addresses => {
       this.addresses = addresses;
-    }) : null
+    });
   }
 
     getTranslation<k extends keyof LanguageTranslations>(key: k): string {

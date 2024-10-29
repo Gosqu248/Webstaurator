@@ -1,6 +1,6 @@
 <div class="order-home">
   <div class="left-container">
-    <div *ngIf="!checkAuth()" class="container">
+    <div *ngIf="!authService.isAuthenticated()" class="container">
       <p>{{getTranslation('haveAccount')}}</p>
       <button class="login" (click)="login()" >{{getTranslation('login')}}</button>
     </div>

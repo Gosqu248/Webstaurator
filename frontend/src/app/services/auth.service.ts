@@ -13,6 +13,8 @@ export class AuthService {
   private apiUrl = environment.api + '/api/auth';
   private userInfo = new BehaviorSubject<User>({} as User);
   userInfo$ = this.userInfo.asObservable();
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object, private addressService: AddressesService) {}
 
@@ -36,6 +38,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
           if (response.jwt) {
             localStorage.setItem('jwt', response.jwt);
+            this.isAuthenticatedSubject.next(true);
             this.loadUserInfoIfAuthenticated();
           } else {
             console.error('No JWT token in response: ', response)
@@ -63,6 +66,7 @@ export class AuthService {
 
     }
     this.userInfo.next({} as User);
+    this.isAuthenticatedSubject.next(false);
 
   }
 
@@ -76,6 +80,7 @@ export class AuthService {
     return this.http.put<boolean>(`${this.apiUrl}/changePassword`, {password, newPassword}, {headers});
   }
 
-  clearUserInfo() {
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('jwt');
   }
 }
