@@ -1,8 +1,8 @@
 <div class="addresses-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
+    <i class="fa-solid fa-chevron-left" (click)="backToMenuDialog()"></i>
     <h2>{{getTranslation('addresses')}}</h2>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
 
   <div class="addresses-container">
@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <button [routerLink]="[]" fragment="add-address"> {{getTranslation('addAddress')}}</button>
+  <button (click)="openAddAddressDialog()"> {{getTranslation('addAddress')}}</button>
 
 </div>
 

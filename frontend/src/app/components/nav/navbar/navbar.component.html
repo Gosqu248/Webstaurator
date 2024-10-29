@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <i class="material-icons menu-button" [routerLink]="[]" fragment="menu">menu</i>
+      <i class="material-icons menu-button" (click)="openMenuDialog()">menu</i>
     </div>
   </div>
 
@@ -59,17 +59,6 @@
 
 </div>
 
-<div class="overlay" [ngClass]="{'dimmed': isDimmed}"></div>
 
-<app-menu *ngIf="showMenu"></app-menu>
-<app-menu-login *ngIf="showLogin"></app-menu-login>
-<app-menu-register *ngIf="showRegister"></app-menu-register>
-<app-menu-profile *ngIf="showProfile"></app-menu-profile>
-<app-menu-language *ngIf="showLanguage"></app-menu-language>
-<app-menu-change-password *ngIf="showChangePassword"></app-menu-change-password>
-<app-menu-addresses *ngIf="showAddresses"></app-menu-addresses>
-<app-menu-add-address *ngIf="showAddAddress"></app-menu-add-address>
-<app-menu-address-change *ngIf="showChangeAddress"></app-menu-address-change>
-<app-menu-favourite *ngIf="showFavourite"></app-menu-favourite>
 
 

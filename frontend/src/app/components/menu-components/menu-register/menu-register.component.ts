@@ -13,8 +13,11 @@ import {LanguageService} from "../../../services/language.service";
 import {User} from "../../../interfaces/user.interface";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
-import {Router, RouterLink} from "@angular/router";
-import {FragmentsService} from "../../../services/fragments.service";
+import {RouterLink} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogRef} from "@angular/cdk/dialog";
+import {MenuComponent} from "../menu/menu.component";
+import {MenuLoginComponent} from "../menu-login/menu-login.component";
 
 @Component({
   selector: 'app-menu-register',
@@ -36,7 +39,11 @@ export class MenuRegisterComponent {
 
 
 
-  constructor(private authService: AuthService ,private languageService: LanguageService, private fb: FormBuilder, private router: Router, private fragmentService: FragmentsService) {
+  constructor(private authService: AuthService,
+              private languageService: LanguageService,
+              private fb: FormBuilder,
+              private dialog: MatDialog,
+              public dialogRef: DialogRef<MenuRegisterComponent>) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -73,7 +80,7 @@ export class MenuRegisterComponent {
       this.authService.register(user).subscribe({
         next: (response: any) => {
           alert(response.message);
-          this.router.navigate([], {fragment: 'menu'});
+          this.backToMenuDialog();
         },
         error: (err) => {
           console.error('Registration failed', err);
@@ -107,8 +114,18 @@ export class MenuRegisterComponent {
     fieldId === 'password' ? this.isVisiblePassword = !this.isVisiblePassword : this.isVisibleConfirm = !this.isVisibleConfirm;
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuComponent);
+  }
+
+  goToLoginDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuLoginComponent);
   }
 
 }

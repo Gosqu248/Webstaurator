@@ -13,7 +13,8 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
-import { FragmentsService } from '../../../services/fragments.service';
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 
 @Component({
   selector: 'app-menu-change-password',
@@ -35,7 +36,13 @@ export class MenuChangePasswordComponent {
   resetForm: FormGroup;
   isError: boolean = false;
 
-  constructor(private languageService: LanguageService, private fb: FormBuilder, private authService: AuthService, private router: Router, private fragmentService: FragmentsService) {
+  constructor(private languageService: LanguageService,
+              private fb: FormBuilder,
+              private authService: AuthService,
+              private router: Router,
+              private dialog: MatDialog,
+              public dialogRef: MatDialogRef<MenuChangePasswordComponent>,
+              ) {
     this.resetForm = this.fb.group({
       oldPassword: [''],
       newPassword: ['', [
@@ -100,8 +107,13 @@ export class MenuChangePasswordComponent {
     fieldId === 'oldPassword' ? this.isVisibleOldPassword = !this.isVisibleOldPassword : fieldId === 'newPassword' ? this.isVisibleNewPassword = !this.isVisibleNewPassword : this.isVisibleConfirm = !this.isVisibleConfirm;
 
   }
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuProfileDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuProfileComponent);
   }
 
 }

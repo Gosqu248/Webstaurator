@@ -1,8 +1,8 @@
 <div class="login-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
+    <i class="fa-solid fa-chevron-left" (click)="backToMenuDialog()"></i>
     <h2>{{getTranslation('login')}}</h2>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="input-container">
@@ -25,7 +25,7 @@
     <button type="submit">{{getTranslation('login')}}</button>
 
     <div class="last-container">
-      <h2 [routerLink]="[]" fragment="register"> {{getTranslation('createAccount')}}</h2>
+      <h2 (click)="goToRegisterDialog()"> {{getTranslation('createAccount')}}</h2>
     </div>
   </form>
 

@@ -1,8 +1,8 @@
 <div class="change-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="addresses"></i>
+    <i class="fa-solid fa-chevron-left" (click)="backToMenuAddressesDialog()"></i>
     <h2>{{getTranslation('changeAddress')}}</h2>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
 
   <form [formGroup]="changeForm" (ngSubmit)="changeAddress()">

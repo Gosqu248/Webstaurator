@@ -1,21 +1,21 @@
 <div class="menu">
   <div class="menu-first">
-    <h2 *ngIf="!checkAuth(); else notAuth"> {{getTranslation('myAccount')}} </h2>
+    <h2 *ngIf="!authService.isAuthenticated(); else notAuth"> {{getTranslation('myAccount')}} </h2>
     <ng-template #notAuth>
       <h2> {{name}}</h2>
     </ng-template>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
 
-  <div class="menu-login" *ngIf="!checkAuth()">
-    <button class="registry-button" [routerLink]="[]" fragment="register"> {{getTranslation('createAccount')}} </button>
-    <button class="login-button" [routerLink]="[]" fragment="login"> {{getTranslation('login')}}  </button>
+  <div class="menu-login" *ngIf="!authService.isAuthenticated()">
+    <button class="registry-button" (click)="openRegisterDialog()"> {{getTranslation('createAccount')}} </button>
+    <button class="login-button" (click)="openLoginDialog()"> {{getTranslation('login')}}  </button>
   </div>
-  <div class="menu-item" [routerLink]="[]" [fragment]="checkAuth() ? 'menu-profile' : 'login'">
+  <div class="menu-item" (click)="openMenuProfileDialog()">
     <i class="fa-solid fa-user"></i>
     <h3>{{getTranslation('profile')}}</h3>
   </div>
-  <div class="menu-item" [routerLink]="[]" fragment="addresses">
+  <div class="menu-item" (click)="openAddressesDialog()">
     <i class="fa-solid fa-house"></i>
     <h3>{{getTranslation('addresses')}}</h3>
   </div>
@@ -23,7 +23,7 @@
     <i class="fa-solid fa-bag-shopping"></i>
     <h3>{{getTranslation('orders')}}</h3>
   </div>
-  <div class="menu-item" [routerLink]="[]" [fragment]="checkAuth() ? 'favourite' : 'login'">
+  <div class="menu-item" (click)="openFavoritesDialog()">
     <i class="fa-solid fa-heart"></i>
     <h3>{{getTranslation('favourites')}}</h3>
   </div>
@@ -31,7 +31,7 @@
     <i class="fa-solid fa-comment-dots"></i>
     <h3>{{getTranslation('opinions')}}</h3>
   </div>
-  <div class="menu-item" *ngIf="showLanguageOption" [routerLink]="[]" fragment="menu-language">
+  <div class="menu-item" *ngIf="showLanguageOption" (click)="openLanguageDialog()">
     <i class="fa-solid fa-language"></i>
     <h3>{{getTranslation('changeLanguage')}}</h3>
   </div>
@@ -39,7 +39,7 @@
     <i class="fa-solid fa-circle-question"></i>
     <h3>{{getTranslation('help')}}</h3>
   </div>
-  <div class="menu-item" *ngIf="checkAuth()" (click)="logout()">
+  <div class="menu-item" *ngIf="authService.isAuthenticated()" (click)="logout()">
     <i class="fa-solid fa-sign-out"></i>
     <h3>{{getTranslation('logout')}}</h3>
   </div>

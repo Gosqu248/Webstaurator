@@ -45,7 +45,8 @@ public class UserAddressService {
             throw new IllegalArgumentException("Address with this id not found");
         }
 
-        userAddressRepository.deleteById(addressId);
+        userAddress.setUserId(null);
+        userAddressRepository.save(userAddress);
     }
 
 

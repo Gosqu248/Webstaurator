@@ -15,6 +15,9 @@ import {OrderService} from "../../../services/order.service";
 import {RestaurantsService} from "../../../services/restaurants.service";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {User} from "../../../interfaces/user.interface";
+import {OptionService} from "../../../services/option.service";
+import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-order-home',
@@ -46,8 +49,10 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
 
   constructor(private languageService: LanguageService,
               protected authService: AuthService,
+              private dialog: MatDialog,
               private addressService: AddressesService,
               private orderService: OrderService,
+              private optionService: OptionService,
               private restaurantService: RestaurantsService,
               private router: Router) {}
 
@@ -102,10 +107,9 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
     const restaurantId = sessionStorage.getItem('restaurantId');
     const deliveryTime = this.orderDelivery.selectedDeliveryOption === "fastest" ? 'Jak najszybciej' : this.orderDelivery.selectedHour || '';
     const user = this.user ;
-    const delOpt = sessionStorage.getItem("deliveryOption");
-    if (delOpt) {
-      delOpt === "delivery" ? this.deliveryOption = "dostawa" : this.deliveryOption = "odbiór";
-    }
+   this.optionService.selectBasketDelivery$.subscribe(delivery => {
+      this.deliveryOption = delivery;
+    });
 
 
     if (restaurantId) {
@@ -129,8 +133,17 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
 
   }
 
-  login() {
-    this.router.navigate([], { fragment: 'login' });
+  openLoginDialog(): void {
+    const dialogRef = this.dialog.open(MenuLoginComponent, {
+      width: '400px',
+      height: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result === 'success') {
+        this.getUserAddresses();
+      }
+    });
   }
 
   getRestaurant() {

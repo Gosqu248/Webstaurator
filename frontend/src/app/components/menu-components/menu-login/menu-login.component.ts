@@ -5,8 +5,9 @@ import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Router, RouterLink} from "@angular/router";
-import {FragmentsService} from "../../../services/fragments.service";
-import {AddressesService} from "../../../services/addresses.service";
+import {MenuComponent} from "../menu/menu.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 
 @Component({
   selector: 'app-menu-login',
@@ -31,8 +32,8 @@ export class MenuLoginComponent {
               private authService: AuthService,
               private fb: FormBuilder,
               private router: Router,
-              private addressService: AddressesService,
-              private fragmentService: FragmentsService) {
+              private dialog: MatDialog,
+              public dialogRef: MatDialogRef<MenuLoginComponent>) {
     this.loginForm = this.fb.group({
       email: ['', Validators.email],
       password: ['']
@@ -49,6 +50,7 @@ export class MenuLoginComponent {
         if (isAuthenticated) {
           this.router.navigate([], {fragment: 'menu'});
           console.log("Login " + this.loginForm.value.email);
+          this.backToMenuDialog();
         } else {
           this.isLoginError = !this.isLoginError;
           console.log("Invalid login or password");
@@ -66,8 +68,19 @@ export class MenuLoginComponent {
     inputField.type === 'password' ? inputField.type = 'text' : inputField.type = 'password';
     this.isVisible = !this.isVisible;
   }
-  removeFragment() {
-    this.fragmentService.removeFragment();
+
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
+  backToMenuDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuComponent);
+  }
+
+  goToRegisterDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuRegisterComponent);
+  }
 }

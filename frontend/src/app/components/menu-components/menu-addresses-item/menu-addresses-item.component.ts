@@ -4,6 +4,9 @@ import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AddressesService} from "../../../services/addresses.service";
 import {RouterLink} from "@angular/router";
+import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
 
 @Component({
   selector: 'app-menu-addresses-item',
@@ -18,7 +21,10 @@ export class MenuAddressesItemComponent {
   @Input() address?: UserAddress;
   @Output() reloadAddress = new EventEmitter<void>();
 
-  constructor(private languageService: LanguageService, private addressesService: AddressesService) {}
+  constructor(private languageService: LanguageService,
+              public dialogRef: MatDialogRef<MenuAddressesComponent>,
+              private dialog: MatDialog,
+              private addressesService: AddressesService) {}
 
 
   removeAddress() {
@@ -26,7 +32,6 @@ export class MenuAddressesItemComponent {
     if (token && this.address?.id !== undefined) {
       this.addressesService.removeAddress(token, this.address.id).subscribe({
         next: () => {
-          console.log('Address removed');
           this.reloadAddress.emit();
         },
         error: error => {
@@ -34,6 +39,13 @@ export class MenuAddressesItemComponent {
         }
       });
       }
+  }
+
+  goToChangeAddress() {
+    this.dialogRef.close();
+    this.dialog.open(MenuAddressChangeComponent, {
+      data: this.address?.id,
+    });
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

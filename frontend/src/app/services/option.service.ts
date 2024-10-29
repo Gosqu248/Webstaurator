@@ -17,6 +17,7 @@ export class OptionService {
   selectedCategories$ = this.selectedCategories.asObservable();
 
   selectBasketDelivery = new BehaviorSubject<string>('delivery');
+  selectBasketDelivery$ = this.selectBasketDelivery.asObservable();
 
   selectedMenuCategory = new BehaviorSubject<string>('');
   selectedMenuCategory$ = this.selectedMenuCategory.asObservable();

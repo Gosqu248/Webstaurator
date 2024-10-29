@@ -1,8 +1,8 @@
 <div class="profile-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
+    <i class="fa-solid fa-chevron-left" (click)="backToMenuDialog()"></i>
     <h2>{{getTranslation('profile')}}</h2>
-    <i class="fa-regular fa-circle-xmark" (click)="removeFragment()"></i>
+    <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
   <div class="input-container">
     <label for="name">{{getTranslation('name')}}</label>
@@ -17,7 +17,7 @@
 
   <div class="password-container">
     <h3>{{ getTranslation('wannaChangePassword') }}</h3>
-    <button [routerLink]="[]" fragment="change-password">{{getTranslation('clickHere')}} </button>
+    <button (click)="goToChangePasswordDialog()">{{getTranslation('clickHere')}} </button>
   </div>
 
 </div>

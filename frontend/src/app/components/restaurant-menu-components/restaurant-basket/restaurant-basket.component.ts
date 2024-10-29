@@ -74,7 +74,6 @@ export class RestaurantBasketComponent implements OnInit{
 
   goToOrder() {
     this.orderService.setOrders(this.orderMenus);
-    sessionStorage.setItem("deliveryOption", this.selectedOption);
     this.router.navigate(['/checkout']);
   }
 

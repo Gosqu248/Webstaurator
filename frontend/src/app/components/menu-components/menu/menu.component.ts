@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
@@ -7,10 +7,11 @@ import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
-import {ActivatedRoute, RouterLink, RouterOutlet} from "@angular/router";
-import {FragmentsService} from "../../../services/fragments.service";
+import { RouterLink, RouterOutlet} from "@angular/router";
 import {OptionService} from "../../../services/option.service";
-import {AddressesService} from "../../../services/addresses.service";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
+import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component";
 
 @Component({
   selector: 'app-menu',
@@ -31,38 +32,28 @@ export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;
   name: string = '';
   private isFetchingUserData: boolean = false;
-  private isAuthChecked: boolean = false;
-  showRegister: boolean = false;
-  showLogin: boolean = false;
-
+  token = localStorage.getItem('jwt');
   constructor(private languageService: LanguageService,
-              private authService: AuthService,
-              private elementRef: ElementRef,
-              private route: ActivatedRoute,
-              private fragmentService: FragmentsService,
-              private addressService: AddressesService,
+              protected authService: AuthService,
+              private dialog: MatDialog,
+              public dialogRef: MatDialogRef<MenuComponent>,
               private optionService: OptionService) {}
 
   ngOnInit() {
-    this.checkAuth();
+    this.getUserData();
     this.checkWindowWidth();
-    window.addEventListener('resize', this.checkWindowWidth.bind(this));
-    this.route.fragment.subscribe(fragment => {
-      this.showRegister = fragment === 'register';
-      this.showLogin = fragment === 'login';
-    });
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {
     return this.languageService.getTranslation(key);
   }
 
-  getUserData(token: string) {
+  getUserData() {
     if (this.isFetchingUserData) return;
     this.isFetchingUserData = true;
 
-    if (token) {
-      this.authService.getUser(token).subscribe({
+    if (this.token) {
+      this.authService.getUser(this.token).subscribe({
         next: user => {
           this.name = user.name;
           localStorage.setItem('name', user.name);
@@ -90,39 +81,87 @@ export class MenuComponent implements OnInit {
     this.showLanguageOption = window.innerWidth < 768;
   }
 
-  checkAuth(): boolean {
-    if (!this.isAuthChecked) {
-      this.isAuthChecked = true;
-      const token = localStorage.getItem('jwt');
-      console.log('Token: ', token);
 
-      if (token) {
-        this.getUserData(token);
-        return true;
-      }
-    }
-    return !!localStorage.getItem('jwt');
-  }
 
   logout() {
     this.authService.logout();
     this.optionService.clearFavourites();
   }
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    const targetElement = event.target as HTMLElement;
+  closeDialog() {
+    this.dialogRef.close();
 
-    if (targetElement.classList.contains('fa-chevron-left')) {
-      return;
-    }
+  }
 
-    if (!this.elementRef.nativeElement.contains(targetElement) && !targetElement.closest('.menu-button')) {
-      this.removeFragment();
+  openRegisterDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuRegisterComponent, {
+      width: 'auto',
+      maxWidth: '100%',
+      height: 'auto',
+    });
+  }
+
+  openLoginDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuLoginComponent, {
+      width: 'auto',
+      maxWidth: '100%',
+      height: 'auto',
+    });
+  }
+
+  openMenuProfileDialog() {
+    this.closeDialog();
+    if (this.authService.isAuthenticated()) {
+      this.dialog.open(MenuProfileComponent, {
+        width: 'auto',
+        maxWidth: '100%',
+        height: 'auto',
+      });
+    } else {
+      this.dialog.open(MenuLoginComponent, {
+        width: 'auto',
+        maxWidth: '100%',
+        height: 'auto',
+      });
     }
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  openAddressesDialog() {
+    this.closeDialog();
+    if (this.authService.isAuthenticated()) {
+      this.dialog.open(MenuAddressesComponent, {
+        width: 'auto',
+        maxWidth: '100%',
+        height: 'auto',
+      });
+    } else {
+      this.dialog.open(MenuLoginComponent, {
+        width: 'auto',
+        maxWidth: '100%',
+        height: 'auto',
+      });
+    }
+
   }
+
+  openFavoritesDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuFavouriteComponent, {
+      width: 'auto',
+      maxWidth: '100%',
+      height: 'auto',
+    });
+  }
+
+  openLanguageDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuLanguageComponent, {
+      width: 'auto',
+      maxWidth: '100%',
+      height: 'auto',
+    });
+  }
+
 }

@@ -13,10 +13,7 @@ export class OrderService {
 
 
   constructor(private http: HttpClient, private cartService: CartService) {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      const storedOrders = sessionStorage.getItem('orderMenu');
-      this.orderMenus = storedOrders ? JSON.parse(storedOrders) : [];
-    }
+
   }
 
   getUserOrders(userId: number) {
@@ -36,7 +33,6 @@ export class OrderService {
   }
   setOrders(orderMenu: OrderMenu[]) {
     this.orderMenus = orderMenu;
-    sessionStorage.setItem('orderMenu', JSON.stringify(orderMenu));
 
   }
   getOrders(): OrderMenu[] {

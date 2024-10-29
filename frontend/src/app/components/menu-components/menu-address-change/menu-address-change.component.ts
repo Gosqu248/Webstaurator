@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LanguageService } from "../../../services/language.service";
 import { AddressesService } from "../../../services/addresses.service";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { UserAddress } from "../../../interfaces/user.address.interface";
-import { FragmentsService } from "../../../services/fragments.service";
+import {MenuComponent} from "../menu/menu.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 
 @Component({
   selector: 'app-menu-address-change',
@@ -28,8 +30,10 @@ export class MenuAddressChangeComponent implements OnInit {
     private addressesService: AddressesService,
     private router: Router,
     private fb: FormBuilder,
-    private fragmentService: FragmentsService,
-    private route: ActivatedRoute
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<MenuAddressChangeComponent>,
+    private route: ActivatedRoute,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.changeForm = this.fb.group({
       street: ['', Validators.required],
@@ -40,6 +44,7 @@ export class MenuAddressChangeComponent implements OnInit {
       city: ['', Validators.required],
       phoneNumber: ['', Validators.required]
     });
+    this.addressId = data.address?.id;
   }
 
   ngOnInit() {
@@ -71,7 +76,7 @@ export class MenuAddressChangeComponent implements OnInit {
       updatedAddress.id = this.addressId;
 
       this.addressesService.changeAddress(this.token!, updatedAddress).subscribe(() => {
-        this.router.navigate([], {fragment: 'addresses'});
+        this.backToMenuAddressesDialog();
       });
     }
   }
@@ -80,7 +85,13 @@ export class MenuAddressChangeComponent implements OnInit {
     return this.languageService.getTranslation(key);
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuAddressesDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuAddressesComponent);
   }
 }

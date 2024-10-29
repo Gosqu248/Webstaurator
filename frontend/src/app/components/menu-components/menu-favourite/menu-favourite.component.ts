@@ -6,8 +6,9 @@ import {FavouriteService} from "../../../services/favourite.service";
 import {Favourites} from "../../../interfaces/favourites";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
-import {FragmentsService} from "../../../services/fragments.service";
 import {MenuFavItemComponent} from "../menu-fav-item/menu-fav-item.component";
+import {MenuComponent} from "../menu/menu.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-menu-favourite',
@@ -26,7 +27,11 @@ export class MenuFavouriteComponent  implements OnInit{
   userId: number = 0;
   favourites: Favourites[] = [];
 
-  constructor(private favouriteService: FavouriteService, private languageService: LanguageService, private fragmentService: FragmentsService) {}
+  constructor(private favouriteService: FavouriteService,
+              private languageService: LanguageService,
+              private dialog: MatDialog,
+              public dialogRef: MatDialogRef<MenuFavouriteComponent>
+              ) {}
 
   ngOnInit() {
     this.getFavourites();
@@ -45,7 +50,12 @@ export class MenuFavouriteComponent  implements OnInit{
     return this.languageService.getTranslation(key)
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuComponent);
   }
 }

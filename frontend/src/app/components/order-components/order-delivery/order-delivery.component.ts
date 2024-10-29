@@ -10,6 +10,8 @@ import {AddressesService} from "../../../services/addresses.service";
 import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
+import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -40,6 +42,8 @@ export class OrderDeliveryComponent implements OnInit{
   constructor(private languageService: LanguageService,
               private addressService: AddressesService,
               private deliveryService: DeliveryService,
+              private authService: AuthService,
+              private router: Router,
               private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -74,18 +78,25 @@ export class OrderDeliveryComponent implements OnInit{
 
 
   openAddAddress(): void {
-    const dialog = this.dialog.open(AddAddressDialogComponent, {
-      width: '1200px',
-      height: '600px',
-    });
+    if (this.authService.isAuthenticated()) {
 
-    dialog.afterClosed().subscribe(() => {
-      const token = localStorage.getItem('jwt');
-      token ? this.addressService.getUserAddresses(token).subscribe(addresses => {
-        this.addresses = addresses;
-      }) : null;
-      this.deliveryChanged.emit();
-    });
+      const dialog = this.dialog.open(AddAddressDialogComponent, {
+        width: '1200px',
+        height: '600px',
+      });
+
+      dialog.afterClosed().subscribe(() => {
+        const token = localStorage.getItem('jwt');
+        token ? this.addressService.getUserAddresses(token).subscribe(addresses => {
+          this.addresses = addresses;
+        }) : null;
+        this.deliveryChanged.emit();
+      });
+
+    } else {
+      this.router.navigate([], { fragment: 'login' });
+
+    }
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

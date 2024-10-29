@@ -1,6 +1,6 @@
 <div class="language-menu">
   <div class="first-section">
-    <i class="fa-solid fa-chevron-left" [routerLink]="[]" fragment="menu"></i>
+    <i class="fa-solid fa-chevron-left" (click)="backToMenuDialog()"></i>
     <h2>{{getTranslation('language')}}</h2>
   </div>
   <div class="language-item" (click)="setLanguage('pl')">

@@ -5,7 +5,9 @@ import {LanguageService} from "../../../services/language.service";
 import {AuthService} from "../../../services/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import { RouterLink} from "@angular/router";
-import {FragmentsService} from "../../../services/fragments.service";
+import {MenuComponent} from "../menu/menu.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuChangePasswordComponent} from "../menu-change-password/menu-change-password.component";
 
 @Component({
   selector: 'app-menu-profile',
@@ -30,7 +32,8 @@ export class MenuProfileComponent implements OnInit {
   constructor(
     private languageService: LanguageService,
     private authService: AuthService,
-    private fragmentService: FragmentsService
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<MenuProfileComponent>,
   ) {}
 
 
@@ -64,8 +67,18 @@ export class MenuProfileComponent implements OnInit {
     }
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuComponent);
+  }
+
+  goToChangePasswordDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuChangePasswordComponent);
   }
 
 }

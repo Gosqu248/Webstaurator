@@ -23,24 +23,19 @@ export class RestaurantMenuComponent implements OnInit {
   constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService) {}
 
   ngOnInit(): void {
-    this.getRestaurantId();
     this.getRestaurant();
 
   }
 
-  getRestaurantId() {
-    this.route.queryParams.subscribe(() => {
-      const id = sessionStorage.getItem('restaurantId');
-      this.restaurantId = id ? parseInt(id) : 0;
-    });
-  }
-
   getRestaurant() {
-    if (this.restaurantId) {
-      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
-        this.restaurant = data;
-        this.image = data.imageUrl;
-      });
+      const restaurantId = sessionStorage.getItem('restaurantId');
+      if (restaurantId) {
+        const id = parseInt(restaurantId);
+        this.restaurantId = id;
+        this.restaurantService.getRestaurantById(id).subscribe((data: Restaurant) => {
+          this.restaurant = data;
+          this.image = data.imageUrl;
+        });
+      }
     }
-  }
 }

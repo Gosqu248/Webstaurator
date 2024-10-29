@@ -4,8 +4,7 @@ import { isPlatformBrowser, NgClass, NgIf } from "@angular/common";
 import { LanguageService } from "../../../services/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MenuComponent } from "../../menu-components/menu/menu.component";
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from "@angular/router";
-import { filter } from "rxjs";
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from "@angular/router";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MenuRegisterComponent} from "../../menu-components/menu-register/menu-register.component";
 import {MenuProfileComponent} from "../../menu-components/menu-profile/menu-profile.component";
@@ -17,6 +16,7 @@ import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/me
 import {ResturantCategoryComponent} from "../../resturants-components/resturant-category/resturant-category.component";
 import {OptionService} from "../../../services/option.service";
 import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-navbar',
@@ -68,46 +68,19 @@ export class NavbarComponent implements OnInit, OnChanges{
 
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
-              private route: ActivatedRoute,
               private optionService: OptionService,
+              private dialog: MatDialog,
               private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.currentFlag = this.getCurrentFlag();
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      const menuItems = ['menu', 'menu-profile', 'menu-language', 'change-password', 'addresses', 'add-address', 'change-address', 'register', 'login', 'favourite'];
-      this.isDimmed = menuItems.some(item => event.url.endsWith(item));
-      this.currentRoute = event.url;
-      if (this.currentRoute === '/restaurants') {
-        this.address = sessionStorage.getItem('address');
-        this.selectedOption = sessionStorage.getItem('selectedOption') || 'delivery';
-          }
-
-    });
-
-
     if (isPlatformBrowser(this.platformId)) {
       this.checkWindowWidth();
       window.addEventListener('resize', this.checkWindowWidth.bind(this));
     }
 
-    this.route.fragment.subscribe(fragment => {
-      this.showMenu = fragment === 'menu';
-      this.showLogin = fragment === 'login';
-      this.showRegister = fragment === 'register';
-      this.showProfile = fragment === 'menu-profile';
-      this.showLanguage = fragment === 'menu-language';
-      this.showChangePassword = fragment === 'change-password';
-      this.showAddresses = fragment === 'addresses';
-      this.showAddAddress = fragment === 'add-address';
-      this.showChangeAddress = fragment === 'change-address';
-      this.showFavourite = fragment === 'favourite';
-      this.isDimmed = this.showMenu;
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -168,6 +141,15 @@ export class NavbarComponent implements OnInit, OnChanges{
   selectOption(option: string) {
     this.selectedOption = option;
     this.optionService.setSelectedOption(option);
+  }
+
+  openMenuDialog() {
+    this.dialog.open(MenuComponent, {
+      width: '400px',
+      height: '400px',
+      position: { top: '50%', left: '50%' },
+      panelClass: 'centered-dialog'
+    });
   }
 
 }

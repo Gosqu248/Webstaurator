@@ -8,7 +8,9 @@ import {AddressesService} from "../../../services/addresses.service";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
 import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
-import {FragmentsService} from "../../../services/fragments.service";
+import {MenuComponent} from "../menu/menu.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuAddAddressComponent} from "../menu-add-address/menu-add-address.component";
 
 @Component({
   selector: 'app-menu-addresses',
@@ -27,7 +29,10 @@ import {FragmentsService} from "../../../services/fragments.service";
 export class MenuAddressesComponent implements OnInit{
   addresses: UserAddress[] = [];
 
-  constructor(private languageService: LanguageService, private addressesService: AddressesService, private fragmentService:FragmentsService) {}
+  constructor(private languageService: LanguageService,
+              private addressesService: AddressesService,
+              private dialog: MatDialog,
+              public dialogRef: MatDialogRef<MenuAddressesComponent>) {}
 
   ngOnInit() {
     this.getAddresses();
@@ -59,8 +64,18 @@ export class MenuAddressesComponent implements OnInit{
     return this.languageService.getTranslation(key)
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuComponent);
+  }
+
+  openAddAddressDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuAddAddressComponent);
   }
 
 }

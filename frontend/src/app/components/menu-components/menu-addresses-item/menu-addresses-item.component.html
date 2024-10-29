@@ -9,7 +9,7 @@
   </div>
 
   <div class="right-container">
-    <div class="edit-container" [routerLink]="[]" fragment="change-address" [queryParams]="{id: address?.id}">
+    <div class="edit-container" (click)="goToChangeAddress()">
     <h4>{{getTranslation('changeAddress')}}</h4>
       <i class="fa-solid fa-pencil"></i>
     </div>

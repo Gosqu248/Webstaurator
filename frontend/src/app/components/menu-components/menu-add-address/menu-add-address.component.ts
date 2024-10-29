@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AddressesService} from "../../../services/addresses.service";
-import {FragmentsService} from "../../../services/fragments.service";
+import {MenuComponent} from "../menu/menu.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 
 @Component({
   selector: 'app-menu-add-address',
@@ -25,9 +27,9 @@ export class MenuAddAddressComponent {
   constructor(
     private languageService: LanguageService,
     private addressService: AddressesService,
-    private router: Router,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<MenuAddAddressComponent>,
     private fb: FormBuilder,
-    private fragmentService: FragmentsService
   ) {
     this.addressForm = this.fb.group({
       street: ['', Validators.required],
@@ -47,7 +49,7 @@ export class MenuAddAddressComponent {
         this.addressService.addAddress(jwt, this.addressForm.value).subscribe({
           next: response => {
             console.log('Address added successfully', response);
-            this.router.navigate([], {fragment: 'addresses'});
+            this.backToMenuAddressesDialog();
           },
           error: error => {
             console.log('Error adding address', error);
@@ -63,7 +65,12 @@ export class MenuAddAddressComponent {
     return this.languageService.getTranslation(key)
   }
 
-  removeFragment() {
-    this.fragmentService.removeFragment();
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  backToMenuAddressesDialog() {
+    this.closeDialog();
+    this.dialog.open(MenuAddressesComponent);
   }
 }
