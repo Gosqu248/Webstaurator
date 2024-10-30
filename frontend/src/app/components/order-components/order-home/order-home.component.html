@@ -1,10 +1,6 @@
 <div class="order-home">
   <div class="left-container">
-    <div *ngIf="!authService.isAuthenticated()" class="container">
-      <p>{{getTranslation('haveAccount')}}</p>
-      <button class="login" (click)="openLoginDialog()" >{{getTranslation('login')}}</button>
-    </div>
-      <app-order-delivery [addresses]="addresses"></app-order-delivery>
+      <app-order-delivery [addresses]="addresses" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
       <app-order-payment></app-order-payment>
       <app-order-personal-info [user]="user"></app-order-personal-info>
   </div>

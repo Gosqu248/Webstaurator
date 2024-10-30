@@ -2,7 +2,6 @@ import { Component, Input, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {NgIf, NgForOf, DecimalPipe} from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LanguageService } from '../../../services/language.service';
 import { MenuService } from '../../../services/menu.service';
 import { OptionService } from '../../../services/option.service';
@@ -18,6 +17,8 @@ import {RatingUtil} from "../../../utils/rating-util";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {RestaurantsService} from "../../../services/restaurants.service";
+import {AuthService} from "../../../services/auth.service";
+import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -45,7 +46,6 @@ export class RestaurantMainComponent implements OnInit {
   categories: string[] = [];
   selectedCategory: string = '';
   filteredMenu: Menu[] = [];
-  isAuthChecked: boolean = false;
   isFavorite: boolean = false;
   userId: number = 0;
   loading: boolean = true;
@@ -56,8 +56,8 @@ export class RestaurantMainComponent implements OnInit {
     private optionService: OptionService,
     private favouriteService: FavouriteService,
     private restaurantService: RestaurantsService,
+    private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
   ) {}
 
   ngOnInit() {
@@ -82,7 +82,7 @@ export class RestaurantMainComponent implements OnInit {
     }
   }
   toggleFavourite() {
-    if (this.checkAuth()) {
+    if (this.authService.isAuthenticated()) {
       if (this.isFavorite) {
         this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
           next: () => {
@@ -108,18 +108,13 @@ export class RestaurantMainComponent implements OnInit {
         this.optionService.addFavourite(this.restaurant.id)
       }
     } else {
-      this.router.navigate([], { fragment: 'login' });
+      this.dialog.open(MenuLoginComponent)
     }
   }
 
-  checkAuth() {
-    const token = localStorage.getItem('jwt');
-    this.isAuthChecked = token != null;
-    return this.isAuthChecked;
-  }
 
   checkIfFavourite() {
-    if (!this.checkAuth()) {
+    if (!this.authService.isAuthenticated()) {
       this.isFavorite = false;
     } else {
       this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
@@ -128,7 +123,7 @@ export class RestaurantMainComponent implements OnInit {
           this.isFavorite = favourites.some((fav: Favourites) => fav.restaurantId === this.restaurant.id);
         });
       } else {
-        this.isFavorite = false; // Set isFavorite to false if the user is not logged in
+        this.isFavorite = false;
         this.loading = false;
       }
 

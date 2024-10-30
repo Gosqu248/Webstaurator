@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="address">
+  <div class="address" *ngIf="deliveryOption === 'delivery'">
     <h3>{{getTranslation('deliveryAddress')}}</h3>
     <app-order-delivery-item
       *ngFor="let address of addresses"
@@ -12,20 +12,27 @@
       <i class="fa-regular fa-address-book"></i>
       <p>{{getTranslation('lackOfAddress')}}</p>
     </div>
-
     <button (click)="openAddAddress()"> {{getTranslation('addAddress')}}</button>
-
-
   </div>
 
+  <div class="address" *ngIf="deliveryOption === 'pickup'">
+    <h3>{{getTranslation('mustLogin')}}</h3>
+
+    <button (click)="openLogin()"> {{getTranslation('login')}}</button>
+  </div>
+
+
+
   <div class="option">
-    <h3>{{getTranslation('deliveryOptions')}}</h3>
+    <h3 *ngIf="deliveryOption === 'delivery'">{{getTranslation('planDelivery')}}</h3>
+    <h3 *ngIf="deliveryOption === 'pickup'">{{getTranslation('planPickUp')}}</h3>
     <div class="item" [ngClass]="{'selected': isDeliveryOptionSelected('fastest')}" (click)="setDelivery('fastest')">
       <div class="main-item">
         <i class="fa-regular fa-hourglass-half"></i>
         <div class="text">
           <h3>{{getTranslation('asSoonAsPossible')}}</h3>
-          <p>{{minTime}}-{{maxTime}}min</p>
+          <p *ngIf="deliveryOption === 'delivery'">{{minTime}}-{{maxTime}}min</p>
+          <p *ngIf="deliveryOption === 'pickup'">{{pickUpTime}}min</p>
         </div>
       </div>
       <div class="icon-background" *ngIf="isDeliveryOptionSelected('fastest')">

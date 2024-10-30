@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser, NgClass, NgForOf, NgIf} from '@angular/common';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { LanguageService } from '../../../services/language.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
 import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import {OptionService} from "../../../services/option.service";
 
 
 @Component({
@@ -27,27 +27,50 @@ import {Router} from "@angular/router";
   styleUrl: './order-delivery.component.css'
 })
 export class OrderDeliveryComponent implements OnInit{
-  @Input() addresses!: UserAddress[];
   @Output() deliveryChanged = new EventEmitter<void>();
-
-
+  @Input() addresses!: UserAddress[];
+  @Output() openLoginDialog = new EventEmitter<unknown>();
   selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;
   maxTime: number = 0;
+  pickUpTime: number = 0;
   deliveryTime: DeliveryHour[] = [];
   selectedHour: string | null = null;
-
+  deliveryOption: string = '';
+  token: string | null = null;
 
   constructor(private languageService: LanguageService,
+              @Inject(PLATFORM_ID) private platformId: Object,
               private addressService: AddressesService,
               private deliveryService: DeliveryService,
               private authService: AuthService,
-              private router: Router,
               private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.getDeliveryOption();
+    if (isPlatformBrowser(this.platformId)) {
+      this.token = localStorage.getItem('jwt');
+    }
     this.getDeliveryTime();
+  }
+
+
+  getDeliveryOption() {
+    if (typeof localStorage !== 'undefined') {
+      const deliveryOption = localStorage.getItem('deliveryOption');
+
+      if (deliveryOption) {
+        this.deliveryOption = deliveryOption;
+      }
+    }
+  }
+
+  getUserAddresses() {
+    if(this.token)
+      this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+        this.addresses = addresses;
+      });
   }
 
   setAddress(address: UserAddress) {
@@ -64,16 +87,23 @@ export class OrderDeliveryComponent implements OnInit{
   }
 
   getDeliveryTime() {
-    const minTime = sessionStorage.getItem('deliveryMin');
-    const maxTime = sessionStorage.getItem('deliveryMax');
-    const id = sessionStorage.getItem('restaurantId');
-    this.minTime = minTime ? parseInt(minTime) : 0;
-    this.maxTime = maxTime ? parseInt(maxTime) : 0;
-    const Id = id ? parseInt(id) : 0;
+    if (isPlatformBrowser(this.platformId)) {
+      const minTime = sessionStorage.getItem('deliveryMin');
+      const maxTime = sessionStorage.getItem('deliveryMax');
+      const id = sessionStorage.getItem('restaurantId');
+      const pickUpTime = sessionStorage.getItem('pickupTime');
 
-    this.deliveryService.getDeliveryTIme(Id).subscribe((data) => {
-      this.deliveryTime = data;
-    });
+      this.minTime = minTime ? parseInt(minTime) : 0;
+      this.maxTime = maxTime ? parseInt(maxTime) : 0;
+      this.pickUpTime = pickUpTime ? parseInt(pickUpTime) : 0;
+      const Id = id ? parseInt(id) : 0;
+
+      this.deliveryService.getDeliveryTIme(Id).subscribe((data) => {
+        this.deliveryTime = data;
+      });
+    }
+
+
   }
 
 
@@ -86,17 +116,17 @@ export class OrderDeliveryComponent implements OnInit{
       });
 
       dialog.afterClosed().subscribe(() => {
-        const token = localStorage.getItem('jwt');
-        token ? this.addressService.getUserAddresses(token).subscribe(addresses => {
-          this.addresses = addresses;
-        }) : null;
+        this.getUserAddresses();
         this.deliveryChanged.emit();
       });
 
     } else {
-      this.router.navigate([], { fragment: 'login' });
-
+      this.openLogin();
     }
+  }
+
+  openLogin() {
+    this.openLoginDialog.emit();
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
@@ -114,11 +144,13 @@ export class OrderDeliveryComponent implements OnInit{
   }
 
   openHourDialog() {
+    const maxTime = this.deliveryOption === 'delivery' ? this.maxTime : this.pickUpTime;
+
     const dialogRef = this.dialog.open(ChooseHourDialogComponent, {
       width: '700px',
       maxWidth: '100%',
       height: '600px',
-      data: {maxTime: this.maxTime, deliveryTime: this.deliveryTime}
+      data: {maxTime: maxTime, deliveryTime: this.deliveryTime}
     });
 
     dialogRef.afterClosed().subscribe(result => {

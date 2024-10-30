@@ -1,5 +1,6 @@
 <div class="container">
-  <h2>{{getTranslation('selectHour')}}</h2>
+  <h2 *ngIf="deliveryOption === 'delivery'">{{getTranslation('selectHour')}}</h2>
+  <h2 *ngIf="deliveryOption === 'pickup'">{{getTranslation('selectHourPickUp')}}</h2>
   <div class="hour-options">
     <button *ngFor="let hour of availableHours"
             [class.selected]="hour === selectedHour"

@@ -12,6 +12,7 @@ import {OptionService} from "../../../services/option.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component";
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-menu',

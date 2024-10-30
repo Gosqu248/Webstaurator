@@ -48,7 +48,6 @@ export class MenuLoginComponent {
     this.authService.login(email, password)
       .subscribe((isAuthenticated: boolean) => {
         if (isAuthenticated) {
-          this.router.navigate([], {fragment: 'menu'});
           console.log("Login " + this.loginForm.value.email);
           this.backToMenuDialog();
         } else {

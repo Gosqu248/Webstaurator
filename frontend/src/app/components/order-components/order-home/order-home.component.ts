@@ -1,7 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, Inject, PLATFORM_ID} from '@angular/core';
 import {OrderBasketComponent} from "../order-basket/order-basket.component";
-import {LanguageService} from "../../../services/language.service";
-import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {OrderPersonalInfoComponent} from "../order-personal-info/order-personal-info.component";
@@ -18,6 +16,7 @@ import {User} from "../../../interfaces/user.interface";
 import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-order-home',
@@ -32,64 +31,61 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './order-home.component.html',
   styleUrl: './order-home.component.css'
 })
-export class OrderHomeComponent implements OnInit, AfterViewInit{
+export class OrderHomeComponent implements OnInit, AfterViewInit {
   @ViewChild(OrderDeliveryComponent) orderDelivery!: OrderDeliveryComponent;
   @ViewChild(OrderPersonalInfoComponent) orderPersonalInfo!: OrderPersonalInfoComponent;
   @ViewChild(OrderPaymentComponent) orderPayment!: OrderPaymentComponent;
   @ViewChild(OrderBasketComponent) basket!: OrderBasketComponent;
 
-  isAuthChecked: boolean = false;
   addresses: UserAddress[] = [];
   user: User = {} as User;
-  token = localStorage.getItem('jwt');
+  token: string | null = null;
   canOrder: boolean = false;
   userId: number | null = null;
   restaurant: Restaurant = {} as Restaurant;
   deliveryOption: string = '';
 
-  constructor(private languageService: LanguageService,
-              protected authService: AuthService,
-              private dialog: MatDialog,
+  constructor(protected authService: AuthService,
               private addressService: AddressesService,
               private orderService: OrderService,
               private optionService: OptionService,
               private restaurantService: RestaurantsService,
-              private router: Router) {}
-
+              private dialog: MatDialog,
+              private router: Router,
+              @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.token = localStorage.getItem('jwt');
+    }
+
     this.subscribeToAuthChanges();
+
     this.getRestaurant();
 
+    this.optionService.selectBasketDelivery$.subscribe(delivery => {
+      this.deliveryOption = delivery;
+    });
   }
 
   ngAfterViewInit() {
     this.updateCanOrder();
-
     this.orderDelivery.deliveryChanged.subscribe(() => {
       this.updateCanOrder();
     });
-
   }
 
   subscribeToAuthChanges() {
     this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.getUserAddresses();
-        this.authService.userInfo$.subscribe(user => {
-          this.user = user;
-        });
+        this.getUser();
       } else {
-        this.clearAddresses();
+        this.user = {} as User;
+        this.addresses = [];
       }
     });
   }
-
-  clearAddresses() {
-    this.addresses = [];
-  }
-
-
 
   updateCanOrder() {
     if (this.orderDelivery && this.orderPersonalInfo) {
@@ -106,11 +102,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
   acceptOrder() {
     const restaurantId = sessionStorage.getItem('restaurantId');
     const deliveryTime = this.orderDelivery.selectedDeliveryOption === "fastest" ? 'Jak najszybciej' : this.orderDelivery.selectedHour || '';
-    const user = this.user ;
-   this.optionService.selectBasketDelivery$.subscribe(delivery => {
-      this.deliveryOption = delivery;
-    });
-
+    const user = this.user;
 
     if (restaurantId) {
       const order: Order = {
@@ -130,7 +122,18 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
     } else {
       console.error('No restaurant id');
     }
+  }
 
+  getRestaurant() {
+    if (isPlatformBrowser(this.platformId)) {
+      const restaurantId = sessionStorage.getItem('restaurantId');
+
+      if (restaurantId) {
+        this.restaurantService.getRestaurantById(parseInt(restaurantId)).subscribe((data: Restaurant) => {
+          this.restaurant = data;
+        });
+      }
+    }
   }
 
   openLoginDialog(): void {
@@ -139,32 +142,25 @@ export class OrderHomeComponent implements OnInit, AfterViewInit{
       height: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result === 'success') {
-        this.getUserAddresses();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.getUserAddresses();
+      this.getUser();
     });
   }
 
-  getRestaurant() {
-    const restaurantId = sessionStorage.getItem('restaurantId');
-
-    if (restaurantId) {
-      this.restaurantService.getRestaurantById(parseInt(restaurantId)).subscribe((data: Restaurant) => {
-        this.restaurant = data;
+  getUserAddresses() {
+    if (this.token) {
+      this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+        this.addresses = addresses;
       });
     }
   }
 
-
-  getUserAddresses() {
-    if(this.token)
-    this.addressService.getUserAddresses(this.token).subscribe(addresses => {
-      this.addresses = addresses;
-    });
-  }
-
-    getTranslation<k extends keyof LanguageTranslations>(key: k): string {
-      return this.languageService.getTranslation(key);
+  getUser() {
+    if (this.token) {
+      this.authService.getUser(this.token).subscribe(user => {
+        this.user = user;
+      });
     }
+  }
 }

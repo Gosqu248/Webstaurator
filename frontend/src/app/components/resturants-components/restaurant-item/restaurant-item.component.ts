@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Restaurant, RestaurantOpinions} from "../../../interfaces/restaurant";
+import {Restaurant} from "../../../interfaces/restaurant";
 import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgIf} from "@angular/common";
@@ -7,8 +7,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
 import {RatingUtil} from "../../../utils/rating-util";
-import {FavouriteService} from "../../../services/favourite.service";
-import {Favourites} from "../../../interfaces/favourites";
+
 
 @Component({
   selector: 'app-restaurant-item',
@@ -39,7 +38,10 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   getRatingLength(): number {
-    sessionStorage.setItem('ratingLength', this.restaurant.restaurantOpinions.length.toString());
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('ratingLength', this.restaurant.restaurantOpinions.length.toString());
+
+    }
     return this.restaurant.restaurantOpinions.length;
   }
 
@@ -51,12 +53,13 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   setSessionRestaurant() {
-    if (this.restaurant && this.restaurant.delivery) {
+    if (this.restaurant && this.restaurant.delivery && typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('restaurantName', this.restaurant.name);
       sessionStorage.setItem('deliveryMin', this.restaurant.delivery.deliveryMinTime.toString());
       sessionStorage.setItem('deliveryMax', this.restaurant.delivery.deliveryMaxTime.toString());
       sessionStorage.setItem('deliveryPrice', this.restaurant.delivery.deliveryPrice.toString());
       sessionStorage.setItem("minPrice", this.restaurant.delivery.minimumPrice.toString());
+      sessionStorage.setItem("pickupTime", this.restaurant.delivery.pickupTime.toString());
     }
   }
 

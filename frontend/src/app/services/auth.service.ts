@@ -4,32 +4,20 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../interfaces/user.interface";
 import {BehaviorSubject, catchError, map, Observable, of, tap} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
-import {AddressesService} from "./addresses.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = environment.api + '/api/auth';
-  private userInfo = new BehaviorSubject<User>({} as User);
-  userInfo$ = this.userInfo.asObservable();
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt'));
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object, private addressService: AddressesService) {}
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   register(user: User): Observable<any> {
     return this.http.post<{message: string}>(`${this.apiUrl}/register`, user)
-  }
-
-  loadUserInfoIfAuthenticated() {
-    const token = isPlatformBrowser(this.platformId) ? localStorage.getItem('jwt') : null;
-
-    if (token) {
-      this.getUser(token).subscribe(userInfo => {
-        this.userInfo.next(userInfo);
-      });
-    }
   }
 
   login(email: string, password: string): Observable<boolean> {
@@ -37,9 +25,8 @@ export class AuthService {
       tap(response => {
         if (isPlatformBrowser(this.platformId)) {
           if (response.jwt) {
-            localStorage.setItem('jwt', response.jwt);
             this.isAuthenticatedSubject.next(true);
-            this.loadUserInfoIfAuthenticated();
+            localStorage.setItem('jwt', response.jwt);
           } else {
             console.error('No JWT token in response: ', response)
           }
@@ -65,7 +52,6 @@ export class AuthService {
       localStorage.removeItem('email');
 
     }
-    this.userInfo.next({} as User);
     this.isAuthenticatedSubject.next(false);
 
   }
@@ -81,6 +67,10 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('jwt');
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('jwt');
+    } else {
+      return false;
+    }
   }
 }

@@ -16,7 +16,7 @@ export class OptionService {
   selectedCategories = new BehaviorSubject<string[]>([]);
   selectedCategories$ = this.selectedCategories.asObservable();
 
-  selectBasketDelivery = new BehaviorSubject<string>('delivery');
+  selectBasketDelivery = new BehaviorSubject<string>(this.loadDeliveryOptionFromStorage());
   selectBasketDelivery$ = this.selectBasketDelivery.asObservable();
 
   selectedMenuCategory = new BehaviorSubject<string>('');
@@ -27,6 +27,7 @@ export class OptionService {
 
   setSelectedOption(option: string) {
     this.selectedOption.next(option);
+    this.selectBasketDelivery.next(option);
   }
 
   setSelectedCategories(categories: string[]) {
@@ -35,6 +36,18 @@ export class OptionService {
 
   setSelectBasketDelivery(delivery: string) {
     this.selectBasketDelivery.next(delivery);
+    localStorage.setItem('deliveryOption', delivery)
+
+  }
+
+
+  loadDeliveryOptionFromStorage(): string {
+    if (typeof localStorage !== 'undefined') {
+      const deliveryOption = localStorage.getItem('deliveryOption');
+      return deliveryOption ? deliveryOption : this.selectedOption.value;
+    }
+    return this.selectedOption.value;
+
   }
 
   setSelectedMenuCategories(category: string) {

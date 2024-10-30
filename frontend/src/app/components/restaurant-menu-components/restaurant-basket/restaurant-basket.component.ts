@@ -28,7 +28,7 @@ export class RestaurantBasketComponent implements OnInit{
   @Input() restaurantId!: number;
   restaurant: Restaurant = {} as Restaurant;
   orderMenus: OrderMenu[] = [];
-  selectedOption: string = 'delivery';
+  selectedOption: string = "";
   deliveryOrder: string = "";
   pickupOrder: string = "";
   isNotPickUp: boolean = false;
@@ -38,6 +38,7 @@ export class RestaurantBasketComponent implements OnInit{
   minimumPrice: number = 0;
   isPriceValid: boolean = true;
   missingPrice: number = 0;
+  serviceFee: number = 2;
 
 
   constructor(private languageService: LanguageService,
@@ -49,7 +50,8 @@ export class RestaurantBasketComponent implements OnInit{
 
   ngOnInit() {
     this.getRestaurant();
-      this.getCart();
+    this.selectedOption = this.optionService.selectedOption.value;
+    this.getCart();
   }
 
   getRestaurant() {
@@ -67,21 +69,21 @@ export class RestaurantBasketComponent implements OnInit{
   getCart() {
     this.cartService.orderMenus$.subscribe(cart => {
       this.orderMenus = cart;
-      this.calculateOrderPrice();
+      this.calculateOrderPrice(this.selectedOption);
       this.getMinimumPrice();
     })
   }
 
   goToOrder() {
-    this.orderService.setOrders(this.orderMenus);
+    this.orderService.updateOrderMenus(this.orderMenus);
     this.router.navigate(['/checkout']);
   }
 
-  calculateOrderPrice() {
-    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus);
+  calculateOrderPrice(option: string) {
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus, option);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
-    this.totalPrice = totalPrice;
+    this.totalPrice = totalPrice  + this.serviceFee;
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
@@ -89,6 +91,7 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   getMinimumPrice() {
+    if (typeof sessionStorage === 'undefined') return;
     const minPrice = sessionStorage.getItem("minPrice");
     this.minimumPrice = minPrice ? +minPrice : 0;
 
@@ -103,6 +106,7 @@ export class RestaurantBasketComponent implements OnInit{
   selectOption(option: string) {
     this.selectedOption = option;
     this.optionService.setSelectBasketDelivery(option);
+    this.calculateOrderPrice(option);
   }
 
   getPickUp() {
@@ -112,6 +116,7 @@ export class RestaurantBasketComponent implements OnInit{
    } else {
       this.pickupOrder = this.getTranslation('notAvailable');
       this.isNotPickUp = true;
+      this.selectedOption = 'delivery';
    }
   }
 

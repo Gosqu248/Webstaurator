@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {CartService} from "./cart.service";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Order, OrderMenu} from "../interfaces/order";
+import {BehaviorSubject} from "rxjs";
+import {isPlatformBrowser} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private orderMenus: OrderMenu[] = [];
   private apiUrl = environment.api + '/api/order';
 
+  private orderMenus = new BehaviorSubject<OrderMenu[]>(this.loadOrderMenusFromLocalStorage());
+  orderMenus$ = this.orderMenus.asObservable();
 
-  constructor(private http: HttpClient, private cartService: CartService) {
-
-  }
+  constructor(private http: HttpClient, private cartService: CartService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   getUserOrders(userId: number) {
     return this.http.get<Order[]>(`${this.apiUrl}/getUserOrders?userId=${userId}`);
@@ -31,21 +32,40 @@ export class OrderService {
       }
     });
   }
-  setOrders(orderMenu: OrderMenu[]) {
-    this.orderMenus = orderMenu;
 
-  }
-  getOrders(): OrderMenu[] {
-    return this.orderMenus;
+  private loadOrderMenusFromLocalStorage(): OrderMenu[] {
+    if (isPlatformBrowser(this.platformId)) {
+      const orderMenus = localStorage.getItem('orderMenus');
+      return orderMenus ? JSON.parse(orderMenus) : [];
+    }
+    return [];
   }
 
-  calculateOrderPrice(orderMenu: OrderMenu[]): { ordersPrice: number, deliveryPrice: string | null, totalPrice: number } {
+  private saveOrderMenus(orderMenus: OrderMenu[]) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('orderMenus', JSON.stringify(orderMenus));
+    }
+  }
+
+  updateOrderMenus(orderMenus: OrderMenu[]) {
+    this.orderMenus.next(orderMenus);
+    this.saveOrderMenus(orderMenus);
+  }
+
+  calculateOrderPrice(orderMenu: OrderMenu[], deliveryOption: string): { ordersPrice: number, deliveryPrice: string | null, totalPrice: number } {
     const ordersPrice = orderMenu.reduce((total, order) => {
       const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
       return total + ((order.menu.price + additivePrice) * (order.quantity || 1));
     }, 0);
-    const deliveryPrice = sessionStorage.getItem("deliveryPrice")
-    const totalPrice = ordersPrice + (deliveryPrice ? parseFloat(deliveryPrice) : 0);
-    return { ordersPrice, deliveryPrice, totalPrice };
-  }
+    let deliveryPrice = null;
+
+    typeof sessionStorage !== 'undefined' ? deliveryPrice = sessionStorage.getItem("deliveryPrice") : deliveryPrice = null;
+
+      if (deliveryOption === 'delivery') {
+        return {ordersPrice, deliveryPrice, totalPrice: ordersPrice + (deliveryPrice ? parseFloat(deliveryPrice) : 0)};
+      } else {
+        return {ordersPrice, deliveryPrice: null, totalPrice: ordersPrice};
+      }
+    }
+
 }

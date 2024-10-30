@@ -10,8 +10,6 @@ import {BehaviorSubject, Observable} from 'rxjs';
 export class AddressesService {
   private apiUrl = environment.api + '/api/address';
 
-
-
   phoneNumber = new BehaviorSubject<string>('')
   phoneNumber$ = this.phoneNumber.asObservable();
 

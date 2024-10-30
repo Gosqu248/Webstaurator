@@ -45,9 +45,13 @@
         <p>{{getTranslation('together')}}</p>
         <p>{{ ordersPrice | number:'1.2-2'}} zł</p>
       </div>
-      <div class="first-container">
+      <div class="first-container" *ngIf="selectedOption === 'delivery'">
        <p>{{getTranslation('deliveryCost')}}</p>
         <p>{{deliveryPrice | number: '1.2-2'}} zł</p>
+      </div>
+      <div class="first-container" >
+        <p>{{getTranslation('serviceFee')}}</p>
+        <p>{{serviceFee | number: '1.2-2'}} zł</p>
       </div>
       <div class="total">
         <h3>{{getTranslation('total')}}</h3>

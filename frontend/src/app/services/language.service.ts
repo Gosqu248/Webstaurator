@@ -142,7 +142,7 @@ export class LanguageService {
       additionalInformation: "Dodatkowe informacje",
       deliveryAddress: "Adres dostawy",
       relevantInformation: "Wprowadź istotne informacje",
-      deliveryOptions: "Opcje dostawy",
+      planDelivery: "Zaplanuj dostawę",
       lackOfAddress: "Brak adresów dostawy",
       asSoonAsPossible: "Jak najszybciej",
       plan: "Zaplanuj",
@@ -152,6 +152,10 @@ export class LanguageService {
       cancel: "Anuluj",
       payment: "Płatność",
       ordering: "Zamawiam",
+      serviceFee: "Opłata serwisowa",
+      planPickUp: "Zaplanuj obiór",
+      selectHourPickUp: "Wybierz godzinę odbioru",
+      mustLogin: "Musisz się zalogować",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -272,7 +276,7 @@ export class LanguageService {
       additionalInformation: "Additional information",
       deliveryAddress: "Delivery address",
       relevantInformation: "Enter relevant information",
-      deliveryOptions: "Delivery options",
+      planDelivery: "Plan delivery",
       lackOfAddress: "No delivery addresses",
       asSoonAsPossible: "As soon as possible",
       plan: "Plan",
@@ -282,6 +286,10 @@ export class LanguageService {
       cancel: "Cancel",
       payment: "Payment",
       ordering: "I'm ordering",
+      serviceFee: "Service fee",
+      planPickUp: "Plan pickup",
+      selectHourPickUp: "Select pickup hour",
+      mustLogin: "You must log in",
     }
   };
 

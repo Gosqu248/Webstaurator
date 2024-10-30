@@ -1,10 +1,10 @@
-import {Component, Inject, OnChanges, OnInit, PLATFORM_ID, SimpleChanges} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { environment } from "../../../../environments/environment";
 import { isPlatformBrowser, NgClass, NgIf } from "@angular/common";
 import { LanguageService } from "../../../services/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MenuComponent } from "../../menu-components/menu/menu.component";
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from "@angular/router";
+import {NavigationEnd, Router, RouterLink, RouterOutlet} from "@angular/router";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MenuRegisterComponent} from "../../menu-components/menu-register/menu-register.component";
 import {MenuProfileComponent} from "../../menu-components/menu-profile/menu-profile.component";
@@ -17,6 +17,7 @@ import {ResturantCategoryComponent} from "../../resturants-components/resturant-
 import {OptionService} from "../../../services/option.service";
 import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
 import {MatDialog} from "@angular/material/dialog";
+import {filter} from "rxjs";
 
 @Component({
   selector: 'app-navbar',
@@ -41,7 +42,7 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit, OnChanges{
+export class NavbarComponent implements OnInit{
   apiUrl = environment.api;
   logo = '/img/webstaurator-logo.png';
   ukFlag = '/img/uk-logo.png';
@@ -51,20 +52,10 @@ export class NavbarComponent implements OnInit, OnChanges{
   currentFlag: string;
   showLanguageDropdown = false;
   showLanguageOption = true;
-  isDimmed: boolean = false;
-  showMenu: boolean = false;
-  showRegister: boolean = false;
-  showLogin: boolean = false;
-  showProfile: boolean = false;
-  showLanguage: boolean = false;
-  showAddresses: boolean = false;
-  showChangePassword: boolean = false;
-  showAddAddress: boolean = false;
-  showChangeAddress: boolean = false;
-  showFavourite: boolean = false;
+
   currentRoute!: string;
   address: string | null = '';
-  selectedOption: string = '';
+  selectedOption: string = this.optionService.selectedOption.value;
 
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
@@ -73,21 +64,33 @@ export class NavbarComponent implements OnInit, OnChanges{
               private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.currentFlag = this.getCurrentFlag();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.getCurrentRoute();
+      this.updateAddress();
+
+    });
   }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
+      this.updateAddress();
       this.checkWindowWidth();
       window.addEventListener('resize', this.checkWindowWidth.bind(this));
     }
-
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['currentRoute'] && this.currentRoute === '/restaurants') {
-      this.address = sessionStorage.getItem('address');
+  updateAddress() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.address = sessionStorage.getItem('searchAddress');
     }
   }
+
+  getCurrentRoute() {
+    this.currentRoute = this.router.url;
+  }
+
   goToHome() {
     this.router.navigate(['/']);
     sessionStorage.removeItem('address');

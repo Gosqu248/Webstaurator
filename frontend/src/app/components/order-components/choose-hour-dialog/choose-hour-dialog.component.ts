@@ -1,15 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DeliveryHour } from "../../../interfaces/delivery.interface";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { NgForOf } from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
+import {OptionService} from "../../../services/option.service";
 
 @Component({
   selector: 'app-choose-hour-dialog',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './choose-hour-dialog.component.html',
   styleUrl: './choose-hour-dialog.component.css'
@@ -17,24 +19,25 @@ import {LanguageService} from "../../../services/language.service";
 export class ChooseHourDialogComponent implements OnInit {
   selectedHour: string | null = null;
   availableHours: string[] = [];
+  deliveryOption: string = '';
 
   constructor(private languageService: LanguageService,
+              private optionService: OptionService,
               public dialogRef: MatDialogRef<ChooseHourDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { maxTime: number, deliveryTime: DeliveryHour[] }
               ) {}
 
   ngOnInit() {
     this.generateAvailableHours();
+    this.getDeliveryOption();
   }
 
   generateAvailableHours() {
     const currentTime = new Date();
     const currentMinutes = currentTime.getMinutes();
 
-    // Add maxTime to currentTime
     currentTime.setMinutes(currentMinutes + this.data.maxTime);
 
-    // Round up to the nearest 15-minute interval
     const minutes = currentTime.getMinutes();
     const remainder = minutes % 15;
     if (remainder !== 0) {
@@ -56,6 +59,10 @@ export class ChooseHourDialogComponent implements OnInit {
 
   selectHour(hour: string) {
     this.selectedHour = hour;
+  }
+
+  getDeliveryOption() {
+    this.deliveryOption = this.optionService.selectBasketDelivery.value;
   }
 
   confirmSelection() {

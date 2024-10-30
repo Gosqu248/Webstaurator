@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantBasketComponent} from "../restaurant-basket/restaurant-basket.component";
-import {ActivatedRoute} from "@angular/router";
 import { Restaurant } from '../../../interfaces/restaurant';
 import {RestaurantsService} from "../../../services/restaurants.service";
 import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.component";
@@ -20,7 +19,7 @@ export class RestaurantMenuComponent implements OnInit {
   restaurant: Restaurant = {} as Restaurant;
   image: string = '';
 
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantsService) {}
+  constructor(private restaurantService: RestaurantsService) {}
 
   ngOnInit(): void {
     this.getRestaurant();
@@ -28,6 +27,9 @@ export class RestaurantMenuComponent implements OnInit {
   }
 
   getRestaurant() {
+    if (typeof sessionStorage !== 'undefined') {
+
+
       const restaurantId = sessionStorage.getItem('restaurantId');
       if (restaurantId) {
         const id = parseInt(restaurantId);
@@ -38,4 +40,5 @@ export class RestaurantMenuComponent implements OnInit {
         });
       }
     }
+  }
 }

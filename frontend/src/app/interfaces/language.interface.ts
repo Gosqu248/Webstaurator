@@ -117,7 +117,7 @@ export interface LanguageTranslations {
   additionalInformation: string;
   deliveryAddress: string;
   relevantInformation: string;
-  deliveryOptions: string;
+  planDelivery: string;
   lackOfAddress: string;
   asSoonAsPossible: string;
   plan: string;
@@ -127,6 +127,10 @@ export interface LanguageTranslations {
   cancel: string;
   payment: string;
   ordering: string;
+  serviceFee: string;
+  planPickUp: string;
+  selectHourPickUp: string;
+  mustLogin: string;
 }
 
 export interface Translations {

@@ -35,21 +35,23 @@ export class OrderPaymentComponent implements OnInit {
   }
 
   getPayments(): void {
-    const restaurantId = sessionStorage.getItem('restaurantId');
-    const id = restaurantId ? parseInt(restaurantId) : null;
+    if (typeof sessionStorage !== 'undefined') {
+      const restaurantId = sessionStorage.getItem('restaurantId');
+      const id = restaurantId ? parseInt(restaurantId) : null;
 
-    if (id) {
-      this.paymentService.getRestaurantPayments(id).subscribe((data) => {
-        this.payments = data.map((payment) => {
-          payment.image = environment.api + payment.image;
-          return payment;
+      if (id) {
+        this.paymentService.getRestaurantPayments(id).subscribe((data) => {
+          this.payments = data.map((payment) => {
+            payment.image = environment.api + payment.image;
+            return payment;
+          });
+
+          if (!this.selectedPayment) {
+            const payment = sessionStorage.getItem('payment');
+            payment ? this.selectedPayment = JSON.parse(payment) : this.selectedPayment = this.payments[0];
+          }
         });
-
-        if(!this.selectedPayment) {
-          const payment = sessionStorage.getItem('payment');
-          payment ? this.selectedPayment = JSON.parse(payment) : this.selectedPayment = this.payments[0];
-        }
-      });
+      }
     }
   }
 
