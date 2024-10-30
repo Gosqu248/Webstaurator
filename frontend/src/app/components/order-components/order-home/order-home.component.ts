@@ -78,6 +78,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   subscribeToAuthChanges() {
     this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       if (isAuthenticated) {
+        this.token = localStorage.getItem('jwt');
         this.getUserAddresses();
         this.getUser();
       } else {
@@ -143,8 +144,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getUserAddresses();
-      this.getUser();
+      this.subscribeToAuthChanges();
     });
   }
 
@@ -160,6 +160,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     if (this.token) {
       this.authService.getUser(this.token).subscribe(user => {
         this.user = user;
+        console.log('User data fetched: ', user);
       });
     }
   }
