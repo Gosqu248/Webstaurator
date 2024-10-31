@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,11 @@ public class PaymentController {
         return paymentService.getALlPaymentsByRestaurantId(restaurantId);
     }
 
-    @PostMapping("/createPayment")
-    public ResponseEntity<Map<String, String>> createPayment(@RequestBody Order order) {
+    @PostMapping("/createPayUPayment")
+    public ResponseEntity<Map<String, String>> createPayment(@RequestBody Order order, HttpServletRequest request) {
         try {
-            String redirectUrl = payUService.createOrder(order);
+            String ip = request.getRemoteAddr();
+            String redirectUrl = payUService.createOrder(order, ip);
             return ResponseEntity.ok(Map.of("redirectUrl", redirectUrl));
         } catch (Exception e) {
             return ResponseEntity

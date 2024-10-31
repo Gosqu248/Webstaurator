@@ -1,7 +1,6 @@
 package pl.urban.backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,6 @@ public class IpController {
 
     private final IpService ipService;
 
-    @Autowired
     public IpController(IpService ipService) {
         this.ipService = ipService;
     }

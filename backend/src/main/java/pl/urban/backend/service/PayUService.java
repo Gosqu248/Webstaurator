@@ -85,13 +85,13 @@ public class PayUService {
         }
     }
 
-    public String createOrder(Order order) {
+    public String createOrder(Order order, String ip) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", "Bearer " + payuApiToken);
 
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setCustomerIp("127.0.0.1");
+        orderRequest.setCustomerIp(ip);
         orderRequest.setMerchantPosId("145227");
         orderRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
         orderRequest.setCurrencyCode("PLN");

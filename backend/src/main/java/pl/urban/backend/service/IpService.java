@@ -8,15 +8,6 @@ import org.springframework.stereotype.Service;
 public class IpService {
 
     public String getClientIp(HttpServletRequest request) {
-        String remoteAddr = "";
-
-        if (request != null) {
-            remoteAddr = request.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || remoteAddr.isEmpty()) {
-                remoteAddr = request.getRemoteAddr();
-            }
-        }
-
-        return remoteAddr;
+        return request.getRemoteAddr();
     }
 }
