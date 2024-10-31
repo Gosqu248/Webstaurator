@@ -34,7 +34,7 @@
   height: 100%;
 }
 
-.fa-address-book {
+.fa-address-book, .fa-user-shield {
   font-size: 50px;
   color: #fd710c;
 }

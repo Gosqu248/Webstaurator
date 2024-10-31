@@ -6,7 +6,6 @@ import pl.urban.backend.service.RestaurantAddressService;
 
 @RestController
 @RequestMapping("/api/restaurantAddress")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class RestaurantAddressController {
 
     private final RestaurantAddressService restaurantAddressService;

@@ -131,6 +131,7 @@ export interface LanguageTranslations {
   planPickUp: string;
   selectHourPickUp: string;
   mustLogin: string;
+  youAreLogin: string;
 }
 
 export interface Translations {

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.model.OrderMenu;
+import pl.urban.backend.model.Restaurant;
+import pl.urban.backend.model.User;
+import pl.urban.backend.model.UserAddress;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -12,15 +15,16 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDTO {
-    private Long id;
     private String paymentMethod;
     private OrderStatus status;
     private double totalPrice;
     private String deliveryTime;
+    private String deliveryOption;
     private String comment;
-    private Long restaurantId;
-    private Long userId;
-    private List<OrderMenuDTO> orderMenus;
+    private List<OrderMenu> orderMenus;
+    private User user;
+    private UserAddress userAddress;
+    private Restaurant restaurant;
     private ZonedDateTime orderDate;
 
 }

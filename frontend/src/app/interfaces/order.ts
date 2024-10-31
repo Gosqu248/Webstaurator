@@ -12,7 +12,7 @@ export interface Order {
   comment: string;
   orderMenus: OrderMenu[];
   user: User;
-  userAddress: UserAddress;
+  userAddress: UserAddress | null;
   restaurant: Restaurant;
 
 }

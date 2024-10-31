@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://secure.payu.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

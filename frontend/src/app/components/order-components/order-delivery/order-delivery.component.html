@@ -16,9 +16,11 @@
   </div>
 
   <div class="address" *ngIf="deliveryOption === 'pickup'">
-    <h3>{{getTranslation('mustLogin')}}</h3>
+    <h3 *ngIf="!authService.isAuthenticated()">{{getTranslation('mustLogin')}}</h3>
+    <h3 *ngIf="authService.isAuthenticated()">{{getTranslation('youAreLogin')}}</h3>
+    <i *ngIf="authService.isAuthenticated()" class="fa-solid fa-user-shield"></i>
 
-    <button (click)="openLogin()"> {{getTranslation('login')}}</button>
+    <button *ngIf="!authService.isAuthenticated()" (click)="openLogin()"> {{getTranslation('login')}}</button>
   </div>
 
 

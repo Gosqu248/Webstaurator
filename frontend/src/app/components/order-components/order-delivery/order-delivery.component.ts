@@ -44,7 +44,7 @@ export class OrderDeliveryComponent implements OnInit{
               @Inject(PLATFORM_ID) private platformId: Object,
               private addressService: AddressesService,
               private deliveryService: DeliveryService,
-              private authService: AuthService,
+              protected authService: AuthService,
               private dialog: MatDialog) {}
 
   ngOnInit() {

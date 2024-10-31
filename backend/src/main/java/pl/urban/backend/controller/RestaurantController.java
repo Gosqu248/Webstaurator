@@ -7,7 +7,6 @@ import pl.urban.backend.service.RestaurantService;
 import java.util.List;
 import java.util.Set;
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 @RequestMapping("/api/restaurant")
 public class RestaurantController {
 

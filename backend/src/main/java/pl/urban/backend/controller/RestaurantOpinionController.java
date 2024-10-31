@@ -7,7 +7,6 @@ import pl.urban.backend.service.RestaurantOpinionService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 @RequestMapping("/api/opinions")
 public class RestaurantOpinionController {
 

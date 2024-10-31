@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class OrderController {
 
     private final OrderService orderService;
@@ -32,9 +31,9 @@ public class OrderController {
     }
 
     @GetMapping("/getUserOrders")
-    public ResponseEntity<List<OrderDTO>> getUserOrders(@RequestParam Long userId) {
+    public ResponseEntity<List<Order>> getUserOrders(@RequestParam Long userId) {
         try {
-            List<OrderDTO> orders = orderService.getUserOrders(userId);
+            List<Order> orders = orderService.getUserOrders(userId);
             return ResponseEntity.ok(orders);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

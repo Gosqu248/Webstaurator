@@ -37,7 +37,7 @@ public class Order {
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_address_id")
+    @JoinColumn(name = "user_address_id", nullable = true)
     private UserAddress userAddress;
 
     @ManyToOne

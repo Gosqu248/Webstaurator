@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/delivery")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080"})
 public class DeliveryTimeController {
 
 

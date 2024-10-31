@@ -38,46 +38,11 @@ public class OrderService {
     }
 
     @Transactional
-    public  List<OrderDTO> getUserOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
-        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
+    public  List<Order> getUserOrders(Long userId) {
+        return orderRepository.findByUserId(userId);
     }
 
-    private OrderDTO convertToDTO(Order order) {
-        OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setId(order.getId());
-        orderDTO.setPaymentMethod(order.getPaymentMethod());
-        orderDTO.setStatus(order.getStatus());
-        orderDTO.setTotalPrice(order.getTotalPrice());
-        orderDTO.setDeliveryTime(order.getDeliveryTime());
-        orderDTO.setComment(order.getComment());
-        orderDTO.setRestaurantId(order.getRestaurant().getId());
-        orderDTO.setUserId(order.getUser().getId());
-        orderDTO.setOrderDate(order.getOrderDate());
 
-
-        List<OrderMenuDTO> orderMenuDTOs = order.getOrderMenus().stream().map(orderMenu -> {
-            OrderMenuDTO orderMenuDTO = new OrderMenuDTO();
-            orderMenuDTO.setId(orderMenu.getId());
-            orderMenuDTO.setQuantity(orderMenu.getQuantity());
-            orderMenuDTO.setMenuId(orderMenu.getMenu().getId());
-            orderMenuDTO.setMenuName(orderMenu.getMenu().getName());
-
-            List<AdditivesDTO> additivesDTOs = orderMenu.getChooseAdditives().stream().map(additive -> {
-                AdditivesDTO additivesDTO = new AdditivesDTO();
-                additivesDTO.setId(additive.getId());
-                additivesDTO.setName(additive.getName());
-                additivesDTO.setValue(additive.getValue());
-                return additivesDTO;
-            }).collect(Collectors.toList());
-
-            orderMenuDTO.setChooseAdditives(additivesDTOs);
-            return orderMenuDTO;
-        }).collect(Collectors.toList());
-
-        orderDTO.setOrderMenus(orderMenuDTOs);
-        return orderDTO;
-    }
 
     @Transactional
     public Order createOrder(Order orderRequest) {
@@ -99,9 +64,12 @@ public class OrderService {
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
             order.setUser(user);
 
-            UserAddress userAddress = userAddressRepository.findById(orderRequest.getUserAddress().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("User address not found"));
-            order.setUserAddress(userAddress);
+            if (orderRequest.getUserAddress() != null && orderRequest.getUserAddress().getId() != null) {
+                UserAddress userAddress = userAddressRepository.findById(orderRequest.getUserAddress().getId())
+                        .orElseThrow(() -> new IllegalArgumentException("User address not found"));
+                order.setUserAddress(userAddress);
+            }
+
 
             List<OrderMenu> orderMenus = new ArrayList<>();
             if (orderRequest.getOrderMenus() != null && !orderRequest.getOrderMenus().isEmpty()) {

@@ -156,6 +156,7 @@ export class LanguageService {
       planPickUp: "Zaplanuj obiór",
       selectHourPickUp: "Wybierz godzinę odbioru",
       mustLogin: "Musisz się zalogować",
+      youAreLogin: "Jesteś zalogowany",
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -290,6 +291,7 @@ export class LanguageService {
       planPickUp: "Plan pickup",
       selectHourPickUp: "Select pickup hour",
       mustLogin: "You must log in",
+      youAreLogin: "You are logged in",
     }
   };
 

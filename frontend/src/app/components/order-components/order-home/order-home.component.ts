@@ -17,6 +17,8 @@ import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
+import {PaymentService} from "../../../services/payment.service";
+import {PaymentResponse} from "../../../interfaces/payment";
 
 @Component({
   selector: 'app-order-home',
@@ -52,6 +54,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               private restaurantService: RestaurantsService,
               private dialog: MatDialog,
               private router: Router,
+              private paymentService: PaymentService,
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
@@ -104,6 +107,8 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     const restaurantId = sessionStorage.getItem('restaurantId');
     const deliveryTime = this.orderDelivery.selectedDeliveryOption === "fastest" ? 'Jak najszybciej' : this.orderDelivery.selectedHour || '';
     const user = this.user;
+    const userAddress = this.orderDelivery.selectedAddress ? this.orderDelivery.selectedAddress : null
+    const deliveryOption = this.deliveryOption === 'delivery' ? 'dostawa' : 'odbiór osobisty';
 
     if (restaurantId) {
       const order: Order = {
@@ -111,15 +116,23 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         status: OrderStatus.niezaplacone,
         totalPrice: this.basket.totalPrice,
         deliveryTime: deliveryTime,
-        deliveryOption: this.deliveryOption,
+        deliveryOption: deliveryOption,
         comment: this.orderPersonalInfo.relevantInformation,
         restaurant: this.restaurant,
         orderMenus: this.basket.orderMenus,
-        userAddress: this.orderDelivery.selectedAddress,
+        userAddress: userAddress,
         user: user
       }
+      this.paymentService.createPayment(order).subscribe({
+        next: (response: PaymentResponse) => {
+          window.open(response.redirectUrl, '_self');
+        },
+        error: (error) => {
+          console.error('Błąd podczas tworzenia płatności:', error);
+        }
+      });
       this.orderService.createOrder(order);
-      this.router.navigate(['restaurants']);
+
     } else {
       console.error('No restaurant id');
     }
@@ -160,7 +173,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     if (this.token) {
       this.authService.getUser(this.token).subscribe(user => {
         this.user = user;
-        console.log('User data fetched: ', user);
       });
     }
   }
