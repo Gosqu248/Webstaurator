@@ -1,6 +1,7 @@
 package pl.urban.backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,9 @@ import pl.urban.backend.model.Order;
 import pl.urban.backend.model.Payment;
 import pl.urban.backend.service.PayUService;
 import pl.urban.backend.service.PaymentService;
+import pl.urban.backend.service.TpayService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +22,12 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PayUService payUService;
 
-    public PaymentController(PaymentService paymentService, PayUService payUService) {
+    private final TpayService tpayService;
+
+    public PaymentController(PaymentService paymentService, PayUService payUService, TpayService tpayService) {
         this.paymentService = paymentService;
         this.payUService = payUService;
+        this.tpayService = tpayService;
     }
 
     @GetMapping("/getAll")
@@ -45,6 +51,18 @@ public class PaymentController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", e.getMessage()));
         }
+    }
+
+    @GetMapping("/generatePayUAuthHeader")
+    public ResponseEntity<String> getTokens() {
+        String tokenResponse = payUService.getOAuthToken();
+        return ResponseEntity.ok(tokenResponse);
+    }
+
+    @GetMapping("/generateAuthHeader")
+    public ResponseEntity<Map<String, Object>> getToken() {
+        Map<String, Object> tokenResponse = tpayService.requestToken();
+        return ResponseEntity.ok(tokenResponse);
     }
 
 }

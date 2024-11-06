@@ -25,6 +25,16 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+    public Boolean changePassword(String subject, String password, String newPassword) {
+        User user = getUserBySubject(subject);
+        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("Old password does not match");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
 
 
     public User getUserBySubject(String subject) {
@@ -39,16 +49,6 @@ public class UserService {
         return name;
     }
 
-    public Boolean changePassword(String subject, String password, String newPassword) {
-        User user = getUserBySubject(subject);
-        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Old password does not match");
-        }
-
-        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        userRepository.save(user);
-        return true;
-    }
 
     public UserInfoForOrderDTO getUserInfo(String subject) {
         User user = getUserBySubject(subject);

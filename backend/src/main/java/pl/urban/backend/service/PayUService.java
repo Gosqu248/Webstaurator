@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.urban.backend.model.Order;
@@ -26,7 +27,7 @@ import java.util.List;
 @Service
 public class PayUService {
 
-    @Value("${payu.api.url}")
+    @Value("https://secure.snd.payu.com/api/v2_1/orders")
     private String payuApiUrl;
 
     @Value("${payu.client.id}")
@@ -88,14 +89,16 @@ public class PayUService {
     public String createOrder(Order order, String ip) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-        headers.set("Authorization", "Bearer " + payuApiToken);
+        String token = getOAuthToken();
+        headers.set("Authorization", "Bearer " + token);
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setCustomerIp(ip);
-        orderRequest.setMerchantPosId("145227");
+        orderRequest.setMerchantPosId("485725");
         orderRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
         orderRequest.setCurrencyCode("PLN");
         orderRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100))); // Convert to smallest currency unit
+        orderRequest.setNotifyUrl("http://localhost:4200/restaurants"); // Redirect URL after payment
 
         List<OrderRequest.Product> products = getProducts(order);
         orderRequest.setProducts(products);
@@ -103,17 +106,24 @@ public class PayUService {
 
         HttpEntity<OrderRequest> entity = new HttpEntity<>(orderRequest, headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                payuApiUrl + "/orders",
+                payuApiUrl,
                 HttpMethod.POST,
                 entity,
                 String.class
         );
 
-        // Parsuj odpowiedź JSON i wyciągnij URL przekierowania
         try {
             JSONObject jsonResponse = new JSONObject(response.getBody());
             if (jsonResponse.has("redirectUri")) {
-                return jsonResponse.getString("redirectUri");
+                String redirectUri = jsonResponse.getString("redirectUri");
+                String orderId = jsonResponse.getString("orderId");
+
+                if (!orderId.isEmpty()) {
+                    System.out.println("Zamówienie zostało utworzone pomyślnie z ID: " + orderId);
+                } else {
+                    System.err.println("Nie udało się utworzyć zamówienia");
+                }
+                return redirectUri;
             }
             throw new RuntimeException("Brak URL przekierowania w odpowiedzi PayU");
         } catch (JSONException e) {

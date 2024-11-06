@@ -24,4 +24,9 @@ export class PaymentService {
   createPayUPayment(order: Order): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/createPayUPayment`, order);
   }
+
+  createPayUOrder(): Observable<PaymentResponse> {
+    return this.http.post<PaymentResponse>(`${this.apiUrl}/createPayUOrder`, {});
+  }
+
 }

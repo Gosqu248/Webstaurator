@@ -18,7 +18,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
 import {PaymentService} from "../../../services/payment.service";
 import {PaymentResponse} from "../../../interfaces/payment";
-import {IpService} from "../../../services/ip.service";
 
 @Component({
   selector: 'app-order-home',
@@ -46,7 +45,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   userId: number | null = null;
   restaurant: Restaurant = {} as Restaurant;
   deliveryOption: string = '';
-  ip: string = '';
 
   constructor(protected authService: AuthService,
               private addressService: AddressesService,
@@ -54,7 +52,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               private optionService: OptionService,
               private restaurantService: RestaurantsService,
               private dialog: MatDialog,
-              private ipService: IpService,
               private paymentService: PaymentService,
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -62,7 +59,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       this.token = localStorage.getItem('jwt');
     }
-    this.getIp();
     this.subscribeToAuthChanges();
 
     this.getRestaurant();
@@ -72,13 +68,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getIp() {
-    this.ipService.getClientIp().subscribe(ip => {
-      this.ip = ip;
-      console.log('IP:', ip);
-    });
 
-  }
 
   ngAfterViewInit() {
     this.updateCanOrder();

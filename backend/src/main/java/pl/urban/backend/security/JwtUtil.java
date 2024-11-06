@@ -23,6 +23,9 @@ public class JwtUtil {
     private Long expirationTime;
     private Key secretKey;
 
+    public void rotateKey() {
+        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
     public String generateToken(UserDetails userDetails) {
        Map<String, Object> claims = new HashMap<>();
          return createToken(claims, userDetails.getUsername());
@@ -38,7 +41,6 @@ public class JwtUtil {
                 .compact();
     }
 
-
     public String extractSubjectFromToken(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -48,9 +50,6 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-
-
-
     public Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
@@ -59,16 +58,11 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-
     @PostConstruct
     private void init() {
         rotateKey();
     }
 
-    public void rotateKey() {
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    }
 
 
 }

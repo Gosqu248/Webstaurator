@@ -24,10 +24,12 @@ public class OrderRequest {
     @JsonProperty("totalAmount")
     private String totalAmount;
 
+    @JsonProperty("notifyUrl")
+    private String notifyUrl;
+
     @JsonProperty("products")
     private List<Product> products;
 
-    // Getters and setters
 
     @Getter
     @Setter
@@ -41,6 +43,5 @@ public class OrderRequest {
         @JsonProperty("quantity")
         private String quantity;
 
-        // Getters and setters
     }
 }
