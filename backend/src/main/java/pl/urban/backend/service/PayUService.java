@@ -94,11 +94,11 @@ public class PayUService {
 
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setCustomerIp(ip);
-        orderRequest.setMerchantPosId("485725");
+        orderRequest.setMerchantPosId(clientId);
         orderRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
         orderRequest.setCurrencyCode("PLN");
         orderRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100))); // Convert to smallest currency unit
-        orderRequest.setNotifyUrl("http://localhost:4200/restaurants"); // Redirect URL after payment
+        orderRequest.setContinueUrl("http://localhost:4200/restaurants"); // Redirect URL after payment
 
         List<OrderRequest.Product> products = getProducts(order);
         orderRequest.setProducts(products);
@@ -144,4 +144,35 @@ public class PayUService {
         }
         return products;
     }
+
+    public JSONObject getOrderById(String orderId) {
+        // Sprawdzenie i pobranie tokenu OAuth
+        String token = getOAuthToken();
+        if (token == null) {
+            throw new RuntimeException("Nie udało się uzyskać tokenu OAuth");
+        }
+
+        // Tworzenie nagłówków żądania
+        Request request = new Request.Builder()
+                .url("https://secure.snd.payu.com/api/v2_1/orders/" + orderId)
+                .get()
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new RuntimeException("Błąd podczas pobierania szczegółów zamówienia: " + response.message());
+            }
+
+            // Przetwarzanie odpowiedzi
+            String responseBody = response.body().string();
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            return jsonResponse;
+        } catch (IOException e) {
+            throw new RuntimeException("Błąd podczas wykonywania żądania do API PayU", e);
+        } catch (JSONException e) {
+            throw new RuntimeException("Błąd podczas przetwarzania odpowiedzi JSON", e);
+        }
+    }
+
 }

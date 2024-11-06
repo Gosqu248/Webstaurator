@@ -24,8 +24,8 @@ public class OrderRequest {
     @JsonProperty("totalAmount")
     private String totalAmount;
 
-    @JsonProperty("notifyUrl")
-    private String notifyUrl;
+    @JsonProperty("continueUrl")
+    private String continueUrl;
 
     @JsonProperty("products")
     private List<Product> products;
