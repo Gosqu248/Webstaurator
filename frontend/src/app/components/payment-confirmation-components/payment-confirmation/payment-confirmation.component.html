@@ -1,0 +1,32 @@
+<img class="background" alt="" [src]="background">
+
+  <div class="item2" *ngIf="isLoading; else content">
+    <mat-spinner></mat-spinner>
+  </div>
+
+<ng-template #content>
+  <div class="item" *ngIf="paymentId !== ''; else notId">
+    <h2>{{getTranslation('paymentStatus')}}</h2>
+    <p>{{getTranslation('paymentNumber')}}: <span>{{ paymentId }}</span></p>
+
+    <div *ngIf="status === 'COMPLETED'">
+      <p >{{getTranslation('status')}}: <span class="success">{{getTranslation("COMPLETED")}}</span></p>
+      <p class="title">{{getTranslation("paymentTitleSuccess")}}</p>
+      <button (click)="goToOrders()">{{getTranslation('goToOrders')}} </button>
+    </div>
+
+    <div *ngIf="status === 'CANCELED'">
+      <p >{{getTranslation('status')}}: <span class="error">{{getTranslation('CANCELED')}}</span></p>
+      <p class="title">{{getTranslation("paymentTitleFailure")}}</p>
+      <button (click)="backToCheckout()">{{getTranslation('backToCheckout')}} </button>
+    </div>
+
+  </div>
+  <ng-template #notId>
+    <div class="item">
+      <p>Brak numeru zamówienia. Wystąpił błąd podczas przetwarzania płatności.</p>
+      <button [routerLink]="['/']">{{getTranslation('backToMainPage')}} </button>
+    </div>
+  </ng-template>
+
+</ng-template>

@@ -47,6 +47,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderMenu> orderMenus;
 
+    @Column(nullable = true, unique = true)
+    private String paymentId;
 
     private ZonedDateTime orderDate;
 

@@ -157,6 +157,17 @@ export class LanguageService {
       selectHourPickUp: "Wybierz godzinę odbioru",
       mustLogin: "Musisz się zalogować",
       youAreLogin: "Jesteś zalogowany",
+      paymentStatus: "Status płatności",
+      paymentNumber: "Numer płatności",
+      status: "Status",
+      COMPLETED: " Opłacona",
+      CANCELED: " Anulowana",
+      paymentTitleSuccess: "Płatność zrealizowana pomyślnie. Zamówienie zostało przekazane do realizacji.",
+      paymentTitleFailure: "Płatność nie powiodła się. Spróbuj ponownie.",
+      goToOrders: "Przejdź do zamówień",
+      backToCheckout: "Powrót do zamówienia",
+      backToMainPage: "Powrót do strony głównej",
+
     },
     en: {
       chooseLanguage: 'Choose language',
@@ -292,6 +303,16 @@ export class LanguageService {
       selectHourPickUp: "Select pickup hour",
       mustLogin: "You must log in",
       youAreLogin: "You are logged in",
+      paymentStatus: "Payment status",
+      paymentNumber: "Payment number",
+      status: "Status",
+      COMPLETED: " Completed",
+      CANCELED: " Canceled",
+      paymentTitleSuccess: "Payment completed successfully. The order has been passed for processing.",
+      paymentTitleFailure: "Payment failed. Try again.",
+      goToOrders: "Go to orders",
+      backToCheckout: "Back to checkout",
+      backToMainPage: "Back to main page",
     }
   };
 

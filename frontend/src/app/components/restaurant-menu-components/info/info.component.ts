@@ -7,8 +7,8 @@ import {DecimalPipe, NgForOf} from "@angular/common";
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import {environment} from "../../../../environments/environment";
-import {Payment} from "../../../interfaces/payment";
-import {PaymentService} from "../../../services/payment.service";
+import {PaymentMethod} from "../../../interfaces/paymentMethod";
+import {PaymentMethodsService} from "../../../services/payment-methods.service";
 
 @Component({
   selector: 'app-info',
@@ -27,11 +27,11 @@ export class InfoComponent implements OnInit{
   deliveryPrice: number = 0;
   minimumPrice: number = 0;
   restaurantAddress: RestaurantAddress = {} as RestaurantAddress;
-  payments: Payment[] = [];
+  payments: PaymentMethod[] = [];
 
   constructor(private languageService: LanguageService,
               private restaurantAddressService: RestaurantAddressService,
-              private paymentService: PaymentService,
+              private paymentService: PaymentMethodsService,
               private deliveryService: DeliveryService) {}
 
   ngOnInit() {
@@ -74,7 +74,7 @@ export class InfoComponent implements OnInit{
   }
 
   setPayments() {
-    this.paymentService.getRestaurantPayments(this.restaurantId).subscribe((data) => {
+    this.paymentService.getRestaurantPaymentMethods(this.restaurantId).subscribe((data) => {
       this.payments = data.map((payment) => {
         payment.image = environment.api + payment.image;
         return payment;

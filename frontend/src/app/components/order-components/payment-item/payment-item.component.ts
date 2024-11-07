@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Payment} from "../../../interfaces/payment";
+import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 @Component({
   selector: 'app-payment-item',
@@ -9,8 +9,8 @@ import {Payment} from "../../../interfaces/payment";
   styleUrl: './payment-item.component.css'
 })
 export class PaymentItemComponent {
-  @Input() payment!: Payment;
-  @Output() selectPayment = new EventEmitter<Payment>();
+  @Input() payment!: PaymentMethod;
+  @Output() selectPayment = new EventEmitter<PaymentMethod>();
 
   setPayment() {
     sessionStorage.setItem('payment', JSON.stringify(this.payment));

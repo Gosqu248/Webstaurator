@@ -3,8 +3,8 @@ import { NgForOf, NgIf } from '@angular/common';
 import { OrderDeliveryItemComponent } from '../order-delivery-item/order-delivery-item.component';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { LanguageService } from '../../../services/language.service';
-import { Payment } from '../../../interfaces/payment';
-import { PaymentService } from '../../../services/payment.service';
+import { PaymentMethod } from '../../../interfaces/paymentMethod';
+import { PaymentMethodsService } from '../../../services/payment-methods.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPaymentComponent } from '../edit-payment-dialog/edit-payment.component';
 import { environment } from '../../../../environments/environment';
@@ -21,13 +21,13 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./order-payment.component.css']
 })
 export class OrderPaymentComponent implements OnInit {
-  payments: Payment[] = [];
-  selectedPayment: Payment | null = null;
+  payments: PaymentMethod[] = [];
+  selectedPayment: PaymentMethod | null = null;
 
   constructor(
     private languageService: LanguageService,
     private dialog: MatDialog,
-    private paymentService: PaymentService
+    private paymentService: PaymentMethodsService
   ) {}
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class OrderPaymentComponent implements OnInit {
       const id = restaurantId ? parseInt(restaurantId) : null;
 
       if (id) {
-        this.paymentService.getRestaurantPayments(id).subscribe((data) => {
+        this.paymentService.getRestaurantPaymentMethods(id).subscribe((data) => {
           this.payments = data.map((payment) => {
             payment.image = environment.api + payment.image;
             return payment;

@@ -8,7 +8,6 @@ import {AddressesService} from "../../../services/addresses.service";
 import {OrderPaymentComponent} from "../order-payment/order-payment.component";
 import {AuthService} from "../../../services/auth.service";
 import {Order, OrderStatus} from "../../../interfaces/order";
-import {OrderService} from "../../../services/order.service";
 import {RestaurantsService} from "../../../services/restaurants.service";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {User} from "../../../interfaces/user.interface";
@@ -16,8 +15,9 @@ import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
-import {PaymentService} from "../../../services/payment.service";
-import {PaymentResponse} from "../../../interfaces/payment";
+import {PaymentResponse} from "../../../interfaces/paymentMethod";
+import {PayUService} from "../../../services/pay-u.service";
+import {OrderService} from "../../../services/order.service";
 
 @Component({
   selector: 'app-order-home',
@@ -45,14 +45,15 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   userId: number | null = null;
   restaurant: Restaurant = {} as Restaurant;
   deliveryOption: string = '';
+  payUPaymentId: number | null = null;
 
   constructor(protected authService: AuthService,
               private addressService: AddressesService,
-              private orderService: OrderService,
               private optionService: OptionService,
               private restaurantService: RestaurantsService,
               private dialog: MatDialog,
-              private paymentService: PaymentService,
+              private payUService: PayUService,
+              private orderService: OrderService,
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
@@ -120,17 +121,27 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         restaurant: this.restaurant,
         orderMenus: this.basket.orderMenus,
         userAddress: userAddress,
-        user: user
+        user: user,
+        paymentId: ''
       }
-      this.paymentService.createPayUPayment(order).subscribe({
-        next: (response: PaymentResponse) => {
-          window.open(response.redirectUrl, '_self');
-        },
-        error: (error) => {
-          console.error('Błąd podczas tworzenia płatności:', error);
-        }
-      });
-      this.orderService.createOrder(order);
+
+      if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
+        this.orderService.createOrder(order);
+
+      } else {
+        this.payUService.createPayUPayment(order).subscribe({
+          next: (response: PaymentResponse) => {
+            localStorage.setItem('payUPaymentId', response.orderId.toString());
+            localStorage.setItem('paymentOrder', JSON.stringify(order));
+
+            window.open(response.redirectUri, '_self');
+          },
+          error: (error) => {
+            console.error('Błąd podczas tworzenia płatności:', error);
+          }
+        });
+      }
+
 
     } else {
       console.error('No restaurant id');

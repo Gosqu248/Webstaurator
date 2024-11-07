@@ -5,6 +5,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.urban.backend.model.Order;
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PayUService {
@@ -36,11 +37,9 @@ public class PayUService {
     @Value("${payu.client.secret}")
     private String clientSecret;
 
-    @Value("${payu.api.token}")
-    private String payuApiToken;
 
     private final RestTemplate restTemplate;
-    private static OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient();
     private static String accessToken = null;
     private static Instant tokenExpiration = null;
 
@@ -65,6 +64,7 @@ public class PayUService {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
+            assert response.body() != null;
             String responseBody = response.body().string();
             System.out.println("OAuth Token Response: " + responseBody);
 
@@ -86,7 +86,7 @@ public class PayUService {
         }
     }
 
-    public String createOrder(Order order, String ip) {
+    public Map<String,String> createOrder(Order order, String ip) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         String token = getOAuthToken();
@@ -97,8 +97,8 @@ public class PayUService {
         orderRequest.setMerchantPosId(clientId);
         orderRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
         orderRequest.setCurrencyCode("PLN");
-        orderRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100))); // Convert to smallest currency unit
-        orderRequest.setContinueUrl("http://localhost:4200/restaurants"); // Redirect URL after payment
+        orderRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100)));
+        orderRequest.setContinueUrl("http://localhost:4200/payment-confirmation");
 
         List<OrderRequest.Product> products = getProducts(order);
         orderRequest.setProducts(products);
@@ -118,12 +118,11 @@ public class PayUService {
                 String redirectUri = jsonResponse.getString("redirectUri");
                 String orderId = jsonResponse.getString("orderId");
 
-                if (!orderId.isEmpty()) {
-                    System.out.println("Zamówienie zostało utworzone pomyślnie z ID: " + orderId);
-                } else {
-                    System.err.println("Nie udało się utworzyć zamówienia");
+                if (orderId.isEmpty() || redirectUri.isEmpty()) {
+                    throw new RuntimeException("Nie udało się utworzyć zamówienia");
                 }
-                return redirectUri;
+
+                return Map.of("redirectUri", redirectUri, "orderId", orderId);
             }
             throw new RuntimeException("Brak URL przekierowania w odpowiedzi PayU");
         } catch (JSONException e) {
@@ -138,7 +137,7 @@ public class PayUService {
         for (OrderMenu orderMenu : orderMenus) {
             OrderRequest.Product product = new OrderRequest.Product();
             product.setName(orderMenu.getMenu().getName());
-            product.setUnitPrice(String.valueOf((int) (orderMenu.getMenu().getPrice() * 100))); // Convert to smallest currency unit
+            product.setUnitPrice(String.valueOf((int) (orderMenu.getMenu().getPrice() * 100)));
             product.setQuantity(String.valueOf(orderMenu.getQuantity()));
             products.add(product);
         }
@@ -146,13 +145,11 @@ public class PayUService {
     }
 
     public JSONObject getOrderById(String orderId) {
-        // Sprawdzenie i pobranie tokenu OAuth
         String token = getOAuthToken();
         if (token == null) {
             throw new RuntimeException("Nie udało się uzyskać tokenu OAuth");
         }
 
-        // Tworzenie nagłówków żądania
         Request request = new Request.Builder()
                 .url("https://secure.snd.payu.com/api/v2_1/orders/" + orderId)
                 .get()
@@ -164,10 +161,44 @@ public class PayUService {
                 throw new RuntimeException("Błąd podczas pobierania szczegółów zamówienia: " + response.message());
             }
 
-            // Przetwarzanie odpowiedzi
+            assert response.body() != null;
+            String responseBody = response.body().string();
+            return new JSONObject(responseBody);
+        } catch (IOException e) {
+            throw new RuntimeException("Błąd podczas wykonywania żądania do API PayU", e);
+        } catch (JSONException e) {
+            throw new RuntimeException("Błąd podczas przetwarzania odpowiedzi JSON", e);
+        }
+    }
+
+    public String getOrderStatus(String orderId) {
+        String token = getOAuthToken();
+        if (token == null) {
+            throw new RuntimeException("Nie udało się uzyskać tokenu OAuth");
+        }
+
+        Request request = new Request.Builder()
+                .url("https://secure.snd.payu.com/api/v2_1/orders/" + orderId)
+                .get()
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new RuntimeException("Błąd podczas pobierania statusu zamówienia: " + response.message());
+            }
+
+            assert response.body() != null;
             String responseBody = response.body().string();
             JSONObject jsonResponse = new JSONObject(responseBody);
-            return jsonResponse;
+            JSONArray orders = jsonResponse.getJSONArray("orders");
+
+            if (orders.length() > 0) {
+                JSONObject order = orders.getJSONObject(0);
+                return order.getString("status");
+            } else {
+                throw new RuntimeException("Brak zamówień w odpowiedzi");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Błąd podczas wykonywania żądania do API PayU", e);
         } catch (JSONException e) {

@@ -55,6 +55,8 @@ public class OrderService {
             order.setDeliveryTime(orderRequest.getDeliveryTime());
             order.setDeliveryOption(orderRequest.getDeliveryOption());
             order.setComment(orderRequest.getComment());
+            order.setPaymentId(orderRequest.getPaymentId());
+            System.out.println(orderRequest.getPaymentId());
 
             Restaurant restaurant = restaurantRepository.findById(orderRequest.getRestaurant().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));

@@ -7,11 +7,11 @@ import pl.urban.backend.repository.PaymentRepository;
 import java.util.List;
 
 @Service
-public class PaymentService {
+public class PaymentMethodService {
 
     private final PaymentRepository paymentRepository;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentMethodService(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 

@@ -33,6 +33,7 @@ export class OrderService {
     });
   }
 
+
   private loadOrderMenusFromLocalStorage(): OrderMenu[] {
     if (isPlatformBrowser(this.platformId)) {
       const orderMenus = localStorage.getItem('orderMenus');

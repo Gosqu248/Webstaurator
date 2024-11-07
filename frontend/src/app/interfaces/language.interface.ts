@@ -132,6 +132,16 @@ export interface LanguageTranslations {
   selectHourPickUp: string;
   mustLogin: string;
   youAreLogin: string;
+  paymentStatus: string;
+  paymentNumber: string;
+  status: string;
+  COMPLETED: string;
+  CANCELED: string;
+  paymentTitleSuccess: string;
+  paymentTitleFailure: string;
+  goToOrders: string;
+  backToCheckout: string;
+  backToMainPage: string;
 }
 
 export interface Translations {

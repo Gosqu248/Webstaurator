@@ -4,7 +4,7 @@ import {LanguageService} from "../../../services/language.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PaymentItemComponent} from "../payment-item/payment-item.component";
 import {NgForOf} from "@angular/common";
-import {Payment} from "../../../interfaces/payment";
+import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 
 @Component({
@@ -18,17 +18,17 @@ import {Payment} from "../../../interfaces/payment";
   styleUrl: './edit-payment.component.css'
 })
 export class EditPaymentComponent {
-  payments: Payment[] = [];
-  selectedPayment: Payment | null = null;
+  payments: PaymentMethod[] = [];
+  selectedPayment: PaymentMethod | null = null;
   constructor(private languageService: LanguageService,
               public dialogRef: MatDialogRef<EditPaymentComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { payments: Payment[], selectedPayment: Payment }
+              @Inject(MAT_DIALOG_DATA) public data: { payments: PaymentMethod[], selectedPayment: PaymentMethod }
               ) {
     this.payments = data.payments;
     this.selectedPayment = data.selectedPayment;
   }
 
-  changeSelectedPayment(payment: Payment) {
+  changeSelectedPayment(payment: PaymentMethod) {
     this.selectedPayment = payment;
     this.closeDialog();
   }

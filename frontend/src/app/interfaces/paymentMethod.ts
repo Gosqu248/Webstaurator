@@ -1,8 +1,9 @@
-export interface Payment {
+export interface PaymentMethod {
   method: string;
   image: string;
 }
 
 export interface PaymentResponse {
-  redirectUrl: string;
+  redirectUri: string;
+  orderId: number;
 }

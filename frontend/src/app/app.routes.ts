@@ -17,6 +17,14 @@ export const routes: Routes = [
   {
     path: 'checkout',
     loadComponent: () => import('./components/order-components/order-home/order-home.component').then(m => m.OrderHomeComponent),
+  },
+  {
+    path: 'payment-confirmation',
+    loadComponent: () => import('./components/payment-confirmation-components/payment-confirmation/payment-confirmation.component').then(m => m.PaymentConfirmationComponent),
+  },
+  {
+    path: 'orders',
+    loadComponent: () => import('./components/user-orders-components/order-home/order-home.component').then(m => m.OrderHomeComponent),
   }
 
 ];
