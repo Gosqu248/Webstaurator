@@ -28,8 +28,8 @@ import {OptionService} from "../../../services/option.service";
 })
 export class OrderDeliveryComponent implements OnInit{
   @Output() deliveryChanged = new EventEmitter<void>();
-  @Input() addresses!: UserAddress[];
   @Output() openLoginDialog = new EventEmitter<unknown>();
+  @Input() addresses!: UserAddress[];
   selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;

@@ -76,6 +76,9 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     this.orderDelivery.deliveryChanged.subscribe(() => {
       this.updateCanOrder();
     });
+    this.orderPersonalInfo.personalInfoChanged.subscribe(() => {
+      this.updateCanOrder();
+    });
   }
 
   subscribeToAuthChanges() {
@@ -99,8 +102,8 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   checkCanOrder(): boolean {
     return !!this.orderDelivery.selectedAddress
-      && !!this.orderDelivery.selectedDeliveryOption
-      && this.orderPersonalInfo.personalForm.valid;
+      && this.orderPersonalInfo.personalForm.valid
+      && !!this.orderDelivery.selectedDeliveryOption;
   }
 
   acceptOrder() {
