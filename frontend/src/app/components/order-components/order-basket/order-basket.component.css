@@ -137,14 +137,14 @@ h5 {
 }
 
 .order-item {
-  width: 100%;
+  width: 80%;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  border-bottom: #d0c8c8 solid 1px;
+  border-bottom: #a19a9a solid 1px;
   border-radius: 10px;
 }
 

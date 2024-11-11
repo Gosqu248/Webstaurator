@@ -1,0 +1,9 @@
+<div class="main">
+  <img class="image" alt="" [src]="menuItem.menu.image">
+  <div>
+    <h3>{{menuItem.menu.name}}</h3>
+    <p class="additives" [innerHTML]="getFormattedAdditives()"></p>
+    <p class="quantityText">{{getTranslation('quantity')}}:  <span class="quantity">{{menuItem.quantity}}</span></p>
+  </div>
+
+</div>

@@ -23,7 +23,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/payment-confirmation-components/payment-confirmation/payment-confirmation.component').then(m => m.PaymentConfirmationComponent),
   },
   {
-    path: 'orders',
+    path: 'orders-history',
     loadComponent: () => import('./components/user-orders-components/order-home/order-home.component').then(m => m.OrderHomeComponent),
   }
 

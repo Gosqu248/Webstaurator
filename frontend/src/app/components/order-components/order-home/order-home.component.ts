@@ -18,6 +18,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {PaymentResponse} from "../../../interfaces/paymentMethod";
 import {PayUService} from "../../../services/pay-u.service";
 import {OrderService} from "../../../services/order.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-order-home',
@@ -52,6 +53,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               private optionService: OptionService,
               private restaurantService: RestaurantsService,
               private dialog: MatDialog,
+              private router: Router,
               private payUService: PayUService,
               private orderService: OrderService,
               @Inject(PLATFORM_ID) private platformId: Object) {}
@@ -130,13 +132,12 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
         this.orderService.createOrder(order);
-
+        this.router.navigate(['/orders'])
       } else {
         this.payUService.createPayUPayment(order).subscribe({
           next: (response: PaymentResponse) => {
             localStorage.setItem('payUPaymentId', response.orderId.toString());
             localStorage.setItem('paymentOrder', JSON.stringify(order));
-
             window.open(response.redirectUri, '_self');
           },
           error: (error) => {

@@ -1,8 +1,9 @@
 package pl.urban.backend.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.urban.backend.dto.*;
+import pl.urban.backend.dto.OrderDTO;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
 
@@ -38,8 +39,13 @@ public class OrderService {
     }
 
     @Transactional
-    public  List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public  List<OrderDTO> getUserOrders(String  subject) {
+        User user = userRepository.findByEmail(subject)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+        List<Order> orders = orderRepository.findByUserId(user.getId(), Sort.by(Sort.Direction.DESC, "orderDate"));
+        return orders.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
 
@@ -112,5 +118,24 @@ public class OrderService {
             System.err.println("Error creating order: " + e.getMessage());
             throw new RuntimeException("Error creating order: " + e.getMessage(), e);
         }
+    }
+
+    public OrderDTO convertToDTO(Order order) {
+        OrderDTO dto = new OrderDTO();
+
+        dto.setId(order.getId());
+        dto.setDeliveryOption(order.getDeliveryOption());
+        dto.setDeliveryTime(order.getDeliveryTime());
+        dto.setOrderDate(order.getOrderDate());
+        dto.setOrderMenus(order.getOrderMenus());
+        dto.setPaymentId(order.getPaymentId());
+        dto.setPaymentMethod(order.getPaymentMethod());
+        dto.setRestaurantName(order.getRestaurant().getName());
+        dto.setStatus(order.getStatus());
+        dto.setTotalPrice(order.getTotalPrice());
+        dto.setUserAddress(order.getUserAddress());
+        dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
+
+        return dto;
     }
 }

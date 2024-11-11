@@ -1,1 +1,15 @@
-<p>order-home works!</p>
+<div class="main">
+
+  <img class="background" alt="" [src]="background">
+  <div class="container">
+    <div class="text">
+      <h2>{{getTranslation('orders')}}</h2>
+    </div>
+    <app-order-item
+      class="order-item"
+      *ngFor="let order of orders"
+      [order]="order" >
+    </app-order-item>
+  </div>
+
+</div>

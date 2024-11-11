@@ -142,6 +142,13 @@ export interface LanguageTranslations {
   goToOrders: string;
   backToCheckout: string;
   backToMainPage: string;
+  orderFrom: string;
+  orderNumber: string;
+  quantity: string;
+  showMenu: string;
+  hideMenu: string;
+  price: string;
+  deliveryMethod: string;
 }
 
 export interface Translations {

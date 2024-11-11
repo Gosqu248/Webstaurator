@@ -24,6 +24,20 @@ export interface OrderMenu {
   chooseAdditives: Additives[];
 }
 
+export interface OrderDTO {
+  id: number;
+  deliveryOption: string;
+  deliveryTime: string;
+  orderDate: string;
+  orderMenus: OrderMenu[];
+  paymentId: string;
+  paymentMethod: string;
+  restaurantName: string;
+  restaurantLogo: string;
+  status: OrderStatus;
+  totalPrice: number;
+  userAddress: UserAddress;
+}
 
 export enum OrderStatus {
   zaplacone = "zapłacone",

@@ -1,8 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {CartService} from "./cart.service";
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Order, OrderMenu} from "../interfaces/order";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Order, OrderDTO, OrderMenu} from "../interfaces/order";
 import {BehaviorSubject} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 
@@ -17,12 +17,13 @@ export class OrderService {
 
   constructor(private http: HttpClient, private cartService: CartService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  getUserOrders(userId: number) {
-    return this.http.get<Order[]>(`${this.apiUrl}/getUserOrders?userId=${userId}`);
+  getUserOrders(token: string) {
+    const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
+    return this.http.get<OrderDTO[]>(`${this.apiUrl}/getUserOrders`, {headers});
   }
 
   createOrder(order: Order) {
-    console.log('Order created:', order);
+    order.totalPrice = parseFloat(order.totalPrice.toFixed(2));
     return this.http.post<Order>(`${this.apiUrl}/createOrder`, order).subscribe({
       next: () => {
         this.cartService.deleteCartFromLocalStorage();

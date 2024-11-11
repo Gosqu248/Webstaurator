@@ -7,7 +7,7 @@ import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
-import { RouterLink, RouterOutlet} from "@angular/router";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {OptionService} from "../../../services/option.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
@@ -37,6 +37,7 @@ export class MenuComponent implements OnInit {
   constructor(private languageService: LanguageService,
               protected authService: AuthService,
               private dialog: MatDialog,
+              private router: Router,
               public dialogRef: MatDialogRef<MenuComponent>,
               private optionService: OptionService) {}
 
@@ -91,7 +92,6 @@ export class MenuComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close();
-
   }
 
   openRegisterDialog() {
@@ -144,7 +144,6 @@ export class MenuComponent implements OnInit {
         height: 'auto',
       });
     }
-
   }
 
   openFavoritesDialog() {
@@ -154,6 +153,12 @@ export class MenuComponent implements OnInit {
       maxWidth: '100%',
       height: 'auto',
     });
+  }
+
+  goToOrderHistory() {
+    this.dialog.closeAll();
+    this.router.navigate(['/orders-history']);
+
   }
 
   openLanguageDialog() {

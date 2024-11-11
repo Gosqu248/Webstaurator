@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.OrderDTO;
 import pl.urban.backend.model.Order;
+import pl.urban.backend.security.JwtUtil;
 import pl.urban.backend.service.OrderService;
 
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final JwtUtil jwtToken;
 
-    public OrderController(OrderService orderService) {
+
+    public OrderController(OrderService orderService, JwtUtil jwtToken) {
         this.orderService = orderService;
+        this.jwtToken = jwtToken;
     }
 
     @GetMapping("/getOrder")
@@ -31,12 +35,13 @@ public class OrderController {
     }
 
     @GetMapping("/getUserOrders")
-    public ResponseEntity<List<Order>> getUserOrders(@RequestParam Long userId) {
+    public ResponseEntity<List<OrderDTO>> getUserOrders(@RequestHeader("Authorization") String token) {
         try {
-            List<Order> orders = orderService.getUserOrders(userId);
+            String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+            List<OrderDTO> orders = orderService.getUserOrders(subject);
             return ResponseEntity.ok(orders);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            throw e;
         }
     }
 
