@@ -32,6 +32,7 @@ export interface OrderDTO {
   orderMenus: OrderMenu[];
   paymentId: string;
   paymentMethod: string;
+  restaurantId: number;
   restaurantName: string;
   restaurantLogo: string;
   status: OrderStatus;

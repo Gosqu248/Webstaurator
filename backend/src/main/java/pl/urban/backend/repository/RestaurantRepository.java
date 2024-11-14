@@ -22,4 +22,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("SELECT DISTINCT r.category FROM Restaurant r LEFT JOIN r.delivery d WHERE d.pickupTime > 0")
     Set<String> findPickupCategories();
+
+    Restaurant findByName(String name);
 }

@@ -1,0 +1,30 @@
+<div class="main">
+  <h2>{{getTranslation('addingOpinionFor')}} <br><span class="restaurantName">{{data.restaurantName}}</span></h2>
+
+  <div>
+    <h2>{{getTranslation('quality')}}</h2>
+    <div class="star-rating">
+      <span *ngFor="let star of qualityStars; let i = index"
+            (click)="rateQuality(i + 1)"
+            [ngClass]="{'filled': i < qualityRating}">
+        &#9733;
+      </span>
+    </div>
+  </div>
+
+  <div>
+    <h2>{{getTranslation('deliveryTime')}}</h2>
+    <div class="star-rating">
+      <span *ngFor="let star of deliveryStars; let i = index"
+            (click)="rateDelivery(i + 1)"
+            [ngClass]="{'filled': i < deliveryRating}">
+        &#9733;
+      </span>
+    </div>
+  </div>
+
+  <input class="comment" [(ngModel)]="comment" placeholder="{{getTranslation('addComment')}}">
+
+  <button class="add-opinion-btn" (click)="addOpinion()">{{getTranslation('addOpinion')}}</button>
+
+</div>

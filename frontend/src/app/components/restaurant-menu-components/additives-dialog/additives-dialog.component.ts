@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Additives, Menu} from "../../../interfaces/menu";
+import {Additives} from "../../../interfaces/menu";
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { MatTabsModule } from '@angular/material/tabs';
 import {InfoComponent} from "../info/info.component";
@@ -128,7 +128,5 @@ export class AdditivesDialogComponent implements OnInit {
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
     return this.languageService.getTranslation(key);
   }
-
-
 
 }

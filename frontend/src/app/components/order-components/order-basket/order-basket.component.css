@@ -137,7 +137,7 @@ h5 {
 }
 
 .order-item {
-  width: 80%;
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;

@@ -67,6 +67,31 @@
 
 }
 
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+
+}
+
+.opinion-btn {
+  margin: 20px auto;
+  display: flex;
+  width: 150px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border: 3px solid #ffa500;
+  background-color: #ffa407;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
 .toggle-btn {
   margin: 20px auto;
   display: flex;

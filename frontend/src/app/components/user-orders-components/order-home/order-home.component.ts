@@ -47,12 +47,10 @@ export class OrderHomeComponent implements OnInit{
         console.error('No token found');
         return;
       }
-      console.log('token:', token);
 
       this.orderService.getUserOrders(token).subscribe({
         next: (orders) => {
           this.orders = orders;
-          console.log('User orders:', orders);
         },
         error: (error) => {
           console.error('Error getting user orders:', error);

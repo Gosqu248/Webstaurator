@@ -10,7 +10,6 @@ export interface Favourites {
 }
 
 export interface RestaurantOpinionDTO {
-  id: number;
   qualityRating: number;
   deliveryRating: number;
 }

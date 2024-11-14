@@ -149,6 +149,9 @@ export interface LanguageTranslations {
   hideMenu: string;
   price: string;
   deliveryMethod: string;
+  addOpinion: string;
+  addingOpinionFor: string;
+  addComment: string;
 }
 
 export interface Translations {

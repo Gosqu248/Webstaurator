@@ -132,7 +132,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
         this.orderService.createOrder(order);
-        this.router.navigate(['/orders'])
+        this.router.navigate(['/orders-history'])
       } else {
         this.payUService.createPayUPayment(order).subscribe({
           next: (response: PaymentResponse) => {

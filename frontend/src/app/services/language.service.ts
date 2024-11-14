@@ -174,6 +174,9 @@ export class LanguageService {
       hideMenu: "Ukryj menu",
       price: "Cena",
       deliveryMethod: "Sposób dostarczenia",
+      addOpinion: "Dodaj opinię",
+      addingOpinionFor: "Dodawanie opinii dla ",
+      addComment: "Dodaj komentarz"
 
     },
     en: {
@@ -327,6 +330,9 @@ export class LanguageService {
       hideMenu: "Hide menu",
       price: "Price",
       deliveryMethod: "Delivery method",
+      addOpinion: "Add opinion",
+      addingOpinionFor: "Adding opinion for ",
+      addComment: "Add comment"
     }
   };
 

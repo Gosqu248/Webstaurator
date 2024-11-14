@@ -5,6 +5,8 @@ import localePl from '@angular/common/locales/pl';
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {OrderMenuItemComponent} from "../order-menu-item/order-menu-item.component";
+import {MatDialog} from "@angular/material/dialog";
+import {AddOpinionDialogComponent} from "../add-opinion-dialog/add-opinion-dialog.component";
 
 @Component({
   selector: 'app-order-item',
@@ -25,11 +27,21 @@ export class OrderItemComponent implements OnInit {
   isDelivery = false;
 
   constructor(private datePipe: DatePipe,
+              private dialog: MatDialog,
               private languageService: LanguageService) {}
 
   ngOnInit() {
     registerLocaleData(localePl, 'pl-PL');
     this.getDelivery();
+  }
+
+  openAddOpinionDialog() {
+    this.dialog.open(AddOpinionDialogComponent, {
+      maxWidth: '100%',
+      width: '600px',
+      height: '620px',
+      data: {restaurantName: this.order.restaurantName, restaurantId: this.order.restaurantId}
+    })
   }
 
   getFormattedDate(date: string): string | null {

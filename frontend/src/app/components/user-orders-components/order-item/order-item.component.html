@@ -17,9 +17,15 @@
       </div>
     </div>
 
-    <button class="toggle-btn" (click)="toggleVisibility()">
-      {{ isVisible ? getTranslation('hideMenu') : getTranslation('showMenu') }}
-    </button>
+    <div class="buttons">
+      <button class="opinion-btn" (click)="openAddOpinionDialog()" >{{getTranslation('addOpinion')}}</button>
+
+      <button class="toggle-btn" (click)="toggleVisibility()">
+        {{ isVisible ? getTranslation('hideMenu') : getTranslation('showMenu') }}
+      </button>
+
+    </div>
+
 
     <div
       *ngIf="isVisible">

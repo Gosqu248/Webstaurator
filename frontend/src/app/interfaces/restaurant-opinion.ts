@@ -7,6 +7,13 @@ export interface RestaurantOpinion {
   user: UserDTO;
 }
 
+
+export interface RestaurantOpinionDTO {
+  qualityRating: number;
+  deliveryRating: number;
+  comment: string;
+}
+
 export interface UserDTO {
   id: number;
   name: string;

@@ -86,6 +86,9 @@ public class RestaurantService {
         return restaurantRepository.findById(id).orElse(null);
     }
 
+    public Long getRestaurantIdByName(String name) {
+        return restaurantRepository.findByName(name).getId();
+    }
 
     private RestaurantDTO convertToDTO(Restaurant restaurant) {
         RestaurantDTO restaurantDTO = new RestaurantDTO();

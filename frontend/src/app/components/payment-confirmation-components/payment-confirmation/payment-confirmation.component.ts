@@ -69,6 +69,7 @@ export class PaymentConfirmationComponent implements OnInit{
 
         } else {
           this.status = status;
+
           console.log('Płatność zakończona niepowodzeniem');
         }
       },
@@ -81,7 +82,7 @@ export class PaymentConfirmationComponent implements OnInit{
 
   goToOrders() {
     this.removeLocalStorage();
-    this.router.navigate(['/orders']);
+    this.router.navigate(['/orders-history']);
   }
 
   backToCheckout() {

@@ -2,6 +2,7 @@ package pl.urban.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.RestaurantOpinionDTO;
+import pl.urban.backend.model.RestaurantOpinion;
 import pl.urban.backend.service.RestaurantOpinionService;
 
 import java.util.List;
@@ -19,5 +20,10 @@ public class RestaurantOpinionController {
     @GetMapping("/restaurantOpinions")
     public List<RestaurantOpinionDTO> getRestaurantOpinion(@RequestParam Long restaurantId) {
         return restaurantOpinionService.getRestaurantOpinion(restaurantId);
+    }
+
+    @PostMapping("/addOpinion")
+    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionDTO opinionDTO, @RequestParam Long restaurantId, @RequestParam Long userId) {
+        return restaurantOpinionService.addOpinion(opinionDTO, restaurantId, userId);
     }
 }

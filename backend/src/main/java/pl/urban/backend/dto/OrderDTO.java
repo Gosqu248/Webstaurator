@@ -21,6 +21,7 @@ public class OrderDTO {
     private List<OrderMenu> orderMenus;
     private String paymentId;
     private String paymentMethod;
+    private Long restaurantId;
     private String restaurantName;
     private String restaurantLogo;
     private OrderStatus status;

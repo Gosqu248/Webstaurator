@@ -130,6 +130,7 @@ public class OrderService {
         dto.setOrderMenus(order.getOrderMenus());
         dto.setPaymentId(order.getPaymentId());
         dto.setPaymentMethod(order.getPaymentMethod());
+        dto.setRestaurantId(order.getRestaurant().getId());
         dto.setRestaurantName(order.getRestaurant().getName());
         dto.setStatus(order.getStatus());
         dto.setTotalPrice(order.getTotalPrice());
