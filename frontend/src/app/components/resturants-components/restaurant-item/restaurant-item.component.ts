@@ -1,12 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Restaurant} from "../../../interfaces/restaurant";
 import {DeliveryService} from "../../../services/delivery.service";
-import {DeliveryHour} from "../../../interfaces/delivery.interface";
+import {Delivery, DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
 import {RatingUtil} from "../../../utils/rating-util";
+import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
+import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 
 
 @Component({
@@ -21,28 +23,51 @@ import {RatingUtil} from "../../../utils/rating-util";
 })
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurant!: Restaurant;
+  restaurantDelivery: Delivery = {} as Delivery;
   deliveryTime: DeliveryHour[] = [];
   isOpen: boolean = true;
+  restaurantOpinions: RestaurantOpinion[] = [];
 
   constructor(private deliveryService: DeliveryService,
               private languageService:LanguageService,
+              private restaurantOpinionService: RestaurantOpinionService,
               private router:Router) {}
 
   ngOnInit() {
+    this.getDelivery()
     this.getDeliveryTime();
-    this.setSessionRestaurant();
+    this.getRestaurantOpinions()
+  }
+
+  getDelivery() {
+    this.deliveryService.getDelivery(this.restaurant.id).subscribe((delivery) => {
+      this.restaurantDelivery = delivery;
+      this.setSessionRestaurant()
+    });
+  }
+
+
+  getRestaurantOpinions() {
+    this.restaurantOpinionService.getRestaurantOpinions(this.restaurant.id).subscribe({
+      next: (opinions: RestaurantOpinion[]) => {
+        this.restaurantOpinions = opinions;
+      },
+      error: (err) => {
+        console.error('Error fetching restaurant opinions:', err);
+      }
+    });
   }
 
   getAverageRating(): number {
-    return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
+    return RatingUtil.getAverageRating(this.restaurantOpinions);
   }
 
   getRatingLength(): number {
     if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.setItem('ratingLength', this.restaurant.restaurantOpinions.length.toString());
+      sessionStorage.setItem('ratingLength', this.restaurantOpinions.length.toString());
 
     }
-    return this.restaurant.restaurantOpinions.length;
+    return this.restaurantOpinions.length;
   }
 
   getDeliveryTime(): void {
@@ -53,13 +78,13 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   setSessionRestaurant() {
-    if (this.restaurant && this.restaurant.delivery && typeof sessionStorage !== 'undefined') {
+    if (this.restaurant && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('restaurantName', this.restaurant.name);
-      sessionStorage.setItem('deliveryMin', this.restaurant.delivery.deliveryMinTime.toString());
-      sessionStorage.setItem('deliveryMax', this.restaurant.delivery.deliveryMaxTime.toString());
-      sessionStorage.setItem('deliveryPrice', this.restaurant.delivery.deliveryPrice.toString());
-      sessionStorage.setItem("minPrice", this.restaurant.delivery.minimumPrice.toString());
-      sessionStorage.setItem("pickupTime", this.restaurant.delivery.pickupTime.toString());
+      sessionStorage.setItem('deliveryMin', this.restaurantDelivery.deliveryMinTime.toString());
+      sessionStorage.setItem('deliveryMax', this.restaurantDelivery.deliveryMaxTime.toString());
+      sessionStorage.setItem('deliveryPrice', this.restaurantDelivery.deliveryPrice.toString());
+      sessionStorage.setItem("minPrice", this.restaurantDelivery.minimumPrice.toString());
+      sessionStorage.setItem("pickupTime", this.restaurantDelivery.pickupTime.toString());
     }
   }
 

@@ -12,7 +12,7 @@ export class RestaurantOpinionService {
   constructor(private http: HttpClient) {}
 
   getRestaurantOpinions(id: number): Observable<RestaurantOpinion[]>{
-    return this.http.get<RestaurantOpinion[]>(`${this.apiUrl}/all?restaurantId=${id}`);
+    return this.http.get<RestaurantOpinion[]>(`${this.apiUrl}/restaurantOpinions?restaurantId=${id}`);
   }
 
 

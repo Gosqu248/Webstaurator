@@ -1,7 +1,7 @@
 <div class="nav-container">
   <div class="nav-main">
     <div class="left-container">
-      <ng-container *ngIf="currentRoute === '/restaurants' || '/orders-history'">
+      <ng-container *ngIf="currentRoute === '/restaurants' || currentRoute === '/orders-history'">
         <i  class="fa-solid fa-angle-left" (click)="goToHome()"></i>
       </ng-container>
       <ng-container *ngIf="isMenuRoute()">

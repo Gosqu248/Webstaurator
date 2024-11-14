@@ -19,6 +19,10 @@ import {Restaurant} from "../../../interfaces/restaurant";
 import {RestaurantsService} from "../../../services/restaurants.service";
 import {AuthService} from "../../../services/auth.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
+import {Delivery} from "../../../interfaces/delivery.interface";
+import {DeliveryService} from "../../../services/delivery.service";
+import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
+import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -41,6 +45,7 @@ import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.co
 export class RestaurantMainComponent implements OnInit {
   @Input() restaurantId!: number;
   restaurant: Restaurant = {} as Restaurant;
+  delivery: Delivery = {} as Delivery;
   searchMenu: any;
   menu: Menu[] = [];
   categories: string[] = [];
@@ -49,12 +54,15 @@ export class RestaurantMainComponent implements OnInit {
   isFavorite: boolean = false;
   userId: number = 0;
   loading: boolean = true;
+  restaurantOpinions: RestaurantOpinion[] = [];
 
   constructor(
     private languageService: LanguageService,
     private menuService: MenuService,
     private optionService: OptionService,
     private favouriteService: FavouriteService,
+    private restaurantOpinionService: RestaurantOpinionService,
+    private deliveryService: DeliveryService,
     private restaurantService: RestaurantsService,
     private authService: AuthService,
     private dialog: MatDialog,
@@ -74,13 +82,34 @@ export class RestaurantMainComponent implements OnInit {
 
   }
 
+
+
   getRestaurant() {
     if (this.restaurantId) {
       this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
         this.restaurant = data;
+        this.getRestaurantOpinions(data.id);
+        this.getDelivery(data.id);
       });
     }
   }
+  getDelivery(restaurantId: number) {
+    this.deliveryService.getDelivery(restaurantId).subscribe((delivery) => {
+      this.delivery = delivery;
+    });
+  }
+
+  getRestaurantOpinions(restaurantId: number) {
+    this.restaurantOpinionService.getRestaurantOpinions(restaurantId).subscribe({
+      next: (opinions: RestaurantOpinion[]) => {
+        this.restaurantOpinions = opinions;
+      },
+      error: (err) => {
+        console.error('Error fetching restaurant opinions:', err);
+      }
+    });
+    }
+
   toggleFavourite() {
     if (this.authService.isAuthenticated()) {
       if (this.isFavorite) {
@@ -178,15 +207,15 @@ export class RestaurantMainComponent implements OnInit {
   }
 
   getAverageRating(): number {
-    if (this.restaurant && this.restaurant.restaurantOpinions) {
-      return RatingUtil.getAverageRating(this.restaurant.restaurantOpinions);
+    if (this.restaurant && this.restaurantOpinions) {
+      return RatingUtil.getAverageRating(this.restaurantOpinions);
     }
     return 0;
   }
 
   getRatingLength(): number {
-    if (this.restaurant && this.restaurant.restaurantOpinions) {
-      return this.restaurant.restaurantOpinions.length;
+    if (this.restaurant && this.restaurantOpinions) {
+      return this.restaurantOpinions.length;
     }
     return 0;
   }

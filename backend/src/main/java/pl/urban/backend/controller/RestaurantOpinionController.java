@@ -16,7 +16,7 @@ public class RestaurantOpinionController {
         this.restaurantOpinionService = restaurantOpinionService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/restaurantOpinions")
     public List<RestaurantOpinionDTO> getRestaurantOpinion(@RequestParam Long restaurantId) {
         return restaurantOpinionService.getRestaurantOpinion(restaurantId);
     }

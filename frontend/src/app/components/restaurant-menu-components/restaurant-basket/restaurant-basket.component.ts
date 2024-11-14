@@ -10,6 +10,8 @@
  import {Restaurant} from "../../../interfaces/restaurant";
  import {RestaurantsService} from "../../../services/restaurants.service";
  import {OrderMenu} from "../../../interfaces/order";
+ import {DeliveryService} from "../../../services/delivery.service";
+ import {Delivery} from "../../../interfaces/delivery.interface";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -27,6 +29,7 @@
 export class RestaurantBasketComponent implements OnInit{
   @Input() restaurantId!: number;
   restaurant: Restaurant = {} as Restaurant;
+  delivery: Delivery = {} as Delivery;
   orderMenus: OrderMenu[] = [];
   selectedOption: string = "";
   deliveryOrder: string = "";
@@ -43,6 +46,7 @@ export class RestaurantBasketComponent implements OnInit{
 
   constructor(private languageService: LanguageService,
               private optionService: OptionService,
+              private deliveryService: DeliveryService,
               private router: Router,
               private restaurantService: RestaurantsService,
               private orderService: OrderService,
@@ -60,8 +64,10 @@ export class RestaurantBasketComponent implements OnInit{
         this.restaurant = data;
         this.getPickUp();
         this.cartService.setCurrentRestaurantId(data.id);
-        this.deliveryOrder = this.restaurant.delivery?.deliveryMinTime + "-" + this.restaurant.delivery?.deliveryMaxTime + " min";
-
+      });
+      this.deliveryService.getDelivery(this.restaurantId).subscribe((delivery) => {
+        this.delivery = delivery;
+        this.deliveryOrder = delivery.deliveryMinTime + "-" + delivery.deliveryMaxTime + " min";
       });
     }
   }
@@ -110,7 +116,7 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   getPickUp() {
-   const pickup = this.restaurant.delivery?.pickupTime ;
+   const pickup = this.delivery?.pickupTime ;
    if (pickup && pickup > 0) {
      this.pickupOrder = pickup + " min"
    } else {

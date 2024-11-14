@@ -13,11 +13,11 @@
     <div class="left-description" >
       <div class="description-item" *ngIf="isOpen">
         <i class="fa-solid fa-truck"></i>
-        <h5>{{restaurant.delivery.deliveryPrice}} zł</h5>
+        <h5>{{restaurantDelivery.deliveryPrice}} zł</h5>
       </div>
       <div class="description-item" *ngIf="isOpen">
         <i class="fa-regular fa-clock"></i>
-        <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}} min</h5>
+        <h5>{{restaurantDelivery.deliveryMinTime}}-{{restaurantDelivery.deliveryMaxTime}} min</h5>
       </div>
 
       <div class="description-item closed" *ngIf="!isOpen">

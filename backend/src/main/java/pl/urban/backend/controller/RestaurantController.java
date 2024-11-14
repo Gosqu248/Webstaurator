@@ -1,6 +1,7 @@
 package pl.urban.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.RestaurantDTO;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.RestaurantService;
 
@@ -22,12 +23,12 @@ public class RestaurantController {
     }
 
     @GetMapping("/allDelivery")
-    public List<Restaurant> getAllDeliveryRestaurants() {
+    public List<RestaurantDTO> getAllDeliveryRestaurants() {
         return restaurantService.getAllDeliveryRestaurants();
     }
 
     @GetMapping("/allPickup")
-    public List<Restaurant> getAllPickupRestaurants() {
+    public List<RestaurantDTO> getAllPickupRestaurants() {
         return restaurantService.getAllPickupRestaurants();
     }
 

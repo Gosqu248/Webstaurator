@@ -3,6 +3,7 @@ package pl.urban.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.urban.backend.dto.RestaurantDTO;
 import pl.urban.backend.model.DeliveryHour;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.model.Restaurant;
@@ -59,12 +60,18 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> getAllDeliveryRestaurants() {
-        return restaurantRepository.findAllDeliveryRestaurants();
+    public List<RestaurantDTO> getAllDeliveryRestaurants() {
+        List<Restaurant> restaurant = restaurantRepository.findAllDeliveryRestaurants();
+        return restaurant.stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
-    public List<Restaurant> getAllPickupRestaurants() {
-        return restaurantRepository.findAllPickupRestaurants();
+    public List<RestaurantDTO> getAllPickupRestaurants() {
+        List<Restaurant> restaurant = restaurantRepository.findAllPickupRestaurants();
+        return restaurant.stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
     public Set<String> getDeliveryCategories() {
@@ -77,5 +84,16 @@ public class RestaurantService {
 
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository.findById(id).orElse(null);
+    }
+
+
+    private RestaurantDTO convertToDTO(Restaurant restaurant) {
+        RestaurantDTO restaurantDTO = new RestaurantDTO();
+        restaurantDTO.setId(restaurant.getId());
+        restaurantDTO.setName(restaurant.getName());
+        restaurantDTO.setCategory(restaurant.getCategory());
+        restaurantDTO.setLogoUrl(restaurant.getLogoUrl());
+        restaurantDTO.setImageUrl(restaurant.getImageUrl());
+        return restaurantDTO;
     }
 }
