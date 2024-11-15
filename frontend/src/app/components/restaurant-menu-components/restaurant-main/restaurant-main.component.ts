@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {NgIf, NgForOf, DecimalPipe} from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import {Delivery} from "../../../interfaces/delivery.interface";
 import {DeliveryService} from "../../../services/delivery.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-restaurant-main',
@@ -42,7 +43,7 @@ import {RestaurantOpinionService} from "../../../services/restaurant-opinion.ser
   templateUrl: './restaurant-main.component.html',
   styleUrls: ['./restaurant-main.component.css']
 })
-export class RestaurantMainComponent implements OnInit {
+export class RestaurantMainComponent implements OnInit, OnDestroy {
   @Input() restaurantId!: number;
   restaurant: Restaurant = {} as Restaurant;
   delivery: Delivery = {} as Delivery;
@@ -55,6 +56,8 @@ export class RestaurantMainComponent implements OnInit {
   userId: number = 0;
   loading: boolean = true;
   restaurantOpinions: RestaurantOpinion[] = [];
+  private loginSubscription!: Subscription;
+
 
   constructor(
     private languageService: LanguageService,
@@ -76,13 +79,21 @@ export class RestaurantMainComponent implements OnInit {
       this.getSelected();
       this.getMenu();
       this.filterMenu();
-      this.optionService.favouriteRestaurantIds$.subscribe((restaurantIds: number[]) => {
-        this.isFavorite = restaurantIds.includes(this.restaurant.id);
-      });
-
+    this.loginSubscription = this.authService.loginEvent.subscribe(() => {
+      this.refreshFavourite();
+    });
   }
 
+  ngOnDestroy() {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
+  }
 
+  refreshFavourite() {
+    this.isFavourite(this.restaurant.id);
+    console.log('Odświeżam dane ulubionych!');
+  }
 
   getRestaurant() {
     if (this.restaurantId) {
@@ -92,6 +103,16 @@ export class RestaurantMainComponent implements OnInit {
         this.getDelivery(data.id);
       });
     }
+  }
+
+
+  isFavourite(restaurantId: number) {
+    this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
+
+    this.favouriteService.isFavorite(this.userId, restaurantId).subscribe((isFavourite) => {
+      this.isFavorite = isFavourite;
+      console.log('Is favourite:', isFavourite);
+    });
   }
   getDelivery(restaurantId: number) {
     this.deliveryService.getDelivery(restaurantId).subscribe((delivery) => {
@@ -123,7 +144,6 @@ export class RestaurantMainComponent implements OnInit {
             console.log('Error deleting favourite');
           }
         });
-        this.optionService.removeFavourite(this.restaurant.id)
       } else {
         this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
           next: () => {
@@ -134,7 +154,6 @@ export class RestaurantMainComponent implements OnInit {
             console.log('Error adding favourite');
           }
         });
-        this.optionService.addFavourite(this.restaurant.id)
       }
     } else {
       this.dialog.open(MenuLoginComponent)
@@ -148,9 +167,7 @@ export class RestaurantMainComponent implements OnInit {
     } else {
       this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
       if (this.userId !== 0) {
-        this.favouriteService.getUserFavourites(this.userId).subscribe((favourites: Favourites[]) => {
-          this.isFavorite = favourites.some((fav: Favourites) => fav.restaurantId === this.restaurant.id);
-        });
+        this.isFavourite(this.restaurantId);
       } else {
         this.isFavorite = false;
         this.loading = false;

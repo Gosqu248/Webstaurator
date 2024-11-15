@@ -1,4 +1,4 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../interfaces/user.interface";
@@ -13,6 +13,7 @@ export class AuthService {
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  loginEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -27,6 +28,7 @@ export class AuthService {
           if (response.jwt) {
             this.isAuthenticatedSubject.next(true);
             localStorage.setItem('jwt', response.jwt);
+            this.loginEvent.emit();
           } else {
             console.error('No JWT token in response: ', response)
           }

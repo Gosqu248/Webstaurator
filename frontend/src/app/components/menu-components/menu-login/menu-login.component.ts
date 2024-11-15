@@ -49,6 +49,7 @@ export class MenuLoginComponent {
       .subscribe((isAuthenticated: boolean) => {
         if (isAuthenticated) {
           console.log("Login " + this.loginForm.value.email);
+          this.authService.loginEvent.emit();
           this.backToMenuDialog();
         } else {
           this.isLoginError = !this.isLoginError;

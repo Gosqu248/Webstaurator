@@ -62,7 +62,6 @@ export class MenuComponent implements OnInit {
           localStorage.setItem('email', user.email);
           if (user.id) {
             localStorage.setItem('userId', user.id.toString())
-            this.optionService.fetchFavouritesFromDatabase(user.id);
           }
 
           console.log('User data fetched: ', user);
@@ -87,7 +86,6 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.optionService.clearFavourites();
   }
 
   closeDialog() {

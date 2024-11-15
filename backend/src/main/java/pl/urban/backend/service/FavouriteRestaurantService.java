@@ -51,7 +51,10 @@ public class FavouriteRestaurantService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Delete Invalid user or restaurant ID");
         }
+    }
 
+    public boolean isFavouriteRestaurant(Long userId, Long restaurantId) {
+        return favouriteRestaurantRepository.existsByUserIdAndRestaurantId(userId, restaurantId);
     }
 
     private FavouriteRestaurant getFavouriteRestaurant(Long userId, Long restaurantId) {

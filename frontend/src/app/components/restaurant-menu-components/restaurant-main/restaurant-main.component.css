@@ -135,10 +135,13 @@ h5 {
 .categories-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap; /* Allow categories to wrap to the next line */
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 90%;
   height: auto;
+  overflow-x: auto; /* Handle horizontal overflow */
+  overflow-y: hidden;
 }
 
 .menu-item {

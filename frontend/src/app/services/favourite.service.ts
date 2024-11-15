@@ -16,6 +16,10 @@ export class FavouriteService {
     return this.http.get<Favourites[]>(`${this.apiUrl}/all?userId=${id}`);
   }
 
+  isFavorite(userId: number, restaurantId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/isFavourite?userId=${userId}&restaurantId=${restaurantId}`);
+  }
+
   addFavourite(userId: number, restaurantId: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/add`, {
       userId,

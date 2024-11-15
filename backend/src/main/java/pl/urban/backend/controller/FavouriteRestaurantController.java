@@ -32,4 +32,9 @@ public class FavouriteRestaurantController {
     public void deleteFavouriteRestaurant(@RequestBody FavouriteRequest favouriteRequest) {
         favouriteRestaurantService.deleteFavouriteRestaurant(favouriteRequest.getUserId(), favouriteRequest.getRestaurantId());
     }
+
+    @GetMapping("/isFavourite")
+    public boolean isFavouriteRestaurant(@RequestParam Long userId, @RequestParam Long restaurantId) {
+        return favouriteRestaurantService.isFavouriteRestaurant(userId, restaurantId);
+    }
 }

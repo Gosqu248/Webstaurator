@@ -12,4 +12,6 @@ public interface FavouriteRestaurantRepository extends JpaRepository<FavouriteRe
     List<FavouriteRestaurant> findByUserId(Long userId);
     Optional<FavouriteRestaurant> findFirstByUserIdAndRestaurantId(Long userId, Long restaurantId);
 
+    boolean existsByUserIdAndRestaurantId(Long userId, Long restaurantId);
+
 }

@@ -40,7 +40,6 @@ export class MenuFavItemComponent implements OnInit{
   removeFavourite() {
     this.favouriteService.deleteFavourite(this.userId, this.favourite.restaurantId).subscribe(() => {
       this.getFavourites.emit();
-      this.optionService.removeFavourite(this.favourite.restaurantId)
     });
   }
 }
