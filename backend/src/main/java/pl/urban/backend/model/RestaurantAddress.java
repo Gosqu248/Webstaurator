@@ -1,6 +1,5 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,6 +27,13 @@ public class RestaurantAddress {
 
     @Column(nullable = false)
     private String zipCode;
+
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
+
 
     @JsonIgnore
     @OneToOne

@@ -1,10 +1,8 @@
 package pl.urban.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.urban.backend.dto.RestaurantDTO;
-import pl.urban.backend.model.DeliveryHour;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.repository.MenuRepository;
@@ -26,6 +24,32 @@ public class RestaurantService {
         this.menuRepository = menuRepository;
     }
 
+
+    public List<RestaurantDTO> getAllDeliveryRestaurants() {
+        List<Restaurant> restaurant = restaurantRepository.findAllDeliveryRestaurants();
+        return restaurant.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
+    public List<RestaurantDTO> getAllPickupRestaurants() {
+        List<Restaurant> restaurant = restaurantRepository.findAllPickupRestaurants();
+        return restaurant.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
+
+    public Set<String> getDeliveryCategories() {
+        return restaurantRepository.findDeliveryCategories();
+    }
+
+    public Set<String> getPickupCategories() {
+        return restaurantRepository.findPickupCategories();
+    }
+
+    public Restaurant getRestaurantById(Long id) {
+        return restaurantRepository.findById(id).orElse(null);
+    }
 
     @Transactional
     public Restaurant addRestaurant(Restaurant restaurant) {
@@ -60,35 +84,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<RestaurantDTO> getAllDeliveryRestaurants() {
-        List<Restaurant> restaurant = restaurantRepository.findAllDeliveryRestaurants();
-        return restaurant.stream()
-                .map(this::convertToDTO)
-                .toList();
-    }
 
-    public List<RestaurantDTO> getAllPickupRestaurants() {
-        List<Restaurant> restaurant = restaurantRepository.findAllPickupRestaurants();
-        return restaurant.stream()
-                .map(this::convertToDTO)
-                .toList();
-    }
-
-    public Set<String> getDeliveryCategories() {
-        return restaurantRepository.findDeliveryCategories();
-    }
-
-    public Set<String> getPickupCategories() {
-        return restaurantRepository.findPickupCategories();
-    }
-
-    public Restaurant getRestaurantById(Long id) {
-        return restaurantRepository.findById(id).orElse(null);
-    }
-
-    public Long getRestaurantIdByName(String name) {
-        return restaurantRepository.findByName(name).getId();
-    }
 
     private RestaurantDTO convertToDTO(Restaurant restaurant) {
         RestaurantDTO restaurantDTO = new RestaurantDTO();
