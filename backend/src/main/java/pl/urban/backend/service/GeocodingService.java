@@ -12,10 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 public class GeocodingService {
-
-    private static final String NOMINATIM_URL = "";
     private final RestTemplate restTemplate;
-
 
     public GeocodingService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -23,7 +20,8 @@ public class GeocodingService {
 
     public double[] getCoordinates(String address) throws JSONException {
 
-        String url = String.format("https://nominatim.openstreetmap.org/search?q=%s&format=json&addressdetails=1",
+
+        String url = String.format("https://nominatim.openstreetmap.org/search?format=json&q=%s",
                 URLEncoder.encode(address, StandardCharsets.UTF_8));
         ResponseEntity<GeoCodingResponse[]> response = restTemplate.getForEntity(url, GeoCodingResponse[].class);
 

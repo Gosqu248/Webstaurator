@@ -7,8 +7,7 @@ import {FavouriteService} from "./favourite.service";
 })
 export class OptionService {
 
-  constructor(private favouriteService: FavouriteService) {
-  }
+  constructor() {}
 
   selectedOption = new BehaviorSubject<string>('delivery');
   selectedOption$ = this.selectedOption.asObservable();

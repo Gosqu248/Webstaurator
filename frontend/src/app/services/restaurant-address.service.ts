@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {RestaurantAddress} from "../interfaces/restaurant-address";
+import {SearchedRestaurant} from "../interfaces/searched-restaurant";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class RestaurantAddressService {
 
   getRestaurantAddress(id: number): Observable<RestaurantAddress>{
     return this.http.get<RestaurantAddress>(`${this.apiUrl}/get?restaurantId=${id}`);
+  }
+
+  searchedRestaurant(address: string): Observable<SearchedRestaurant[]>{
+    return this.http.get<SearchedRestaurant[]>(`${this.apiUrl}/search?address=${address}`);
   }
 
 }

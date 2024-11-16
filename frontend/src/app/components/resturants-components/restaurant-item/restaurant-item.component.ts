@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {RatingUtil} from "../../../utils/rating-util";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantsService} from "../../../services/restaurants.service";
 
 
 @Component({
@@ -22,7 +23,8 @@ import {RestaurantOpinionService} from "../../../services/restaurant-opinion.ser
   styleUrl: './restaurant-item.component.css'
 })
 export class RestaurantItemComponent implements OnInit{
-  @Input() restaurant!: Restaurant;
+  @Input() restaurantId!: number;
+  restaurant: Restaurant = {} as Restaurant;
   restaurantDelivery: Delivery = {} as Delivery;
   deliveryTime: DeliveryHour[] = [];
   isOpen: boolean = true;
@@ -30,17 +32,25 @@ export class RestaurantItemComponent implements OnInit{
 
   constructor(private deliveryService: DeliveryService,
               private languageService:LanguageService,
+              private restaurantService: RestaurantsService,
               private restaurantOpinionService: RestaurantOpinionService,
               private router:Router) {}
 
   ngOnInit() {
+    this.getRestaurant();
     this.getDelivery()
     this.getDeliveryTime();
     this.getRestaurantOpinions()
   }
 
+  getRestaurant() {
+    this.restaurantService.getRestaurantById(this.restaurantId).subscribe((restaurant) => {
+      this.restaurant = restaurant;
+    });
+  }
+
   getDelivery() {
-    this.deliveryService.getDelivery(this.restaurant.id).subscribe((delivery) => {
+    this.deliveryService.getDelivery(this.restaurantId).subscribe((delivery) => {
       this.restaurantDelivery = delivery;
       this.setSessionRestaurant()
     });
@@ -48,7 +58,7 @@ export class RestaurantItemComponent implements OnInit{
 
 
   getRestaurantOpinions() {
-    this.restaurantOpinionService.getRestaurantOpinions(this.restaurant.id).subscribe({
+    this.restaurantOpinionService.getRestaurantOpinions(this.restaurantId).subscribe({
       next: (opinions: RestaurantOpinion[]) => {
         this.restaurantOpinions = opinions;
       },
@@ -71,15 +81,15 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   getDeliveryTime(): void {
-    this.deliveryService.getDeliveryTIme(this.restaurant.id).subscribe((data) => {
+    this.deliveryService.getDeliveryTIme(this.restaurantId).subscribe((data) => {
       this.deliveryTime = data;
       this.isOpen = this.deliveryService.checkIfOpen(this.deliveryTime);
     });
   }
 
   setSessionRestaurant() {
-    if (this.restaurant && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
-      sessionStorage.setItem('restaurantName', this.restaurant.name);
+    if (this.restaurantId && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('restaurantName', this.restaurant.name)
       sessionStorage.setItem('deliveryMin', this.restaurantDelivery.deliveryMinTime.toString());
       sessionStorage.setItem('deliveryMax', this.restaurantDelivery.deliveryMaxTime.toString());
       sessionStorage.setItem('deliveryPrice', this.restaurantDelivery.deliveryPrice.toString());

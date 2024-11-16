@@ -11,7 +11,7 @@
       <div class="restaurants">
         <app-restaurant-item
           *ngFor="let restaurant of filteredRestaurants"
-          [restaurant]="restaurant"
+          [restaurantId]="restaurant.restaurantId"
         ></app-restaurant-item>
       </div>
 

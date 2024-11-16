@@ -31,6 +31,7 @@ public class Restaurant {
     private String imageUrl;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Delivery delivery;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
@@ -51,6 +52,7 @@ public class Restaurant {
     private List<DeliveryHour> deliveryHours;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<RestaurantOpinion> restaurantOpinions;
 
     @OneToMany(mappedBy = "restaurant")

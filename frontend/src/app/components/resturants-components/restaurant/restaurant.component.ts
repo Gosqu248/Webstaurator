@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from '../../menu-components/menu/menu.component';
-import { NgForOf, NgIf } from '@angular/common';
+import {isPlatformBrowser, NgForOf, NgIf} from '@angular/common';
 import { ResturantCategoryComponent } from '../resturant-category/resturant-category.component';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../../services/language.service';
@@ -11,6 +11,8 @@ import { RestaurantsService } from '../../../services/restaurants.service';
 import { Restaurant } from '../../../interfaces/restaurant';
 import { RestaurantItemComponent } from '../restaurant-item/restaurant-item.component';
 import { OptionService } from '../../../services/option.service';
+import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
   selector: 'app-restaurant',
@@ -29,17 +31,17 @@ import { OptionService } from '../../../services/option.service';
   styleUrl: './restaurant.component.css'
 })
 export class RestaurantComponent implements OnInit, OnChanges {
-  searchRestaurant: any;
-  deliveryRestaurants: Restaurant[] = [];
-  pickupRestaurants: Restaurant[] = [];
-  restaurants: Restaurant[] = [];
-  filteredRestaurants: Restaurant[] = [];
+  searchedRestaurants: SearchedRestaurant[] = [];
+  searchRestaurant: string = '';
+  deliveredRestaurant: SearchedRestaurant[] = [];
+  restaurants: SearchedRestaurant[] = [];
+  filteredRestaurants: SearchedRestaurant[] = [];
   categories: string[] = [];
 
 
   constructor(
     private languageService: LanguageService,
-    private restaurantService: RestaurantsService,
+    private restaurantAddressService: RestaurantAddressService,
     private optionService: OptionService
   ) {}
 
@@ -58,31 +60,38 @@ export class RestaurantComponent implements OnInit, OnChanges {
   }
 
   private loadRestaurant() {
-    this.restaurantService.getDeliveryRestaurants().subscribe((restaurant) => {
-      this.deliveryRestaurants = restaurant;
+    const address = sessionStorage.getItem('searchAddress');
+
+    if (!address) {
+      throw new Error('No address found');
+    }
+    this.restaurantAddressService.searchedRestaurant(address).subscribe((restaurant) => {
+      this.searchedRestaurants = restaurant;
       this.updateRestaurant();
     });
-    this.restaurantService.getPickupRestaurants().subscribe((restaurant) => {
-      this.pickupRestaurants = restaurant;
-      this.updateRestaurant();
-    });
+
   }
 
   private updateRestaurant() {
     const deliveryOption = this.optionService.selectedOption.value;
-    this.restaurants = deliveryOption === 'delivery' ? this.deliveryRestaurants : this.pickupRestaurants;
+     deliveryOption === 'pickup'
+       ? this.deliveredRestaurant = this.searchedRestaurants.filter(restaurant => restaurant.pickup)
+       : this.deliveredRestaurant = this.searchedRestaurants;
     this.filterRestaurants();
   }
 
   private filterRestaurants() {
     this.categories = this.optionService.selectedCategories.value;
-    this.categories.length > 0
-      ? this.filteredRestaurants = this.restaurants.filter((restaurant) => this.categories.includes(restaurant.category))
-      : this.filteredRestaurants = this.restaurants;
 
     this.searchRestaurant
-      ? this.filteredRestaurants = this.filteredRestaurants.filter((restaurant) => restaurant.name.toLowerCase().includes(this.searchRestaurant.toLowerCase()))
-      : null
+        ? this.filteredRestaurants = this.deliveredRestaurant.filter((restaurant) => restaurant.name.toLowerCase().includes(this.searchRestaurant.toLowerCase()))
+       : this.filteredRestaurants = this.deliveredRestaurant;
+
+    if (this.categories.length > 0) {
+      this.filteredRestaurants = this.filteredRestaurants.filter((restaurant) =>
+        this.categories.some(category => restaurant.category === category)
+      );
+    }
 
   }
 
