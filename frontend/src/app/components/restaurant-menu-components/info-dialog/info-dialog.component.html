@@ -12,14 +12,14 @@
     <div class="black-div">
       <h2>{{getTranslation('overallScore')}}</h2>
       <div class="rating-container">
-        <h1>{{getAverageRating() | number:'1.1-1'}}</h1>
+        <h1>{{rating | number:'1.1-1'}}</h1>
         <div class="vertical-line"></div>
         <div class="first-main">
           <div class="rating-stars">
             <mat-icon fontIcon="star" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{
-              'full': i <= getAverageRating(),
-              'half': (i - 0.5 === getAverageRating()) || (i - 0.5 < getAverageRating() && getAverageRating() < i),
-              'empty': i > getAverageRating()
+              'full': i <= rating,
+              'half': (i - 0.5 === rating) || (i - 0.5 < rating && rating < i),
+              'empty': i > rating
             }"></mat-icon>
           </div>
           <p>{{getTranslation('outOf')}} {{opinionLength}} {{getTranslation('reviews2')}}</p>

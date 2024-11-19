@@ -19,5 +19,9 @@ export class RestaurantOpinionService {
     return this.http.post<RestaurantOpinion>(`${this.apiUrl}/addOpinion?restaurantId=${restaurantId}&userId=${userId}`, opinion);
   }
 
+  getRating(id: number): Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/getRatingRestaurant?restaurantId=${id}`);
+  }
+
 
 }

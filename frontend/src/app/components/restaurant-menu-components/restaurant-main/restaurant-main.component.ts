@@ -12,8 +12,6 @@ import { FilterByCategoryPipe } from '../../../pipes/filter-by-category.pipe';
 import { RestaurantMenuItemComponent } from '../restaurant-menu-item/restaurant-menu-item.component';
 import { NgOptimizedImage } from '@angular/common';
 import {Menu} from "../../../interfaces/menu";
-import {Favourites} from "../../../interfaces/favourites";
-import {RatingUtil} from "../../../utils/rating-util";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {RestaurantsService} from "../../../services/restaurants.service";
@@ -57,6 +55,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   restaurantOpinions: RestaurantOpinion[] = [];
   private loginSubscription!: Subscription;
+  rating: number = 0;
 
 
   constructor(
@@ -79,6 +78,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
       this.getSelected();
       this.getMenu();
       this.filterMenu();
+      this.getAverageRating();
     this.loginSubscription = this.authService.loginEvent.subscribe(() => {
       this.refreshFavourite();
     });
@@ -225,7 +225,14 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
 
   getAverageRating(): number {
     if (this.restaurant && this.restaurantOpinions) {
-      return RatingUtil.getAverageRating(this.restaurantOpinions);
+      this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+        next: (rating: number) => {
+          this.rating = rating
+        },
+        error: (err) => {
+          console.error('Error fetching average rating:', err);
+        }
+      });
     }
     return 0;
   }

@@ -14,7 +14,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
-import {RatingUtil} from "../../../utils/rating-util";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 import {OpinionItemComponent} from "../opinion-item/opinion-item.component";
 import {InfoComponent} from "../info/info.component";
@@ -46,6 +45,7 @@ export class InfoDialogComponent implements OnInit{
   opinions: RestaurantOpinion[] = [];
   opinionLength: number = 0;
   restaurantName: string = '';
+  rating: number = 0;
 
   constructor(
     private languageService: LanguageService,
@@ -56,6 +56,7 @@ export class InfoDialogComponent implements OnInit{
   ngOnInit() {
     this.getRestaurant();
     this.getRestaurantOpinions();
+    this.getAverageRating();
   }
 
   getRestaurantOpinions() {
@@ -71,7 +72,14 @@ export class InfoDialogComponent implements OnInit{
   }
 
   getAverageRating() {
-    return RatingUtil.getAverageRating(this.opinions);
+    this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+      next: (rating: number) => {
+        this.rating = rating
+      },
+      error: (err) => {
+        console.error('Error fetching average rating:', err);
+      }
+    });
   }
 
   closeDialog(): void {

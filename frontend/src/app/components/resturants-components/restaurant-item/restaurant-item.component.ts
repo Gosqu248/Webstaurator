@@ -6,7 +6,6 @@ import {DecimalPipe, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
-import {RatingUtil} from "../../../utils/rating-util";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 import {RestaurantsService} from "../../../services/restaurants.service";
@@ -29,6 +28,7 @@ export class RestaurantItemComponent implements OnInit{
   deliveryTime: DeliveryHour[] = [];
   isOpen: boolean = true;
   restaurantOpinions: RestaurantOpinion[] = [];
+  rating: number = 0;
 
   constructor(private deliveryService: DeliveryService,
               private languageService:LanguageService,
@@ -41,6 +41,7 @@ export class RestaurantItemComponent implements OnInit{
     this.getRestaurantOpinions()
     this.getDelivery()
     this.getDeliveryTime();
+    this.getAverageRating();
   }
 
   getRestaurant() {
@@ -67,8 +68,15 @@ export class RestaurantItemComponent implements OnInit{
     });
   }
 
-  getAverageRating(): number {
-    return RatingUtil.getAverageRating(this.restaurantOpinions);
+  getAverageRating() {
+    this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+      next: (rating: number) => {
+        this.rating = rating
+      },
+      error: (err) => {
+        console.error('Error fetching average rating:', err);
+      }
+    });
   }
 
   getRatingLength(): number {
