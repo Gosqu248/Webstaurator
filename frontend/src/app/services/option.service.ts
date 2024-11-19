@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {FavouriteService} from "./favourite.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +11,12 @@ export class OptionService {
   selectedOption = new BehaviorSubject<string>('delivery');
   selectedOption$ = this.selectedOption.asObservable();
 
+  categories = new BehaviorSubject<string[]>([]);
+  categories$ = this.categories.asObservable();
+
+  private selectedSortItemSubject = new BehaviorSubject<string>('');
+  selectedSortItem$ = this.selectedSortItemSubject.asObservable();
+
   selectedCategories = new BehaviorSubject<string[]>([]);
   selectedCategories$ = this.selectedCategories.asObservable();
 
@@ -20,6 +25,15 @@ export class OptionService {
 
   selectedMenuCategory = new BehaviorSubject<string>('');
   selectedMenuCategory$ = this.selectedMenuCategory.asObservable();
+
+
+  setCategories(categories: string[]) {
+    this.categories.next(categories);
+  }
+
+  setSelectedSort(sort: string) {
+    this.selectedSortItemSubject.next(sort);
+  }
 
 
   setSelectedOption(option: string) {

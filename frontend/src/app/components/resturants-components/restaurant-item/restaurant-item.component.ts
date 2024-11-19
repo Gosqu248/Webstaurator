@@ -38,9 +38,9 @@ export class RestaurantItemComponent implements OnInit{
 
   ngOnInit() {
     this.getRestaurant();
+    this.getRestaurantOpinions()
     this.getDelivery()
     this.getDeliveryTime();
-    this.getRestaurantOpinions()
   }
 
   getRestaurant() {
@@ -52,7 +52,6 @@ export class RestaurantItemComponent implements OnInit{
   getDelivery() {
     this.deliveryService.getDelivery(this.restaurantId).subscribe((delivery) => {
       this.restaurantDelivery = delivery;
-      this.setSessionRestaurant()
     });
   }
 
@@ -88,7 +87,8 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   setSessionRestaurant() {
-    if (this.restaurantId && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
+    if (this.restaurantId && this.restaurant && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
+      console.log(this.restaurant.name)
       sessionStorage.setItem('restaurantName', this.restaurant.name)
       sessionStorage.setItem('deliveryMin', this.restaurantDelivery.deliveryMinTime.toString());
       sessionStorage.setItem('deliveryMax', this.restaurantDelivery.deliveryMaxTime.toString());
@@ -103,6 +103,7 @@ export class RestaurantItemComponent implements OnInit{
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
     sessionStorage.setItem('restaurantId', restaurant.id.toString());
 
+    this.setSessionRestaurant();
     this.router.navigate(['/menu', formattedName]);
   }
 

@@ -1,14 +1,13 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from '../../menu-components/menu/menu.component';
-import {isPlatformBrowser, NgForOf, NgIf} from '@angular/common';
+import { NgForOf, NgIf} from '@angular/common';
 import { ResturantCategoryComponent } from '../resturant-category/resturant-category.component';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../../services/language.service';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { RestaurantSortComponent } from '../restaurant-sort/restaurant-sort.component';
-import { RestaurantsService } from '../../../services/restaurants.service';
-import { Restaurant } from '../../../interfaces/restaurant';
+
 import { RestaurantItemComponent } from '../restaurant-item/restaurant-item.component';
 import { OptionService } from '../../../services/option.service';
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
@@ -52,7 +51,8 @@ export class RestaurantComponent implements OnInit, OnChanges {
     });
     this.optionService.selectedCategories$.subscribe(() => {
       this.filterRestaurants();
-    })
+    });
+
   }
 
   ngOnChanges() {
@@ -70,29 +70,52 @@ export class RestaurantComponent implements OnInit, OnChanges {
       this.updateRestaurant();
     });
 
+
+
   }
+
 
   private updateRestaurant() {
     const deliveryOption = this.optionService.selectedOption.value;
-     deliveryOption === 'pickup'
-       ? this.deliveredRestaurant = this.searchedRestaurants.filter(restaurant => restaurant.pickup)
-       : this.deliveredRestaurant = this.searchedRestaurants;
+     if (deliveryOption === 'pickup') {
+       this.deliveredRestaurant = this.searchedRestaurants.filter(restaurant => restaurant.pickup)
+       this.optionService.setCategories(this.deliveredRestaurant.map(restaurant => restaurant.category));
+     } else {
+       this.deliveredRestaurant = this.searchedRestaurants;
+       this.optionService.setCategories(this.deliveredRestaurant.map(restaurant => restaurant.category));
+
+     }
     this.filterRestaurants();
   }
 
   private filterRestaurants() {
+    let currentFiltered = [...this.deliveredRestaurant];
+
+    if (this.searchRestaurant) {
+      currentFiltered = currentFiltered.filter((restaurant) =>
+        restaurant.name.toLowerCase().includes(this.searchRestaurant.toLowerCase())
+      );
+    }
+
     this.categories = this.optionService.selectedCategories.value;
-
-    this.searchRestaurant
-        ? this.filteredRestaurants = this.deliveredRestaurant.filter((restaurant) => restaurant.name.toLowerCase().includes(this.searchRestaurant.toLowerCase()))
-       : this.filteredRestaurants = this.deliveredRestaurant;
-
     if (this.categories.length > 0) {
-      this.filteredRestaurants = this.filteredRestaurants.filter((restaurant) =>
+      currentFiltered = currentFiltered.filter((restaurant) =>
         this.categories.some(category => restaurant.category === category)
       );
     }
 
+
+    this.optionService.selectedSortItem$.subscribe((sortType) => {
+      this.filteredRestaurants = [...currentFiltered];
+
+      if (sortType === this.getTranslation('closeToMe')) {
+        this.filteredRestaurants.sort((a, b) => a.distance - b.distance);
+      } else if (sortType === this.getTranslation('grades')) {
+        this.filteredRestaurants.sort((a, b) => b.rating - a.rating);
+      }
+    });
+
+    this.filteredRestaurants = currentFiltered;
   }
 
 

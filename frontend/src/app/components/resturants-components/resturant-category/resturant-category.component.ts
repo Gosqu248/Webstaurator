@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { CategoryItemComponent } from '../category-item/category-item.component';
 import {NgClass, NgForOf} from "@angular/common";
-import {RestaurantsService} from "../../../services/restaurants.service";
 import {OptionService} from "../../../services/option.service";
 
 @Component({
@@ -18,36 +17,22 @@ import {OptionService} from "../../../services/option.service";
 export class ResturantCategoryComponent implements OnInit, OnChanges{
   @Input() selectedOption!: string;
   selectedCategories:  string[] = [];
-  deliveryCategories: string[] = [];
-  pickupCategories: string[] = [];
-  options: string[] = [];
-
-  constructor(private restaurantService: RestaurantsService, private optionService: OptionService) {}
+  categories: string[] = [];
+  constructor(private optionService: OptionService) {}
 
   ngOnInit() {
     this.loadCategories();
   }
 
   ngOnChanges() {
-    this.updateCategories();
   }
 
   private loadCategories() {
-    this.restaurantService.getDeliveryCategories().subscribe((categories: string[]) => {
-      this.deliveryCategories = categories;
-      this.updateCategories();
-
-    });
-    this.restaurantService.getPickupCategories().subscribe((categories: string[]) => {
-      this.pickupCategories = categories;
-      this.updateCategories();
-
+    this.optionService.categories$.subscribe((categories) => {
+      this.categories = categories;
     });
   }
 
-  private updateCategories() {
-    this.options = this.selectedOption === 'delivery' ? this.deliveryCategories : this.pickupCategories;
-  }
 
 
   selectCategory(category: string) {

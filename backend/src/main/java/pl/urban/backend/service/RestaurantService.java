@@ -25,27 +25,6 @@ public class RestaurantService {
     }
 
 
-    public List<RestaurantDTO> getAllDeliveryRestaurants() {
-        List<Restaurant> restaurant = restaurantRepository.findAllDeliveryRestaurants();
-        return restaurant.stream()
-                .map(this::convertToDTO)
-                .toList();
-    }
-
-    public List<RestaurantDTO> getAllPickupRestaurants() {
-        List<Restaurant> restaurant = restaurantRepository.findAllPickupRestaurants();
-        return restaurant.stream()
-                .map(this::convertToDTO)
-                .toList();
-    }
-
-    public Set<String> getDeliveryCategories() {
-        return restaurantRepository.findDeliveryCategories();
-    }
-
-    public Set<String> getPickupCategories() {
-        return restaurantRepository.findPickupCategories();
-    }
 
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository.findById(id).orElse(null);

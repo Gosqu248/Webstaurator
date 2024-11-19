@@ -3,6 +3,7 @@ import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {SortItemComponent} from "../sort-item/sort-item.component";
 import {NgClass, NgForOf} from "@angular/common";
+import {OptionService} from "../../../services/option.service";
 
 @Component({
   selector: 'app-restaurant-sort',
@@ -19,8 +20,8 @@ export class RestaurantSortComponent implements OnInit, OnChanges{
   sortItems: { description: string, icon: string }[] = []
 
   selectedSortItem: { description: string, icon: string } = { description: '', icon: ''};
-  constructor(private languageService:LanguageService) {
-  }
+  constructor(private languageService:LanguageService,
+              private optionService: OptionService) {}
 
   ngOnInit() {
     this.languageService.languageChange$.subscribe(() =>{
@@ -49,6 +50,12 @@ export class RestaurantSortComponent implements OnInit, OnChanges{
 
 
   selectSortItem(sort: { description: string, icon: string }) {
-    return this.selectedSortItem === sort ? this.selectedSortItem = { description: '', icon: ''} : this.selectedSortItem = sort;
+    if (this.selectedSortItem === sort) {
+      this.selectedSortItem = { description: '', icon: ''};
+      this.optionService.setSelectedSort('');
+    } else {
+      this.selectedSortItem = sort;
+      this.optionService.setSelectedSort(sort.description);
+    }
   }
 }

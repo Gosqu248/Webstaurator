@@ -26,4 +26,9 @@ public class RestaurantOpinionController {
     public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionDTO opinionDTO, @RequestParam Long restaurantId, @RequestParam Long userId) {
         return restaurantOpinionService.addOpinion(opinionDTO, restaurantId, userId);
     }
+
+    @GetMapping("/getRatingRestaurant")
+    public double getRestaurantQualityRating(@RequestParam Long restaurantId) {
+        return restaurantOpinionService.getRestaurantRating(restaurantId);
+    }
 }

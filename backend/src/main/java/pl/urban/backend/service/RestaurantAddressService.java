@@ -12,6 +12,8 @@ import pl.urban.backend.repository.RestaurantRepository;
 
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,6 +36,7 @@ public class RestaurantAddressService {
         return restaurantAddressRepository.findByRestaurantId(restaurantId);
     }
 
+
     public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) throws JSONException {
         String formattedAddress = removeCommas(address);
         double[] coords = geocodingService.getCoordinates(formattedAddress);
@@ -43,7 +46,7 @@ public class RestaurantAddressService {
         List<RestaurantAddress> restaurantAddresses = restaurantAddressRepository.findNearbyRestaurants(latitude, longitude, radiusKm);
         return restaurantAddresses.stream()
                 .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
-                .toList();
+                .collect(Collectors.toList());
 
     }
 

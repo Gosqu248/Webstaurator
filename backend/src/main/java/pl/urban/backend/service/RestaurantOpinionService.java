@@ -34,6 +34,15 @@ public class RestaurantOpinionService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
+    public double getRestaurantRating(Long restaurantId) {
+        List<RestaurantOpinion> restaurantOpinions = restaurantOpinionRepository.findAllByRestaurantId(restaurantId);
+        return restaurantOpinions.stream()
+                .map(opinion -> (opinion.getQualityRating() + opinion.getDeliveryRating()) / 2.0)
+                .mapToDouble(Double::doubleValue)
+                .average()
+                .orElse(0);
+    }
+
     public RestaurantOpinion addOpinion(RestaurantOpinionDTO opinionDTO, Long restaurantId, Long userId) {
         RestaurantOpinion opinion = new RestaurantOpinion();
 
