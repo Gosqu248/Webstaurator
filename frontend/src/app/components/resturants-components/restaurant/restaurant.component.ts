@@ -70,8 +70,6 @@ export class RestaurantComponent implements OnInit, OnChanges {
       this.updateRestaurant();
     });
 
-
-
   }
 
 
@@ -83,7 +81,6 @@ export class RestaurantComponent implements OnInit, OnChanges {
      } else {
        this.deliveredRestaurant = this.searchedRestaurants;
        this.optionService.setCategories(this.deliveredRestaurant.map(restaurant => restaurant.category));
-
      }
     this.filterRestaurants();
   }

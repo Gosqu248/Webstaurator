@@ -4,7 +4,9 @@
       <app-restaurant-sort></app-restaurant-sort>
       </div>
     <div class="second-section">
-      <input class="search-input" type="text" [(ngModel)]="searchRestaurant" (ngModelChange)="onSearchChange($event)" placeholder="{{getTranslation('searchRestaurant')}}">
+      <div class="input-container">
+        <input class="search-input" type="text" [(ngModel)]="searchRestaurant" (ngModelChange)="onSearchChange($event)" placeholder="{{getTranslation('searchRestaurant')}}">
+      </div>
 
       <h3>{{getTranslation('order')}} {{ getRestaurantQuantity() }} {{getTranslation('restaurants')}}</h3>
 
