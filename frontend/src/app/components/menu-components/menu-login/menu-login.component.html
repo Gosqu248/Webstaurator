@@ -19,7 +19,8 @@
 
     <div class="error-container" *ngIf="isLoginError">
       <i class="fa-solid fa-circle-exclamation"></i>
-      <p>{{getTranslation('loginError')}}</p>
+      <p *ngIf="errorMessage; else elseError"> {{getTranslation('locked')}}</p>
+      <ng-template #elseError>{{ getTranslation('loginError') }}</ng-template>
     </div>
 
     <button type="submit">{{getTranslation('login')}}</button>
@@ -28,5 +29,4 @@
       <h2 (click)="goToRegisterDialog()"> {{getTranslation('createAccount')}}</h2>
     </div>
   </form>
-
 </div>

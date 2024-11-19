@@ -26,12 +26,12 @@ export class MenuLoginComponent {
   loginForm: FormGroup;
   isLoginError: boolean = false;
   isVisible: boolean = false;
+  errorMessage: string | null = null;
 
 
   constructor(private languageService: LanguageService,
               private authService: AuthService,
               private fb: FormBuilder,
-              private router: Router,
               private dialog: MatDialog,
               public dialogRef: MatDialogRef<MenuLoginComponent>) {
     this.loginForm = this.fb.group({
@@ -44,16 +44,28 @@ export class MenuLoginComponent {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
     this.isLoginError = false;
+    this.errorMessage = null;
 
     this.authService.login(email, password)
-      .subscribe((isAuthenticated: boolean) => {
-        if (isAuthenticated) {
-          console.log("Login " + this.loginForm.value.email);
-          this.authService.loginEvent.emit();
-          this.backToMenuDialog();
-        } else {
-          this.isLoginError = !this.isLoginError;
-          console.log("Invalid login or password");
+      .subscribe({ next: (isAuthenticated: boolean) => {
+          if (isAuthenticated) {
+            console.log("Login " + this.loginForm.value.email);
+            this.authService.loginEvent.emit();
+            this.backToMenuDialog();
+          } else {
+            this.isLoginError = true;
+            console.log("Invalid login or password");
+          }
+        },
+        error: (error) => {
+          if (error.message === 'Account is locked. Try again later.') {
+            console.error('Account is locked. Try again later.');
+            this.isLoginError = true;
+            this.errorMessage = 'locked';
+          } else {
+            console.error('Login error: ', error);
+            this.isLoginError = true;
+          }
         }
       });
   }

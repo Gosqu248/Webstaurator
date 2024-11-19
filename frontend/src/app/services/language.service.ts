@@ -176,7 +176,8 @@ export class LanguageService {
       deliveryMethod: "Sposób dostarczenia",
       addOpinion: "Dodaj opinię",
       addingOpinionFor: "Dodawanie opinii dla ",
-      addComment: "Dodaj komentarz"
+      addComment: "Dodaj komentarz",
+      locked: " Konto zablokowane. Spróbuj ponownie później."
 
     },
     en: {
@@ -332,7 +333,8 @@ export class LanguageService {
       deliveryMethod: "Delivery method",
       addOpinion: "Add opinion",
       addingOpinionFor: "Adding opinion for ",
-      addComment: "Add comment"
+      addComment: "Add comment",
+      locked: "Account is locked. Try again later."
     }
   };
 

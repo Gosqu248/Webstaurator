@@ -6,6 +6,10 @@ import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Service
 public class UserService {
 
@@ -25,6 +29,7 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+
     public Boolean changePassword(String subject, String password, String newPassword) {
         User user = getUserBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
@@ -58,6 +63,27 @@ public class UserService {
         userInfo.setEmail(user.getEmail());
         userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
         return userInfo;
+    }
+
+
+    public void incrementFailedLoginAttempts(User user) {
+        user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+        user.setLastFailedLoginAttempt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    public void resetFailedLoginAttempts(User user) {
+        user.setFailedLoginAttempts(0);
+        user.setLastFailedLoginAttempt(null);
+        userRepository.save(user);
+    }
+
+    public boolean isAccountLocked(User user) {
+        if (user.getFailedLoginAttempts() >= 5) {
+            LocalDateTime lockTIme = user.getLastFailedLoginAttempt().plusMinutes(10);
+            return LocalDateTime.now().isBefore(lockTIme);
+        }
+        return false;
     }
 
 }

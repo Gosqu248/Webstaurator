@@ -5,7 +5,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
@@ -47,16 +46,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
+        User user = userService.getUserBySubject(loginRequest.getEmail());
+
+        if (userService.isAccountLocked(user)) {
+            return  ResponseEntity.status(423).body("Account is locked. Try again later.");
+        }
+
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-            );
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            userService.resetFailedLoginAttempts(user);
         } catch (BadCredentialsException e) {
+            userService.incrementFailedLoginAttempts(user);
             throw new Exception("Incorrect email or password", e);
         }
 
         final UserDetails userDetails = detailsUserService.loadUserByUsername(loginRequest.getEmail());
-
         final String jwt = jwtToken.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(jwt));

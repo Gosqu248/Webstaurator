@@ -152,6 +152,7 @@ export interface LanguageTranslations {
   addOpinion: string;
   addingOpinionFor: string;
   addComment: string;
+  locked: string;
 }
 
 export interface Translations {

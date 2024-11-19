@@ -1,8 +1,8 @@
 import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {User} from "../interfaces/user.interface";
-import {BehaviorSubject, catchError, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of, tap, throwError} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 
 @Injectable({
@@ -35,8 +35,10 @@ export class AuthService {
         }
       }),
       map(() => true),
-      catchError( error => {
-        console.log('Login error: ', error);
+      catchError( (error: HttpErrorResponse) => {
+        if (error.status === 423) {
+          return throwError(() => new Error('Account is locked. Try again later.'));
+        }
         return of(false);
       })
     );
