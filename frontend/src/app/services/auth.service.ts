@@ -1,7 +1,7 @@
 import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {User} from "../interfaces/user.interface";
+import {User, UserDTO} from "../interfaces/user.interface";
 import {BehaviorSubject, catchError, map, Observable, of, tap, throwError} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 
@@ -22,17 +22,15 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this.http.post<{jwt: string}>(`${this.apiUrl}/login`, {email, password}).pipe(
-      tap(response => {
-        if (isPlatformBrowser(this.platformId)) {
-          if (response.jwt) {
-            this.isAuthenticatedSubject.next(true);
-            localStorage.setItem('jwt', response.jwt);
-            this.loginEvent.emit();
-          } else {
-            console.error('No JWT token in response: ', response)
+    return this.http.post<boolean>(`${this.apiUrl}/login`, {email, password}).pipe(
+      map(response => {
+        if (response) {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('email', email);
           }
+          return true;
         }
+        return false;
       }),
       map(() => true),
       catchError( (error: HttpErrorResponse) => {
@@ -44,9 +42,23 @@ export class AuthService {
     );
   }
 
-  getUser(token: string): Observable<User> {
+  verify2FA(code: string): Observable<boolean> {
+      const email = localStorage.getItem('email');
+      return this.http.post<{jwt: string}>(`${this.apiUrl}/verify-2fa`, {email, code}).pipe(
+        tap(response => {
+          localStorage.setItem('jwt', response.jwt);
+          this.isAuthenticatedSubject.next(true);
+          this.loginEvent.emit();
+        }),
+        map(() => true),
+        catchError(() => of(false))
+      );
+  }
+
+
+  getUser(token: string): Observable<UserDTO> {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.get<User>(`${this.apiUrl}/user`, {headers});
+    return this.http.get<UserDTO>(`${this.apiUrl}/user`, {headers});
   }
 
   logout() {

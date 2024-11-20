@@ -43,6 +43,7 @@ public class User {
     private List<Order> orders;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private UserSecurity userSecurity;
 
 }

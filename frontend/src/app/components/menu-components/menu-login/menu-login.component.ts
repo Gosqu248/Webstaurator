@@ -27,6 +27,8 @@ export class MenuLoginComponent {
   isLoginError: boolean = false;
   isVisible: boolean = false;
   errorMessage: string | null = null;
+  show2FA: boolean = false;
+  twoFactorCode: string = '';
 
 
   constructor(private languageService: LanguageService,
@@ -45,13 +47,13 @@ export class MenuLoginComponent {
     const password = this.loginForm.value.password;
     this.isLoginError = false;
     this.errorMessage = null;
+    this.show2FA = false;
 
     this.authService.login(email, password)
-      .subscribe({ next: (isAuthenticated: boolean) => {
+      .subscribe({
+        next: (isAuthenticated: boolean) => {
           if (isAuthenticated) {
-            console.log("Login " + this.loginForm.value.email);
-            this.authService.loginEvent.emit();
-            this.backToMenuDialog();
+            this.show2FA = true;
           } else {
             this.isLoginError = true;
             console.log("Invalid login or password");
@@ -70,8 +72,27 @@ export class MenuLoginComponent {
       });
   }
 
-  getTranslation<K extends keyof LanguageTranslations>(key: K): string {
+  verify2FA(code: string) {
+    this.authService.verify2FA(code).subscribe({
+        next: (isAuthenticated: boolean) => {
+          if (isAuthenticated) {
+            console.log("Logged in successfully");
+            this.authService.loginEvent.emit();
+            this.backToMenuDialog();
+          } else {
+            console.error("Invalid 2FA code");
+            this.isLoginError = true;
+          }
+        },
+        error: (error) => {
+          console.error('2FA error: ', error);
+          this.isLoginError = true;
+        }
+    });
+  }
 
+
+  getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
   }
 

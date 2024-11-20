@@ -63,8 +63,6 @@ form {
   justify-content: center;
   width: 90%;
   height: auto;
-
-
 }
 
 .input-container {
@@ -73,13 +71,14 @@ form {
   align-items: center;
   justify-content: center;
   width: 80%;
+  min-width: 200px;
   height: auto;
   margin-bottom: 20px;
 }
 
 .input-container label {
   color: #1c1a1a;
-  align-self: flex-start; /* Ensure label is aligned to the start */
+  align-self: flex-start;
   margin-bottom: 10px;
   font-weight: bolder;
 }

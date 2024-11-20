@@ -7,5 +7,11 @@ export interface User {
   password: string;
   role: string;
   addresses?: UserAddress[];
+}
 
+export interface UserDTO {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
 }

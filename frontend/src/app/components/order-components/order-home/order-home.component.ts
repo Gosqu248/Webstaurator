@@ -10,7 +10,7 @@ import {AuthService} from "../../../services/auth.service";
 import {Order, OrderStatus} from "../../../interfaces/order";
 import {RestaurantsService} from "../../../services/restaurants.service";
 import {Restaurant} from "../../../interfaces/restaurant";
-import {User} from "../../../interfaces/user.interface";
+import {User, UserDTO} from "../../../interfaces/user.interface";
 import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -40,7 +40,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   @ViewChild(OrderBasketComponent) basket!: OrderBasketComponent;
 
   addresses: UserAddress[] = [];
-  user: User = {} as User;
+  user: UserDTO = {} as UserDTO;
   token: string | null = null;
   canOrder: boolean = false;
   userId: number | null = null;
@@ -90,7 +90,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         this.getUserAddresses();
         this.getUser();
       } else {
-        this.user = {} as User;
+        this.user = {} as UserDTO;
         this.addresses = [];
       }
     });

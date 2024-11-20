@@ -177,7 +177,9 @@ export class LanguageService {
       addOpinion: "Dodaj opinię",
       addingOpinionFor: "Dodawanie opinii dla ",
       addComment: "Dodaj komentarz",
-      locked: " Konto zablokowane. Spróbuj ponownie później."
+      locked: " Konto zablokowane. Spróbuj ponownie później.",
+      sendCode: "Wyślij kod weryfikacyjny",
+      twoFactorCode: "Kod weryfikacyjny"
 
     },
     en: {
@@ -334,7 +336,9 @@ export class LanguageService {
       addOpinion: "Add opinion",
       addingOpinionFor: "Adding opinion for ",
       addComment: "Add comment",
-      locked: "Account is locked. Try again later."
+      locked: "Account is locked. Try again later.",
+      sendCode: "Send verification code",
+      twoFactorCode: "Verification code"
     }
   };
 

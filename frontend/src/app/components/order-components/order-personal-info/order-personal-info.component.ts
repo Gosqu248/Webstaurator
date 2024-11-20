@@ -3,7 +3,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
-import { User } from '../../../interfaces/user.interface';
+import {User, UserDTO} from '../../../interfaces/user.interface';
 import {AddressesService} from "../../../services/addresses.service";
 
 @Component({
@@ -19,7 +19,7 @@ import {AddressesService} from "../../../services/addresses.service";
 })
 export class OrderPersonalInfoComponent implements OnInit, OnChanges{
   @Output() personalInfoChanged = new EventEmitter<void>();
-  @Input() user!: User;
+  @Input() user!: UserDTO;
   personalForm: FormGroup;
   relevantInformation: string = '';
 

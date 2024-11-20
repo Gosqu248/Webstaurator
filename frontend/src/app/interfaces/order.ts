@@ -1,6 +1,6 @@
 import {Additives, Menu} from "./menu";
 import {Restaurant} from "./restaurant";
-import {User} from "./user.interface";
+import {User, UserDTO} from "./user.interface";
 import {UserAddress} from "./user.address.interface";
 
 export interface Order {
@@ -11,7 +11,7 @@ export interface Order {
   deliveryOption: string;
   comment: string;
   orderMenus: OrderMenu[];
-  user: User;
+  user: UserDTO;
   userAddress: UserAddress | null;
   restaurant: Restaurant;
   paymentId: string;

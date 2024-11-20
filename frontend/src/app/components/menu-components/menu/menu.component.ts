@@ -8,11 +8,9 @@ import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 import {Router, RouterLink, RouterOutlet} from "@angular/router";
-import {OptionService} from "../../../services/option.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component";
-import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-menu',
@@ -33,13 +31,11 @@ export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;
   name: string = '';
   private isFetchingUserData: boolean = false;
-  token = localStorage.getItem('jwt');
   constructor(private languageService: LanguageService,
               protected authService: AuthService,
               private dialog: MatDialog,
               private router: Router,
-              public dialogRef: MatDialogRef<MenuComponent>,
-              private optionService: OptionService) {}
+              public dialogRef: MatDialogRef<MenuComponent>) {}
 
   ngOnInit() {
     this.getUserData();
@@ -53,9 +49,9 @@ export class MenuComponent implements OnInit {
   getUserData() {
     if (this.isFetchingUserData) return;
     this.isFetchingUserData = true;
-
-    if (this.token) {
-      this.authService.getUser(this.token).subscribe({
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      this.authService.getUser(token).subscribe({
         next: user => {
           this.name = user.name;
           localStorage.setItem('name', user.name);
@@ -63,8 +59,6 @@ export class MenuComponent implements OnInit {
           if (user.id) {
             localStorage.setItem('userId', user.id.toString())
           }
-
-          console.log('User data fetched: ', user);
 
           this.isFetchingUserData = false;
         },
@@ -74,6 +68,7 @@ export class MenuComponent implements OnInit {
         }
       });
     } else {
+      console.log('No token found');
       this.isFetchingUserData = false;
     }
   }

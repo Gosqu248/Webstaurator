@@ -12,9 +12,11 @@ import java.util.Random;
 public class UserSecurityService {
 
     private final UserSecurityRepository userSecurityRepository;
+    private final EmailService emailService;
 
-    public UserSecurityService(UserSecurityRepository userSecurityRepository) {
+    public UserSecurityService(UserSecurityRepository userSecurityRepository, EmailService emailService) {
         this.userSecurityRepository = userSecurityRepository;
+        this.emailService = emailService;
     }
 
     public void incrementFailedLoginAttempts(User user) {
@@ -66,6 +68,9 @@ public class UserSecurityService {
         userSecurity.setTwoFactorCodeExpireTime(System.currentTimeMillis() + 300000);
         userSecurityRepository.save(userSecurity);
 
+        String emailContent = "Witaj " + user.getName() + "!<br><br>Twój kod dostępu umożliwiający jednorazowe logowanie do Webstaurator to:<br><br><b>" + code + "</b><br><br>Jeśli uważasz, że ten e-mail został wysłany nieprawidłowo, odpowiedz lub wyślij e-mail do wsparcia Webstaurator na adres: grzegorzurban248@gmail.com<br><br>Pozdrawiamy,<br>Zespół Webstaurator";
+
+        emailService.sendEmail(user.getEmail(), "Webstaurator: Weryfikacja 2 etapowa", emailContent);
     }
 
     public boolean verifyTwoFactorCode(User user, String code) {

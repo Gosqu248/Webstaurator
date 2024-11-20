@@ -2,6 +2,7 @@ package pl.urban.backend.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.urban.backend.dto.UserDTO;
 import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
@@ -47,6 +48,11 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 
+    public UserDTO getUser(String subject) {
+        User user = getUserBySubject(subject);
+        return convertToDTO(user);
+    }
+
     public String changeName(String subject, String name) {
         User user = getUserBySubject(subject);
         user.setName(name);
@@ -63,6 +69,16 @@ public class UserService {
         userInfo.setEmail(user.getEmail());
         userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
         return userInfo;
+    }
+
+    public UserDTO convertToDTO(User user) {
+        UserDTO dto = new UserDTO();
+
+        dto.setId(user.getId());
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        return dto;
     }
 
 

@@ -153,6 +153,8 @@ export interface LanguageTranslations {
   addingOpinionFor: string;
   addComment: string;
   locked: string;
+  sendCode: string;
+  twoFactorCode: string;
 }
 
 export interface Translations {

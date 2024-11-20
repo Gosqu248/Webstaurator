@@ -6,10 +6,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.UserDTO;
 import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
+import pl.urban.backend.request.TwoFactorVerificationRequest;
 import pl.urban.backend.security.JwtUtil;
 import pl.urban.backend.service.DetailsUserService;
 import pl.urban.backend.service.UserSecurityService;
@@ -58,21 +60,36 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             userSecurityService.resetFailedLoginAttempts(user);
+            userSecurityService.generateAndSendTwoFactorCode(user);
         } catch (BadCredentialsException e) {
             userSecurityService.incrementFailedLoginAttempts(user);
             throw new Exception("Incorrect email or password", e);
         }
+        return ResponseEntity.ok(true);
+    }
 
-        final UserDetails userDetails = detailsUserService.loadUserByUsername(loginRequest.getEmail());
-        final String jwt = jwtToken.generateToken(userDetails);
+    @PostMapping("/verify-2fa")
+    public ResponseEntity<?> verifyTwoFactorCode(@RequestBody TwoFactorVerificationRequest request) throws Exception {
+        User user = userService.getUserBySubject(request.getEmail());
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        if (user == null) {
+            throw new Exception("User does not exist");
+        }
+
+        if (userSecurityService.verifyTwoFactorCode(user, request.getCode())) {
+            final UserDetails userDetails = detailsUserService.loadUserByUsername(request.getEmail());
+            final String jwt = jwtToken.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        } else {
+            throw new Exception("Bad verification codes");
+        }
+
     }
 
     @GetMapping("/user")
-    public User getUser(@RequestHeader("Authorization") String token) {
+    public UserDTO getUser(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));
-        return userService.getUserBySubject(subject);
+        return userService.getUser(subject);
     }
 
     @PutMapping("/changeName")

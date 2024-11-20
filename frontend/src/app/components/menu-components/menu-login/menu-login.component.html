@@ -4,7 +4,7 @@
     <h2>{{getTranslation('login')}}</h2>
     <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!show2FA">
     <div class="input-container">
       <label for="email">{{getTranslation('email')}}</label>
       <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
@@ -23,10 +23,18 @@
       <ng-template #elseError>{{ getTranslation('loginError') }}</ng-template>
     </div>
 
-    <button type="submit">{{getTranslation('login')}}</button>
-
-    <div class="last-container">
-      <h2 (click)="goToRegisterDialog()"> {{getTranslation('createAccount')}}</h2>
-    </div>
+    <button type="submit">{{getTranslation('sendCode')}}</button>
   </form>
+
+  <form *ngIf="show2FA">
+    <div class="input-container">
+      <label for="twoFactorCode">{{getTranslation('twoFactorCode')}}</label>
+      <input id="twoFactorCode" type="text" [(ngModel)]="twoFactorCode" name="twoFactorCode" placeholder="{{getTranslation('twoFactorCode')}}" required>
+    </div>
+    <button (click)="verify2FA(twoFactorCode)">{{getTranslation('login')}}</button>
+  </form>
+
+  <div class="last-container">
+    <h2 (click)="goToRegisterDialog()"> {{getTranslation('createAccount')}}</h2>
+  </div>
 </div>
