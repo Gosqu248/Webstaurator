@@ -125,6 +125,85 @@
   background-color: #ff5a36;
 }
 
+.suggestions-container {
+  margin-top: 330px;
+  position: absolute;
+  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  z-index: 1000;
+  overflow: hidden;
+  padding: 10px;
+  border: 1px solid #eaeaea;
+
+}
+
+.suggestion-card {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-bottom: 1px solid #eaeaea;
+  gap: 15px;
+}
+
+.suggestion-card:last-child {
+  border-bottom: none;
+}
+
+.suggestion-card:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #ef9554;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
+.suggestion-details {
+  flex-grow: 1;
+}
+
+.suggestion-name {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+.suggestion-description {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.suggestion-action button {
+  background-color: #ef9554;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-action button:hover {
+  background-color: #ef9554;
+}
+
+
+
 @media (max-width: 800px) {
 
   .search-background {

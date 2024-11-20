@@ -155,6 +155,7 @@ export interface LanguageTranslations {
   locked: string;
   sendCode: string;
   twoFactorCode: string;
+  choose: string;
 }
 
 export interface Translations {

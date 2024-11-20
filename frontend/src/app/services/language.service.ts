@@ -179,7 +179,8 @@ export class LanguageService {
       addComment: "Dodaj komentarz",
       locked: " Konto zablokowane. Spróbuj ponownie później.",
       sendCode: "Wyślij kod weryfikacyjny",
-      twoFactorCode: "Kod weryfikacyjny"
+      twoFactorCode: "Kod weryfikacyjny",
+      choose: "Wybierz"
 
     },
     en: {
@@ -338,7 +339,8 @@ export class LanguageService {
       addComment: "Add comment",
       locked: "Account is locked. Try again later.",
       sendCode: "Send verification code",
-      twoFactorCode: "Verification code"
+      twoFactorCode: "Verification code",
+      choose: "Choose"
     }
   };
 

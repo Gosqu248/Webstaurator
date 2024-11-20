@@ -37,8 +37,7 @@ public class RestaurantAddressService {
 
 
     public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) throws JSONException {
-        String formattedAddress = removeCommas(address);
-        double[] coords = geocodingService.getCoordinates(formattedAddress);
+        double[] coords = geocodingService.getCoordinates(address);
         double latitude = coords[0];
         double longitude = coords[1];
 
@@ -50,20 +49,7 @@ public class RestaurantAddressService {
 
     }
 
-    private String removeCommas(String address) {
-        String addressWithoutCommas = address.replace(",", "");
-        return addressWithoutCommas
-                .replace("ą", "a")
-                .replace("ć", "c")
-                .replace("ę", "e")
-                .replace("ł", "l")
-                .replace("ń", "n")
-                .replace("ó", "o")
-                .replace("ś", "s")
-                .replace("ź", "z")
-                .replace("ż", "z");
 
-    }
 
     public SearchedRestaurantDTO convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
         SearchedRestaurantDTO dto = new SearchedRestaurantDTO();
