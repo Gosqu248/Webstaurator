@@ -1,6 +1,5 @@
 package pl.urban.backend.service;
 
-import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import pl.urban.backend.dto.SearchedRestaurantDTO;
@@ -8,11 +7,9 @@ import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.repository.RestaurantAddressRepository;
-import pl.urban.backend.repository.RestaurantRepository;
 
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -22,12 +19,14 @@ public class RestaurantAddressService {
     private final RestaurantAddressRepository restaurantAddressRepository;
     private final GeocodingService geocodingService;
     private final DeliveryService deliveryService;
+    private final RestaurantOpinionService restaurantOpinionService;
 
-    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryService deliveryService) {
+    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryService deliveryService, RestaurantOpinionService restaurantOpinionService) {
         this.restaurantAddressRepository = restaurantAddressRepository;
         this.geocodingService = geocodingService;
 
         this.deliveryService = deliveryService;
+        this.restaurantOpinionService = restaurantOpinionService;
     }
 
     public RestaurantAddress getRestaurantAddress(Long restaurantId) {
@@ -36,7 +35,7 @@ public class RestaurantAddressService {
 
 
 
-    public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) throws JSONException {
+    public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) {
         double[] coords = geocodingService.getCoordinates(address);
         double latitude = coords[0];
         double longitude = coords[1];
@@ -54,17 +53,17 @@ public class RestaurantAddressService {
     public SearchedRestaurantDTO convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
         SearchedRestaurantDTO dto = new SearchedRestaurantDTO();
 
-        dto.setLatitude(restaurantAddress.getLatitude());
-        dto.setLongitude(restaurantAddress.getLongitude());
         dto.setRestaurantId(restaurantAddress.getRestaurant().getId());
 
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
         dto.setDistance(distance);
 
         Long restaurantId = restaurantAddress.getRestaurant().getId();
+        dto.setRating(restaurantOpinionService.getRestaurantRating(restaurantId));
 
         Delivery delivery = deliveryService.getDelivery(restaurantId);
         dto.setPickup(delivery != null && delivery.getPickupTime() > 0);
+        dto.setDeliveryPrice(delivery != null ? delivery.getDeliveryPrice() : 0);
 
         Restaurant restaurant = restaurantAddress.getRestaurant();
         if (restaurant != null) {

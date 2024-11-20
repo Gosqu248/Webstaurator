@@ -9,15 +9,17 @@ import {Router} from "@angular/router";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 import {RestaurantsService} from "../../../services/restaurants.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 
 @Component({
   selector: 'app-restaurant-item',
   standalone: true,
-    imports: [
-        NgIf,
-        DecimalPipe
-    ],
+  imports: [
+    NgIf,
+    DecimalPipe,
+    MatProgressSpinner
+  ],
   templateUrl: './restaurant-item.component.html',
   styleUrl: './restaurant-item.component.css'
 })

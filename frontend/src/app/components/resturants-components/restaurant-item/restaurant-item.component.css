@@ -9,7 +9,6 @@
   border-radius: 20px;
   cursor: pointer;
   position: relative;
-
 }
 
 .restaurant-item:hover {
@@ -99,4 +98,18 @@ h5 {
 
 .closed {
   color: #cb0000;
+}
+
+.center-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: 310px;
+  margin: 20px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+  justify-content: center;
 }

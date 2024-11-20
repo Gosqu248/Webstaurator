@@ -108,7 +108,9 @@ export class RestaurantComponent implements OnInit, OnChanges {
       if (sortType === this.getTranslation('closeToMe')) {
         this.filteredRestaurants.sort((a, b) => a.distance - b.distance);
       } else if (sortType === this.getTranslation('grades')) {
-        //this.filteredRestaurants.sort((a, b) => b.rating - a.rating);
+        this.filteredRestaurants.sort((a, b) => b.rating - a.rating);
+      } else if (sortType === this.getTranslation('cheapestDelivery')) {
+        this.filteredRestaurants.sort((a, b) => a.deliveryPrice - b.deliveryPrice);
       }
     });
 

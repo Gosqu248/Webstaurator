@@ -1,13 +1,11 @@
-<div class="restaurant-item" (click)="goToMenu(restaurant)">
+<div class="restaurant-item" (click)="goToMenu(restaurant)" *ngIf="restaurant.imageUrl && restaurant.logoUrl; else loading">
   <img class="image" [src]="restaurant.imageUrl" alt="restaurant image" />
   <img class="logo" [src]="restaurant.logoUrl" alt="restaurant logo" />
   <div class="rating-container">
     <i class="fa-solid fa-star"></i>
     <h5>{{ rating | number:'1.1-1'}}</h5>
     <h6>({{getRatingLength() }})</h6>
-
   </div>
-
   <h3>{{restaurant.name}} </h3>
   <div class="description">
     <div class="left-description" >
@@ -19,13 +17,17 @@
         <i class="fa-regular fa-clock"></i>
         <h5>{{restaurantDelivery.deliveryMinTime}}-{{restaurantDelivery.deliveryMaxTime}} min</h5>
       </div>
-
       <div class="description-item closed" *ngIf="!isOpen">
         <i class="fa-regular  fa-clock"></i>
         <h5>{{getTranslation('deliveryClosed')}}</h5>
       </div>
     </div>
-
     <h5>{{restaurant.category}}</h5>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="center-spinner">
+      <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
