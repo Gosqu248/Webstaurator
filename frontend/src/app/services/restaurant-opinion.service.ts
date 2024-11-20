@@ -15,8 +15,8 @@ export class RestaurantOpinionService {
     return this.http.get<RestaurantOpinion[]>(`${this.apiUrl}/restaurantOpinions?restaurantId=${id}`);
   }
 
-  addOpinion(opinion: RestaurantOpinionDTO, restaurantId: number, userId: number): Observable<RestaurantOpinion>{
-    return this.http.post<RestaurantOpinion>(`${this.apiUrl}/addOpinion?restaurantId=${restaurantId}&userId=${userId}`, opinion);
+  addOpinion(opinion: RestaurantOpinionDTO, orderId: number): Observable<RestaurantOpinion>{
+    return this.http.post<RestaurantOpinion>(`${this.apiUrl}/addOpinion?orderId=${orderId}`, opinion);
   }
 
   getRating(id: number): Observable<number>{

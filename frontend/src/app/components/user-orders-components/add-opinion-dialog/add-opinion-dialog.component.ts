@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {NgClass, NgForOf} from "@angular/common";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 import {RestaurantOpinionDTO} from "../../../interfaces/restaurant-opinion";
@@ -27,7 +27,8 @@ export class AddOpinionDialogComponent {
 
   constructor(private languageService: LanguageService,
               private opinionService: RestaurantOpinionService,
-              @Inject(MAT_DIALOG_DATA) public data: {restaurantName: string, restaurantId: number}) {}
+              private dialogRef: MatDialogRef<AddOpinionDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {restaurantName: string, orderId: number}) {}
 
 
   addOpinion() {
@@ -44,12 +45,12 @@ export class AddOpinionDialogComponent {
     }
 
 
-    this.opinionService.addOpinion(opinion, this.data.restaurantId, +userId).subscribe({
-        next: (opinion) => {
-          console.log('Opinion added');
+    this.opinionService.addOpinion(opinion, this.data.orderId).subscribe({
+        next: () => {
+          this.dialogRef.close();
         },
         error: (error) => {
-          console.error('Error adding ospinion:', error);
+          console.error('Error adding opinion:', error);
         }
       });
     }

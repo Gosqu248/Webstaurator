@@ -23,8 +23,8 @@ public class RestaurantOpinionController {
     }
 
     @PostMapping("/addOpinion")
-    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionDTO opinionDTO, @RequestParam Long restaurantId, @RequestParam Long userId) {
-        return restaurantOpinionService.addOpinion(opinionDTO, restaurantId, userId);
+    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionDTO opinionDTO, @RequestParam Long orderId) {
+        return restaurantOpinionService.addOpinion(opinionDTO, orderId);
     }
 
     @GetMapping("/getRatingRestaurant")

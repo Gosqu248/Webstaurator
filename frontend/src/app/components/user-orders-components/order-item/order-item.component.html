@@ -18,7 +18,7 @@
     </div>
 
     <div class="buttons">
-      <button class="opinion-btn" (click)="openAddOpinionDialog()" >{{getTranslation('addOpinion')}}</button>
+      <button class="opinion-btn" *ngIf="!order.hasOpinion" (click)="openAddOpinionDialog()" >{{getTranslation('addOpinion')}}</button>
 
       <button class="toggle-btn" (click)="toggleVisibility()">
         {{ isVisible ? getTranslation('hideMenu') : getTranslation('showMenu') }}

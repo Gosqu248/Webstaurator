@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderDTO, OrderMenu} from "../../../interfaces/order";
+import {OrderDTO} from "../../../interfaces/order";
 import {DatePipe, NgClass, NgForOf, NgIf, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl';
 import {LanguageService} from "../../../services/language.service";
@@ -40,7 +40,7 @@ export class OrderItemComponent implements OnInit {
       maxWidth: '100%',
       width: '600px',
       height: '620px',
-      data: {restaurantName: this.order.restaurantName, restaurantId: this.order.restaurantId}
+      data: {restaurantName: this.order.restaurantName, orderId: this.order.id}
     })
   }
 

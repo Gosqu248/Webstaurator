@@ -1,17 +1,18 @@
 package pl.urban.backend.service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.FavouriteRestaurantDTO;
 import pl.urban.backend.dto.RestaurantOpinionDTO;
 import pl.urban.backend.dto.UserNameDTO;
-import pl.urban.backend.model.FavouriteRestaurant;
-import pl.urban.backend.model.Restaurant;
-import pl.urban.backend.model.RestaurantOpinion;
-import pl.urban.backend.model.User;
+import pl.urban.backend.model.*;
+import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.repository.RestaurantOpinionRepository;
 import pl.urban.backend.repository.RestaurantRepository;
 import pl.urban.backend.repository.UserRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -21,14 +22,17 @@ public class RestaurantOpinionService {
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantOpinionService(RestaurantOpinionRepository restaurantOpinionRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
+    private final OrderRepository orderRepository;
+
+    public RestaurantOpinionService(RestaurantOpinionRepository restaurantOpinionRepository, UserRepository userRepository, RestaurantRepository restaurantRepository, OrderRepository orderRepository) {
         this.restaurantOpinionRepository = restaurantOpinionRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<RestaurantOpinionDTO> getRestaurantOpinion(Long restaurantId) {
-        List<RestaurantOpinion> favouriteRestaurants = restaurantOpinionRepository.findAllByRestaurantId(restaurantId);
+        List<RestaurantOpinion> favouriteRestaurants = restaurantOpinionRepository.findAllByRestaurantId(restaurantId, Sort.by(Sort.Direction.DESC, "createdAt"));
         return favouriteRestaurants.stream()
                 .map(this::convertToDTO)
                 .collect(java.util.stream.Collectors.toList());
@@ -36,23 +40,30 @@ public class RestaurantOpinionService {
 
     public double getRestaurantRating(Long restaurantId) {
         List<RestaurantOpinion> restaurantOpinions = restaurantOpinionRepository.findAllByRestaurantId(restaurantId);
-        return restaurantOpinions.stream()
+        double avg = restaurantOpinions.stream()
                 .map(opinion -> (opinion.getQualityRating() + opinion.getDeliveryRating()) / 2.0)
                 .mapToDouble(Double::doubleValue)
                 .average()
                 .orElse(0);
+
+        BigDecimal bd = BigDecimal.valueOf(avg);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+
     }
 
-    public RestaurantOpinion addOpinion(RestaurantOpinionDTO opinionDTO, Long restaurantId, Long userId) {
+    public RestaurantOpinion addOpinion(RestaurantOpinionDTO opinionDTO, Long orderId) {
         RestaurantOpinion opinion = new RestaurantOpinion();
 
         opinion.setQualityRating(opinionDTO.getQualityRating());
         opinion.setDeliveryRating(opinionDTO.getDeliveryRating());
         opinion.setComment(opinionDTO.getComment());
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
-        User user = userRepository.findById(userId).orElseThrow();
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        User user = order.getUser();
+        Restaurant restaurant = order.getRestaurant();
 
+        opinion.setOrder(order);
         opinion.setRestaurant(restaurant);
         opinion.setUser(user);
 

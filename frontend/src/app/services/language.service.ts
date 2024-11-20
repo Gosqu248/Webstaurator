@@ -180,7 +180,8 @@ export class LanguageService {
       locked: " Konto zablokowane. Spróbuj ponownie później.",
       sendCode: "Wyślij kod weryfikacyjny",
       twoFactorCode: "Kod weryfikacyjny",
-      choose: "Wybierz"
+      choose: "Wybierz",
+      error2FA: "Nieprawidłowy kod werfikacyjny"
 
     },
     en: {
@@ -340,7 +341,8 @@ export class LanguageService {
       locked: "Account is locked. Try again later.",
       sendCode: "Send verification code",
       twoFactorCode: "Verification code",
-      choose: "Choose"
+      choose: "Choose",
+      error2FA: "Invalid verification code"
     }
   };
 

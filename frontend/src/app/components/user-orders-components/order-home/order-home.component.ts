@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {OrderService} from "../../../services/order.service";
-import {Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {OrderDTO} from "../../../interfaces/order";
 import {OrderItemComponent} from "../order-item/order-item.component";

@@ -156,6 +156,7 @@ export interface LanguageTranslations {
   sendCode: string;
   twoFactorCode: string;
   choose: string;
+  error2FA: string;
 }
 
 export interface Translations {

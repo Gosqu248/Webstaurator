@@ -38,6 +38,7 @@ export interface OrderDTO {
   status: OrderStatus;
   totalPrice: number;
   userAddress: UserAddress;
+  hasOpinion: boolean;
 }
 
 export enum OrderStatus {

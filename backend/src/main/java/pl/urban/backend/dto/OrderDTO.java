@@ -27,5 +27,6 @@ public class OrderDTO {
     private OrderStatus status;
     private double totalPrice;
     private UserAddress userAddress;
+    private boolean hasOpinion;
 
 }

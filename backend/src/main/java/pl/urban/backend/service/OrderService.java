@@ -43,7 +43,7 @@ public class OrderService {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
         List<Order> orders = orderRepository.findByUserId(user.getId(), Sort.by(Sort.Direction.DESC, "orderDate"));
-        return orders.stream()
+        return orders.parallelStream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -136,6 +136,7 @@ public class OrderService {
         dto.setTotalPrice(order.getTotalPrice());
         dto.setUserAddress(order.getUserAddress());
         dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
+        dto.setHasOpinion(order.getRestaurantOpinion() != null);
 
         return dto;
     }

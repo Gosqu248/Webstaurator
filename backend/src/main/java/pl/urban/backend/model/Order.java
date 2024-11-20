@@ -32,6 +32,10 @@ public class Order {
 
     private String comment;
 
+    @Column(nullable = true, unique = true)
+    private String paymentId;
+
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
@@ -47,8 +51,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderMenu> orderMenus;
 
-    @Column(nullable = true, unique = true)
-    private String paymentId;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private RestaurantOpinion restaurantOpinion;
 
     private ZonedDateTime orderDate;
 

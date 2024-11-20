@@ -41,6 +41,11 @@ public class RestaurantOpinion {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "user_id")
