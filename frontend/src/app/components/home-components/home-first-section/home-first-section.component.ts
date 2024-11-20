@@ -26,12 +26,19 @@ export class HomeFirstSectionComponent {
   }
 
   searchRestaurants() {
-    sessionStorage.setItem('searchAddress', this.searchAddress);
-    this.router.navigate(['/restaurants'])
+    if (this.searchAddress !== '') {
+      sessionStorage.setItem('searchAddress', this.searchAddress);
+      this.router.navigate(['/restaurants'])
+    }
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {
     return this.languageService.getTranslation(key);
   }
 
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.searchRestaurants();
+    }
+  }
 }

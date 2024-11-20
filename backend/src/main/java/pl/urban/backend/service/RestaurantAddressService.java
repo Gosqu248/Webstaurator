@@ -20,13 +20,11 @@ import java.util.stream.Collectors;
 public class RestaurantAddressService {
 
     private final RestaurantAddressRepository restaurantAddressRepository;
-    private final RestaurantRepository restaurantRepository;
     private final GeocodingService geocodingService;
     private final DeliveryService deliveryService;
 
-    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, RestaurantRepository restaurantRepository, GeocodingService geocodingService, DeliveryService deliveryService) {
+    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryService deliveryService) {
         this.restaurantAddressRepository = restaurantAddressRepository;
-        this.restaurantRepository = restaurantRepository;
         this.geocodingService = geocodingService;
 
         this.deliveryService = deliveryService;
@@ -37,6 +35,7 @@ public class RestaurantAddressService {
     }
 
 
+
     public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) throws JSONException {
         String formattedAddress = removeCommas(address);
         double[] coords = geocodingService.getCoordinates(formattedAddress);
@@ -44,7 +43,8 @@ public class RestaurantAddressService {
         double longitude = coords[1];
 
         List<RestaurantAddress> restaurantAddresses = restaurantAddressRepository.findNearbyRestaurants(latitude, longitude, radiusKm);
-        return restaurantAddresses.stream()
+
+        return restaurantAddresses.parallelStream()
                 .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
                 .collect(Collectors.toList());
 
@@ -75,12 +75,18 @@ public class RestaurantAddressService {
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
         dto.setDistance(distance);
 
-        Delivery delivery = deliveryService.getDelivery(restaurantAddress.getRestaurant().getId());
-        dto.setPickup(delivery.getPickupTime() > 0);
+        Long restaurantId = restaurantAddress.getRestaurant().getId();
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantAddress.getRestaurant().getId()).orElseThrow();
-        dto.setName(restaurant.getName());
-        dto.setCategory(restaurant.getCategory());
+        Delivery delivery = deliveryService.getDelivery(restaurantId);
+        dto.setPickup(delivery != null && delivery.getPickupTime() > 0);
+
+        Restaurant restaurant = restaurantAddress.getRestaurant();
+        if (restaurant != null) {
+            dto.setName(restaurant.getName());
+            dto.setCategory(restaurant.getCategory());
+        } else {
+            throw new IllegalStateException("Restaurant details are not available for address ID: " + restaurantAddress.getId());
+        }
 
         return dto;
     }
