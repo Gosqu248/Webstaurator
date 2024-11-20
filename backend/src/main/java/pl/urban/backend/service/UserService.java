@@ -66,24 +66,4 @@ public class UserService {
     }
 
 
-    public void incrementFailedLoginAttempts(User user) {
-        user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
-        user.setLastFailedLoginAttempt(LocalDateTime.now());
-        userRepository.save(user);
-    }
-
-    public void resetFailedLoginAttempts(User user) {
-        user.setFailedLoginAttempts(0);
-        user.setLastFailedLoginAttempt(null);
-        userRepository.save(user);
-    }
-
-    public boolean isAccountLocked(User user) {
-        if (user.getFailedLoginAttempts() >= 5) {
-            LocalDateTime lockTIme = user.getLastFailedLoginAttempt().plusMinutes(10);
-            return LocalDateTime.now().isBefore(lockTIme);
-        }
-        return false;
-    }
-
 }

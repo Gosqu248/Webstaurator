@@ -42,7 +42,7 @@ public class User {
     @JsonIgnore
     private List<Order> orders;
 
-    private int failedLoginAttempts = 0;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserSecurity userSecurity;
 
-    private LocalDateTime lastFailedLoginAttempt;
 }

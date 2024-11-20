@@ -12,6 +12,7 @@ import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
 import pl.urban.backend.security.JwtUtil;
 import pl.urban.backend.service.DetailsUserService;
+import pl.urban.backend.service.UserSecurityService;
 import pl.urban.backend.service.UserService;
 
 import java.util.HashMap;
@@ -26,14 +27,16 @@ public class AuthController {
     private final JwtUtil jwtToken;
     private final AuthenticationManager authenticationManager;
     private final DetailsUserService detailsUserService;
+    private final UserSecurityService userSecurityService;
 
 
 
-    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, DetailsUserService detailsUserService) {
+    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, DetailsUserService detailsUserService, UserSecurityService userSecurityService) {
         this.userService = userService;
         this.jwtToken = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.detailsUserService = detailsUserService;
+        this.userSecurityService = userSecurityService;
     }
 
     @PostMapping("/register")
@@ -48,15 +51,15 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
         User user = userService.getUserBySubject(loginRequest.getEmail());
 
-        if (userService.isAccountLocked(user)) {
+        if (userSecurityService.isAccountLocked(user)) {
             return  ResponseEntity.status(423).body("Account is locked. Try again later.");
         }
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            userService.resetFailedLoginAttempts(user);
+            userSecurityService.resetFailedLoginAttempts(user);
         } catch (BadCredentialsException e) {
-            userService.incrementFailedLoginAttempts(user);
+            userSecurityService.incrementFailedLoginAttempts(user);
             throw new Exception("Incorrect email or password", e);
         }
 
