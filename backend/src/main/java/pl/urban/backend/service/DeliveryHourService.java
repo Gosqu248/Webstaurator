@@ -1,6 +1,7 @@
 package pl.urban.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.model.DeliveryHour;
 import pl.urban.backend.repository.DeliveryHourRepository;
@@ -18,7 +19,7 @@ public class DeliveryHourService {
     }
 
     public List<DeliveryHour> getDeliveryTimeFromRestaurantId(Long restaurantId) {
-        return deliveryHourRepository.findByRestaurantId(restaurantId);
+        return deliveryHourRepository.findByRestaurantId(restaurantId, Sort.by(Sort.Direction.ASC, "dayOfWeek"));
     }
 
 

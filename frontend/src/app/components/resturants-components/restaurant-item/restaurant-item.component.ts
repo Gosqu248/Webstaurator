@@ -105,6 +105,7 @@ export class RestaurantItemComponent implements OnInit{
       sessionStorage.setItem('deliveryPrice', this.restaurantDelivery.deliveryPrice.toString());
       sessionStorage.setItem("minPrice", this.restaurantDelivery.minimumPrice.toString());
       sessionStorage.setItem("pickupTime", this.restaurantDelivery.pickupTime.toString());
+      sessionStorage.setItem("isOpen", this.isOpen.toString());
     }
   }
 

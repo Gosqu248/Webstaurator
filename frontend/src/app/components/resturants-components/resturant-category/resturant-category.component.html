@@ -1,9 +1,40 @@
-<div class="category-container ">
-  <app-category-item
-    class="category-item"
-    *ngFor="let category of categories"
-    [name]="category"
-    [ngClass]="{'selected': selectedCategories.includes(category)}"
-    (click)="selectCategory(category)"
-  ></app-category-item>
+<div class="container">
+  <div class="category-scroll-container"
+       [ngClass]="{'hide': !isShow}"
+  >
+    <button
+      *ngIf="showLeftScroll"
+      class="scroll-btn left-scroll"
+      (click)="scrollCategories('left')"
+    >
+      &#10094;
+    </button>
+
+    <div #categoryContainer
+        class="category-container"
+         (scroll)="checkScrollButtons()"
+    >
+      <app-category-item
+        class="category-item"
+        *ngFor="let category of categories"
+        [name]="category"
+        [ngClass]="{'selected': selectedCategories.includes(category)}"
+        (click)="selectCategory(category)"
+      ></app-category-item>
+    </div>
+
+    <button
+      *ngIf="showRightScroll"
+      class="scroll-btn right-scroll"
+      (click)="scrollCategories('right')"
+    >
+      &#10095;
+    </button>
+  </div>
+
+  <div class="show-container" (click)="changeShow()">
+    <i *ngIf="isShow" class="fa-solid fa-angles-up"></i>
+    <i *ngIf="!isShow" class="fa-solid fa-angles-down"></i>
+  </div>
+
 </div>

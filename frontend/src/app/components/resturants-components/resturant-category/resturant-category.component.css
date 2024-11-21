@@ -1,20 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  align-items: center;
+}
+
+
+.category-scroll-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1120px;
+}
+
 .category-container {
   display: flex;
   align-items: center;
   flex-direction: row;
-  width: 100%;
+  width: 99%;
   height: auto;
   overflow-y: hidden;
   overflow-x: auto;
   scrollbar-width: none;
   transition: box-shadow 0.3s ease-in-out;
+  scroll-behavior: smooth;
+  border-radius: 30px;
 }
 
 .category-container::-webkit-scrollbar {
   display: none;
 }
 
+.scroll-btn {
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(253, 156, 72, 0.8);
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+}
 
+.scroll-btn:hover {
+  background-color: #ff8408;
+}
+
+.left-scroll {
+  left: -50px;
+}
+
+.right-scroll {
+  right: -50px;
+}
 
 .category-item {
   display: flex;
@@ -25,6 +71,7 @@
   margin: 10px;
   border-radius: 20px;
   box-shadow: #cccccc 0 0 10px;
+  flex-shrink: 0;
 }
 
 .category-item.selected {
@@ -33,4 +80,27 @@
 
 .category-item:hover {
   transform: scale(1.1);
+}
+
+.show-container {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 50%;
+  color: #ff8408;
+}
+
+.show-container:hover {
+  background-color: #ff8408;
+  color: white;
+}
+
+.hide {
+  display: none;
 }

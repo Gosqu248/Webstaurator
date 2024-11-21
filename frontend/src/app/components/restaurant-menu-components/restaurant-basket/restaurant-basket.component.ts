@@ -42,6 +42,7 @@ export class RestaurantBasketComponent implements OnInit{
   isPriceValid: boolean = true;
   missingPrice: number = 0;
   serviceFee: number = 2;
+  isOpen: boolean = true;
 
 
   constructor(private languageService: LanguageService,
@@ -53,9 +54,18 @@ export class RestaurantBasketComponent implements OnInit{
               private cartService: CartService) {}
 
   ngOnInit() {
+    this.getIsOpen()
     this.getRestaurant();
     this.selectedOption = this.optionService.selectedOption.value;
     this.getCart();
+  }
+
+  getIsOpen() {
+    const is = sessionStorage.getItem("isOpen");
+    if (is) {
+      console.log("OPEN: " + is)
+      this.isOpen = is === "true";
+    }
   }
 
   getRestaurant() {

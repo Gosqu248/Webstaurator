@@ -57,8 +57,9 @@
         <h3>{{getTranslation('total')}}</h3>
         <h3>{{totalPrice | number: '1.2-2'}} zł</h3>
       </div>
-      <button class="order-button" (click)="goToOrder()" [ngClass]="{'invalid': !isPriceValid}" [disabled]="!isPriceValid" type="submit">
-        {{getTranslation('orderNow')}} ({{totalPrice | number: '1.2-2'}} zł)
+      <button class="order-button" (click)="goToOrder()" [ngClass]="{'invalid': !isPriceValid || !isOpen}" [disabled]="!isPriceValid || !isOpen" type="submit">
+        <p *ngIf="isOpen; else notOpen">{{getTranslation('orderNow')}} ({{totalPrice | number: '1.2-2'}} zł) </p>
+        <ng-template #notOpen> {{getTranslation('deliveryClosed')}}</ng-template>
       </button>
     </div>
 
