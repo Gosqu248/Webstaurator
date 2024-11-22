@@ -1,50 +1,53 @@
 <div class="info-container">
-  <div class="title">
-    <i class="fa-regular fa-clock"></i>
-    <h3>{{getTranslation('deliveryHour')}}</h3>
-  </div>
-  <div class="item-container">
-    <div class="hour-item" *ngFor="let hour of deliveryTime">
-      <p>{{getDayName(hour.dayOfWeek)}}</p>
-      <p>{{hour.openTime}} - {{hour.closeTime}}</p>
-    </div>
-  </div>
+  <app-info-map [restaurantId]="restaurantId"></app-info-map>
 
-  <div class="title">
-    <i class="fa-solid fa-file-invoice-dollar"></i>
-    <h3>{{getTranslation('fees')}}</h3>
-  </div>
-  <div class="item-container">
-    <div class="hour-item">
-      <p>{{getTranslation('deliveryFee')}}</p>
-      <p> {{deliveryPrice | number:'1.2-2'}} zł</p>
+  <div class="content">
+    <div class="title">
+      <i class="fa-regular fa-clock"></i>
+      <h3>{{getTranslation('deliveryHour')}}</h3>
     </div>
-    <div class="hour-item">
-      <p>{{getTranslation('feesComment')}} </p>
-      <p> {{minimumPrice | number:'1.2-2'}} zł</p>
-    </div>
-  </div>
-
-  <div class="title">
-    <i class="fa-regular fa-credit-card"></i>
-    <h3>{{getTranslation('paymentMethods')}}</h3>
-  </div>
-  <div class="item-container">
-    <div class="payment">
-      <div class="payment-item" *ngFor="let payment of payments">
-        <img [src]="payment.image" [title]="payment.method" alt="">
+    <div class="item-container">
+      <div class="hour-item" *ngFor="let hour of deliveryTime">
+        <p>{{getDayName(hour.dayOfWeek)}}</p>
+        <p>{{hour.openTime}} - {{hour.closeTime}}</p>
       </div>
     </div>
-  </div>
 
-  <div class="title">
-    <i class="fa-regular fa-circle-question"></i>
-    <h3>{{getTranslation('info')}}</h3>
-  </div>
-  <div class="item-container">
-      <p class="info-item"> {{restaurantName}}</p>
-      <p class="info-item"> {{restaurantAddress.street}} {{restaurantAddress.flatNumber}}</p>
-      <p class="info-item"> {{restaurantAddress.zipCode}} {{restaurantAddress.city}}</p>
-  </div>
+    <div class="title">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <h3>{{getTranslation('fees')}}</h3>
+    </div>
+    <div class="item-container">
+      <div class="hour-item">
+        <p>{{getTranslation('deliveryFee')}}</p>
+        <p> {{deliveryPrice | number:'1.2-2'}} zł</p>
+      </div>
+      <div class="hour-item">
+        <p>{{getTranslation('feesComment')}} </p>
+        <p> {{minimumPrice | number:'1.2-2'}} zł</p>
+      </div>
+    </div>
 
+    <div class="title">
+      <i class="fa-regular fa-credit-card"></i>
+      <h3>{{getTranslation('paymentMethods')}}</h3>
+    </div>
+    <div class="item-container">
+      <div class="payment">
+        <div class="payment-item" *ngFor="let payment of payments">
+          <img [src]="payment.image" [title]="payment.method" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="title">
+      <i class="fa-regular fa-circle-question"></i>
+      <h3>{{getTranslation('info')}}</h3>
+    </div>
+    <div class="item-container">
+        <p class="info-item"> {{restaurantName}}</p>
+        <p class="info-item"> {{restaurantAddress.street}} {{restaurantAddress.flatNumber}}</p>
+        <p class="info-item"> {{restaurantAddress.zipCode}} {{restaurantAddress.city}}</p>
+    </div>
+  </div>
 </div>

@@ -9,13 +9,15 @@ import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import {environment} from "../../../../environments/environment";
 import {PaymentMethod} from "../../../interfaces/paymentMethod";
 import {PaymentMethodsService} from "../../../services/payment-methods.service";
+import {InfoMapComponent} from "../info-map/info-map.component";
 
 @Component({
   selector: 'app-info',
   standalone: true,
   imports: [
     NgForOf,
-    DecimalPipe
+    DecimalPipe,
+    InfoMapComponent
   ],
   templateUrl: './info.component.html',
   styleUrl: './info.component.css'
@@ -35,9 +37,9 @@ export class InfoComponent implements OnInit{
               private deliveryService: DeliveryService) {}
 
   ngOnInit() {
+    this.getRestaurantAddress();
     this.getDeliveryTime();
     this.getDeliveryInfo();
-    this.getRestaurantAddress();
     this.setPayments();
   }
 

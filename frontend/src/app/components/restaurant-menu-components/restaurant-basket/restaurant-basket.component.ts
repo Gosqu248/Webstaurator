@@ -63,7 +63,6 @@ export class RestaurantBasketComponent implements OnInit{
   getIsOpen() {
     const is = sessionStorage.getItem("isOpen");
     if (is) {
-      console.log("OPEN: " + is)
       this.isOpen = is === "true";
     }
   }

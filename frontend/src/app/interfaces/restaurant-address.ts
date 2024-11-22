@@ -4,5 +4,6 @@ export interface RestaurantAddress {
   flatNumber: string;
   city: string;
   zipCode: string;
-
+  latitude: number;
+  longitude: number;
 }
