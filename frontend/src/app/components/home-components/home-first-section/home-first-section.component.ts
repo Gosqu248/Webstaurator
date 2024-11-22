@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {environment} from "../../../../environments/environment";
 import {LanguageService} from "../../../services/language.service";
@@ -8,6 +8,7 @@ import {debounceTime, distinctUntilChanged, of, Subject, switchMap} from "rxjs";
 import {AddressSuggestionsService} from "../../../services/address-suggestions.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {Suggest} from "../../../interfaces/suggest";
+import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 
 @Component({
   selector: 'app-home-first-section',
@@ -21,7 +22,7 @@ import {Suggest} from "../../../interfaces/suggest";
   templateUrl: './home-first-section.component.html',
   styleUrl: './home-first-section.component.css'
 })
-export class HomeFirstSectionComponent {
+export class HomeFirstSectionComponent implements OnInit{
   currentLanguage: string;
   apiUrl = environment.api;
   background: string = '/img/background.webp';
@@ -32,6 +33,7 @@ export class HomeFirstSectionComponent {
 
   constructor(private languageService: LanguageService,
               private suggestionsService: AddressSuggestionsService,
+              private restaurantAddressService: RestaurantAddressService,
               private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
 
@@ -44,9 +46,18 @@ export class HomeFirstSectionComponent {
     });
   }
 
+  ngOnInit() {
+    this.restaurantAddressService.removeRestaurantFromSessionStorage();
+
+  }
+
   searchRestaurants() {
     if (this.searchAddress !== '') {
+      this.restaurantAddressService.searchRestaurant(this.searchAddress).subscribe((restaurants) => {
+        this.restaurantAddressService.setSearchedRestaurants(restaurants)
+      });
       sessionStorage.setItem('searchAddress', this.searchAddress);
+
       this.router.navigate(['/restaurants'])
     }
   }

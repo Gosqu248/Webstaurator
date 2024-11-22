@@ -13,7 +13,7 @@ import {MenuLanguageComponent} from "../../menu-components/menu-language/menu-la
 import {MenuAddressChangeComponent} from "../../menu-components/menu-address-change/menu-address-change.component";
 import {MenuChangePasswordComponent} from "../../menu-components/menu-change-password/menu-change-password.component";
 import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/menu-add-address.component";
-import {ResturantCategoryComponent} from "../../resturants-components/resturant-category/resturant-category.component";
+import {RestaurantCategoryComponent} from "../../resturants-components/restaurant-category/restaurant-category.component";
 import {OptionService} from "../../../services/option.service";
 import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -36,7 +36,7 @@ import {filter} from "rxjs";
     MenuAddressChangeComponent,
     MenuChangePasswordComponent,
     MenuAddAddressComponent,
-    ResturantCategoryComponent,
+    RestaurantCategoryComponent,
     MenuFavouriteComponent
   ],
   templateUrl: './navbar.component.html',

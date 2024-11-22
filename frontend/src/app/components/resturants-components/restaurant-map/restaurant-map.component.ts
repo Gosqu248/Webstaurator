@@ -1,23 +1,26 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 import * as L from 'leaflet';
-import { Marker} from 'leaflet';
 import {AddressSuggestionsService} from "../../../services/address-suggestions.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Subscription} from 'rxjs';
 import {RestaurantService} from "../../../services/restaurant.service";
+import {DistanceFilterPipe} from "../../../pipes/distance-filter.pipe";
 
 @Component({
   selector: 'app-restaurant-map',
   standalone: true,
-  imports: [],
+  imports: [
+    DistanceFilterPipe
+  ],
   templateUrl: './restaurant-map.component.html',
   styleUrl: './restaurant-map.component.css'
 })
-export class RestaurantMapComponent implements OnInit, OnDestroy {
+export class RestaurantMapComponent implements OnInit, OnDestroy, OnChanges {
   @Input() restaurants!: SearchedRestaurant[];
   @Input() address!: string;
+
   private map!: L.Map;
   private markers: L.Marker[] = [];
   private languageSubscription!: Subscription;
@@ -32,6 +35,13 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
     this.languageSubscription = this.languageService.languageChangeSubject.subscribe(() => {
       this.updatePopups();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['restaurants'] && this.map) {
+      this.addMarkers();
+      this.centerMapOnMarkers();
+    }
   }
 
   ngOnDestroy() {
@@ -55,6 +65,7 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
+
 
     const locationIcon = L.divIcon({
       html: `
@@ -82,11 +93,11 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
     const marker = L.marker([lat, lon], { icon: locationIcon }).addTo(this.map);
     marker.bindPopup(this.getTranslation('yourLocation'));
 
-    this.addMarkers(marker);
+    this.addMarkers();
     this.centerMapOnMarkers();
   }
 
-  private addMarkers(loc: Marker): void {
+  private addMarkers(): void {
     this.markers.forEach(marker => marker.remove());
     this.markers = [];
 
@@ -97,13 +108,12 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
       });
 
 
-      const popupContent = this.createPopupContent(restaurant);
-      marker.bindPopup(popupContent);
+        const popupContent = this.createPopupContent(restaurant);
+        marker.bindPopup(popupContent);
 
-      marker.addTo(this.map);
-      this.markers.push(loc);
-      this.markers.push(marker);
-    });
+        marker.addTo(this.map);
+        this.markers.push(marker);
+      });
     });
   }
 
@@ -131,14 +141,14 @@ export class RestaurantMapComponent implements OnInit, OnDestroy {
 
   private createPopupContent(restaurant: SearchedRestaurant): string {
     const rating = restaurant.rating.toFixed(1);
-
+    const distance = new DistanceFilterPipe().transform(restaurant.distance)
     return `
       <div class="restaurant-popup">
         <h3>${restaurant.name}</h3>
         <div class="popup-details">
           <p><strong>Kategoria:</strong> ${restaurant.category}</p>
           <p><strong>Ocena:</strong> ${rating} ⭐</p>
-          <p><strong>Odległość:</strong> ${restaurant.distance} km</p>
+          <p><strong>Odległość:</strong> ${distance}</p>
           <p><strong>Koszt dostawy:</strong> ${restaurant.deliveryPrice} zł</p>
           <p><strong>Odbiór własny:</strong> ${restaurant.pickup ? 'Tak' : 'Nie'}</p>
         </div>

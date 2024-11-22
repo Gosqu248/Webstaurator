@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { CategoryItemComponent } from '../category-item/category-item.component';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {OptionService} from "../../../services/option.service";
 
 @Component({
-  selector: 'app-resturant-category',
+  selector: 'app-restaurant-category',
   standalone: true,
   imports: [
     CategoryItemComponent,
@@ -12,10 +12,10 @@ import {OptionService} from "../../../services/option.service";
     NgClass,
     NgIf
   ],
-  templateUrl: './resturant-category.component.html',
-  styleUrls: ['./resturant-category.component.css']
+  templateUrl: './restaurant-category.component.html',
+  styleUrls: ['./restaurant-category.component.css']
 })
-export class ResturantCategoryComponent implements OnInit, AfterViewInit {
+export class RestaurantCategoryComponent implements OnInit, AfterViewInit {
   @Input() selectedOption!: string;
   @ViewChild('categoryContainer') categoryContainer!: ElementRef;
 
@@ -32,7 +32,15 @@ export class ResturantCategoryComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.checkScrollButtons();
+    const observer = new MutationObserver(() => this.checkScrollButtons());
+    const container = this.categoryContainer.nativeElement;
+
+    observer.observe(container, {
+      childList: true,
+      subtree: true
+    });
+
+    window.addEventListener('resize', () => this.checkScrollButtons());
   }
 
   private loadCategories() {
@@ -43,11 +51,17 @@ export class ResturantCategoryComponent implements OnInit, AfterViewInit {
   }
 
   checkScrollButtons() {
+    if (!this.categoryContainer) return;
+
     const container = this.categoryContainer.nativeElement;
-    this.showLeftScroll = container.scrollLeft > 0;
-    this.showRightScroll =
-      container.scrollWidth > container.clientWidth &&
-      container.scrollLeft + container.clientWidth < container.scrollWidth;
+
+    requestAnimationFrame(() => {
+      const isOverflowing = container.scrollWidth > container.clientWidth;
+
+      this.showLeftScroll = isOverflowing && container.scrollLeft > 0;
+      this.showRightScroll = isOverflowing &&
+        (container.scrollWidth - container.scrollLeft > container.clientWidth);
+    });
   }
 
   scrollCategories(direction: 'left' | 'right') {
@@ -72,5 +86,6 @@ export class ResturantCategoryComponent implements OnInit, AfterViewInit {
 
   changeShow() {
     this.isShow = !this.isShow;
+    this.checkScrollButtons();
   }
 }

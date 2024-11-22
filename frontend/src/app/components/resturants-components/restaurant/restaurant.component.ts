@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from '../../menu-components/menu/menu.component';
 import { NgForOf, NgIf} from '@angular/common';
-import { ResturantCategoryComponent } from '../resturant-category/resturant-category.component';
+import { RestaurantCategoryComponent } from '../restaurant-category/restaurant-category.component';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../../services/language.service';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
@@ -22,7 +22,7 @@ import {MapService} from "../../../services/map.service";
     RouterOutlet,
     MenuComponent,
     NgIf,
-    ResturantCategoryComponent,
+    RestaurantCategoryComponent,
     FormsModule,
     RestaurantSortComponent,
     RestaurantItemComponent,
@@ -73,10 +73,11 @@ export class RestaurantComponent implements OnInit, OnChanges {
     if (!address) {
       throw new Error('No address found');
     }
+    this.address = address;
 
-    this.restaurantAddressService.searchedRestaurant(address).subscribe((restaurant) => {
-      this.searchedRestaurants = restaurant;
-      this.address = address;
+
+    this.restaurantAddressService.searchedRestaurants$.subscribe((restaurants) => {
+      this.searchedRestaurants = restaurants;
       this.updateRestaurant();
     });
 
