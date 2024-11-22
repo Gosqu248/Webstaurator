@@ -2,23 +2,26 @@
   <div class="main-container">
     <div class="first-section">
       <app-restaurant-sort></app-restaurant-sort>
-      </div>
-    <div class="second-section">
+    </div>
+
+    <div class="second-section" *ngIf="!showMap">
       <div class="input-container">
-        <input class="search-input" type="text" [(ngModel)]="searchRestaurant" (ngModelChange)="onSearchChange($event)" placeholder="{{getTranslation('searchRestaurant')}}">
+        <input class="search-input" type="text"
+               [(ngModel)]="searchRestaurant"
+               (ngModelChange)="onSearchChange($event)"
+               placeholder="{{getTranslation('searchRestaurant')}}">
       </div>
-
       <h3>{{getTranslation('order')}} {{ getRestaurantQuantity() }} {{getTranslation('restaurants')}}</h3>
-
       <div class="restaurants">
-        <app-restaurant-item
-          *ngFor="let restaurant of filteredRestaurants"
-          [restaurantId]="restaurant.restaurantId"
-        ></app-restaurant-item>
+        <app-restaurant-item *ngFor="let restaurant of filteredRestaurants"
+                             [restaurantId]="restaurant.restaurantId">
+        </app-restaurant-item>
       </div>
+    </div>
 
+    <div class="second-section " *ngIf="showMap">
+      <app-restaurant-map [restaurants]="filteredRestaurants" [address]="address"></app-restaurant-map>
     </div>
   </div>
 
 </div>
-

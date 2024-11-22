@@ -25,4 +25,8 @@ public class RestaurantController {
         return restaurantService.getRestaurantById(id);
     }
 
+    @GetMapping("/getLogo")
+    public String getLogo(@RequestParam Long id) {
+        return restaurantService.getLogo(id);
+    }
 }

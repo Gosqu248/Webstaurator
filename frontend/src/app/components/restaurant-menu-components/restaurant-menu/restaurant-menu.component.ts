@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantBasketComponent} from "../restaurant-basket/restaurant-basket.component";
 import { Restaurant } from '../../../interfaces/restaurant';
-import {RestaurantsService} from "../../../services/restaurants.service";
+import {RestaurantService} from "../../../services/restaurant.service";
 import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.component";
 
 @Component({
@@ -19,7 +19,7 @@ export class RestaurantMenuComponent implements OnInit {
   restaurant: Restaurant = {} as Restaurant;
   image: string = '';
 
-  constructor(private restaurantService: RestaurantsService) {}
+  constructor(private restaurantService: RestaurantService) {}
 
   ngOnInit(): void {
     this.getRestaurant();

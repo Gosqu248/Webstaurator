@@ -8,7 +8,7 @@ import {LanguageService} from "../../../services/language.service";
 import {Router} from "@angular/router";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
-import {RestaurantsService} from "../../../services/restaurants.service";
+import {RestaurantService} from "../../../services/restaurant.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 
@@ -34,7 +34,7 @@ export class RestaurantItemComponent implements OnInit{
 
   constructor(private deliveryService: DeliveryService,
               private languageService:LanguageService,
-              private restaurantService: RestaurantsService,
+              private restaurantService: RestaurantService,
               private restaurantOpinionService: RestaurantOpinionService,
               private router:Router) {}
 

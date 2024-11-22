@@ -6,4 +6,6 @@ export interface SearchedRestaurant {
   pickup: boolean;
   rating: number;
   deliveryPrice: number;
+  lat: number;
+  lon: number;
 }

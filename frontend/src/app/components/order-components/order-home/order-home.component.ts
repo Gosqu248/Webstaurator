@@ -8,7 +8,7 @@ import {AddressesService} from "../../../services/addresses.service";
 import {OrderPaymentComponent} from "../order-payment/order-payment.component";
 import {AuthService} from "../../../services/auth.service";
 import {Order, OrderStatus} from "../../../interfaces/order";
-import {RestaurantsService} from "../../../services/restaurants.service";
+import {RestaurantService} from "../../../services/restaurant.service";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {User, UserDTO} from "../../../interfaces/user.interface";
 import {OptionService} from "../../../services/option.service";
@@ -51,7 +51,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   constructor(protected authService: AuthService,
               private addressService: AddressesService,
               private optionService: OptionService,
-              private restaurantService: RestaurantsService,
+              private restaurantService: RestaurantService,
               private dialog: MatDialog,
               private router: Router,
               private payUService: PayUService,

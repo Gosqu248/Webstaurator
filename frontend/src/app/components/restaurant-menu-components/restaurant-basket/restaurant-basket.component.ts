@@ -8,7 +8,7 @@
  import {Router} from "@angular/router";
  import {OrderService} from "../../../services/order.service";
  import {Restaurant} from "../../../interfaces/restaurant";
- import {RestaurantsService} from "../../../services/restaurants.service";
+ import {RestaurantService} from "../../../services/restaurant.service";
  import {OrderMenu} from "../../../interfaces/order";
  import {DeliveryService} from "../../../services/delivery.service";
  import {Delivery} from "../../../interfaces/delivery.interface";
@@ -49,7 +49,7 @@ export class RestaurantBasketComponent implements OnInit{
               private optionService: OptionService,
               private deliveryService: DeliveryService,
               private router: Router,
-              private restaurantService: RestaurantsService,
+              private restaurantService: RestaurantService,
               private orderService: OrderService,
               private cartService: CartService) {}
 

@@ -63,15 +63,8 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-
-
-    private RestaurantDTO convertToDTO(Restaurant restaurant) {
-        RestaurantDTO restaurantDTO = new RestaurantDTO();
-        restaurantDTO.setId(restaurant.getId());
-        restaurantDTO.setName(restaurant.getName());
-        restaurantDTO.setCategory(restaurant.getCategory());
-        restaurantDTO.setLogoUrl(restaurant.getLogoUrl());
-        restaurantDTO.setImageUrl(restaurant.getImageUrl());
-        return restaurantDTO;
+    public String getLogo(Long id) {
+        Restaurant restaurant = restaurantRepository.findLogoById(id);
+        return restaurant.getLogoUrl();
     }
 }

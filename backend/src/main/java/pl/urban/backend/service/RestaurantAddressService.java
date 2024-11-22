@@ -54,6 +54,8 @@ public class RestaurantAddressService {
         SearchedRestaurantDTO dto = new SearchedRestaurantDTO();
 
         dto.setRestaurantId(restaurantAddress.getRestaurant().getId());
+        dto.setLat(restaurantAddress.getLatitude());
+        dto.setLon(restaurantAddress.getLongitude());
 
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
         dto.setDistance(distance);

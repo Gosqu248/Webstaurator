@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {Suggest} from "../interfaces/suggest";
+import {Coordinates} from "../interfaces/coordinates";
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class AddressSuggestionsService {
 
   getSuggestions(partialName: string): Observable<Suggest[]> {
     return this.http.get<Suggest[]>(`${this.apiUrl}/get?partialName=${partialName}`);
+  }
+
+  getCoordinates(address: string): Observable<Coordinates> {
+    return this.http.get<Coordinates>(`${this.apiUrl}/getCoordinates?address=${address}`);
   }
 }

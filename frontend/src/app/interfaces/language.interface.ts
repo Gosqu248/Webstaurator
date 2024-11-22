@@ -157,6 +157,7 @@ export interface LanguageTranslations {
   twoFactorCode: string;
   choose: string;
   error2FA: string;
+  yourLocation: string;
 }
 
 export interface Translations {

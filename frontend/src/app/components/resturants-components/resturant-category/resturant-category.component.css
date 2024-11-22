@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  width: 99%;
+  width: 95%;
   height: auto;
   overflow-y: hidden;
   overflow-x: auto;
@@ -55,11 +55,11 @@
 }
 
 .left-scroll {
-  left: -50px;
+  left: -20px;
 }
 
 .right-scroll {
-  right: -50px;
+  right: -20px;
 }
 
 .category-item {

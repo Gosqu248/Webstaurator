@@ -12,6 +12,8 @@ import { RestaurantItemComponent } from '../restaurant-item/restaurant-item.comp
 import { OptionService } from '../../../services/option.service';
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
+import {RestaurantMapComponent} from "../restaurant-map/restaurant-map.component";
+import {MapService} from "../../../services/map.service";
 
 @Component({
   selector: 'app-restaurant',
@@ -24,7 +26,8 @@ import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
     FormsModule,
     RestaurantSortComponent,
     RestaurantItemComponent,
-    NgForOf
+    NgForOf,
+    RestaurantMapComponent
   ],
   templateUrl: './restaurant.component.html',
   styleUrl: './restaurant.component.css'
@@ -36,11 +39,14 @@ export class RestaurantComponent implements OnInit, OnChanges {
   restaurants: SearchedRestaurant[] = [];
   filteredRestaurants: SearchedRestaurant[] = [];
   categories: string[] = [];
+  showMap = false;
+  address: string = '';
 
 
   constructor(
     private languageService: LanguageService,
     private restaurantAddressService: RestaurantAddressService,
+    private mapService: MapService,
     private optionService: OptionService
   ) {}
 
@@ -52,7 +58,9 @@ export class RestaurantComponent implements OnInit, OnChanges {
     this.optionService.selectedCategories$.subscribe(() => {
       this.filterRestaurants();
     });
-
+    this.mapService.showMap$.subscribe(showMap =>
+      this.showMap = showMap
+    );
   }
 
   ngOnChanges() {
@@ -65,8 +73,10 @@ export class RestaurantComponent implements OnInit, OnChanges {
     if (!address) {
       throw new Error('No address found');
     }
+
     this.restaurantAddressService.searchedRestaurant(address).subscribe((restaurant) => {
       this.searchedRestaurants = restaurant;
+      this.address = address;
       this.updateRestaurant();
     });
 

@@ -7,22 +7,17 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class RestaurantsService {
+export class RestaurantService {
 
   private apiUrl = environment.api + '/api/restaurant';
   constructor(private http: HttpClient) {}
 
-
-  getDeliveryCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/delivery-categories`);
-  }
-
-  getPickupCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/pickup-categories`);
-  }
-
   getRestaurantById(id: number): Observable<Restaurant> {
     return this.http.get<Restaurant>(`${this.apiUrl}/getRestaurant?id=${id}`);
+  }
+
+  getLogo(id: number): Observable<string> {
+    return this.http.get(`${this.apiUrl}/getLogo?id=${id}`, { responseType: 'text' });
   }
 
 }

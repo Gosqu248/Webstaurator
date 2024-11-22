@@ -13,4 +13,6 @@ public class SearchedRestaurantDTO {
     private double distance;
     private double rating;
     private double deliveryPrice;
+    private double lat;
+    private double lon;
 }

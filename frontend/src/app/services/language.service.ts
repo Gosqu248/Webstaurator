@@ -7,7 +7,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class LanguageService {
   private currentLanguage: 'pl' | 'en' = 'pl';
-  private languageChangeSubject = new BehaviorSubject<'pl' | 'en'>('pl');
+  public languageChangeSubject = new BehaviorSubject<'pl' | 'en'>('pl');
   languageChange$ = this.languageChangeSubject.asObservable();
 
 
@@ -181,7 +181,8 @@ export class LanguageService {
       sendCode: "Wyślij kod weryfikacyjny",
       twoFactorCode: "Kod weryfikacyjny",
       choose: "Wybierz",
-      error2FA: "Nieprawidłowy kod werfikacyjny"
+      error2FA: "Nieprawidłowy kod werfikacyjny",
+      yourLocation: "Twoja lokalizacja"
 
     },
     en: {
@@ -342,7 +343,8 @@ export class LanguageService {
       sendCode: "Send verification code",
       twoFactorCode: "Verification code",
       choose: "Choose",
-      error2FA: "Invalid verification code"
+      error2FA: "Invalid verification code",
+      yourLocation: "Your location"
     }
   };
 

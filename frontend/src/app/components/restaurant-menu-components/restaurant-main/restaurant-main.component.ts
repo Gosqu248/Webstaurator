@@ -14,7 +14,7 @@ import { NgOptimizedImage } from '@angular/common';
 import {Menu} from "../../../interfaces/menu";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Restaurant} from "../../../interfaces/restaurant";
-import {RestaurantsService} from "../../../services/restaurants.service";
+import {RestaurantService} from "../../../services/restaurant.service";
 import {AuthService} from "../../../services/auth.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {Delivery} from "../../../interfaces/delivery.interface";
@@ -65,7 +65,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
     private favouriteService: FavouriteService,
     private restaurantOpinionService: RestaurantOpinionService,
     private deliveryService: DeliveryService,
-    private restaurantService: RestaurantsService,
+    private restaurantService: RestaurantService,
     private authService: AuthService,
     private dialog: MatDialog,
   ) {}

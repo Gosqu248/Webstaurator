@@ -4,6 +4,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {SortItemComponent} from "../sort-item/sort-item.component";
 import {NgClass, NgForOf} from "@angular/common";
 import {OptionService} from "../../../services/option.service";
+import {MapService} from "../../../services/map.service";
 
 @Component({
   selector: 'app-restaurant-sort',
@@ -21,6 +22,7 @@ export class RestaurantSortComponent implements OnInit, OnChanges{
 
   selectedSortItem: { description: string, icon: string } = { description: '', icon: ''};
   constructor(private languageService:LanguageService,
+              private mapService: MapService,
               private optionService: OptionService) {}
 
   ngOnInit() {
@@ -34,6 +36,9 @@ export class RestaurantSortComponent implements OnInit, OnChanges{
     changes['languageService'] ? this.updateSortItems() : null;
   }
 
+  toggleMapView() {
+    this.mapService.toggleMapView();
+  }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {
     return this.languageService.getTranslation(key);
