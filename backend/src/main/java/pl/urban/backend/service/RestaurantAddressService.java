@@ -7,9 +7,11 @@ import pl.urban.backend.dto.SearchedRestaurantDTO;
 import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
+import pl.urban.backend.repository.DeliveryRepository;
 import pl.urban.backend.repository.RestaurantAddressRepository;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,14 +21,13 @@ public class RestaurantAddressService {
 
     private final RestaurantAddressRepository restaurantAddressRepository;
     private final GeocodingService geocodingService;
-    private final DeliveryService deliveryService;
+    private final DeliveryRepository deliveryRepository;
     private final RestaurantOpinionService restaurantOpinionService;
 
-    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryService deliveryService, RestaurantOpinionService restaurantOpinionService) {
+    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryRepository deliveryRepository, RestaurantOpinionService restaurantOpinionService) {
         this.restaurantAddressRepository = restaurantAddressRepository;
         this.geocodingService = geocodingService;
-
-        this.deliveryService = deliveryService;
+        this.deliveryRepository = deliveryRepository;
         this.restaurantOpinionService = restaurantOpinionService;
     }
 
@@ -34,20 +35,25 @@ public class RestaurantAddressService {
         return restaurantAddressRepository.findByRestaurantId(restaurantId);
     }
 
+    public CoordinatesDTO getCoordinatesByRestaurantId(Long restaurantId) {
+        RestaurantAddress restaurantAddress = restaurantAddressRepository.findByRestaurantId(restaurantId);
+        return convertToCoordinatesDTO(restaurantAddress);
+    }
+
+
 
     public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) {
         double[] coords = geocodingService.getCoordinates(address);
         double latitude = coords[0];
         double longitude = coords[1];
 
-        List<RestaurantAddress> restaurantAddresses = restaurantAddressRepository.findNearbyRestaurants(latitude, longitude, radiusKm);
+        List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
 
         return restaurantAddresses.parallelStream()
                 .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
                 .collect(Collectors.toList());
 
     }
-
 
 
     public SearchedRestaurantDTO convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
@@ -57,25 +63,37 @@ public class RestaurantAddressService {
         dto.setLat(restaurantAddress.getLatitude());
         dto.setLon(restaurantAddress.getLongitude());
 
+        Restaurant restaurant = restaurantAddress.getRestaurant();
+        dto.setName(restaurant.getName());
+        dto.setCategory(restaurant.getCategory());
+
+        Long restaurantId = restaurantAddress.getRestaurant().getId();
+
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
         dto.setDistance(distance);
 
-        Long restaurantId = restaurantAddress.getRestaurant().getId();
         dto.setRating(restaurantOpinionService.getRestaurantRating(restaurantId));
 
-        Delivery delivery = deliveryService.getDelivery(restaurantId);
+        Delivery delivery = deliveryRepository.findByRestaurantId(restaurantId);
         dto.setPickup(delivery != null && delivery.getPickupTime() > 0);
         dto.setDeliveryPrice(delivery != null ? delivery.getDeliveryPrice() : 0);
 
-        Restaurant restaurant = restaurantAddress.getRestaurant();
-        if (restaurant != null) {
-            dto.setName(restaurant.getName());
-            dto.setCategory(restaurant.getCategory());
-        } else {
-            throw new IllegalStateException("Restaurant details are not available for address ID: " + restaurantAddress.getId());
-        }
-
         return dto;
+    }
+
+    private List<RestaurantAddress> searchNearbyRestaurants(double latitude, double longitude, double radiusKm) {
+        double earthRadiusKm = 6371.0;
+        double deltaLatitude = radiusKm / earthRadiusKm;
+        double deltaLongitude = radiusKm / (earthRadiusKm * Math.cos(Math.toRadians(latitude)));
+
+        double minLat = latitude - Math.toDegrees(deltaLatitude);
+        double maxLat = latitude + Math.toDegrees(deltaLatitude);
+        double minLon = longitude - Math.toDegrees(deltaLongitude);
+        double maxLon = longitude + Math.toDegrees(deltaLongitude);
+
+        return restaurantAddressRepository.findNearbyRestaurants(
+                latitude, longitude, radiusKm, minLat, maxLat, minLon, maxLon
+        );
     }
 
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
@@ -92,6 +110,29 @@ public class RestaurantAddressService {
 
         return Math.round(distance * 1000.0) / 1000.0;
 
+    }
+
+    public List<Long> searchTime(String address, double radiusKm) {
+        double[] coords = geocodingService.getCoordinates(address);
+        double latitude = coords[0];
+        double longitude = coords[1];
+
+        long startTime = System.currentTimeMillis();
+
+        List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
+        long endTime = System.currentTimeMillis();
+
+        List<SearchedRestaurantDTO> dto = restaurantAddresses.parallelStream()
+                .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
+                .toList();
+
+        long endTimeMax = System.currentTimeMillis();
+
+        List<Long> times = new ArrayList<>();
+        times.add(endTime - startTime);
+        times.add(endTimeMax - endTime);
+
+        return times;
     }
 
     CoordinatesDTO convertToCoordinatesDTO(RestaurantAddress restaurantAddress) {

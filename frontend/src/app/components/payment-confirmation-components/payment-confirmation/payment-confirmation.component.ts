@@ -35,15 +35,18 @@ export class PaymentConfirmationComponent implements OnInit{
 
   ngOnInit() {
     this.resetState();
+    if (typeof window !== 'undefined' && window.localStorage) {
 
-    const id = localStorage.getItem('payUPaymentId');
+      const id = localStorage.getItem('payUPaymentId');
 
-    if (id) {
-      this.paymentId = id;
 
-      setTimeout(() => {
-        this.getStatus(this.paymentId);
-      }, 500);
+      if (id) {
+        this.paymentId = id;
+
+        setTimeout(() => {
+          this.getStatus(this.paymentId);
+        }, 800);
+      }
     }
   }
 

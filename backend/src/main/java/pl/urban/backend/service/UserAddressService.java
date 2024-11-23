@@ -1,6 +1,7 @@
 package pl.urban.backend.service;
 
 import org.springframework.stereotype.Service;
+import pl.urban.backend.dto.CoordinatesDTO;
 import pl.urban.backend.dto.SearchedRestaurantDTO;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.model.User;
@@ -24,10 +25,9 @@ public class UserAddressService {
         this.geocodingService = geocodingService;
     }
 
-    public List<UserAddress> findAvailableAddresses(String subject, String address, double radiusKm) {
-        double[] coords = geocodingService.getCoordinates(address);
-        double latitude = coords[0];
-        double longitude = coords[1];
+    public List<UserAddress> findAvailableAddresses(String subject, CoordinatesDTO coordinates, double radiusKm) {
+        double latitude = coordinates.getLat();
+        double longitude = coordinates.getLon();
 
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));

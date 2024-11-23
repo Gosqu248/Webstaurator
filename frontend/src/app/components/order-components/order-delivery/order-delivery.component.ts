@@ -11,6 +11,7 @@ import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
 import {AuthService} from "../../../services/auth.service";
+import {Coordinates} from "../../../interfaces/coordinates";
 
 
 @Component({
@@ -29,7 +30,7 @@ export class OrderDeliveryComponent implements OnInit{
   @Output() deliveryChanged = new EventEmitter<void>();
   @Output() openLoginDialog = new EventEmitter<unknown>();
   @Input() addresses!: UserAddress[];
-  @Input() searchedAddress!: string;
+  @Input() coordinates!: Coordinates;
 
   selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
@@ -68,10 +69,10 @@ export class OrderDeliveryComponent implements OnInit{
   }
 
   getUserAddresses() {
-    if(this.token && this.searchedAddress) {
+    if(this.token && this.coordinates) {
 
 
-      this.addressService.getAvailableAddresses(this.token, this.searchedAddress).subscribe(addresses => {
+      this.addressService.getAvailableAddresses(this.token, this.coordinates).subscribe(addresses => {
         this.addresses = addresses;
       });
     } else {

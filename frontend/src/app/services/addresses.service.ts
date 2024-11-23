@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserAddress } from '../interfaces/user.address.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {Coordinates} from "../interfaces/coordinates";
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +36,9 @@ export class AddressesService {
     return this.http.put<UserAddress>(`${this.apiUrl}/${address.id}`, address, { headers });
   }
 
-  getAvailableAddresses(token: string, address: string): Observable<UserAddress[]> {
+  getAvailableAddresses(token: string, coordinates: Coordinates): Observable<UserAddress[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserAddress[]>(`${this.apiUrl}/available?address=${address}`, { headers });
+    return this.http.get<UserAddress[]>(`${this.apiUrl}/available?address=${coordinates}`, { headers });
   }
 
   setPhoneNumber(phoneNumber: string): void {

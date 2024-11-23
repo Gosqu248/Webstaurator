@@ -29,11 +29,21 @@ public class RestaurantAddressController {
         return ResponseEntity.ok(results);
     }
 
+    @GetMapping("/searchTime")
+    public ResponseEntity<List<Long>> searchTime(
+            @RequestParam String address,
+            @RequestParam(defaultValue = "6") double radius) {
+        return ResponseEntity.ok(restaurantAddressService.searchTime(address, radius));
+    }
+
 
     @GetMapping("/get")
     public RestaurantAddress getRestaurantAddress(@RequestParam Long restaurantId) {
         return restaurantAddressService.getRestaurantAddress(restaurantId);
     }
 
-
+    @GetMapping("/getCoordinates")
+    public ResponseEntity<CoordinatesDTO> getCoordinates(@RequestParam Long restaurantId) {
+        return ResponseEntity.ok(restaurantAddressService.getCoordinatesByRestaurantId(restaurantId));
+    }
 }

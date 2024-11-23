@@ -26,6 +26,10 @@ export class RestaurantAddressService {
     return this.http.get<SearchedRestaurant[]>(`${this.apiUrl}/search?address=${address}`);
   }
 
+  getCoordinates(id: number): Observable<Coordinates>{
+    return this.http.get<Coordinates>(`${this.apiUrl}/getCoordinates?restaurantId=${id}`);
+  }
+
 
   setSearchedRestaurants(restaurants: SearchedRestaurant[]){
     sessionStorage.setItem('searchedRestaurants', JSON.stringify(restaurants));
@@ -33,15 +37,17 @@ export class RestaurantAddressService {
   }
 
   loadRestaurantsFromSessionStorage() {
-    const restaurants = sessionStorage.getItem('searchedRestaurants');
-    return restaurants ? JSON.parse(restaurants) : [];
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const restaurants = sessionStorage.getItem('searchedRestaurants');
+      return restaurants ? JSON.parse(restaurants) : [];
+    }
   }
 
   removeRestaurantFromSessionStorage() {
-    sessionStorage.removeItem('searchedRestaurants');
-    this.searchedRestaurants.next([]);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      sessionStorage.removeItem('searchedRestaurants');
+      this.searchedRestaurants.next([]);
+    }
   }
-
-
 
 }

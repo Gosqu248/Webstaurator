@@ -19,6 +19,8 @@ import {PaymentResponse} from "../../../interfaces/paymentMethod";
 import {PayUService} from "../../../services/pay-u.service";
 import {OrderService} from "../../../services/order.service";
 import {Router} from "@angular/router";
+import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {Coordinates} from "../../../interfaces/coordinates";
 
 @Component({
   selector: 'app-order-home',
@@ -46,11 +48,12 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   restaurant: Restaurant = {} as Restaurant;
   deliveryOption: string = '';
   payUPaymentId: number | null = null;
-  searchedAddress: string = '';
+  coordinates: Coordinates = {} as Coordinates;
 
   constructor(protected authService: AuthService,
               private addressService: AddressesService,
               private optionService: OptionService,
+              private restaurantAddressService: RestaurantAddressService,
               private restaurantService: RestaurantService,
               private dialog: MatDialog,
               private router: Router,
@@ -59,9 +62,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
-
-    this.subscribeToAuthChanges();
-
     this.getRestaurant();
 
     this.optionService.selectBasketDelivery$.subscribe(delivery => {
@@ -159,6 +159,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
           this.restaurant = data;
         });
       }
+      this.subscribeToAuthChanges();
     }
   }
 
@@ -175,18 +176,15 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   getUserAddresses(token: string | null) {
     if (token) {
-      const searchedAddress = sessionStorage.getItem('searchAddress')
-
-      if (!searchedAddress) {
-        return console.error("Error")
-      }
-      console.log(searchedAddress)
-      this.searchedAddress = searchedAddress;
-
-      this.addressService.getAvailableAddresses(token, searchedAddress).subscribe(addresses => {
-        this.addresses = addresses;
-        console.log(addresses)
+      this.restaurantAddressService.getCoordinates(this.restaurant.id).subscribe(coordinates => {
+        this.coordinates = coordinates;
+        this.addressService.getAvailableAddresses(token, coordinates).subscribe(addresses => {
+          this.addresses = addresses;
+          console.log(addresses)
+        });
       });
+
+
     }
   }
 
