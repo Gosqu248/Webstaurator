@@ -25,14 +25,12 @@ public class UserAddressService {
         this.geocodingService = geocodingService;
     }
 
-    public List<UserAddress> findAvailableAddresses(String subject, CoordinatesDTO coordinates, double radiusKm) {
-        double latitude = coordinates.getLat();
-        double longitude = coordinates.getLon();
+    public List<UserAddress> findAvailableAddresses(String subject, double lat, double lon, double radiusKm) {
 
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
 
-        List<UserAddress> userAddresses = userAddressRepository.findAvailableAddresses(user.getId(), latitude, longitude, radiusKm);
+        List<UserAddress> userAddresses = userAddressRepository.findAvailableAddresses(user.getId(), lat, lon, radiusKm);
 
         return userAddresses.parallelStream()
                 .collect(Collectors.toList());

@@ -26,7 +26,9 @@ export class InfoMapComponent implements OnInit{
 
   getRestaurantAddress(): void {
     this.restaurantAddressService.getRestaurantAddress(this.restaurantId).subscribe((data) => {
-      this.initializeMap(data);
+      if (typeof window !== 'undefined') {
+        this.initializeMap(data);
+      }
       this.address = data
     });
   }

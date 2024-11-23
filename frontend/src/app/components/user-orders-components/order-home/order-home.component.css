@@ -55,6 +55,15 @@
   font-size: 22px;
 }
 
+.spinner {
+  display: flex;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+}
+
 .order-item {
   width: 70%;
   margin: auto;

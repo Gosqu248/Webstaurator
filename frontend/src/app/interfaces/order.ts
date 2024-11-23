@@ -14,7 +14,7 @@ export interface Order {
   user: UserDTO;
   userAddress: UserAddress | null;
   restaurant: Restaurant;
-  paymentId: string;
+  paymentId: string | null;
 
 }
 

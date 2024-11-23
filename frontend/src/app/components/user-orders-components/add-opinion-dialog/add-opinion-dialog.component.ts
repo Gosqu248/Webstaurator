@@ -36,7 +36,8 @@ export class AddOpinionDialogComponent {
       qualityRating: this.qualityRating,
       deliveryRating: this.deliveryRating,
       comment: this.comment
-    }
+    };
+
     const userId = localStorage.getItem('userId');
 
     if (!userId) {
@@ -44,16 +45,16 @@ export class AddOpinionDialogComponent {
       return;
     }
 
-
     this.opinionService.addOpinion(opinion, this.data.orderId).subscribe({
-        next: () => {
-          this.dialogRef.close();
-        },
-        error: (error) => {
-          console.error('Error adding opinion:', error);
-        }
-      });
-    }
+      next: () => {
+        this.dialogRef.close('opinionAdded');
+      },
+      error: (error) => {
+        console.error('Error adding opinion:', error);
+      }
+    });
+  }
+
 
   rateQuality(star: number) {
     this.qualityRating = star;

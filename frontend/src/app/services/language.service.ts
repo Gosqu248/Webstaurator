@@ -182,7 +182,8 @@ export class LanguageService {
       twoFactorCode: "Kod weryfikacyjny",
       choose: "Wybierz",
       error2FA: "Nieprawidłowy kod werfikacyjny",
-      yourLocation: "Twoja lokalizacja"
+      yourLocation: "Twoja lokalizacja",
+      closed: "Zamknięte",
 
     },
     en: {
@@ -344,7 +345,8 @@ export class LanguageService {
       twoFactorCode: "Verification code",
       choose: "Choose",
       error2FA: "Invalid verification code",
-      yourLocation: "Your location"
+      yourLocation: "Your location",
+      closed: "Closed",
     }
   };
 

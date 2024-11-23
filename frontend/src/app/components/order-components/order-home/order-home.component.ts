@@ -125,12 +125,16 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         orderMenus: this.basket.orderMenus,
         userAddress: userAddress,
         user: user,
-        paymentId: ''
+        paymentId: null
       }
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
         this.orderService.createOrder(order);
-        this.router.navigate(['/orders-history'])
+        setTimeout(() => {
+          this.router.navigate(['/orders-history'])
+
+        }, 1000);
+
       } else {
         this.payUService.createPayUPayment(order).subscribe({
           next: (response: PaymentResponse) => {
@@ -176,15 +180,23 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   getUserAddresses(token: string | null) {
     if (token) {
-      this.restaurantAddressService.getCoordinates(this.restaurant.id).subscribe(coordinates => {
+      const restaurantId = sessionStorage.getItem('restaurantId');
+      if (restaurantId) {
+        const id = parseInt(restaurantId);
+
+      this.restaurantAddressService.getCoordinates(id).subscribe(coordinates => {
         this.coordinates = coordinates;
+        console.log(coordinates)
         this.addressService.getAvailableAddresses(token, coordinates).subscribe(addresses => {
           this.addresses = addresses;
           console.log(addresses)
         });
       });
-
-
+      } else {
+        console.error('Restaurant id is not set');
+      }
+    } else {
+      console.error('Token is not set');
     }
   }
 

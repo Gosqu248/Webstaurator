@@ -53,6 +53,7 @@ export class OrderDeliveryComponent implements OnInit{
     this.getDeliveryOption();
     if (isPlatformBrowser(this.platformId)) {
       this.token = localStorage.getItem('jwt');
+      console.log(this.token);
     }
     this.getDeliveryTime();
   }
@@ -70,8 +71,6 @@ export class OrderDeliveryComponent implements OnInit{
 
   getUserAddresses() {
     if(this.token && this.coordinates) {
-
-
       this.addressService.getAvailableAddresses(this.token, this.coordinates).subscribe(addresses => {
         this.addresses = addresses;
       });

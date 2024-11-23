@@ -158,6 +158,7 @@ export interface LanguageTranslations {
   choose: string;
   error2FA: string;
   yourLocation: string;
+  closed: string;
 }
 
 export interface Translations {

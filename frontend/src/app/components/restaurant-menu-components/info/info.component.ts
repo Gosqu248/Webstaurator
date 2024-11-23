@@ -3,7 +3,7 @@ import {LanguageTranslations} from "../../../interfaces/language.interface";
 import { LanguageService } from '../../../services/language.service';
 import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
-import {DecimalPipe, NgForOf} from "@angular/common";
+import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {RestaurantAddressService} from "../../../services/restaurant-address.service";
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import {environment} from "../../../../environments/environment";
@@ -17,7 +17,8 @@ import {InfoMapComponent} from "../info-map/info-map.component";
   imports: [
     NgForOf,
     DecimalPipe,
-    InfoMapComponent
+    InfoMapComponent,
+    NgIf
   ],
   templateUrl: './info.component.html',
   styleUrl: './info.component.css'

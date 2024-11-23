@@ -15,6 +15,7 @@ export class OrderService {
   private orderMenus = new BehaviorSubject<OrderMenu[]>(this.loadOrderMenusFromLocalStorage());
   orderMenus$ = this.orderMenus.asObservable();
 
+
   constructor(private http: HttpClient, private cartService: CartService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   getUserOrders(token: string) {

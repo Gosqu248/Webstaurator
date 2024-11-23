@@ -9,7 +9,8 @@
     <div class="item-container">
       <div class="hour-item" *ngFor="let hour of deliveryTime">
         <p>{{getDayName(hour.dayOfWeek)}}</p>
-        <p>{{hour.openTime}} - {{hour.closeTime}}</p>
+        <p *ngIf="hour.openTime !== 'null' && hour.openTime !== '0' ; else closed">{{hour.openTime}} - {{hour.closeTime}}</p>
+        <ng-template #closed> {{getTranslation('closed')}} </ng-template>
       </div>
     </div>
 

@@ -38,7 +38,7 @@ export class AddressesService {
 
   getAvailableAddresses(token: string, coordinates: Coordinates): Observable<UserAddress[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserAddress[]>(`${this.apiUrl}/available?address=${coordinates}`, { headers });
+    return this.http.get<UserAddress[]>(`${this.apiUrl}/available?lat=${coordinates.lat}&lon=${coordinates.lon}`,{ headers });
   }
 
   setPhoneNumber(phoneNumber: string): void {

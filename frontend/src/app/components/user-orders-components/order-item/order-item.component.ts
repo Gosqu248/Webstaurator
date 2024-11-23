@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OrderDTO} from "../../../interfaces/order";
 import {DatePipe, NgClass, NgForOf, NgIf, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl';
@@ -23,6 +23,9 @@ import {AddOpinionDialogComponent} from "../add-opinion-dialog/add-opinion-dialo
 })
 export class OrderItemComponent implements OnInit {
   @Input() order!: OrderDTO;
+  @Output() opinionAdded = new EventEmitter<void>();
+
+
   isVisible = false;
   isDelivery = false;
 
@@ -36,12 +39,18 @@ export class OrderItemComponent implements OnInit {
   }
 
   openAddOpinionDialog() {
-    this.dialog.open(AddOpinionDialogComponent, {
+    const dialogRef = this.dialog.open(AddOpinionDialogComponent, {
       maxWidth: '100%',
       width: '600px',
       height: '620px',
-      data: {restaurantName: this.order.restaurantName, orderId: this.order.id}
-    })
+      data: { restaurantName: this.order.restaurantName, orderId: this.order.id }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'opinionAdded') {
+        this.opinionAdded.emit();
+      }
+    });
   }
 
   getFormattedDate(date: string): string | null {

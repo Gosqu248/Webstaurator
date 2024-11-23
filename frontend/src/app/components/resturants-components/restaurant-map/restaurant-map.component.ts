@@ -31,10 +31,12 @@ export class RestaurantMapComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.getCoordinates();
-    this.languageSubscription = this.languageService.languageChangeSubject.subscribe(() => {
-      this.updatePopups();
-    });
+    if (typeof window !== 'undefined') {
+      this.getCoordinates();
+      this.languageSubscription = this.languageService.languageChangeSubject.subscribe(() => {
+        this.updatePopups();
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -1,35 +1,41 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {OrderService} from "../../../services/order.service";
 import {AuthService} from "../../../services/auth.service";
 import {OrderDTO} from "../../../interfaces/order";
 import {OrderItemComponent} from "../order-item/order-item.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-order-home',
   standalone: true,
   imports: [
     OrderItemComponent,
-    NgForOf
+    NgForOf,
+    MatProgressSpinner,
+    NgIf
   ],
   templateUrl: './order-home.component.html',
   styleUrl: './order-home.component.css'
 })
-export class OrderHomeComponent implements OnInit{
+export class OrderHomeComponent implements OnInit, OnDestroy {
   background = environment.api + '/img/ordersBackground.webp';
   isAuthenticated: boolean = false;
   orders: OrderDTO[] = [];
+  isLoading: boolean = true;
+  private opinionAddedSubscription!: Subscription;
 
   constructor(private authService: AuthService,
               private languageService: LanguageService,
               private orderService: OrderService) {}
 
   ngOnInit() {
-   this.checkAuth();
-   this.getUserOrders();
+    this.checkAuth();
+    this.getUserOrders();
   }
 
   checkAuth() {
@@ -40,7 +46,6 @@ export class OrderHomeComponent implements OnInit{
 
   getUserOrders() {
     if (this.isAuthenticated) {
-
       const token = localStorage.getItem('jwt');
       if (!token) {
         console.error('No token found');
@@ -50,12 +55,18 @@ export class OrderHomeComponent implements OnInit{
       this.orderService.getUserOrders(token).subscribe({
         next: (orders) => {
           this.orders = orders;
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Error getting user orders:', error);
         }
       });
+    }
+  }
 
+  ngOnDestroy() {
+    if (this.opinionAddedSubscription) {
+      this.opinionAddedSubscription.unsubscribe();
     }
   }
 
