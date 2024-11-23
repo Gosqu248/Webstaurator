@@ -40,6 +40,12 @@ public class UserAddress {
     @Column(nullable = true)
     private String accessCode;
 
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @JsonIgnore

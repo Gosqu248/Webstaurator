@@ -1,6 +1,6 @@
 <div class="order-home">
   <div class="left-container">
-      <app-order-delivery [addresses]="addresses" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
+      <app-order-delivery [addresses]="addresses" [searchedAddress]="searchedAddress" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
       <app-order-payment></app-order-payment>
       <app-order-personal-info [user]="user"></app-order-personal-info>
   </div>

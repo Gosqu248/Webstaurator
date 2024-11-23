@@ -10,7 +10,7 @@ import {AuthService} from "../../../services/auth.service";
 import {Order, OrderStatus} from "../../../interfaces/order";
 import {RestaurantService} from "../../../services/restaurant.service";
 import {Restaurant} from "../../../interfaces/restaurant";
-import {User, UserDTO} from "../../../interfaces/user.interface";
+import {UserDTO} from "../../../interfaces/user.interface";
 import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -41,12 +41,12 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   addresses: UserAddress[] = [];
   user: UserDTO = {} as UserDTO;
-  token: string | null = null;
   canOrder: boolean = false;
   userId: number | null = null;
   restaurant: Restaurant = {} as Restaurant;
   deliveryOption: string = '';
   payUPaymentId: number | null = null;
+  searchedAddress: string = '';
 
   constructor(protected authService: AuthService,
               private addressService: AddressesService,
@@ -59,9 +59,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.token = localStorage.getItem('jwt');
-    }
+
     this.subscribeToAuthChanges();
 
     this.getRestaurant();
@@ -86,9 +84,9 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   subscribeToAuthChanges() {
     this.authService.isAuthenticated$.subscribe(isAuthenticated => {
       if (isAuthenticated) {
-        this.token = localStorage.getItem('jwt');
-        this.getUserAddresses();
-        this.getUser();
+        const token = localStorage.getItem('jwt');
+        this.getUserAddresses(token);
+        this.getUser(token);
       } else {
         this.user = {} as UserDTO;
         this.addresses = [];
@@ -175,17 +173,26 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getUserAddresses() {
-    if (this.token) {
-      this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+  getUserAddresses(token: string | null) {
+    if (token) {
+      const searchedAddress = sessionStorage.getItem('searchAddress')
+
+      if (!searchedAddress) {
+        return console.error("Error")
+      }
+      console.log(searchedAddress)
+      this.searchedAddress = searchedAddress;
+
+      this.addressService.getAvailableAddresses(token, searchedAddress).subscribe(addresses => {
         this.addresses = addresses;
+        console.log(addresses)
       });
     }
   }
 
-  getUser() {
-    if (this.token) {
-      this.authService.getUser(this.token).subscribe(user => {
+  getUser(token: string | null) {
+    if (token) {
+      this.authService.getUser(token).subscribe(user => {
         this.user = user;
       });
     }

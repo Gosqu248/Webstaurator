@@ -1,23 +1,41 @@
 package pl.urban.backend.service;
 
 import org.springframework.stereotype.Service;
+import pl.urban.backend.dto.SearchedRestaurantDTO;
+import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserAddress;
 import pl.urban.backend.repository.UserAddressRepository;
 import pl.urban.backend.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserAddressService {
 
      private  final UserAddressRepository userAddressRepository;
-
      private final UserRepository userRepository;
+     private final GeocodingService geocodingService;
 
-    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository) {
+    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, GeocodingService geocodingService) {
         this.userAddressRepository = userAddressRepository;
         this.userRepository = userRepository;
+        this.geocodingService = geocodingService;
+    }
+
+    public List<UserAddress> findAvailableAddresses(String subject, String address, double radiusKm) {
+        double[] coords = geocodingService.getCoordinates(address);
+        double latitude = coords[0];
+        double longitude = coords[1];
+
+        User user = userRepository.findByEmail(subject)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+
+        List<UserAddress> userAddresses = userAddressRepository.findAvailableAddresses(user.getId(), latitude, longitude, radiusKm);
+
+        return userAddresses.parallelStream()
+                .collect(Collectors.toList());
     }
 
 
@@ -25,6 +43,15 @@ public class UserAddressService {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
         userAddress.setUserId(user.getId());
+
+        String address = userAddress.getStreet() + " " + userAddress.getHouseNumber() + ", " + userAddress.getCity();
+        double[] coords = geocodingService.getCoordinates(address);
+        double latitude = coords[0];
+        double longitude = coords[1];
+
+        userAddress.setLatitude(latitude);
+        userAddress.setLongitude(longitude);
+
         return userAddressRepository.save(userAddress);
     }
 

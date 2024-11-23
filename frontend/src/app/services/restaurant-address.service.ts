@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {RestaurantAddress} from "../interfaces/restaurant-address";
 import {SearchedRestaurant} from "../interfaces/searched-restaurant";
+import {Coordinates} from "../interfaces/coordinates";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class RestaurantAddressService {
   searchRestaurant(address: string): Observable<SearchedRestaurant[]>{
     return this.http.get<SearchedRestaurant[]>(`${this.apiUrl}/search?address=${address}`);
   }
+
 
   setSearchedRestaurants(restaurants: SearchedRestaurant[]){
     sessionStorage.setItem('searchedRestaurants', JSON.stringify(restaurants));

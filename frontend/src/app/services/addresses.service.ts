@@ -35,6 +35,11 @@ export class AddressesService {
     return this.http.put<UserAddress>(`${this.apiUrl}/${address.id}`, address, { headers });
   }
 
+  getAvailableAddresses(token: string, address: string): Observable<UserAddress[]> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<UserAddress[]>(`${this.apiUrl}/available?address=${address}`, { headers });
+  }
+
   setPhoneNumber(phoneNumber: string): void {
     this.phoneNumber.next(phoneNumber);
   }

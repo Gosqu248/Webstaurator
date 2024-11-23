@@ -1,6 +1,7 @@
 package pl.urban.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.model.UserAddress;
@@ -49,5 +50,14 @@ public class UserAddressController {
         return ResponseEntity.ok(userAddressService.updateAddress(subject, id, userAddress));
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<UserAddress>> getAvailableAddresses(
+            @RequestHeader("Authorization") String token,
+            @RequestParam String address,
+            @RequestParam(defaultValue = "6") double radius) {
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+
+        return ResponseEntity.ok(userAddressService.findAvailableAddresses(subject, address, radius));
+    }
 
 }

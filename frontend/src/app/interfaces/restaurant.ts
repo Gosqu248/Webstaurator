@@ -5,12 +5,3 @@ export interface Restaurant {
   logoUrl: string;
   imageUrl: string;
 }
-
-
-export interface RestaurantOpinions {
-  id: number;
-  qualityRating: number;
-  deliveryRating: number;
-  comment: string;
-  createdAt: string;
-}

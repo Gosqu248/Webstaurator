@@ -11,7 +11,6 @@ import {DeliveryService} from "../../../services/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
 import {AuthService} from "../../../services/auth.service";
-import {OptionService} from "../../../services/option.service";
 
 
 @Component({
@@ -30,6 +29,8 @@ export class OrderDeliveryComponent implements OnInit{
   @Output() deliveryChanged = new EventEmitter<void>();
   @Output() openLoginDialog = new EventEmitter<unknown>();
   @Input() addresses!: UserAddress[];
+  @Input() searchedAddress!: string;
+
   selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
   minTime: number = 0;
@@ -67,10 +68,16 @@ export class OrderDeliveryComponent implements OnInit{
   }
 
   getUserAddresses() {
-    if(this.token)
-      this.addressService.getUserAddresses(this.token).subscribe(addresses => {
+    if(this.token && this.searchedAddress) {
+
+
+      this.addressService.getAvailableAddresses(this.token, this.searchedAddress).subscribe(addresses => {
         this.addresses = addresses;
       });
+    } else {
+      console.error('Token or searchedAddress is not set');
+    }
+
   }
 
   setAddress(address: UserAddress) {

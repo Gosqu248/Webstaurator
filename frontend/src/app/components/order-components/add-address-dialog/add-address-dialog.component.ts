@@ -4,7 +4,6 @@ import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { LanguageService } from "../../../services/language.service";
 import { MatDialog } from "@angular/material/dialog";
 import { AddressesService } from "../../../services/addresses.service";
-import { OrderDeliveryComponent } from "../order-delivery/order-delivery.component";
 
 @Component({
   selector: 'app-add-address-dialog',

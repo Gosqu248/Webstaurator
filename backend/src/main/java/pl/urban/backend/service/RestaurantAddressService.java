@@ -2,6 +2,7 @@ package pl.urban.backend.service;
 
 import org.springframework.stereotype.Service;
 
+import pl.urban.backend.dto.CoordinatesDTO;
 import pl.urban.backend.dto.SearchedRestaurantDTO;
 import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.Restaurant;
@@ -32,7 +33,6 @@ public class RestaurantAddressService {
     public RestaurantAddress getRestaurantAddress(Long restaurantId) {
         return restaurantAddressRepository.findByRestaurantId(restaurantId);
     }
-
 
 
     public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) {
@@ -92,6 +92,15 @@ public class RestaurantAddressService {
 
         return Math.round(distance * 1000.0) / 1000.0;
 
+    }
+
+    CoordinatesDTO convertToCoordinatesDTO(RestaurantAddress restaurantAddress) {
+        CoordinatesDTO dto = new CoordinatesDTO();
+
+        dto.setLat(restaurantAddress.getLatitude());
+        dto.setLon(restaurantAddress.getLongitude());
+
+        return dto;
     }
 
 }

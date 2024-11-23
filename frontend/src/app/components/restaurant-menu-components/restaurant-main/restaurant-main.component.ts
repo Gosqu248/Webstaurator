@@ -111,7 +111,6 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
 
     this.favouriteService.isFavorite(this.userId, restaurantId).subscribe((isFavourite) => {
       this.isFavorite = isFavourite;
-      console.log('Is favourite:', isFavourite);
     });
   }
   getDelivery(restaurantId: number) {
