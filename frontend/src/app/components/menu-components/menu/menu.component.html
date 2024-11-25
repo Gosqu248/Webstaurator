@@ -27,10 +27,7 @@
     <i class="fa-solid fa-heart"></i>
     <h3>{{getTranslation('favourites')}}</h3>
   </div>
-  <div class="menu-item">
-    <i class="fa-solid fa-comment-dots"></i>
-    <h3>{{getTranslation('opinions')}}</h3>
-  </div>
+
   <div class="menu-item" *ngIf="showLanguageOption" (click)="openLanguageDialog()">
     <i class="fa-solid fa-language"></i>
     <h3>{{getTranslation('changeLanguage')}}</h3>

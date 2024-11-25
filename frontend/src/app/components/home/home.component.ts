@@ -22,9 +22,30 @@ import {MenuComponent} from "../menu-components/menu/menu.component";
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  constructor(private route: ActivatedRoute,
+              private router: Router) {}
 
-  constructor() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const token = params['token'];
+      const error = params['error'];
 
-
+      if (token) {
+        localStorage.setItem('jwt', token);
+        this.router.navigate([], {
+          queryParams: {},
+          replaceUrl: true
+        });
+      } else if (error) {
+        console.error('Błąd logowania przez Google');
+        this.router.navigate([], {
+          queryParams: {},
+          replaceUrl: true
+        });
+      }
+    });
+    }
 }
+
+

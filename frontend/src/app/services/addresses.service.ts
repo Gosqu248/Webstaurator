@@ -26,6 +26,11 @@ export class AddressesService {
     return this.http.get<UserAddress[]>(`${this.apiUrl}/all`, { headers });
   }
 
+  getAddress(token: string, id: number): Observable<UserAddress> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<UserAddress>(`${this.apiUrl}/${id}`, { headers });
+  }
+
   removeAddress(token: string, id: number): Observable<void> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });

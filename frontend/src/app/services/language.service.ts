@@ -50,6 +50,8 @@ export class LanguageService {
       why4_1: 'Bezpieczeństwo',
       why4_2: 'Płatności online są szyfrowane, a dane są chronione.',
       myAccount: 'Moje konto',
+      dontHaveAccount: 'Nie masz konta?',
+      createNow: 'Załóż je teraz',
       createAccount: 'Załóż konto',
       login: 'Zaloguj się',
       profile: 'Twoje dane',
@@ -63,8 +65,8 @@ export class LanguageService {
       email: 'E-mail',
       password: 'Hasło',
       confirmPassword: 'Potwierdź hasło',
-      registerAccept: "Klikając przycisk 'Załóż konto', akceptujesz regulamin serwisu i polityką prywatności.",
-      haveAccount: 'Mam już konto',
+      registerAccept: "Klikając przycisk 'Załóż konto' lub 'Zaloguj się przez Google', akceptujesz regulamin serwisu i polityką prywatności.",
+      haveAccount: 'Masz już konto?',
       emailError: 'Nieprawidłowy adres email',
       passwordError: 'Hasło musi zawierać co najmniej 8 znaków, jedną wielką literę i jeden znak specjalny',
       confirmPasswordError: 'Hasła muszą być takie same',
@@ -184,6 +186,8 @@ export class LanguageService {
       error2FA: "Nieprawidłowy kod werfikacyjny",
       yourLocation: "Twoja lokalizacja",
       closed: "Zamknięte",
+      loginWithGoogle: "Zaloguj się przez Google",
+      or: "LUB"
 
     },
     en: {
@@ -213,6 +217,8 @@ export class LanguageService {
       why4_1: 'Security',
       why4_2: 'Online payments are encrypted and data is protected.',
       myAccount: 'My account',
+      dontHaveAccount: 'Don\'t have an account?',
+      createNow: 'Create it now',
       createAccount: 'Create account',
       login: 'Log in',
       profile: 'Your data',
@@ -226,8 +232,8 @@ export class LanguageService {
       email: 'Email address',
       password: 'Password',
       confirmPassword: 'Confirm password',
-      registerAccept: "By clicking the 'Create account' button, you accept the terms of service and privacy policy.",
-      haveAccount: 'I already have an account',
+      registerAccept: "By clicking the 'Create account' button or 'Login with Google', you accept the terms of service and privacy policy.",
+      haveAccount: 'Already have an account?',
       emailError: 'Invalid email address',
       passwordError: 'The password must be at least 8 characters long, contain one uppercase letter and one special character',
       confirmPasswordError: 'Passwords must match',
@@ -347,6 +353,8 @@ export class LanguageService {
       error2FA: "Invalid verification code",
       yourLocation: "Your location",
       closed: "Closed",
+      loginWithGoogle: "Login with Google",
+      or: "OR"
     }
   };
 

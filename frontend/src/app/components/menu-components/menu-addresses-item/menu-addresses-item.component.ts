@@ -44,7 +44,7 @@ export class MenuAddressesItemComponent {
   goToChangeAddress() {
     this.dialogRef.close();
     this.dialog.open(MenuAddressChangeComponent, {
-      data: this.address?.id,
+      data: { addressId: this.address?.id },
     });
   }
 

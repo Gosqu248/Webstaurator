@@ -91,7 +91,10 @@ export class MenuLoginComponent {
     });
   }
 
-
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+  }
+  
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
   }

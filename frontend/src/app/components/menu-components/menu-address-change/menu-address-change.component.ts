@@ -22,18 +22,14 @@ import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component
 })
 export class MenuAddressChangeComponent implements OnInit {
   changeForm: FormGroup;
-  addressId!: number;
-  token: string | null = localStorage.getItem('jwt');
 
   constructor(
     private languageService: LanguageService,
     private addressesService: AddressesService,
-    private router: Router,
     private fb: FormBuilder,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<MenuAddressChangeComponent>,
-    private route: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { addressId: number }
   ) {
     this.changeForm = this.fb.group({
       street: ['', Validators.required],
@@ -44,22 +40,18 @@ export class MenuAddressChangeComponent implements OnInit {
       city: ['', Validators.required],
       phoneNumber: ['', Validators.required]
     });
-    this.addressId = data.address?.id;
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.addressId = Number(params['id']);
-
-    })
     this.loadAddress();
   }
 
   loadAddress() {
-    if (this.token) {
-      this.addressesService.getUserAddresses(this.token).subscribe(addresses => {
+    const token = localStorage.getItem('jwt');
 
-        const address = addresses.find(addr => addr.id === this.addressId);
+    if (token) {
+      this.addressesService.getAddress(token, this.data.addressId).subscribe(address => {
+        console.log(address);
 
         if (address) {
           this.changeForm.patchValue(address);
@@ -67,15 +59,25 @@ export class MenuAddressChangeComponent implements OnInit {
           console.error('Address not found');
         }
       });
+    } else {
+      console.error('No token found');
     }
   }
 
   changeAddress() {
     if (this.changeForm.valid) {
       const updatedAddress: UserAddress = this.changeForm.value;
-      updatedAddress.id = this.addressId;
+      updatedAddress.id = this.data.addressId;
 
-      this.addressesService.changeAddress(this.token!, updatedAddress).subscribe(() => {
+      const token = localStorage.getItem('jwt');
+
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
+
+
+      this.addressesService.changeAddress(token, updatedAddress).subscribe(() => {
         this.backToMenuAddressesDialog();
       });
     }

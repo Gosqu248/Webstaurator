@@ -41,7 +41,6 @@ export class MenuFavouriteComponent  implements OnInit{
     this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
     this.favouriteService.getUserFavourites(this.userId).subscribe((favourites: any) => {
       this.favourites = favourites;
-      console.log('Favourites fetched: ', this.favourites);
     });
   }
 

@@ -25,7 +25,8 @@ export interface LanguageTranslations {
   why4_1: string;
   why4_2: string;
   myAccount: string;
-  createAccount: string;
+  dontHaveAccount: string;
+  createNow: string;
   login: string;
   profile: string;
   orders: string;
@@ -40,6 +41,7 @@ export interface LanguageTranslations {
   confirmPassword: string;
   registerAccept: string;
   haveAccount: string;
+  createAccount: string;
   emailError: string;
   passwordError: string;
   confirmPasswordError: string;
@@ -159,6 +161,8 @@ export interface LanguageTranslations {
   error2FA: string;
   yourLocation: string;
   closed: string;
+  loginWithGoogle: string;
+  or: string;
 }
 
 export interface Translations {

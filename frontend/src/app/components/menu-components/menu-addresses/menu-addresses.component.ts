@@ -45,7 +45,6 @@ export class MenuAddressesComponent implements OnInit{
       this.addressesService.getUserAddresses(token).subscribe({
         next: addresses => {
           this.addresses = addresses;
-          console.log('Addresses fetched: ', this.addresses);
         },
         error: error => {
           console.error('Error fetching addresses: ', error);

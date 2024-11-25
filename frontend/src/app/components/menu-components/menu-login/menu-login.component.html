@@ -39,7 +39,19 @@
     <button (click)="verify2FA(twoFactorCode)">{{getTranslation('login')}}</button>
   </form>
 
+  <div class="separator">
+    <div class="line"></div>
+    <span>{{getTranslation('or')}}</span>
+    <div class="line"></div>
+  </div>
+
+  <button class="googleButton" (click)="loginWithGoogle()">
+    <img class="social-logo" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Logo Google"> {{ getTranslation('loginWithGoogle') }}
+  </button>
+
+
   <div class="last-container">
-    <h2 (click)="goToRegisterDialog()"> {{getTranslation('createAccount')}}</h2>
+    <p> Nie masz konta?</p>
+    <h2 (click)="goToRegisterDialog()"> {{getTranslation('createNow')}}</h2>
   </div>
 </div>

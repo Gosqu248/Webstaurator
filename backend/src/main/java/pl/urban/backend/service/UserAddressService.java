@@ -25,6 +25,11 @@ public class UserAddressService {
         this.geocodingService = geocodingService;
     }
 
+    public UserAddress findAddressById(Long addressId) {
+        return userAddressRepository.findById(addressId)
+                .orElseThrow(() -> new IllegalArgumentException("Address with this id not found"));
+    }
+
     public List<UserAddress> findAvailableAddresses(String subject, double lat, double lon, double radiusKm) {
 
         User user = userRepository.findByEmail(subject)

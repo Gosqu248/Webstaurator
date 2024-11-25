@@ -48,6 +48,11 @@ public class UserAddressController {
         return ResponseEntity.ok(userAddressService.updateAddress(subject, id, userAddress));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserAddress> getAddressById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        return ResponseEntity.ok(userAddressService.findAddressById(id));
+    }
+
     @GetMapping("/available")
     public ResponseEntity<List<UserAddress>> getAvailableAddresses(
             @RequestHeader("Authorization") String token,

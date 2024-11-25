@@ -28,13 +28,8 @@ export class MenuFavItemComponent implements OnInit{
 
   getAverageRating() {
     if (this.favourite.restaurantOpinion && this.favourite.restaurantOpinion.length > 0) {
-       const restaurantId = sessionStorage.getItem('restaurantId');
 
-       if(!restaurantId) {
-         throw new Error('Restaurant ID not found in session storage');
-       }
-
-      this.restaurantOpinionService.getRating(parseFloat(restaurantId)).subscribe({
+      this.restaurantOpinionService.getRating(this.favourite.restaurantId).subscribe({
         next: (rating: number) => {
           this.averageRating =  rating;
         },

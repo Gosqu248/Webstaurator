@@ -148,18 +148,20 @@ button:hover {
 
 .last-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 80%;
+  width: auto;
   height: auto;
   margin-bottom: 20px;
+  text-align: center;
+
 }
 
 .last-container h2 {
   color: #1c1a1a;
+  margin-left: 10px;
   font-size: 20px;
-  margin-bottom: 10px;
   text-decoration: underline;
 }
 
@@ -168,7 +170,48 @@ button:hover {
   text-decoration: none;
 }
 
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  width: 50%;
+}
 
+.separator .line {
+  flex: 1;
+  height: 1px;
+  background-color: #000;
+}
+
+.separator span {
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+.googleButton {
+  width: 300px;
+  border-radius: 10px;
+  background-color: white;
+  border: lightgrey 1px solid;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.googleButton:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+.social-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+
+}
 
 @media (max-width: 1024px) {
   .login-menu {

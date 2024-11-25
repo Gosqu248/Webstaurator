@@ -25,6 +25,8 @@ export const routes: Routes = [
   {
     path: 'orders-history',
     loadComponent: () => import('./components/user-orders-components/order-home/order-home.component').then(m => m.OrderHomeComponent),
-  }
-
+  },
+  { path: 'auth/callback',
+    loadComponent: () => import('./components/menu-components/google-callback/google-callback.component').then(m => m.GoogleCallbackComponent),
+  },
 ];
