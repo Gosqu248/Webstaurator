@@ -2,11 +2,14 @@ import {Component, Input} from '@angular/core';
 import {OrderMenu} from "../../../interfaces/order";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-order-menu-item',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf
+  ],
   templateUrl: './order-menu-item.component.html',
   styleUrl: './order-menu-item.component.css'
 })

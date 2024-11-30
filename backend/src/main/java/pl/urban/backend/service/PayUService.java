@@ -66,7 +66,6 @@ public class PayUService {
         try (Response response = client.newCall(request).execute()) {
             assert response.body() != null;
             String responseBody = response.body().string();
-            System.out.println("OAuth Token Response: " + responseBody);
 
             if (response.isSuccessful()) {
                 JSONObject json = new JSONObject(responseBody);

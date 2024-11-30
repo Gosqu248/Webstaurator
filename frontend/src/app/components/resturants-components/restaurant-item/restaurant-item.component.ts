@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Restaurant} from "../../../interfaces/restaurant";
 import {DeliveryService} from "../../../services/delivery.service";
 import {Delivery, DeliveryHour} from "../../../interfaces/delivery.interface";
@@ -10,6 +10,7 @@ import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
 import {RestaurantService} from "../../../services/restaurant.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {SessionService} from "../../../services/session.service";
 
 
 @Component({
@@ -25,6 +26,8 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 })
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurantId!: number;
+  @Output() goToMenuEvent = new EventEmitter<Restaurant>();
+
   restaurant: Restaurant = {} as Restaurant;
   restaurantDelivery: Delivery = {} as Delivery;
   deliveryTime: DeliveryHour[] = [];
@@ -36,6 +39,7 @@ export class RestaurantItemComponent implements OnInit{
               private languageService:LanguageService,
               private restaurantService: RestaurantService,
               private restaurantOpinionService: RestaurantOpinionService,
+              private sessionService: SessionService,
               private router:Router) {}
 
   ngOnInit() {
@@ -97,25 +101,20 @@ export class RestaurantItemComponent implements OnInit{
   }
 
   setSessionRestaurant() {
-    if (this.restaurantId && this.restaurant && this.restaurantDelivery && typeof sessionStorage !== 'undefined') {
-      console.log(this.restaurant.name)
-      sessionStorage.setItem('restaurantName', this.restaurant.name)
-      sessionStorage.setItem('deliveryMin', this.restaurantDelivery.deliveryMinTime.toString());
-      sessionStorage.setItem('deliveryMax', this.restaurantDelivery.deliveryMaxTime.toString());
-      sessionStorage.setItem('deliveryPrice', this.restaurantDelivery.deliveryPrice.toString());
-      sessionStorage.setItem("minPrice", this.restaurantDelivery.minimumPrice.toString());
-      sessionStorage.setItem("pickupTime", this.restaurantDelivery.pickupTime.toString());
-      sessionStorage.setItem("isOpen", this.isOpen.toString());
-    }
+    this.sessionService.setSessionRestaurant(this.restaurantId, this.restaurant, this.restaurantDelivery, this.isOpen)
   }
 
 
-  goToMenu(restaurant: Restaurant) {
-    const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
-    sessionStorage.setItem('restaurantId', restaurant.id.toString());
+  goToMenu() {
+    const formattedName = this.restaurant.name.replace(/[\s,]+/g, '-');
+    sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
 
     this.setSessionRestaurant();
     this.router.navigate(['/menu', formattedName]);
+  }
+
+  triggerGoToMenu() {
+    this.goToMenuEvent.emit(this.restaurant);
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {

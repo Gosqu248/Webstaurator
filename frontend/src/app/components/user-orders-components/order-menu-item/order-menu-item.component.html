@@ -1,5 +1,10 @@
 <div class="main">
-  <img class="image" alt="" [src]="menuItem.menu.image">
+  <div class="image">
+    <img *ngIf="menuItem.menu.image; else icon " class="image" alt="" [src]="menuItem.menu.image">
+    <ng-template #icon>
+      <i class="fa-solid fa-question"></i>
+    </ng-template>
+  </div>
   <div>
     <h3>{{menuItem.menu.name}}</h3>
     <p class="additives" [innerHTML]="getFormattedAdditives()"></p>

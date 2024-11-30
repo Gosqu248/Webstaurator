@@ -163,6 +163,7 @@ export interface LanguageTranslations {
   closed: string;
   loginWithGoogle: string;
   or: string;
+  phoneNumberError: string;
 }
 
 export interface Translations {

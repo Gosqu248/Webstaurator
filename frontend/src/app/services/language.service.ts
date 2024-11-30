@@ -187,7 +187,8 @@ export class LanguageService {
       yourLocation: "Twoja lokalizacja",
       closed: "Zamknięte",
       loginWithGoogle: "Zaloguj się przez Google",
-      or: "LUB"
+      or: "LUB",
+      phoneNumberError: "Nieprawidłowy numer telefonu"
 
     },
     en: {
@@ -354,7 +355,8 @@ export class LanguageService {
       yourLocation: "Your location",
       closed: "Closed",
       loginWithGoogle: "Login with Google",
-      or: "OR"
+      or: "OR",
+      phoneNumberError: "Invalid phone number"
     }
   };
 

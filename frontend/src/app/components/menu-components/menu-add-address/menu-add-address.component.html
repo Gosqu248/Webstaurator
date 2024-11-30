@@ -33,7 +33,7 @@
     <div class="address-container">
       <div class="input-container">
         <label for="zipCode">{{getTranslation('zipCode')}}: *</label>
-        <input id="zipCode" type="text" formControlName="zipCode" name="zipCode" autocomplete="text" required>
+        <input id="zipCode" type="text" formControlName="zipCode" name="zipCode" autocomplete="text" required placeholder=" __-___">
       </div>
 
       <div class="input-container">
@@ -45,7 +45,11 @@
     <div class="address-container">
       <div class="input-container">
         <label for="phoneNumber">{{getTranslation('phoneNumber')}}: *</label>
-        <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" autocomplete="text" required>
+        <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" autocomplete="text"  required>
+        <div class="error-container" *ngIf="showErrorFor('phoneNumber')">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <p>{{getTranslation('phoneNumberError')}}</p>
+        </div>
       </div>
 
 

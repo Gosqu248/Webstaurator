@@ -5,9 +5,9 @@ import {RouterLink} from "@angular/router";
 import {LanguageService} from "../../../services/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AddressesService} from "../../../services/addresses.service";
-import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
+
 
 @Component({
   selector: 'app-menu-add-address',
@@ -38,7 +38,11 @@ export class MenuAddAddressComponent {
       accessCode: [' '],
       zipCode: ['', Validators.required],
       city: ['', Validators.required],
-      phoneNumber: ['', Validators.required]
+      phoneNumber: ['',
+        [Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^\d{9}$/)
+      ]]
     });
   }
 
@@ -52,7 +56,7 @@ export class MenuAddAddressComponent {
             this.backToMenuAddressesDialog();
           },
           error: error => {
-            console.log('Error adding address', error);
+            alert('Prawdopodobnie podany adres jest nieprawidłowy. Spróbuj ponownie.');
           }
         });
       }
@@ -72,5 +76,15 @@ export class MenuAddAddressComponent {
   backToMenuAddressesDialog() {
     this.closeDialog();
     this.dialog.open(MenuAddressesComponent);
+  }
+
+  showErrorFor(controlName: string): boolean {
+    const control = this.addressForm.get(controlName);
+    if (controlName === 'phoneNumber') {
+      const phoneNumberPattern = /^\d{3} \d{3} \d{3}$/;
+      return control ? control.invalid && (control.dirty || control.touched) && !phoneNumberPattern.test(control.value) : false;
+    } else {
+      return control ? control.invalid && (control.dirty || control.touched) : false;
+    }
   }
 }

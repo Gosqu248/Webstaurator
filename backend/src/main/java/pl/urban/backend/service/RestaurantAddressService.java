@@ -7,6 +7,7 @@ import pl.urban.backend.dto.SearchedRestaurantDTO;
 import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
+import pl.urban.backend.repository.CustomRestaurantAddressRepository;
 import pl.urban.backend.repository.DeliveryRepository;
 import pl.urban.backend.repository.RestaurantAddressRepository;
 
@@ -23,12 +24,14 @@ public class RestaurantAddressService {
     private final GeocodingService geocodingService;
     private final DeliveryRepository deliveryRepository;
     private final RestaurantOpinionService restaurantOpinionService;
+    private CustomRestaurantAddressRepository customRestaurantAddressRepository;
 
-    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryRepository deliveryRepository, RestaurantOpinionService restaurantOpinionService) {
+    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryRepository deliveryRepository, RestaurantOpinionService restaurantOpinionService, CustomRestaurantAddressRepository customRestaurantAddressRepository) {
         this.restaurantAddressRepository = restaurantAddressRepository;
         this.geocodingService = geocodingService;
         this.deliveryRepository = deliveryRepository;
         this.restaurantOpinionService = restaurantOpinionService;
+        this.customRestaurantAddressRepository = customRestaurantAddressRepository;
     }
 
     public RestaurantAddress getRestaurantAddress(Long restaurantId) {
@@ -38,6 +41,10 @@ public class RestaurantAddressService {
     public CoordinatesDTO getCoordinatesByRestaurantId(Long restaurantId) {
         RestaurantAddress restaurantAddress = restaurantAddressRepository.findByRestaurantId(restaurantId);
         return convertToCoordinatesDTO(restaurantAddress);
+    }
+
+    public List<RestaurantAddress> findAll() {
+        return restaurantAddressRepository.findAll();
     }
 
 
@@ -83,7 +90,7 @@ public class RestaurantAddressService {
 
     private List<RestaurantAddress> searchNearbyRestaurants(double latitude, double longitude, double radiusKm) {
         double earthRadiusKm = 6371.0;
-        double deltaLatitude = radiusKm / earthRadiusKm;
+        double deltaLatitude = radiusKm / 111.0;
         double deltaLongitude = radiusKm / (earthRadiusKm * Math.cos(Math.toRadians(latitude)));
 
         double minLat = latitude - Math.toDegrees(deltaLatitude);
@@ -92,7 +99,7 @@ public class RestaurantAddressService {
         double maxLon = longitude + Math.toDegrees(deltaLongitude);
 
         return restaurantAddressRepository.findNearbyRestaurants(
-                latitude, longitude, radiusKm, minLat, maxLat, minLon, maxLon
+                minLat, maxLat, minLon, maxLon
         );
     }
 

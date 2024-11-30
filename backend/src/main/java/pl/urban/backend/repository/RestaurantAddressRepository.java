@@ -14,15 +14,11 @@ public interface RestaurantAddressRepository extends JpaRepository<RestaurantAdd
 
     @Query("SELECT r FROM RestaurantAddress r WHERE "
             + "r.latitude BETWEEN :minLat AND :maxLat AND "
-            + "r.longitude BETWEEN :minLon AND :maxLon AND "
-            + "(6371 * acos(cos(radians(:latitude)) * cos(radians(r.latitude)) * "
-            + "cos(radians(r.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(r.latitude)))) < :radius")
-    List<RestaurantAddress> findNearbyRestaurants(@Param("latitude") double latitude,
-                                                  @Param("longitude") double longitude,
-                                                  @Param("radius") double radius,
-                                                  @Param("minLat") double minLat,
-                                                  @Param("maxLat") double maxLat,
-                                                  @Param("minLon") double minLon,
-                                                  @Param("maxLon") double maxLon);
+            + "r.longitude BETWEEN :minLon AND :maxLon")
+    List<RestaurantAddress> findNearbyRestaurants(@Param("minLat") double minLat,
+                                                   @Param("maxLat") double maxLat,
+                                                   @Param("minLon") double minLon,
+                                                   @Param("maxLon") double maxLon);
+
 }
 

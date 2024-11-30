@@ -29,3 +29,10 @@
   margin: 5px;
 }
 
+.fa-solid {
+  margin-left: 40px;
+  color: #feb47b;
+  align-items: center;
+  font-size: 110px;
+  cursor: pointer;
+}
