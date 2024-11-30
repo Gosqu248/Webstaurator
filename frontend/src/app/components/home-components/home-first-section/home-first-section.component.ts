@@ -77,9 +77,6 @@ export class HomeFirstSectionComponent implements OnInit{
   }
 
   fetchSuggestions(query: string) {
-    if (query === '') {
-      return of([]);
-    }
     return this.suggestionsService.getSuggestions(query);
   }
 

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Restaurant} from "../../../interfaces/restaurant";
 import {DeliveryService} from "../../../services/delivery.service";
 import {Delivery, DeliveryHour} from "../../../interfaces/delivery.interface";
@@ -26,8 +26,6 @@ import {SessionService} from "../../../services/session.service";
 })
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurantId!: number;
-  @Output() goToMenuEvent = new EventEmitter<Restaurant>();
-
   restaurant: Restaurant = {} as Restaurant;
   restaurantDelivery: Delivery = {} as Delivery;
   deliveryTime: DeliveryHour[] = [];
@@ -105,16 +103,12 @@ export class RestaurantItemComponent implements OnInit{
   }
 
 
-  goToMenu() {
-    const formattedName = this.restaurant.name.replace(/[\s,]+/g, '-');
-    sessionStorage.setItem('restaurantId', this.restaurant.id.toString());
+  goToMenu(restaurant: Restaurant) {
+    const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
+    sessionStorage.setItem('restaurantId', restaurant.id.toString());
 
     this.setSessionRestaurant();
     this.router.navigate(['/menu', formattedName]);
-  }
-
-  triggerGoToMenu() {
-    this.goToMenuEvent.emit(this.restaurant);
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k) {
