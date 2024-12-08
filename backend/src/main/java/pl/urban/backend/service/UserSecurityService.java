@@ -20,24 +20,16 @@ public class UserSecurityService {
     }
 
     public void incrementFailedLoginAttempts(User user) {
-        UserSecurity userSecurity = user.getUserSecurity();
-        if (userSecurity == null) {
-            userSecurity = new UserSecurity();
-            userSecurity.setUser(user);
-            user.setUserSecurity(userSecurity);
-        }
+        UserSecurity userSecurity =  ensureUserSecurity(user);
+
         userSecurity.setFailedLoginAttempts(userSecurity.getFailedLoginAttempts() + 1);
         userSecurity.setLastFailedLoginAttempt(LocalDateTime.now());
         userSecurityRepository.save(userSecurity);
     }
 
     public void resetFailedLoginAttempts(User user) {
-        UserSecurity userSecurity = user.getUserSecurity();
-        if (userSecurity == null) {
-            userSecurity = new UserSecurity();
-            userSecurity.setUser(user);
-            user.setUserSecurity(userSecurity);
-        }
+        UserSecurity userSecurity =  ensureUserSecurity(user);
+
         userSecurity.setFailedLoginAttempts(0);
         userSecurity.setLastFailedLoginAttempt(null);
         userSecurityRepository.save(userSecurity);
@@ -56,12 +48,8 @@ public class UserSecurityService {
     }
 
     public void generateAndSendTwoFactorCode(User user) {
-        UserSecurity userSecurity = user.getUserSecurity();
-        if (userSecurity == null) {
-            userSecurity = new UserSecurity();
-            userSecurity.setUser(user);
-            user.setUserSecurity(userSecurity);
-        }
+        UserSecurity userSecurity =  ensureUserSecurity(user);
+
         Random random = new Random();
         int code = 100000 + random.nextInt(900000);
         userSecurity.setTwoFactorCode(String.valueOf(code));
@@ -76,6 +64,16 @@ public class UserSecurityService {
     public boolean verifyTwoFactorCode(User user, String code) {
         UserSecurity userSecurity = user.getUserSecurity();
         return  userSecurity != null && userSecurity.getTwoFactorCode().equals(code) && userSecurity.getTwoFactorCodeExpireTime() > System.currentTimeMillis();
+    }
+
+    private UserSecurity ensureUserSecurity(User user) {
+        UserSecurity userSecurity = user.getUserSecurity();
+        if (userSecurity == null) {
+            userSecurity = new UserSecurity();
+            userSecurity.setUser(user);
+            user.setUserSecurity(userSecurity);
+        }
+        return userSecurity;
     }
 
 }

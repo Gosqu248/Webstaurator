@@ -21,8 +21,6 @@ public class UserService {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
-
     public void registerUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalArgumentException("User with this email already exists");
@@ -30,7 +28,6 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
-
     public Boolean changePassword(String subject, String password, String newPassword) {
         User user = getUserBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {

@@ -34,6 +34,16 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/getAllOrders")
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        try {
+            List<OrderDTO> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @GetMapping("/getUserOrders")
     public ResponseEntity<List<OrderDTO>> getUserOrders(@RequestHeader("Authorization") String token) {
         try {

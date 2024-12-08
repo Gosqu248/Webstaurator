@@ -32,6 +32,12 @@ public class OrderService {
         this.userAddressRepository = userAddressRepository;
     }
 
+    public List<OrderDTO> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Order getOrder(Long id) {
         return orderRepository.findById(id)

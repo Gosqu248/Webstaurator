@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface RestaurantAddressRepository extends JpaRepository<RestaurantAddress, Long> {
-    RestaurantAddress findByRestaurantId(Long restaurantId);
-
     @Query("SELECT r FROM RestaurantAddress r WHERE "
             + "r.latitude BETWEEN :minLat AND :maxLat AND "
             + "r.longitude BETWEEN :minLon AND :maxLon")
@@ -19,6 +17,9 @@ public interface RestaurantAddressRepository extends JpaRepository<RestaurantAdd
                                                    @Param("maxLat") double maxLat,
                                                    @Param("minLon") double minLon,
                                                    @Param("maxLon") double maxLon);
+
+    RestaurantAddress findByRestaurantId(Long restaurantId);
+
 
 }
 

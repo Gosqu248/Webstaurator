@@ -2,8 +2,11 @@ package pl.urban.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.urban.backend.model.Menu;
+import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.repository.MenuRepository;
+import pl.urban.backend.repository.RestaurantRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -14,9 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public MenuService(MenuRepository menuRepository) {
+    public MenuService(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
         this.menuRepository = menuRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public List<Menu> getRestaurantMenu(Long restaurantId) {
@@ -40,6 +45,35 @@ public class MenuService {
         return sortedMenu.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Restaurant addMenuToRestaurant(Long restaurantId, Menu menu) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
+
+        Menu existingMenu = menuRepository.findByNameAndIngredientsAndPriceAndCategory(
+                menu.getName(), menu.getIngredients(), menu.getPrice(), menu.getCategory()
+        );
+
+        if (existingMenu == null) {
+            existingMenu = menuRepository.save(menu);
+        }
+
+        restaurant.getMenu().add(existingMenu);
+        return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public Restaurant removeMenuFromRestaurant(Long restaurantId, Long menuId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
+
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new IllegalArgumentException("Menu not found"));
+
+        restaurant.getMenu().remove(menu);
+        return restaurantRepository.save(restaurant);
     }
 
 }

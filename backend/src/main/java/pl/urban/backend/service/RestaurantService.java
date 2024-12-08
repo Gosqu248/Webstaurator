@@ -24,8 +24,6 @@ public class RestaurantService {
         this.menuRepository = menuRepository;
     }
 
-
-
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository.findById(id).orElse(null);
     }
@@ -66,5 +64,20 @@ public class RestaurantService {
     public String getLogo(Long id) {
         Restaurant restaurant = restaurantRepository.findLogoById(id);
         return restaurant.getLogoUrl();
+    }
+
+    @Transactional
+    public Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
+
+        restaurant.setName(updatedRestaurant.getName());
+        restaurant.setLogoUrl(updatedRestaurant.getLogoUrl());
+        restaurant.setDelivery(updatedRestaurant.getDelivery());
+        restaurant.setRestaurantAddress(updatedRestaurant.getRestaurantAddress());
+        restaurant.setDeliveryHours(updatedRestaurant.getDeliveryHours());
+        restaurant.setRestaurantOpinions(updatedRestaurant.getRestaurantOpinions());
+
+        return restaurantRepository.save(restaurant);
     }
 }
