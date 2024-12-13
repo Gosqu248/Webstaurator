@@ -39,12 +39,6 @@ public class OrderService {
     }
 
     @Transactional
-    public Order getOrder(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-    }
-
-    @Transactional
     public  List<OrderDTO> getUserOrders(String  subject) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
@@ -145,5 +139,20 @@ public class OrderService {
         dto.setHasOpinion(order.getRestaurantOpinion() != null);
 
         return dto;
+    }
+
+    @Transactional
+    public Order getOrderForUser(String subject, Long orderId) {
+        User user = userRepository.findByEmail(subject)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        if (!order.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Order does not belong to the user");
+        }
+
+        return order;
     }
 }

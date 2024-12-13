@@ -16,19 +16,10 @@ public class PaymentMethodController {
         this.paymentMethodService = paymentMethodService;
     }
 
-    @GetMapping("/getAll")
-    public List<Payment> getAllPayments() {
-        return paymentMethodService.getAllPayments();
-    }
-
     @GetMapping("/getRestaurantPayments")
     public List<Payment> getAllPaymentForRestaurant(@RequestParam Long restaurantId) {
         return paymentMethodService.getALlPaymentsByRestaurantId(restaurantId);
     }
-
-
-
-
 
 
 }

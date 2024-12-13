@@ -37,17 +37,7 @@ public class PayUController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-
-    @GetMapping("/getOrder")
-    public ResponseEntity<String> getPayUOrderById(@RequestParam String orderId) {
-        try {
-            JSONObject orderDetails = payUService.getOrderById(orderId);
-            return ResponseEntity.ok(orderDetails.toString());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-    }
-
+    
     @GetMapping("/getPaymentStatus")
     public ResponseEntity<String> getPayUOrderStatus(@RequestParam String orderId) {
         try {

@@ -46,7 +46,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    private Restaurant  restaurant;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderMenu> orderMenus;

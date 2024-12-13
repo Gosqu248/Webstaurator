@@ -24,15 +24,6 @@ public class OrderController {
         this.jwtToken = jwtToken;
     }
 
-    @GetMapping("/getOrder")
-    public ResponseEntity<Order> getOrder(@RequestParam Long id) {
-        try {
-            Order order = orderService.getOrder(id);
-            return ResponseEntity.ok(order);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {

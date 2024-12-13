@@ -29,18 +29,6 @@ public class RestaurantAddressController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/searchTime")
-    public ResponseEntity<List<Long>> searchTime(
-            @RequestParam String address,
-            @RequestParam(defaultValue = "6") double radius) {
-        return ResponseEntity.ok(restaurantAddressService.searchTime(address, radius));
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<RestaurantAddress>> findAll() {
-        return ResponseEntity.ok(restaurantAddressService.findAll());
-    }
-
 
     @GetMapping("/get")
     public RestaurantAddress getRestaurantAddress(@RequestParam Long restaurantId) {

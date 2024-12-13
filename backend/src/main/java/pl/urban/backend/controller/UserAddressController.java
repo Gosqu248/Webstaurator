@@ -50,7 +50,8 @@ public class UserAddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserAddress> getAddressById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        return ResponseEntity.ok(userAddressService.findAddressById(id));
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        return ResponseEntity.ok(userAddressService.findAddressById(subject, id));
     }
 
     @GetMapping("/available")
