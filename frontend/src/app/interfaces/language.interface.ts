@@ -171,6 +171,9 @@ export interface LanguageTranslations {
   notPaid: string;
   paid: string;
   paymentId: string;
+  changeStatus: string;
+  confirmChangeStatus: string;
+  confirmContent: string;
 }
 
 export interface Translations {

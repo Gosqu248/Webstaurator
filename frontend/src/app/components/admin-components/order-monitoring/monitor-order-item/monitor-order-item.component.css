@@ -118,3 +118,25 @@ hr {
   background: linear-gradient(to right, #ffa500, #ffffff, #ffa500);
 
 }
+
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 80%;
+  height: 30px;
+  justify-content: space-between;
+}
+
+.status-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffa500;
+  background-color: #f39d02;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bolder;
+}

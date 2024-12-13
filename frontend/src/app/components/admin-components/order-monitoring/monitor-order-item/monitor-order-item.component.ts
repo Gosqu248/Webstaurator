@@ -2,9 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DatePipe, NgForOf, NgIf, registerLocaleData} from "@angular/common";
 import {OrderMenuItemComponent} from "../../../user-orders-components/order-menu-item/order-menu-item.component";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {AdminOrderDTO} from "../../../../interfaces/order";
+import {AdminOrderDTO, OrderStatus} from "../../../../interfaces/order";
 import localePl from '@angular/common/locales/pl';
 import {LanguageService} from "../../../../services/language.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmChangeStatusComponent} from "../confirm-change-status/confirm-change-status.component";
+import {OrderService} from "../../../../services/order.service";
 
 
 @Component({
@@ -25,6 +28,8 @@ export class MonitorOrderItemComponent implements OnInit{
   isVisible = false;
   isDelivery = false;
   constructor(private datePipe: DatePipe,
+              private dialog: MatDialog,
+              private orderService: OrderService,
               private languageService: LanguageService) {}
 
   ngOnInit() {
@@ -50,6 +55,24 @@ export class MonitorOrderItemComponent implements OnInit{
 
   toggleVisibility() {
     this.isVisible = !this.isVisible;
+  }
+
+  changeStatus() {
+    const dialogRef = this.dialog.open(ConfirmChangeStatusComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.orderService.updateOrderStatus(this.order.id).subscribe({
+          next: () => {
+            this.order.status = OrderStatus.zaplacone;
+          },
+          error: (error) => {
+            console.error('Error updating order status:', error);
+          }
+        });
+        }
+      });
+
   }
 
   getFormattedPrice(price: number): string {

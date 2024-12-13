@@ -18,9 +18,12 @@
       <p>{{getTranslation('payment')}}:  <span class="span2">{{getPaymentMethod()}}</span></p>
       <p *ngIf="order.paymentId">{{getTranslation('paymentId')}}: <span class="span2">{{order.paymentId}}</span> </p>
       <p>{{getTranslation('deliveryMethod')}}: <span class="span2">{{getDeliveryOption()}}</span> </p>
-
       <p>{{getTranslation('deliveryTime')}}: <span class="span2">{{getOrderTime()}}</span> </p>
-      <p>{{getTranslation('status')}}: <span class="span2">{{getStatus()}}</span> </p>
+      <div class="status">
+        <p>{{getTranslation('status')}}: <span class="span2">{{getStatus()}}</span> </p>
+        <button *ngIf="isDelivery && order.status === 'niezapłacone'" class="status-button" (click)="changeStatus()"> {{getTranslation('changeStatus')}} </button>
+      </div>
+
       <p *ngIf="isDelivery">{{getTranslation('toAddress')}}: <span class="span2">{{order.street}} {{order.houseNumber}}, {{order.city}} {{order.zipCode}}</span></p>
       <p>{{getTranslation('price')}}: <span class="span">{{getFormattedPrice(order.totalPrice)}} zł</span> </p>
     </div>

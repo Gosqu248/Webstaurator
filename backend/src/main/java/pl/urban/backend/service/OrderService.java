@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.urban.backend.dto.AdminOrderDTO;
 import pl.urban.backend.dto.OrderDTO;
+import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
 
@@ -37,6 +38,13 @@ public class OrderService {
         return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate")).stream()
                 .map(this::convertToAdminDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Order updateOrderStatus(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        order.setStatus(OrderStatus.zapłacone);
+        return orderRepository.save(order);
     }
 
     @Transactional

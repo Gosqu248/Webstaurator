@@ -39,6 +39,10 @@ export class OrderService {
     return this.http.get<AdminOrderDTO[]>(`${this.apiUrl}/getAllOrders`)
   }
 
+  updateOrderStatus(orderId: number) {
+    return this.http.put(`${this.apiUrl}/updateOrderStatus?orderId=${orderId}`, {});
+  }
+
   private loadOrderMenusFromLocalStorage(): OrderMenu[] {
     if (isPlatformBrowser(this.platformId)) {
       const orderMenus = localStorage.getItem('orderMenus');

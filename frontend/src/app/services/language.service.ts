@@ -196,6 +196,9 @@ export class LanguageService {
       notPaid: "Nieopłacone",
       paid: "Opłacone",
       paymentId: "ID płatności",
+      changeStatus: "Zmień status",
+      confirmChangeStatus: "Potwierdź zmianę statusu",
+      confirmContent: "Czy na pewno chcesz zmienić status?",
 
     },
     en: {
@@ -371,6 +374,9 @@ export class LanguageService {
       notPaid: "Not paid",
       paid: "Paid",
       paymentId: "Payment ID",
+      changeStatus: "Change status",
+      confirmChangeStatus: "Confirm Status Change",
+      confirmContent: "Are you sure you want to change the status?",
     }
   };
 

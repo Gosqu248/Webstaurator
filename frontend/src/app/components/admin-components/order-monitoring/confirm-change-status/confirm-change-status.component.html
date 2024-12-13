@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>{{getTranslation('confirmChangeStatus')}}</h1>
+<div mat-dialog-content>{{getTranslation('confirmContent')}}</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">{{getTranslation('cancel')}}</button>
+  <button mat-button (click)="onConfirm()">{{getTranslation('confirm')}}</button>
+</div>

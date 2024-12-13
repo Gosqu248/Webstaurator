@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.AdminOrderDTO;
 import pl.urban.backend.dto.OrderDTO;
+import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.security.JwtUtil;
 import pl.urban.backend.service.OrderService;
@@ -52,6 +53,16 @@ public class OrderController {
         try {
             Order createdOrder = orderService.createOrder(order);
             return ResponseEntity.ok(createdOrder);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @PutMapping("/updateOrderStatus")
+    public ResponseEntity<Order> updateOrderStatus(@RequestParam Long orderId) {
+        try {
+            Order updatedOrder = orderService.updateOrderStatus(orderId);
+            return ResponseEntity.ok(updatedOrder);
         } catch (Exception e) {
             throw e;
         }
