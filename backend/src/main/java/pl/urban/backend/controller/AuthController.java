@@ -13,7 +13,6 @@ import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
 import pl.urban.backend.request.TwoFactorVerificationRequest;
 import pl.urban.backend.security.JwtUtil;
-import pl.urban.backend.service.DetailsUserService;
 import pl.urban.backend.service.UserSecurityService;
 import pl.urban.backend.service.UserService;
 
@@ -28,16 +27,14 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtToken;
     private final AuthenticationManager authenticationManager;
-    private final DetailsUserService detailsUserService;
     private final UserSecurityService userSecurityService;
 
 
 
-    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, DetailsUserService detailsUserService, UserSecurityService userSecurityService) {
+    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, UserSecurityService userSecurityService) {
         this.userService = userService;
         this.jwtToken = tokenProvider;
         this.authenticationManager = authenticationManager;
-        this.detailsUserService = detailsUserService;
         this.userSecurityService = userSecurityService;
     }
 
@@ -72,18 +69,16 @@ public class AuthController {
     public ResponseEntity<?> verifyTwoFactorCode(@RequestBody TwoFactorVerificationRequest request) throws Exception {
         User user = userService.getUserBySubject(request.getEmail());
 
-        if (user == null) {
-            throw new Exception("User does not exist");
+        if(user == null) {
+            throw new IllegalArgumentException("User with this email not found");
         }
 
         if (userSecurityService.verifyTwoFactorCode(user, request.getCode())) {
-            final UserDetails userDetails = detailsUserService.loadUserByUsername(request.getEmail());
-            final String jwt = jwtToken.generateToken(userDetails);
+            final String jwt = jwtToken.generateToken(user);
             return ResponseEntity.ok(new JwtResponse(jwt));
         } else {
             throw new Exception("Bad verification codes");
         }
-
     }
 
     @GetMapping("/user")

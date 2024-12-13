@@ -5,10 +5,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import org.jetbrains.annotations.NotNull;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import pl.urban.backend.model.User;
 
 import java.security.Key;
 import java.util.Date;
@@ -19,26 +19,32 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
+
     @Value("${jwt.expiration}")
-    private Long expirationTime;
+    private Long expiration;
+
     private Key secretKey;
 
     public void rotateKey() {
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
-    public String generateToken(@NotNull UserDetails userDetails) {
-       Map<String, Object> claims = new HashMap<>();
-         return createToken(claims, userDetails.getUsername());
-    }
+
     public String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .signWith(secretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
+
+    public String generateToken(@NotNull User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getRole().name());
+        return createToken(claims, user.getEmail());
+    }
+
     public String extractSubjectFromToken(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -56,11 +62,10 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     @PostConstruct
     private void init() {
         rotateKey();
     }
-
-
 
 }

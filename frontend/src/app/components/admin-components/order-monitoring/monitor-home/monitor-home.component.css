@@ -1,0 +1,79 @@
+.main {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  position: relative;
+
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-size: cover;
+}
+
+.container {
+  width: 1000px;
+  min-height: 580px;
+  max-height: 85%;
+  height: auto;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10vh;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden; /* Ensure the scrollbar does not extend beyond the container */
+  box-sizing: border-box;
+}
+
+.container::-webkit-scrollbar {
+  width: 15px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #f3762f;
+  border-radius: 10px;
+  border: 3px solid #f5f5f5;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #ce4a00;
+}
+
+
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d2610c;
+  font-size: 22px;
+}
+
+.spinner {
+  display: flex;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+}
+
+.order-item {
+  width: 70%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: whitesmoke 0px 0px 10px;
+  margin-bottom: 20px;
+}
+

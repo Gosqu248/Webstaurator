@@ -10,7 +10,7 @@
         <p>{{getTranslation('orderNumber')}} <span class="span">{{order.id}}</span></p>
         <p>{{getTranslation('payment')}}:  <span class="span2">{{getPaymentMethod()}}</span></p>
         <p>{{getTranslation('deliveryMethod')}}: <span class="span2">{{getDeliveryOption()}}</span> </p>
-        <p *ngIf="isDelivery">{{getTranslation('deliveryAddress')}}: <span class="span2">{{order.userAddress.street}} {{order.userAddress.houseNumber}}</span></p>
+        <p *ngIf="isDelivery">{{getTranslation('toAddress')}}: <span class="span2">{{order.userAddress.street}} {{order.userAddress.houseNumber}}</span></p>
         <p>{{getTranslation('price')}}: <span class="span">{{getFormattedPrice(order.totalPrice)}} zł</span> </p>
       </div>
     </div>

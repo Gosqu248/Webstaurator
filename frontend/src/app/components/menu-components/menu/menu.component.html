@@ -11,6 +11,12 @@
     <button class="registry-button" (click)="openRegisterDialog()"> {{getTranslation('createAccount')}} </button>
     <button class="login-button" (click)="openLoginDialog()"> {{getTranslation('login')}}  </button>
   </div>
+
+  <div class="menu-item" (click)="goToOrderMonitor()">
+    <i class="fa-solid fa-user"></i>
+    <h3>{{getTranslation('orderMonitoring')}}</h3>
+  </div>
+
   <div class="menu-item" (click)="openMenuProfileDialog()">
     <i class="fa-solid fa-user"></i>
     <h3>{{getTranslation('profile')}}</h3>

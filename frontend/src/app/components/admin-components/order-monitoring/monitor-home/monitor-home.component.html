@@ -1,0 +1,22 @@
+<div class="main">
+
+  <img class="background" alt="" [src]="background">
+  <div class="container">
+    <div class="text">
+      <h2>{{getTranslation('orderMonitoring')}}</h2>
+    </div>
+
+    <div class="spinner" *ngIf="isLoading">
+      <mat-spinner ></mat-spinner>
+    </div>
+
+    <app-monitor-order-item
+      class="order-item"
+      *ngFor="let order of orders"
+      [order]="order">
+    </app-monitor-order-item>
+
+
+  </div>
+
+</div>

@@ -4,6 +4,7 @@ package pl.urban.backend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.AdminOrderDTO;
 import pl.urban.backend.dto.OrderDTO;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.security.JwtUtil;
@@ -26,9 +27,9 @@ public class OrderController {
 
 
     @GetMapping("/getAllOrders")
-    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+    public ResponseEntity<List<AdminOrderDTO>> getAllOrders() {
         try {
-            List<OrderDTO> orders = orderService.getAllOrders();
+            List<AdminOrderDTO> orders = orderService.getAllOrders();
             return ResponseEntity.ok(orders);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

@@ -29,4 +29,8 @@ export const routes: Routes = [
   { path: 'auth/callback',
     loadComponent: () => import('./components/menu-components/google-callback/google-callback.component').then(m => m.GoogleCallbackComponent),
   },
+  {
+    path: 'order-monitoring',
+    loadComponent: () => import('./components/admin-components/order-monitoring/monitor-home/monitor-home.component').then(m => m.MonitorHomeComponent),
+  }
 ];

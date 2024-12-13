@@ -164,6 +164,13 @@ export interface LanguageTranslations {
   loginWithGoogle: string;
   or: string;
   phoneNumberError: string;
+  orderMonitoring: string;
+  userData: string;
+  toAddress: string;
+  userEmail: string,
+  notPaid: string;
+  paid: string;
+  paymentId: string;
 }
 
 export interface Translations {

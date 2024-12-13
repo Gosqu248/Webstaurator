@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,8 +30,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
+                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
 
         if (request.getRequestURI().equals("/auth/register")) {
             filterChain.doFilter(request, response);
@@ -45,26 +46,26 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             try {
                 Claims claims = jwtUtil.extractAllClaims(token);
                 String email = claims.getSubject();
-                List<String> authorities = claims.get("authorities", List.class);
+                String role = claims.get("role", String.class);
 
-                if (authorities == null) {
-                    authorities = new ArrayList<>();
+                List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+                if (role != null) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
                 }
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         email,
                         null,
-                        authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+                        authorities
                 );
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
                 System.out.println("JWT Token parsing error: " + e.getMessage());
                 SecurityContextHolder.clearContext();
             }
         }
-
         filterChain.doFilter(request, response);
     }
-
-
 }

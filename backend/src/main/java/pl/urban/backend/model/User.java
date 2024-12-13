@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import pl.urban.backend.enums.Role;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role = "user";
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.user;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore

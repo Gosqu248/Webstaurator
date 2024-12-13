@@ -163,4 +163,9 @@ export class MenuComponent implements OnInit {
     });
   }
 
+
+  goToOrderMonitor() {
+    this.dialog.closeAll();
+    this.router.navigate(['/order-monitoring']);
+  }
 }

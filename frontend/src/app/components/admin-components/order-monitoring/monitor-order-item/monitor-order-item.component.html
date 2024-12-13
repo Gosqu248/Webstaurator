@@ -1,0 +1,47 @@
+<div class="main">
+  <div class="date">
+    <h3>{{getFormattedDate(order.orderDate)}}</h3>
+    <h3> {{getFormattedTime(order.orderDate)}}</h3>
+  </div>
+  <div class="row-container">
+    <img class="image" alt="" [src]="order.restaurantLogo">
+    <div>
+      <h2>{{getTranslation('userData')}}</h2>
+
+      <p>{{getTranslation('name')}}: <span class="span">{{order.userName}}</span></p>
+      <p>{{getTranslation('userEmail')}}: <span class="span">{{order.userEmail}}</span></p>
+      <p>{{getTranslation('phoneNumber')}}: <span class="span">{{order.userPhone}}</span></p>
+      <hr>
+
+      <p>{{getTranslation('orderFrom')}} <span class="restaurantName">{{order.restaurantName}}</span></p>
+      <p>{{getTranslation('orderNumber')}} <span class="span">{{order.id}}</span></p>
+      <p>{{getTranslation('payment')}}:  <span class="span2">{{getPaymentMethod()}}</span></p>
+      <p *ngIf="order.paymentId">{{getTranslation('paymentId')}}: <span class="span2">{{order.paymentId}}</span> </p>
+      <p>{{getTranslation('deliveryMethod')}}: <span class="span2">{{getDeliveryOption()}}</span> </p>
+
+      <p>{{getTranslation('deliveryTime')}}: <span class="span2">{{getOrderTime()}}</span> </p>
+      <p>{{getTranslation('status')}}: <span class="span2">{{getStatus()}}</span> </p>
+      <p *ngIf="isDelivery">{{getTranslation('toAddress')}}: <span class="span2">{{order.street}} {{order.houseNumber}}, {{order.city}} {{order.zipCode}}</span></p>
+      <p>{{getTranslation('price')}}: <span class="span">{{getFormattedPrice(order.totalPrice)}} zł</span> </p>
+    </div>
+  </div>
+
+  <div class="buttons">
+
+    <button class="toggle-btn" (click)="toggleVisibility()">
+      {{ isVisible ? getTranslation('hideMenu') : getTranslation('showMenu') }}
+    </button>
+
+  </div>
+
+
+  <div
+    *ngIf="isVisible">
+    <app-order-menu-item
+      *ngFor="let menuItem of order.orderMenus"
+      [menuItem]="menuItem"
+    ></app-order-menu-item>
+  </div>
+
+
+</div>

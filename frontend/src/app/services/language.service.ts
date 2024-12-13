@@ -61,7 +61,7 @@ export class LanguageService {
       help: 'Pomoc i Regulaminy',
       changeLanguage: 'Zmień język',
       language: 'Język',
-      name: 'Nazwisko',
+      name: 'Nazwa użytkownika',
       email: 'E-mail',
       password: 'Hasło',
       confirmPassword: 'Potwierdź hasło',
@@ -188,7 +188,14 @@ export class LanguageService {
       closed: "Zamknięte",
       loginWithGoogle: "Zaloguj się przez Google",
       or: "LUB",
-      phoneNumberError: "Nieprawidłowy numer telefonu"
+      phoneNumberError: "Nieprawidłowy numer telefonu",
+      orderMonitoring: "Monitorowanie zamówień",
+      userData: "Dane użytkownika",
+      toAddress: "Na adres",
+      userEmail: "Adres e-mail",
+      notPaid: "Nieopłacone",
+      paid: "Opłacone",
+      paymentId: "ID płatności",
 
     },
     en: {
@@ -356,7 +363,14 @@ export class LanguageService {
       closed: "Closed",
       loginWithGoogle: "Login with Google",
       or: "OR",
-      phoneNumberError: "Invalid phone number"
+      phoneNumberError: "Invalid phone number",
+      orderMonitoring: "Order monitoring",
+      userData: "User data",
+      toAddress: "To address",
+      userEmail: "Email",
+      notPaid: "Not paid",
+      paid: "Paid",
+      paymentId: "Payment ID",
     }
   };
 

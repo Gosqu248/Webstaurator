@@ -3,6 +3,7 @@ package pl.urban.backend.service;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.urban.backend.dto.AdminOrderDTO;
 import pl.urban.backend.dto.OrderDTO;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
@@ -32,9 +33,9 @@ public class OrderService {
         this.userAddressRepository = userAddressRepository;
     }
 
-    public List<OrderDTO> getAllOrders() {
-        return orderRepository.findAll().stream()
-                .map(this::convertToDTO)
+    public List<AdminOrderDTO> getAllOrders() {
+        return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate")).stream()
+                .map(this::convertToAdminDTO)
                 .collect(Collectors.toList());
     }
 
@@ -120,7 +121,7 @@ public class OrderService {
         }
     }
 
-    public OrderDTO convertToDTO(Order order) {
+    private OrderDTO convertToDTO(Order order) {
         OrderDTO dto = new OrderDTO();
 
         dto.setId(order.getId());
@@ -141,18 +142,31 @@ public class OrderService {
         return dto;
     }
 
-    @Transactional
-    public Order getOrderForUser(String subject, Long orderId) {
-        User user = userRepository.findByEmail(subject)
-                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+   private AdminOrderDTO convertToAdminDTO(Order order) {
+        AdminOrderDTO dto = new AdminOrderDTO();
 
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+       dto.setId(order.getId());
+       dto.setDeliveryOption(order.getDeliveryOption());
+       dto.setDeliveryTime(order.getDeliveryTime());
+       dto.setOrderDate(order.getOrderDate());
+       dto.setOrderMenus(order.getOrderMenus());
+       dto.setPaymentId(order.getPaymentId());
+       dto.setPaymentMethod(order.getPaymentMethod());
+       dto.setRestaurantId(order.getRestaurant().getId());
+       dto.setRestaurantName(order.getRestaurant().getName());
+       dto.setStatus(order.getStatus());
+       dto.setTotalPrice(order.getTotalPrice());
+       dto.setCity(order.getUserAddress().getCity());
+       dto.setHouseNumber(order.getUserAddress().getHouseNumber());
+       dto.setStreet(order.getUserAddress().getStreet());
+       dto.setZipCode(order.getUserAddress().getZipCode());
+       dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
+       dto.setUserName(order.getUser().getName());
+       dto.setUserEmail(order.getUser().getEmail());
+       dto.setUserPhone(order.getUserAddress().getPhoneNumber());
 
-        if (!order.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("Order does not belong to the user");
-        }
+       return dto;
+   }
 
-        return order;
-    }
 }
+

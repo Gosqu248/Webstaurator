@@ -41,6 +41,28 @@ export interface OrderDTO {
   hasOpinion: boolean;
 }
 
+export interface AdminOrderDTO {
+  id: number;
+  deliveryOption: string;
+  deliveryTime: string;
+  orderDate: string;
+  orderMenus: OrderMenu[];
+  paymentId: string;
+  paymentMethod: string;
+  restaurantId: number;
+  restaurantName: string;
+  status: OrderStatus;
+  totalPrice: number;
+  city: string;
+  houseNumber: string;
+  street: string;
+  zipCode: string;
+  restaurantLogo: string;
+  userName: string;
+  userEmail: string;
+  userPhone: string;
+}
+
 export enum OrderStatus {
   zaplacone = "zapłacone",
   niezaplacone = "niezapłacone",
