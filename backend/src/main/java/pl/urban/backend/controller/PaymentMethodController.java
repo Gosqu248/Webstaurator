@@ -21,5 +21,10 @@ public class PaymentMethodController {
         return paymentMethodService.getALlPaymentsByRestaurantId(restaurantId);
     }
 
+    @GetMapping("/getAllPayments")
+    public List<Payment> getAllPayments() {
+        return paymentMethodService.getAllPayments();
+    }
+
 
 }

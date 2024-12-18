@@ -1,0 +1,26 @@
+<div [formGroup]="parentForm">
+  <h2 class="title">{{getTranslation('restaurantData')}}</h2>
+  <div class="inputs">
+    <div class="input-container">
+      <label for="restaurantName">{{getTranslation('restaurantName')}}</label>
+      <input id="restaurantName" type="text" formControlName="restaurantName" name="restaurantName" placeholder="{{getTranslation('restaurantName')}}" required>
+    </div>
+
+    <div class="input-container">
+      <label for="category">{{getTranslation('restaurantCategory')}}</label>
+      <input id="category" type="text" formControlName="category" name="category" placeholder="{{getTranslation('restaurantCategory')}}" required>
+    </div>
+  </div>
+  <div class="inputs">
+    <div class="input-container">
+      <label for="logoUrl">{{getTranslation('restaurantLogo')}}</label>
+      <input id="logoUrl" type="text" formControlName="logoUrl" name="logoUrl" placeholder="{{getTranslation('restaurantLogo')}}" required>
+    </div>
+
+    <div class="input-container">
+      <label for="imageUrl">{{getTranslation('restaurantImage')}}</label>
+      <input id="imageUrl" type="text" formControlName="imageUrl" name="imageUrl" placeholder="{{getTranslation('restaurantImage')}}" required>
+    </div>
+  </div>
+</div>
+

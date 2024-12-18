@@ -11,4 +11,7 @@ import java.util.List;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT p FROM Payment p JOIN p.restaurants r WHERE r.id = :restaurantId")
     List<Payment> findByRestaurantsId(@Param("restaurantId") Long restaurantId);
+
+    Payment findByMethod(String method);
+
 }

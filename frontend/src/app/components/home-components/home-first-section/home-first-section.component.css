@@ -53,7 +53,7 @@
   width: 700px;
   height: 100%;
   text-align: center;
-  background: #fffeee;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.99), rgba(255, 218, 185, 0.99));
   border-radius: 80px 80px 80px 80px;
   align-items: center;
   justify-items: center;

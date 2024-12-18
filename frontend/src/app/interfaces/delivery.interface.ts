@@ -1,5 +1,5 @@
 export interface Delivery {
-  id: number;
+  id?: number;
   deliveryMinTime: number;
   deliveryMaxTime: number;
   deliveryPrice: number;
@@ -7,7 +7,7 @@ export interface Delivery {
   pickupTime: number;
 }
 export interface DeliveryHour {
-  id: number;
+  id?: number;
   dayOfWeek: number;
   openTime: string;
   closeTime: string;

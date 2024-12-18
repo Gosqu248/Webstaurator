@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Restaurant} from "../interfaces/restaurant";
+import {AddRestaurant, Restaurant} from "../interfaces/restaurant";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -18,6 +18,17 @@ export class RestaurantService {
 
   getLogo(id: number): Observable<string> {
     return this.http.get(`${this.apiUrl}/getLogo?id=${id}`, { responseType: 'text' });
+  }
+
+  addRestaurant(restaurant: AddRestaurant) {
+    return this.http.post<AddRestaurant>(`${this.apiUrl}/addRestaurant`, restaurant).subscribe({
+      next: () => {
+        console.log('Restaurant added', restaurant);
+      },
+      error: (error) => {
+        console.error('Error adding restaurant:', error);
+      }
+    });
   }
 
 }

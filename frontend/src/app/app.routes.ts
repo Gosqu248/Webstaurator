@@ -32,5 +32,9 @@ export const routes: Routes = [
   {
     path: 'order-monitoring',
     loadComponent: () => import('./components/admin-components/order-monitoring/monitor-home/monitor-home.component').then(m => m.MonitorHomeComponent),
+  },
+  {
+    path: 'add-restaurant',
+    loadComponent: () => import('./components/admin-components/add-restaurant/add-restaurant-home/add-restaurant-home.component').then(m => m.AddRestaurantHomeComponent),
   }
 ];

@@ -1,0 +1,26 @@
+<div [formGroup]="parentForm">
+  <h2 class="title">{{getTranslation('restaurantAddress')}}</h2>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label for="street">{{getTranslation('street')}}</label>
+      <input id="street" type="text" formControlName="street" name="street" placeholder="{{getTranslation('street')}}" required>
+    </div>
+
+    <div class="input-container">
+      <label for="flatNumber">{{getTranslation('flatNumber')}}</label>
+      <input id="flatNumber" type="text" formControlName="flatNumber" name="flatNumber" placeholder="{{getTranslation('flatNumber')}}" required>
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label for="zipCode">{{getTranslation('zipCode')}}</label>
+      <input id="zipCode" type="text" formControlName="zipCode" name="zipCode" placeholder="{{getTranslation('zipCode')}}" required>
+    </div>
+    <div class="input-container">
+      <label for="city">{{getTranslation('city')}}</label>
+      <input id="city" type="text" formControlName="city" name="city" placeholder="{{getTranslation('city')}}" required>
+    </div>
+  </div>
+</div>

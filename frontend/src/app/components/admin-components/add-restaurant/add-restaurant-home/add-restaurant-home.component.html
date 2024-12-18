@@ -1,0 +1,26 @@
+<div class="main">
+
+  <img class="background" alt="" [src]="background">
+  <div class="container">
+    <div class="text">
+      <h2>{{getTranslation('addRestaurant')}}</h2>
+    </div>
+
+    <form class="form" [formGroup]="addForm" (ngSubmit)="addRestaurant()">
+
+    <app-restaurant-data-form [parentForm]="addForm"></app-restaurant-data-form>
+    <app-restaurant-address-form [parentForm]="addForm"></app-restaurant-address-form>
+      <app-restaurant-delivery-data-form [parentForm]="addForm"></app-restaurant-delivery-data-form>
+      <app-restaurant-delivery-hours-form [parentForm]="addForm" (deliveryHoursChange)="emitDaysOfWeek($event)"></app-restaurant-delivery-hours-form>
+      <app-restaurant-payment-form [parentForm]="addForm" [paymentMethods]="paymentMethods"></app-restaurant-payment-form>
+      <app-menu-form  (menuItemsChange)="updateMenuItems($event)"></app-menu-form>
+
+      <button type="submit" class="add-restaurant-button">
+        {{getTranslation('addRestaurant')}}
+      </button>
+    </form>
+
+
+
+  </div>
+</div>

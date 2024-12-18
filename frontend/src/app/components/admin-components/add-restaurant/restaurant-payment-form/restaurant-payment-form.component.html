@@ -1,0 +1,18 @@
+<h2>{{ getTranslation('paymentMethods') }}</h2>
+<div [formGroup]="parentForm">
+  <div *ngIf="paymentMethodsArray" formArrayName="paymentMethods" class="payment-methods-container">
+    <div *ngFor="let paymentMethodGroup of paymentMethodsArray.controls; let i = index"
+         [formGroupName]="i"
+         class="payment-method">
+      <label class="payment-label">
+        <input
+          type="checkbox"
+          formControlName="selected"
+          class="payment-checkbox" />
+        <div class="payment-box">
+          {{ paymentMethodGroup.value.method }}
+        </div>
+      </label>
+    </div>
+  </div>
+</div>

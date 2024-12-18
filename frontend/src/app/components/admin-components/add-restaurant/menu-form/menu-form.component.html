@@ -1,0 +1,77 @@
+<h2 class="title">{{getTranslation('restaurantMenu')}}</h2>
+
+<div *ngFor="let menuItem of menuItems; let i = index" class="menu-item">
+  <div class="inputs">
+    <div class="input-container">
+      <label>{{getTranslation('category')}}</label>
+      <input type="text" [(ngModel)]="menuItem.category" name="menuCategory{{i}}" placeholder="{{getTranslation('category')}}" (change)="emitMenuItems()">
+    </div>
+
+    <div class="input-container">
+      <label>{{getTranslation('restaurantName')}}</label>
+      <input type="text" [(ngModel)]="menuItem.name" name="menuName{{i}}" placeholder="{{getTranslation('restaurantName')}}" (change)="emitMenuItems()">
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label>{{getTranslation('image')}}</label>
+      <input type="text" [(ngModel)]="menuItem.image" name="menuImage{{i}}" placeholder="{{getTranslation('image')}}" (change)="emitMenuItems()">
+    </div>
+
+    <div class="input-container">
+      <label>{{getTranslation('ingredients')}}</label>
+      <input type="text" [(ngModel)]="menuItem.ingredients" name="menuIngredients{{i}}" placeholder="{{getTranslation('ingredients')}}" (change)="emitMenuItems()">
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label>{{getTranslation('price')}}</label>
+      <input type="number" [(ngModel)]="menuItem.price" name="menuPrice{{i}}" placeholder="{{getTranslation('price')}}" (change)="emitMenuItems()">
+    </div>
+    <button type="button" (click)="removeMenuItem(i)" class="remove-button">
+      {{getTranslation('removeMenuItem')}}
+    </button>
+  </div>
+
+
+      <div *ngFor="let additive of menuItem.additives; let j = index" class="additive-item">
+        <div class="additive-header">
+          <h4>{{getTranslation('additive')}} {{j + 1}}</h4>
+        </div>
+
+        <div class="inputs">
+          <div class="input-container">
+            <label>{{getTranslation('type')}}</label>
+            <input type="text" [(ngModel)]="additive.name" name="additiveName{{i}}{{j}}" placeholder="{{getTranslation('type')}}" (change)="emitMenuItems()">
+          </div>
+          <div class="input-container">
+            <label>{{getTranslation('restaurantName')}}</label>
+            <input type="text" [(ngModel)]="additive.value" name="additiveValue{{i}}{{j}}" placeholder="{{getTranslation('restaurantName')}}" (change)="emitMenuItems()">
+          </div>
+        </div>
+
+        <div class="inputs">
+          <div class="input-container">
+            <label>{{getTranslation('price')}}</label>
+            <input type="number" [(ngModel)]="additive.price" name="additivePrice{{i}}{{j}}" placeholder="{{getTranslation('price')}}" (change)="emitMenuItems()">
+          </div>
+          <button type="button" (click)="removeAdditive(i, j)" class="remove-button">
+            {{getTranslation('removeAdditive')}}
+          </button>
+        </div>
+
+      </div>
+      <div class="buttonsAddRemove">
+        <button type="button" (click)="addAdditive(i)" class="add-button2">
+          {{getTranslation('addAdditives')}}
+        </button>
+        <div class="white-line"></div>
+      </div>
+</div>
+<div>
+  <button type="button" (click)="addMenuItem()" class="add-button">
+    {{getTranslation('addMenuItem')}}
+  </button>
+</div>

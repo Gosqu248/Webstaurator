@@ -1,5 +1,5 @@
 export interface Menu {
-  id: number;
+  id?: number;
   name: string;
   category: string;
   ingredients: string;
@@ -10,8 +10,8 @@ export interface Menu {
 
 
 export interface Additives {
-  id: number;
+  id?: number;
   name: string;
   value: string;
-  price?: number;
+  price: number;
 }

@@ -6,4 +6,5 @@ import pl.urban.backend.model.Additives;
 
 @Repository
 public interface AdditivesRepository extends JpaRepository<Additives, Long> {
+    Additives findByNameAndValue(String name, String value);
 }

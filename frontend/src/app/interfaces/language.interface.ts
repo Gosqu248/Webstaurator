@@ -174,6 +174,35 @@ export interface LanguageTranslations {
   changeStatus: string;
   confirmChangeStatus: string;
   confirmContent: string;
+  addRestaurant: string;
+  restaurantData: string;
+  restaurantName: string;
+  restaurantCategory: string;
+  restaurantImage: string;
+  restaurantLogo: string;
+  restaurantAddress: string;
+  flatNumber: string;
+  restaurantDeliveryData: string;
+  deliveryMaxTime: string;
+  deliveryMinTime: string;
+  deliveryPrice: string;
+  minimumPrice: string;
+  pickupTime: string;
+  restaurantDeliveryHours: string;
+  openTime: string;
+  closeTime: string;
+  restaurantMenu: string;
+  addMenu: string;
+  category: string;
+  image: string;
+  ingredients: string;
+  addAdditives: string;
+  additive: string;
+  type: string;
+  removeMenuItem: string;
+  addMenuItem: string;
+  removeAdditive: string;
+
 }
 
 export interface Translations {

@@ -168,4 +168,11 @@ export class MenuComponent implements OnInit {
     this.dialog.closeAll();
     this.router.navigate(['/order-monitoring']);
   }
+
+  goToAddRestaurant() {
+    this.dialog.closeAll();
+    this.router.navigate(['/add-restaurant']);
+  }
+
+
 }

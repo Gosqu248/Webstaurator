@@ -1,9 +1,9 @@
 export interface RestaurantAddress {
-  id: number;
+  id?: number;
   street: string;
   flatNumber: string;
   city: string;
   zipCode: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
 }

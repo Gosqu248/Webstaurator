@@ -43,7 +43,7 @@ export class InfoMapComponent implements OnInit{
       boxZoom: false,
       keyboard: false
     })
-      .setView([address.latitude, address.longitude], 16.5);
+      .setView([address.latitude!, address.longitude!], 16.5);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -51,7 +51,7 @@ export class InfoMapComponent implements OnInit{
 
 
     this.restaurantService.getLogo(this.restaurantId).subscribe(logo => {
-      L.marker([address.latitude, address.longitude],
+      L.marker([address.latitude!, address.longitude!],
         {icon: this.createLogoIcon(logo)})
         .addTo(this.map)
     });

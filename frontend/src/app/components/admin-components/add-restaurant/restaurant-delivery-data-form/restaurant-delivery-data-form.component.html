@@ -1,0 +1,34 @@
+<div [formGroup]="parentForm">
+  <h2 class="title">{{getTranslation('restaurantDeliveryData')}}</h2>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label for="minimumPrice">{{getTranslation('minimumPrice')}}</label>
+      <input id="minimumPrice" type="text" formControlName="minimumPrice" name="minimumPrice" placeholder="{{getTranslation('minimumPrice')}}" required>
+    </div>
+
+    <div class="input-container">
+      <label for="deliveryPrice">{{getTranslation('deliveryPrice')}}</label>
+      <input id="deliveryPrice" type="text" formControlName="deliveryPrice" name="deliveryPrice" placeholder="{{getTranslation('deliveryPrice')}}" required>
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label for="deliveryMinTime">{{getTranslation('deliveryMinTime')}}</label>
+      <input id="deliveryMinTime" type="text" formControlName="deliveryMinTime" name="deliveryMinTime" placeholder="{{getTranslation('deliveryMinTime')}}" required>
+    </div>
+
+    <div class="input-container">
+      <label for="deliveryMaxTime">{{getTranslation('deliveryMaxTime')}}</label>
+      <input id="deliveryMaxTime" type="text" formControlName="deliveryMaxTime" name="deliveryMaxTime" placeholder="{{getTranslation('deliveryMaxTime')}}" required>
+    </div>
+  </div>
+
+  <div class="inputs">
+    <div class="input-container">
+      <label for="pickupTime">{{getTranslation('pickupTime')}}</label>
+      <input id="pickupTime" type="text" formControlName="pickupTime" name="pickupTime" placeholder="{{getTranslation('deliveryMaxTime')}}" required>
+    </div>
+  </div>
+</div>

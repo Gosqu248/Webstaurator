@@ -3,10 +3,10 @@ package pl.urban.backend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.AddRestaurantDTO;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.RestaurantService;
 
-import java.util.List;
 @RestController
 @RequestMapping("/api/restaurant")
 public class RestaurantController {
@@ -17,8 +17,8 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping("/add")
-    public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
+    @PostMapping("/addRestaurant")
+    public Restaurant addRestaurant(@RequestBody AddRestaurantDTO restaurant) {
         return restaurantService.addRestaurant(restaurant);
     }
 

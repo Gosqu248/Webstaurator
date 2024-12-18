@@ -1,0 +1,18 @@
+<div [formGroup]="parentForm">
+
+  <h2 class="title">{{getTranslation('restaurantDeliveryHours')}}</h2>
+
+  <div *ngFor="let day of daysOfWeek" class="day-container">
+    <h3>{{day.name}}</h3>
+    <div class="inputs">
+      <div class="input-container">
+        <label for="{{day.openControl}}">{{getTranslation('openTime')}}</label>
+        <input id="{{day.openControl}}" type="time" formControlName="{{day.openControl}}" (change)="emitDaysOfWeek()" required>
+      </div>
+      <div class="input-container">
+        <label for="{{day.closeControl}}">{{getTranslation('closeTime')}}</label>
+        <input id="{{day.closeControl}}" type="time" formControlName="{{day.closeControl}}" (change)="emitDaysOfWeek()" required>
+      </div>
+    </div>
+  </div>
+</div>

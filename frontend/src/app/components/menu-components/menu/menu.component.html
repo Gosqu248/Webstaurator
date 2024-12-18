@@ -12,9 +12,13 @@
     <button class="login-button" (click)="openLoginDialog()"> {{getTranslation('login')}}  </button>
   </div>
 
-  <div class="menu-item" (click)="goToOrderMonitor()">
+  <div class="menu-item" *ngIf="authService.isAuthenticated()" (click)="goToOrderMonitor()">
     <i class="fa-solid fa-user"></i>
     <h3>{{getTranslation('orderMonitoring')}}</h3>
+  </div>
+  <div class="menu-item" *ngIf="authService.isAuthenticated()" (click)="goToAddRestaurant()">
+    <i class="fa-solid fa-user"></i>
+    <h3>{{getTranslation('addRestaurant')}}</h3>
   </div>
 
   <div class="menu-item" (click)="openMenuProfileDialog()">
