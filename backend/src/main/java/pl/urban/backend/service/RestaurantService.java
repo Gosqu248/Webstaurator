@@ -37,7 +37,7 @@ public class RestaurantService {
         restaurant.setLogoUrl(addRestaurantDto.getLogoUrl());
         restaurant.setImageUrl(addRestaurantDto.getImageUrl());
 
-        // Przypisywanie adresu restauracji
+
         if (addRestaurantDto.getRestaurantAddress() != null) {
             RestaurantAddress address = addRestaurantDto.getRestaurantAddress();
             String addressString = address.getStreet() + " " + address.getFlatNumber() + ", " + address.getZipCode() + " " + address.getCity();
@@ -50,7 +50,6 @@ public class RestaurantService {
             throw new IllegalArgumentException("Restaurant address is required");
         }
 
-        // Przypisywanie dostawy
         if (addRestaurantDto.getDelivery() != null) {
             Delivery delivery = addRestaurantDto.getDelivery();
             delivery.setRestaurant(restaurant);
@@ -59,7 +58,6 @@ public class RestaurantService {
             throw new IllegalArgumentException("Delivery is required");
         }
 
-        // Przypisywanie godzin dostawy
         if (addRestaurantDto.getDeliveryHours() != null) {
             for (DeliveryHour hour : addRestaurantDto.getDeliveryHours()) {
                 hour.setRestaurant(restaurant);
@@ -69,7 +67,6 @@ public class RestaurantService {
             throw new IllegalArgumentException("Delivery hours are required");
         }
 
-        // Przypisywanie metod płatności
         if (addRestaurantDto.getPaymentMethods() != null) {
             Set<Payment> payments = new HashSet<>();
             for (String paymentName : addRestaurantDto.getPaymentMethods()) {
@@ -137,5 +134,9 @@ public class RestaurantService {
         restaurant.setRestaurantOpinions(updatedRestaurant.getRestaurantOpinions());
 
         return restaurantRepository.save(restaurant);
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantRepository.findAll();
     }
 }

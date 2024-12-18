@@ -226,7 +226,8 @@ export class LanguageService {
       type: "Typ",
       removeMenuItem: "Usuń pozycję z menu",
       addMenuItem: "Dodaj pozycję do menu",
-      removeAdditive: "Usuń dodatek"
+      removeAdditive: "Usuń dodatek",
+      availableRestaurants: "Dostępne restauracje"
 
     },
     en: {
@@ -432,7 +433,8 @@ export class LanguageService {
       type: "Type",
       removeMenuItem: "Remove menu item",
       addMenuItem: "Add menu item",
-      removeAdditive: "Remove additive"
+      removeAdditive: "Remove additive",
+      availableRestaurants: "Available restaurants"
     }
   };
 

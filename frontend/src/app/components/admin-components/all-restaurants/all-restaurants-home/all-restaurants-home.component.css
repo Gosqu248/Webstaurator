@@ -1,0 +1,110 @@
+.container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(162, 3, 3, 0.5), rgba(255, 104, 0, 0.5), rgba(248, 217, 64, 0.7), rgba(255, 104, 0, 0.7), rgba(255, 200, 0, 0.5));
+  filter: blur(6px); /* Add slight blur to the overlay */
+  z-index: 0;
+
+}
+
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.container::before {
+  top: 15%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+}
+
+.container::after {
+  bottom: 10%;
+  right: 10%;
+  transform: translate(50%, 50%);
+}
+
+.main-container {
+  margin-top: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 1000px;
+  height: auto;
+  min-height: 80%;
+  z-index: 1;
+  border-radius: 40px;
+  margin-bottom: 90px;
+
+}
+
+.spinner {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.restaurants-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.restaurants-container::-webkit-scrollbar {
+  width: 12px;
+
+}
+
+.restaurants-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.restaurants-container::-webkit-scrollbar-thumb {
+  background: #fd7128;
+  border-radius: 10px;
+}
+
+.restaurants-container::-webkit-scrollbar-thumb:hover {
+  background: #ff1b1b;
+}
+
+.restaurants-container h2 {
+  color: #d2610c;
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+.restaurant-item {
+  width: 65%;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

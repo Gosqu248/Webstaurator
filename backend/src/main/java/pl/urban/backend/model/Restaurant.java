@@ -72,22 +72,4 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> orders;
 
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", logoUrl='" + logoUrl + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", delivery=" + (delivery != null ? delivery.getId() : "null") +
-                ", restaurantAddress=" + (restaurantAddress != null ? restaurantAddress.getId() : "null") +
-                ", menu=" + menu +
-                ", deliveryHours=" + deliveryHours +
-                ", restaurantOpinions=" + restaurantOpinions +
-                ", favouriteRestaurants=" + favouriteRestaurants +
-                ", payments=" + payments +
-                ", orders=" + orders +
-                '}';
-    }
 }

@@ -36,5 +36,9 @@ export const routes: Routes = [
   {
     path: 'add-restaurant',
     loadComponent: () => import('./components/admin-components/add-restaurant/add-restaurant-home/add-restaurant-home.component').then(m => m.AddRestaurantHomeComponent),
+  },
+  {
+    path: 'all-restaurants',
+    loadComponent: () => import('./components/admin-components/all-restaurants/all-restaurants-home/all-restaurants-home.component').then(m => m.AllRestaurantsHomeComponent),
   }
 ];

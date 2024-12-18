@@ -7,6 +7,8 @@ import pl.urban.backend.dto.AddRestaurantDTO;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.RestaurantService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/restaurant")
 public class RestaurantController {
@@ -15,6 +17,11 @@ public class RestaurantController {
 
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
+    }
+
+    @GetMapping("/getAll")
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantService.getAllRestaurants();
     }
 
     @PostMapping("/addRestaurant")

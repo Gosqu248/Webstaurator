@@ -202,6 +202,7 @@ export interface LanguageTranslations {
   removeMenuItem: string;
   addMenuItem: string;
   removeAdditive: string;
+  availableRestaurants: string;
 
 }
 

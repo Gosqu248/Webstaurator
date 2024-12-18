@@ -1,0 +1,15 @@
+<div class="restaurant-container">
+  <img [src]="restaurant.logoUrl" alt="">
+
+  <div class="main">
+    <div>
+      <h3>{{restaurant.name}}</h3>
+      <p>{{restaurant.category}}</p>
+    </div>
+
+    <div class="buttons-container">
+      <button class="button edit" (click)="editRestaurant()">{{getTranslation('edit')}}</button>
+      <button class="button remove" (click)="deleteRestaurant()">{{getTranslation('delete')}}</button>
+    </div>
+  </div>
+</div>

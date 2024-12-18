@@ -16,6 +16,10 @@ export class RestaurantService {
     return this.http.get<Restaurant>(`${this.apiUrl}/getRestaurant?id=${id}`);
   }
 
+  getAllRestaurants(): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(`${this.apiUrl}/getAll`);
+  }
+
   getLogo(id: number): Observable<string> {
     return this.http.get(`${this.apiUrl}/getLogo?id=${id}`, { responseType: 'text' });
   }

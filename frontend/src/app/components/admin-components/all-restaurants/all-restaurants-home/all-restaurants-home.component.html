@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="overlay"></div>
+  <div class="main-container">
+    <div class="spinner" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="restaurants-container" *ngIf="!isLoading">
+      <h2>{{getTranslation('availableRestaurants')}}</h2>
+
+      <div class="restaurant-item" *ngFor="let restaurant of restaurants">
+        <app-all-restaurants-item [restaurant]="restaurant"></app-all-restaurants-item>
+      </div>
+    </div>
+
+  </div>
+</div>
