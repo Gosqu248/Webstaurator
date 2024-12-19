@@ -27,10 +27,37 @@ export class RestaurantService {
   addRestaurant(restaurant: AddRestaurant) {
     return this.http.post<AddRestaurant>(`${this.apiUrl}/addRestaurant`, restaurant).subscribe({
       next: () => {
-        console.log('Restaurant added', restaurant);
+        console.log('Restaurant added');
       },
       error: (error) => {
         console.error('Error adding restaurant:', error);
+      }
+    });
+  }
+
+  getRestaurantForEdit(id: number): Observable<AddRestaurant> {
+    return this.http.get<AddRestaurant>(`${this.apiUrl}/getForEdit?id=${id}`)
+  }
+
+  updateRestaurant(id: number, restaurant: AddRestaurant) {
+    return this.http.put<AddRestaurant>(`${this.apiUrl}/update?id=${id}`, restaurant).subscribe({
+      next: () => {
+        console.log('Restaurant updated');
+      },
+      error: (error) => {
+        console.error('Error updating restaurant:', error);
+      }
+    });
+  }
+
+  removeRestaurant(id: number) {
+    return this.http.delete(`${this.apiUrl}/remove?id=${id}`).subscribe({
+      next: () => {
+        console.log('Restaurant removed', id);
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Error removing restaurant:', error);
       }
     });
   }

@@ -25,6 +25,7 @@ import {
 import {MenuFormComponent} from "../menu-form/menu-form.component";
 import {AddRestaurant} from "../../../../interfaces/restaurant";
 import {Menu} from "../../../../interfaces/menu";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-restaurant-home',
@@ -62,6 +63,7 @@ export class AddRestaurantHomeComponent implements OnInit{
 
   constructor(private languageService: LanguageService,
               private fb: FormBuilder,
+              private router: Router,
               private paymentMethodsService: PaymentMethodsService,
               private restaurantService: RestaurantService) {
     this.addForm = this.fb.group({
@@ -164,8 +166,8 @@ export class AddRestaurantHomeComponent implements OnInit{
         menu: this.menuItems,
 
       };
-        console.log(requestPayload);
       this.restaurantService.addRestaurant(requestPayload);
+      this.router.navigate(['/']);
     } else {
       console.log('Form is invalid');
     }

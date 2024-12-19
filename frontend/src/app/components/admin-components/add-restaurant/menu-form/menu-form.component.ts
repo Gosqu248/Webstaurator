@@ -1,10 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup, FormsModule} from "@angular/forms";
 import {LanguageService} from "../../../../services/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {NgForOf} from "@angular/common";
 import {Menu} from "../../../../interfaces/menu";
-import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
   selector: 'app-menu-form',
@@ -16,12 +15,21 @@ import {PaymentMethod} from "../../../../interfaces/paymentMethod";
   templateUrl: './menu-form.component.html',
   styleUrl: './menu-form.component.css'
 })
-export class MenuFormComponent {
+export class MenuFormComponent implements  OnChanges{
   @Output() menuItemsChange = new EventEmitter<Menu[]>();
+  @Input() menu: Menu[] | null = null;
   menuItems: Menu[] = [];
 
   constructor(private languageService: LanguageService) {}
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['menu'] && Array.isArray(this.menu)) {
+      this.menuItems = [...this.menu];
+    } else {
+      this.menuItems = [];
+    }
+  }
   emitMenuItems() {
     this.menuItemsChange.emit(this.menuItems);
   }

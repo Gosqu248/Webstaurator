@@ -34,18 +34,33 @@ public class RestaurantController {
         return restaurantService.getRestaurantById(id);
     }
 
+    @GetMapping("/getForEdit")
+    public AddRestaurantDTO getRestaurantForEdit(@RequestParam Long id) {
+        return restaurantService.getRestaurantForEdit(id);
+    }
+
     @GetMapping("/getLogo")
     public String getLogo(@RequestParam Long id) {
         return restaurantService.getLogo(id);
     }
 
-    @PutMapping("/updateRestaurant")
-    public ResponseEntity<Restaurant> updateRestaurant(@RequestParam Long id, @RequestBody Restaurant restaurantDetails) {
+    @PutMapping("/update")
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestParam Long id, @RequestBody AddRestaurantDTO dto) {
         try {
-            Restaurant updatedRestaurant = restaurantService.updateRestaurant(id, restaurantDetails);
+            Restaurant updatedRestaurant = restaurantService.updateRestaurant(dto, id);
             return ResponseEntity.ok(updatedRestaurant);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<Void> removeRestaurant(@RequestParam Long id) {
+        try {
+            restaurantService.removeRestaurant(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

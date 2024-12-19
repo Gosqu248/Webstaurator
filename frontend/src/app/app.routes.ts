@@ -40,5 +40,9 @@ export const routes: Routes = [
   {
     path: 'all-restaurants',
     loadComponent: () => import('./components/admin-components/all-restaurants/all-restaurants-home/all-restaurants-home.component').then(m => m.AllRestaurantsHomeComponent),
+  },
+  {
+    path: 'edit-restaurant/:restaurantId',
+    loadComponent: () => import('./components/admin-components/all-restaurants/edit-restaurant/edit-restaurant.component').then(m => m.EditRestaurantComponent),
   }
 ];

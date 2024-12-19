@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {Restaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {LanguageService} from "../../../../services/language.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {RestaurantService} from "../../../../services/restaurant.service";
 
 @Component({
   selector: 'app-all-restaurants-item',
@@ -13,16 +15,20 @@ import {LanguageService} from "../../../../services/language.service";
 export class AllRestaurantsItemComponent {
   @Input() restaurant!: Restaurant;
 
-  constructor(private languageService: LanguageService) {}
+  constructor(private languageService: LanguageService,
+              private restaurantService: RestaurantService,
+              private route: ActivatedRoute,
+              private router: Router) {}
   getTranslation<K extends keyof LanguageTranslations>(key: K) {
     return this.languageService.getTranslation(key);
   }
 
   editRestaurant() {
-
+    this.router.navigate(['/edit-restaurant', this.restaurant.id], { relativeTo: this.route });
   }
 
   deleteRestaurant() {
+    this.restaurantService.removeRestaurant(this.restaurant.id)
 
   }
 }

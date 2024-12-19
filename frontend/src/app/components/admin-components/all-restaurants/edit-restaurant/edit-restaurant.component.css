@@ -1,0 +1,100 @@
+.main {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  position: relative;
+
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-size: unset;
+  opacity: 0.5; /* Adjust the value as needed */
+
+}
+
+.container {
+  width: 1000px;
+  min-height: 580px;
+  max-height: 85%;
+  height: auto;
+  border-radius: 30px;
+  background: linear-gradient(rgba(255, 237, 237, 0.7), rgba(255, 237, 237, 0.1)), rgba(255, 237, 237, 0.7);
+  background-size: unset;
+  position: absolute;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10vh;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden; /* Ensure the scrollbar does not extend beyond the container */
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.container::-webkit-scrollbar {
+  width: 15px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #f3762f;
+  border-radius: 10px;
+  border: 3px solid #f5f5f5;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #ce4a00;
+}
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e14e0d;
+  font-size: 28px;
+}
+
+.form {
+  margin-left: 150px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: auto;
+  justify-content: center;
+}
+
+button {
+  width: 80%;
+  background: linear-gradient(90deg, #ff925b 0%, #e8ab89 50%, #ef492c 100%);
+  color: white;
+  height: 50px;
+  border: none;
+  border-radius: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: bolder;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.invalid-button {
+  background-color: grey;
+}
+
+button:hover {
+  background: #cb0505;
+}
+
+.title {
+  color: #c26003;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+
+.add-restaurant-button {
+  margin-bottom: 80px;
+}

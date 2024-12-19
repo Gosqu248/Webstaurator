@@ -227,7 +227,8 @@ export class LanguageService {
       removeMenuItem: "Usuń pozycję z menu",
       addMenuItem: "Dodaj pozycję do menu",
       removeAdditive: "Usuń dodatek",
-      availableRestaurants: "Dostępne restauracje"
+      availableRestaurants: "Dostępne restauracje",
+      editRestaurant: "Edytuj restaurację"
 
     },
     en: {
@@ -434,7 +435,8 @@ export class LanguageService {
       removeMenuItem: "Remove menu item",
       addMenuItem: "Add menu item",
       removeAdditive: "Remove additive",
-      availableRestaurants: "Available restaurants"
+      availableRestaurants: "Available restaurants",
+      editRestaurant: "Edit restaurant"
     }
   };
 

@@ -13,8 +13,8 @@ public class AddRestaurantDTO {
     private String logoUrl;
     private String imageUrl;
     private RestaurantAddress restaurantAddress;
-    private Set<String> paymentMethods;
+    private List<String> paymentMethods;
     private Delivery delivery;
     private List<DeliveryHour> deliveryHours;
-    private List<Menu> menu;
+    private Set<Menu> menu;
 }

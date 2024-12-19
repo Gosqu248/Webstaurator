@@ -203,7 +203,7 @@ export interface LanguageTranslations {
   addMenuItem: string;
   removeAdditive: string;
   availableRestaurants: string;
-
+  editRestaurant: string;
 }
 
 export interface Translations {
