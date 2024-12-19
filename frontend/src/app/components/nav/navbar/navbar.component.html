@@ -10,6 +10,9 @@
       <ng-container *ngIf="currentRoute === '/checkout'">
         <i  class="fa-solid fa-angle-left" (click)="goToMenu()"></i>
       </ng-container>
+      <ng-container *ngIf="currentRoute && currentRoute.startsWith('/edit-restaurant/')">
+        <i class="fa-solid fa-angle-left" (click)="goToAllRestaurants()"></i>
+      </ng-container>
 
       <img class="logo" [src]="apiUrl + logo" alt="Your Image">
       <h2>Webstaurator</h2>

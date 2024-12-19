@@ -51,7 +51,6 @@ export class MenuComponent implements OnInit {
     if (this.isFetchingUserData) return;
     this.isFetchingUserData = true;
     const token = localStorage.getItem('jwt');
-    console.log('Token', token);
     if (token) {
       this.authService.getUser(token).subscribe({
         next: user => {

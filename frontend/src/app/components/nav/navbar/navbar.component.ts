@@ -155,4 +155,8 @@ export class NavbarComponent implements OnInit{
     });
   }
 
+  goToAllRestaurants() {
+    this.router.navigate(['/all-restaurants']);
+
+  }
 }
