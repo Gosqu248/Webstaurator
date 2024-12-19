@@ -29,6 +29,7 @@ import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component
 })
 export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;
+  role: string = '';
   name: string = '';
   private isFetchingUserData: boolean = false;
   constructor(private languageService: LanguageService,
@@ -50,12 +51,15 @@ export class MenuComponent implements OnInit {
     if (this.isFetchingUserData) return;
     this.isFetchingUserData = true;
     const token = localStorage.getItem('jwt');
+    console.log('Token', token);
     if (token) {
       this.authService.getUser(token).subscribe({
         next: user => {
           this.name = user.name;
           localStorage.setItem('name', user.name);
           localStorage.setItem('email', user.email);
+          localStorage.setItem('role', user.role);
+          this.role = user.role;
           if (user.id) {
             localStorage.setItem('userId', user.id.toString())
           }
@@ -175,4 +179,8 @@ export class MenuComponent implements OnInit {
   }
 
 
+  goToRestaurants() {
+    this.dialog.closeAll();
+    this.router.navigate(['/all-restaurants']);
+  }
 }

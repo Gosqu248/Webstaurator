@@ -87,6 +87,12 @@ public class AuthController {
         return userService.getUser(subject);
     }
 
+    @GetMapping("/role")
+    public ResponseEntity<String> getRole(@RequestHeader("Authorization") String token) {
+        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        return ResponseEntity.ok().header("Content-Type", "text/plain").body(userService.getRole(subject));
+    }
+
     @PutMapping("/changeName")
     public ResponseEntity<String>  changeUserName(@RequestHeader("Authorization") String token, @RequestBody String name) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));

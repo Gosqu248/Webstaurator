@@ -45,6 +45,11 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
     }
 
+    public String getRole(String subject) {
+        User user = getUserBySubject(subject);
+        return String.valueOf(user.getRole());
+    }
+
     public UserDTO getUser(String subject) {
         User user = getUserBySubject(subject);
         return convertToDTO(user);

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from "./components/home/home.component";
+import {adminGuard} from "./guards/admin.guard";
 
 export const routes: Routes = [
   {
@@ -32,17 +33,21 @@ export const routes: Routes = [
   {
     path: 'order-monitoring',
     loadComponent: () => import('./components/admin-components/order-monitoring/monitor-home/monitor-home.component').then(m => m.MonitorHomeComponent),
+    canActivate: [adminGuard]
   },
   {
     path: 'add-restaurant',
     loadComponent: () => import('./components/admin-components/add-restaurant/add-restaurant-home/add-restaurant-home.component').then(m => m.AddRestaurantHomeComponent),
+    canActivate: [adminGuard]
   },
   {
     path: 'all-restaurants',
     loadComponent: () => import('./components/admin-components/all-restaurants/all-restaurants-home/all-restaurants-home.component').then(m => m.AllRestaurantsHomeComponent),
+    canActivate: [adminGuard]
   },
   {
     path: 'edit-restaurant/:restaurantId',
     loadComponent: () => import('./components/admin-components/all-restaurants/edit-restaurant/edit-restaurant.component').then(m => m.EditRestaurantComponent),
+    canActivate: [adminGuard]
   }
 ];
