@@ -17,7 +17,7 @@ import {
 import {environment} from "../../../../../environments/environment";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
-import {PaymentMethod} from "../../../../interfaces/paymentMethod";
+import {PaymentMethod} from "../../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {Menu} from "../../../../interfaces/menu";
 import {LanguageService} from "../../../../services/language.service";
 import {PaymentMethodsService} from "../../../../services/payment-methods.service";

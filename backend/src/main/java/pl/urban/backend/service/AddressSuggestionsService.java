@@ -14,9 +14,11 @@ import java.util.Optional;
 public class AddressSuggestionsService {
 
     private final AddressSuggestionsRepository addressSuggestionsRepository;
+    private final GeocodingService geocodingService;
 
-    public AddressSuggestionsService(AddressSuggestionsRepository addressSuggestionsRepository) {
+    public AddressSuggestionsService(AddressSuggestionsRepository addressSuggestionsRepository, GeocodingService geocodingService) {
         this.addressSuggestionsRepository = addressSuggestionsRepository;
+        this.geocodingService = geocodingService;
     }
 
     public List<SuggestDTO> getSuggestions(String partialName) {
@@ -27,8 +29,11 @@ public class AddressSuggestionsService {
     }
 
     public CoordinatesDTO getCoordinates(String address) {
-        Optional<AddressSuggestions> addressSuggestions = addressSuggestionsRepository.findByName(address);
-        return addressSuggestions.map(this::convertToCoordinatesDTO).orElseThrow(() -> new IllegalArgumentException("Could not find coordinates for address: " + address));
+            double[] coords = geocodingService.getCoordinates(address);
+            CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
+            coordinatesDTO.setLat(coords[0]);
+            coordinatesDTO.setLon(coords[1]);
+            return coordinatesDTO;
     }
 
     public SuggestDTO convertToDTO(AddressSuggestions addressSuggestions) {
@@ -37,12 +42,6 @@ public class AddressSuggestionsService {
         return suggestDTO;
     }
 
-    public CoordinatesDTO convertToCoordinatesDTO(AddressSuggestions addressSuggestions) {
-        CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
 
-        coordinatesDTO.setLat(addressSuggestions.getLat());
-        coordinatesDTO.setLon(addressSuggestions.getLon());
-        return coordinatesDTO;
-    }
 
 }

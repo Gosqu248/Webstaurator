@@ -380,6 +380,15 @@ public class RestaurantService {
         return restaurant.getLogoUrl();
     }
 
+    public Map<String, String> getLogoAndImage(Long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found with ID: " + id));
+        Map<String, String> logoAndImage = new HashMap<>();
+        logoAndImage.put("logoUrl", restaurant.getLogoUrl());
+        logoAndImage.put("imageUrl", restaurant.getImageUrl());
+        return logoAndImage;
+    }
+
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();

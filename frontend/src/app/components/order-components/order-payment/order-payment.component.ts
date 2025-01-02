@@ -3,7 +3,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { OrderDeliveryItemComponent } from '../order-delivery-item/order-delivery-item.component';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { LanguageService } from '../../../services/language.service';
-import { PaymentMethod } from '../../../interfaces/paymentMethod';
+import { PaymentMethod } from '../../../../../../../WebstauratorApp/src/interface/paymentMethod';
 import { PaymentMethodsService } from '../../../services/payment-methods.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPaymentComponent } from '../edit-payment-dialog/edit-payment.component';

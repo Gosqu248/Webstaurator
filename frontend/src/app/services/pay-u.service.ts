@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Order} from "../interfaces/order";
 import {Observable} from "rxjs";
-import {PaymentResponse} from "../interfaces/paymentMethod";
+import {PaymentResponse} from "../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 

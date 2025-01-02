@@ -15,7 +15,7 @@ import {OptionService} from "../../../services/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
-import {PaymentResponse} from "../../../interfaces/paymentMethod";
+import {PaymentResponse} from "../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {PayUService} from "../../../services/pay-u.service";
 import {OrderService} from "../../../services/order.service";
 import {Router} from "@angular/router";

@@ -8,6 +8,7 @@ import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.RestaurantService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/restaurant")
@@ -42,6 +43,16 @@ public class RestaurantController {
     @GetMapping("/getLogo")
     public String getLogo(@RequestParam Long id) {
         return restaurantService.getLogo(id);
+    }
+
+    @GetMapping("/getLogoAndImage")
+    public ResponseEntity<Map<String, String>> getLogoAndImage(@RequestParam Long id) {
+        try {
+            Map<String, String> logoAndImage = restaurantService.getLogoAndImage(id);
+            return ResponseEntity.ok(logoAndImage);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PutMapping("/update")

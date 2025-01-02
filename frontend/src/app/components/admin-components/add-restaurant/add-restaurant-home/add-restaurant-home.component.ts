@@ -12,7 +12,7 @@ import {MatInput, MatInputModule} from "@angular/material/input";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {PaymentMethodsService} from "../../../../services/payment-methods.service";
-import {PaymentMethod} from "../../../../interfaces/paymentMethod";
+import {PaymentMethod} from "../../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {RestaurantDataFormComponent} from "../restaurant-data-form/restaurant-data-form.component";
 import {RestaurantAddressFormComponent} from "../restaurant-address-form/restaurant-address-form.component";
 import {

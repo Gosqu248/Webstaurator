@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PaymentMethod} from "../../../interfaces/paymentMethod";
+import {PaymentMethod} from "../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 
 @Component({
   selector: 'app-payment-item',
