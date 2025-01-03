@@ -176,5 +176,15 @@ public class OrderService {
        return dto;
    }
 
+    @Transactional
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+    }
+
+
+    public List<Order> getAllRestaurantOrders(Long restaurantId) {
+        return orderRepository.findAllByRestaurantId(restaurantId);
+    }
 }
 

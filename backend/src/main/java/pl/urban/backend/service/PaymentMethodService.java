@@ -16,7 +16,14 @@ public class PaymentMethodService {
     }
 
     public List<Payment> getALlPaymentsByRestaurantId(Long restaurantId) {
-        return paymentRepository.findByRestaurantsId(restaurantId);
+        if (restaurantId <= 0) {
+            throw new IllegalArgumentException("Invalid restaurant ID");
+        }
+        List<Payment> payments = paymentRepository.findByRestaurantsId(restaurantId);
+        if (payments.isEmpty()) {
+            throw new IllegalArgumentException("No payments found for the given restaurant ID");
+        }
+        return payments;
     }
 
     public List<Payment> getAllPayments() {
