@@ -6,6 +6,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgForOf, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {AllRestaurantsItemComponent} from "../all-restaurants-item/all-restaurants-item.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-all-restaurants-home',
@@ -14,27 +15,43 @@ import {AllRestaurantsItemComponent} from "../all-restaurants-item/all-restauran
     MatProgressSpinner,
     NgIf,
     NgForOf,
-    AllRestaurantsItemComponent
+    AllRestaurantsItemComponent,
+    FormsModule
   ],
   templateUrl: './all-restaurants-home.component.html',
-  styleUrl: './all-restaurants-home.component.css'
+  styleUrls: ['./all-restaurants-home.component.css']
 })
 export class AllRestaurantsHomeComponent implements OnInit{
-  restaurants:Restaurant[] = [];
+  restaurants: Restaurant[] = [];
   isLoading: boolean = true;
-  constructor(private languageService:LanguageService,
+  searchRestaurant: string = '';
+  filteredRestaurants: Restaurant[] = [];
+
+  constructor(private languageService: LanguageService,
               private restaurantService: RestaurantService) {}
 
   ngOnInit() {
     this.restaurantService.getAllRestaurants().subscribe({
       next: (restaurants) => {
         this.restaurants = restaurants;
+        this.filterRestaurants();
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error getting restaurants:', error);
       }
     });
+  }
+
+  filterRestaurants() {
+    if (this.searchRestaurant.trim().length === 0) {
+      this.filteredRestaurants = this.restaurants;
+    } else {
+      const searchQuery = this.searchRestaurant.toLowerCase();
+      this.filteredRestaurants = this.restaurants.filter(restaurant => {
+        return restaurant.name.toLowerCase().includes(searchQuery);
+      });
+    }
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K) {

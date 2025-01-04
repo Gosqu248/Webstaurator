@@ -24,8 +24,8 @@ class JwtUtilTests {
     @BeforeEach
     void setUp() {
         jwtUtil = new JwtUtil();
-        jwtUtil.rotateKey(); // Ensure the key is initialized
-        jwtUtil.expiration = 3600L; // Set 1 hour expiration for testing
+        jwtUtil.rotateKey();
+        jwtUtil.expiration = 3600L;
 
         testUser = new User();
         testUser.setEmail("test@example.com");

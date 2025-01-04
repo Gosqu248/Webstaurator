@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-category-item',
@@ -12,17 +13,17 @@ import {NgIf} from "@angular/common";
 })
 export class CategoryItemComponent implements OnInit{
   @Input() name!: string;
-  url: string = 'http://localhost:8080/img/';
+  url: string = environment.api + "/img/";
   photo: string = '';
 
   constructor() {}
 
   ngOnInit() {
-    this.photo = this.name === 'American' ? this.url + 'american.jpg' :
-      this.name === 'Burger' ? this.url + 'burger.jpg' :
-      this.name === 'Italian' ? this.url + 'italian.jpg' :
-      this.name === 'Kebab' ? this.url + 'kebab.jpg' :
-      this.name === 'Pizza' ? this.url + 'pizza.jpg' :
+    this.photo = this.name === 'Amerykańska' ? this.url + 'american.jpg' :
+      this.name === 'Burgery' ? this.url + 'burger.jpg' :
+      this.name === 'Włoska' ? this.url + 'italian.jpg' :
+      this.name === 'Kuchniaa Arabska' ? this.url + 'kebab.jpg' :
+      this.name === 'Włoska' ? this.url + 'pizza.jpg' :
       this.name === 'Sushi' ? this.url + 'sushi.jpg' :
         this.url + 'sushi.jpg';
   }

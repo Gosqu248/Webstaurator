@@ -1,5 +1,3 @@
-
-
 .item-container {
   display: flex;
   flex-direction: row;
@@ -94,4 +92,17 @@
   margin-bottom: 10px;
 }
 
+.category-container {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  padding: 1px; /* Add horizontal padding for spacing */
+  margin: 0;
+}
+
+.category-container h2 {
+
+  font-weight: bold;
+  padding: 5px; /* Add vertical padding for spacing */
+}
 

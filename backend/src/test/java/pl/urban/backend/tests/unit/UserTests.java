@@ -20,21 +20,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class UserTests {
-
     @InjectMocks
     private UserService userService;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
     @Test
     void testChangePassword_Success() {
         User user = new User();

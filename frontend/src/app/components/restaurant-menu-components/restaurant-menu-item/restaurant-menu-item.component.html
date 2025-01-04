@@ -1,5 +1,7 @@
 <div *ngIf="(menu | filterByCategory: category).length > 0">
-  <h2>{{ category }}</h2>
+  <div class="category-container">
+    <h2>{{ category }}</h2>
+  </div>
   <div class="item-container">
     <div class="item" *ngFor="let item of menu | filterByCategory: category">
       <h3>{{ item.name }} </h3>

@@ -29,7 +29,6 @@ public class GeocodingTests {
         assertEquals(correctCoordinates[0], coordinates[0]);
         assertEquals(correctCoordinates[1], coordinates[1]);
         logger.info("Test dla adresu Paris zakończony sukcesem");
-
     }
 
     @Test

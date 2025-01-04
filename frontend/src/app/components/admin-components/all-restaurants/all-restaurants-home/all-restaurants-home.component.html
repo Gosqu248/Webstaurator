@@ -8,7 +8,9 @@
     <div class="restaurants-container" *ngIf="!isLoading">
       <h2>{{getTranslation('availableRestaurants')}}</h2>
 
-      <div class="restaurant-item" *ngFor="let restaurant of restaurants">
+      <input type="text" class="search-input" [placeholder]="getTranslation('searchRestaurant')" [(ngModel)]="searchRestaurant" (ngModelChange)="filterRestaurants()" />
+
+      <div class="restaurant-item" *ngFor="let restaurant of filteredRestaurants">
         <app-all-restaurants-item [restaurant]="restaurant"></app-all-restaurants-item>
       </div>
     </div>
