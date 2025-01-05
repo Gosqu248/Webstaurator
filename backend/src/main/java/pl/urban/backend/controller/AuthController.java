@@ -2,11 +2,13 @@ package pl.urban.backend.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.UserDTO;
 import pl.urban.backend.dto.UserInfoForOrderDTO;
@@ -30,17 +32,17 @@ public class AuthController {
 
     private final UserService userService;
     private final JwtUtil jwtToken;
-    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final UserSecurityService userSecurityService;
     private final EmailService emailService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
-    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, UserSecurityService userSecurityService, EmailService emailService) {
+    public AuthController(UserService userService, JwtUtil tokenProvider, BCryptPasswordEncoder passwordEncoder, UserSecurityService userSecurityService, EmailService emailService) {
         this.userService = userService;
         this.jwtToken = tokenProvider;
-        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
         this.userSecurityService = userSecurityService;
         this.emailService = emailService;
     }
@@ -54,26 +56,41 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         logger.info("Login attempt for user: {}", loginRequest.getEmail());
-        User user = userService.getUserBySubject(loginRequest.getEmail());
-
-        if (userSecurityService.isAccountLocked(user)) {
-            logger.warn("Account is locked for user: {}", loginRequest.getEmail());
-            return ResponseEntity.status(423).body("Account is locked. Try again later.");
-        }
 
         try {
-            logger.info("Authenticating user: {}", loginRequest.getEmail());
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            User user = userService.getUserBySubject(loginRequest.getEmail());
+
+            if (user == null) {
+                logger.warn("User not found: {}", loginRequest.getEmail());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Invalid credentials");
+            }
+
+            if (userSecurityService.isAccountLocked(user)) {
+                logger.warn("Account is locked for user: {}", loginRequest.getEmail());
+                return ResponseEntity.status(423)
+                        .body("Account is locked. Try again later.");
+            }
+
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                logger.error("Invalid password for user: {}", loginRequest.getEmail());
+                userSecurityService.incrementFailedLoginAttempts(user);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Invalid credentials");
+            }
+
             userSecurityService.resetFailedLoginAttempts(user);
             userSecurityService.generateAndSendTwoFactorCode(user);
-        } catch (BadCredentialsException e) {
-            logger.error("Bad credentials for user: {}", loginRequest.getEmail());
-            userSecurityService.incrementFailedLoginAttempts(user);
-            throw new Exception("Incorrect email or password", e);
+
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+            logger.error("Error during login process", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred during login");
         }
-        return ResponseEntity.ok(true);
     }
 
     @PostMapping("/verify-2fa")

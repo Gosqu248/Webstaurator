@@ -133,6 +133,7 @@ button:hover {
 
 .error-container {
   display: flex;
+  margin-top: 5px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
