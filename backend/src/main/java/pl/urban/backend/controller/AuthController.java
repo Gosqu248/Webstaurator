@@ -102,13 +102,14 @@ public class AuthController {
 
         String token = jwtToken.generateToken(user);
 
-        String resetUrl = "<a href='http://localhost/reset-password?token=" + token + "'>http://localhost/reset-password?token=" + token + "</a>";
+        String resetUrl = "<a href='http://localhost:4200/reset-password?token=" + token + "'>http://localhost:4200/reset-password?token=" + token + "</a>";
         String emailContent = "Resetowanie hasła do strony Webstaurator. <br> <br>  Kliknij w poniższy link, aby zresetować hasło: <br><br>" + resetUrl;
 
         emailService.sendEmail(user.getEmail(), "Resetowanie hasła", emailContent);
 
         return ResponseEntity.ok(Map.of("message", "Link do resetowania hasła został wysłany na Twój email."));
     }
+
     @GetMapping("/user")
     public UserDTO getUser(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));

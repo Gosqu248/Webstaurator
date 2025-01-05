@@ -63,6 +63,19 @@ public class JwtUtil {
                 .getBody();
     }
 
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public Boolean validateToken(String token) {
+        // This method assumes the token's integrity and authenticity have already been verified.
+        return !isTokenExpired(token);
+    }
+
     @PostConstruct
     private void init() {
         rotateKey();

@@ -49,5 +49,9 @@ export const routes: Routes = [
     path: 'edit-restaurant/:restaurantId',
     loadComponent: () => import('./components/admin-components/all-restaurants/edit-restaurant/edit-restaurant.component').then(m => m.EditRestaurantComponent),
     canActivate: [adminGuard]
-  }
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./components/menu-components/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+  },
 ];
