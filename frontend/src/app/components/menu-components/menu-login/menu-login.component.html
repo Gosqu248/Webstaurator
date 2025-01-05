@@ -1,10 +1,12 @@
 <div class="login-menu">
   <div class="first-section">
     <i class="fa-solid fa-chevron-left" (click)="backToMenuDialog()"></i>
-    <h2>{{getTranslation('login')}}</h2>
+    <h2 *ngIf="!showForgotPassword">{{getTranslation('login')}}</h2>
+    <h2 *ngIf="showForgotPassword">{{getTranslation('resetPassword')}}</h2>
     <i class="fa-regular fa-circle-xmark" (click)="closeDialog()"></i>
   </div>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!show2FA">
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!show2FA && !showForgotPassword">
     <div class="input-container">
       <label for="email">{{getTranslation('email')}}</label>
       <input id="email" type="email" formControlName="email" name="email" placeholder="{{getTranslation('email')}}" autocomplete="email" required>
@@ -16,13 +18,14 @@
         <i class="fa-solid" [ngClass]="isVisible ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('password')"></i>
       </div>
     </div>
-
+    <div class="forgot-password">
+      <span (click)="showForgotPasswordForm()" class="underline">{{getTranslation('forgotPassword')}}?</span>
+    </div>
     <div class="error-container" *ngIf="isLoginError">
       <i class="fa-solid fa-circle-exclamation"></i>
       <p *ngIf="errorMessage; else elseError"> {{getTranslation('locked')}}</p>
       <ng-template #elseError>{{ getTranslation('loginError') }}</ng-template>
     </div>
-
     <button type="submit">{{getTranslation('sendCode')}}</button>
   </form>
 
@@ -35,22 +38,28 @@
       <i class="fa-solid fa-circle-exclamation"></i>
       <p> {{ getTranslation('error2FA') }} </p>
     </div>
-
     <button (click)="verify2FA(twoFactorCode)">{{getTranslation('login')}}</button>
   </form>
 
-  <div class="separator">
+  <form *ngIf="showForgotPassword">
+    <div class="input-container">
+      <label for="resetEmail">{{getTranslation('email')}}</label>
+      <input id="resetEmail" type="email" [(ngModel)]="resetEmail" name="resetEmail" placeholder="{{getTranslation('email')}}" required>
+    </div>
+    <button (click)="sendResetPasswordEmail()">{{getTranslation('resetPassword')}}</button>
+  </form>
+
+  <div class="separator" *ngIf="!showForgotPassword">
     <div class="line"></div>
     <span>{{getTranslation('or')}}</span>
     <div class="line"></div>
   </div>
 
-  <button class="googleButton" (click)="loginWithGoogle()">
+  <button class="googleButton" (click)="loginWithGoogle()" *ngIf="!showForgotPassword">
     <img class="social-logo" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Logo Google"> {{ getTranslation('loginWithGoogle') }}
   </button>
 
-
-  <div class="last-container">
+  <div class="last-container" *ngIf="!showForgotPassword">
     <p> {{getTranslation('dontHaveAccount')}}</p>
     <h2 (click)="goToRegisterDialog()"> {{getTranslation('createNow')}}</h2>
   </div>

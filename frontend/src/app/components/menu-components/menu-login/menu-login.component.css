@@ -213,6 +213,17 @@ button:hover {
 
 }
 
+.forgot-password {
+  width: 75%;
+  text-align: right;
+  margin: 0;
+}
+
+.underline {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media (max-width: 1024px) {
   .login-menu {
     width: 100%;

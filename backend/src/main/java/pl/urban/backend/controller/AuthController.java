@@ -1,5 +1,7 @@
 package pl.urban.backend.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,8 +13,10 @@ import pl.urban.backend.dto.UserInfoForOrderDTO;
 import pl.urban.backend.model.User;
 import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
+import pl.urban.backend.request.PasswordResetRequest;
 import pl.urban.backend.request.TwoFactorVerificationRequest;
 import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.service.EmailService;
 import pl.urban.backend.service.UserSecurityService;
 import pl.urban.backend.service.UserService;
 
@@ -28,14 +32,17 @@ public class AuthController {
     private final JwtUtil jwtToken;
     private final AuthenticationManager authenticationManager;
     private final UserSecurityService userSecurityService;
+    private final EmailService emailService;
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
-
-    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, UserSecurityService userSecurityService) {
+    public AuthController(UserService userService, JwtUtil tokenProvider, AuthenticationManager authenticationManager, UserSecurityService userSecurityService, EmailService emailService) {
         this.userService = userService;
         this.jwtToken = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.userSecurityService = userSecurityService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -48,17 +55,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) throws Exception {
+        logger.info("Login attempt for user: {}", loginRequest.getEmail());
         User user = userService.getUserBySubject(loginRequest.getEmail());
 
         if (userSecurityService.isAccountLocked(user)) {
-            return  ResponseEntity.status(423).body("Account is locked. Try again later.");
+            logger.warn("Account is locked for user: {}", loginRequest.getEmail());
+            return ResponseEntity.status(423).body("Account is locked. Try again later.");
         }
 
         try {
+            logger.info("Authenticating user: {}", loginRequest.getEmail());
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             userSecurityService.resetFailedLoginAttempts(user);
             userSecurityService.generateAndSendTwoFactorCode(user);
         } catch (BadCredentialsException e) {
+            logger.error("Bad credentials for user: {}", loginRequest.getEmail());
             userSecurityService.incrementFailedLoginAttempts(user);
             throw new Exception("Incorrect email or password", e);
         }
@@ -81,6 +92,23 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request) {
+        User user = userService.getUserBySubject(request.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Użytkownik nie znaleziony"));
+        }
+
+        String token = jwtToken.generateToken(user);
+
+        String resetUrl = "<a href='http://localhost/reset-password?token=" + token + "'>http://localhost/reset-password?token=" + token + "</a>";
+        String emailContent = "Resetowanie hasła do strony Webstaurator. <br> <br>  Kliknij w poniższy link, aby zresetować hasło: <br><br>" + resetUrl;
+
+        emailService.sendEmail(user.getEmail(), "Resetowanie hasła", emailContent);
+
+        return ResponseEntity.ok(Map.of("message", "Link do resetowania hasła został wysłany na Twój email."));
+    }
     @GetMapping("/user")
     public UserDTO getUser(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));

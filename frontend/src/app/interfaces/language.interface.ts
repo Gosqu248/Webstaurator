@@ -204,6 +204,8 @@ export interface LanguageTranslations {
   removeAdditive: string;
   availableRestaurants: string;
   editRestaurant: string;
+  forgotPassword: string;
+  resetPassword: string;
 }
 
 export interface Translations {

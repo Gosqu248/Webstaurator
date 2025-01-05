@@ -228,7 +228,9 @@ export class LanguageService {
       addMenuItem: "Dodaj pozycję do menu",
       removeAdditive: "Usuń dodatek",
       availableRestaurants: "Dostępne restauracje",
-      editRestaurant: "Edytuj restaurację"
+      editRestaurant: "Edytuj restaurację",
+      forgotPassword: "Zapomniałeś hasła",
+      resetPassword: "Zresetuj hasło"
 
     },
     en: {
@@ -436,7 +438,9 @@ export class LanguageService {
       addMenuItem: "Add menu item",
       removeAdditive: "Remove additive",
       availableRestaurants: "Available restaurants",
-      editRestaurant: "Edit restaurant"
+      editRestaurant: "Edit restaurant",
+      forgotPassword: "Forgot password",
+      resetPassword: "Reset password"
     }
   };
 

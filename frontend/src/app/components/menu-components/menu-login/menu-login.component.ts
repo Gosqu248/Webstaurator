@@ -29,11 +29,14 @@ export class MenuLoginComponent {
   errorMessage: string | null = null;
   show2FA: boolean = false;
   twoFactorCode: string = '';
+  showForgotPassword: boolean = false;
+  resetEmail: string = '';
 
 
   constructor(private languageService: LanguageService,
               private authService: AuthService,
               private fb: FormBuilder,
+              private router: Router,
               private dialog: MatDialog,
               public dialogRef: MatDialogRef<MenuLoginComponent>) {
     this.loginForm = this.fb.group({
@@ -94,7 +97,7 @@ export class MenuLoginComponent {
   loginWithGoogle() {
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
   }
-  
+
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {
     return this.languageService.getTranslation(key)
   }
@@ -118,5 +121,28 @@ export class MenuLoginComponent {
   goToRegisterDialog() {
     this.closeDialog();
     this.dialog.open(MenuRegisterComponent);
+  }
+
+  showForgotPasswordForm() {
+    this.showForgotPassword = true;
+  }
+
+  sendResetPasswordEmail() {
+    this.authService.resetPassword(this.resetEmail).subscribe({
+      next: (response) => {
+        if (response.error) {
+          alert('Nie znaleziono takiego email. \nSpróbuj ponownie lub skontaktuj się z biurem');
+        } else {
+          this.showForgotPassword = false;
+        }
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          alert('Nie znaleziono takiego email');
+        } else {
+          console.log('Error resetting password: ', error);
+        }
+      }
+    });
   }
 }

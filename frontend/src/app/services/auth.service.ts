@@ -55,6 +55,18 @@ export class AuthService {
       );
   }
 
+  resetPassword(email: string): Observable<any> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, {email}).pipe(
+      catchError(error => {
+        if (error.status === 401) {
+          return of({error: 'Email not found'});
+        }
+        return throwError(error);
+      })
+    )
+  };
+
+
 
   getUser(token: string): Observable<UserDTO> {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
