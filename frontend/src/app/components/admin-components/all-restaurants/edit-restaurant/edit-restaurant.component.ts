@@ -17,7 +17,6 @@ import {
 import {environment} from "../../../../../environments/environment";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
-import {PaymentMethod} from "../../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {Menu} from "../../../../interfaces/menu";
 import {LanguageService} from "../../../../services/language.service";
 import {PaymentMethodsService} from "../../../../services/payment-methods.service";
@@ -25,6 +24,7 @@ import {RestaurantService} from "../../../../services/restaurant.service";
 import {AddRestaurant, Restaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {ActivatedRoute, Router} from "@angular/router";
+import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
   selector: 'app-edit-restaurant',

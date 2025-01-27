@@ -12,7 +12,6 @@ import {MatInput, MatInputModule} from "@angular/material/input";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {PaymentMethodsService} from "../../../../services/payment-methods.service";
-import {PaymentMethod} from "../../../../../../../../WebstauratorApp/src/interface/paymentMethod";
 import {RestaurantDataFormComponent} from "../restaurant-data-form/restaurant-data-form.component";
 import {RestaurantAddressFormComponent} from "../restaurant-address-form/restaurant-address-form.component";
 import {
@@ -26,6 +25,7 @@ import {MenuFormComponent} from "../menu-form/menu-form.component";
 import {AddRestaurant} from "../../../../interfaces/restaurant";
 import {Menu} from "../../../../interfaces/menu";
 import {Router} from "@angular/router";
+import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
   selector: 'app-add-restaurant-home',
