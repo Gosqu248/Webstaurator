@@ -14,7 +14,6 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
   standalone: true,
   imports: [
     NgIf,
-    NgClass,
     RouterLink,
     MatProgressSpinner
   ],

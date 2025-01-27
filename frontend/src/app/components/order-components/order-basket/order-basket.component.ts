@@ -17,7 +17,6 @@ import {OptionService} from "../../../services/option.service";
     DecimalPipe,
     NgForOf,
     NgIf,
-    RestaurantBasketItemComponent,
     OrderBasketItemComponent,
     NgClass
   ],

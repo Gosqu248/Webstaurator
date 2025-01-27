@@ -27,7 +27,6 @@ import {Coordinates} from "../../../interfaces/coordinates";
   standalone: true,
   imports: [
     OrderBasketComponent,
-    NgIf,
     OrderPersonalInfoComponent,
     OrderDeliveryComponent,
     OrderPaymentComponent
@@ -121,11 +120,11 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         deliveryTime: deliveryTime,
         deliveryOption: deliveryOption,
         comment: this.orderPersonalInfo.relevantInformation,
+        paymentId: null,
+        user: user,
         restaurant: this.restaurant,
         orderMenus: this.basket.orderMenus,
         userAddress: userAddress,
-        user: user,
-        paymentId: null
       }
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
@@ -147,8 +146,6 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
           }
         });
       }
-
-
     } else {
       console.error('No restaurant id');
     }

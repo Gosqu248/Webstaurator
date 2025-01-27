@@ -13,9 +13,7 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-order-payment',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
-    OrderDeliveryItemComponent
+    NgIf
   ],
   templateUrl: './order-payment.component.html',
   styleUrls: ['./order-payment.component.css']

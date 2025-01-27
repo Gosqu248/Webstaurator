@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class GeocodingTests {
-    private static final Logger logger = LoggerFactory.getLogger(GeocodingTests.class);
 
     @Autowired
     private GeocodingService geocodingService;
@@ -28,7 +27,6 @@ public class GeocodingTests {
         assertNotNull(coordinates);
         assertEquals(correctCoordinates[0], coordinates[0]);
         assertEquals(correctCoordinates[1], coordinates[1]);
-        logger.info("Test dla adresu Paris zakończony sukcesem");
     }
 
     @Test
@@ -41,7 +39,6 @@ public class GeocodingTests {
         assertNotNull(coordinates);
         assertEquals(correctCoordinates[0], coordinates[0]);
         assertEquals(correctCoordinates[1], coordinates[1]);
-        logger.info("Test dla adresu Krakowska 13, Tarnów zakończony sukcesem");
     }
 
     @Test
@@ -51,7 +48,6 @@ public class GeocodingTests {
         assertThatThrownBy(() -> geocodingService.getCoordinates(invalidAddress))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Could not find coordinates for address");
-        logger.info("Test dla nieprawidłowego adresu zakończony sukcesem");
 
     }
 

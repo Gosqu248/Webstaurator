@@ -1,6 +1,5 @@
 .container {
     width: 80%;
-
     display: flex;
     flex-direction: row;
     border-radius: 20px;

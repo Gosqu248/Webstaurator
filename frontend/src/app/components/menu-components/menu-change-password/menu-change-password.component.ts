@@ -66,7 +66,7 @@ export class MenuChangePasswordComponent {
         this.authService.changePassword(token, oldPassword, newPassword).subscribe({
           next: response => {
             console.log('Password changed: ', response);
-            this.router.navigate(['/menu-profile'])
+            this.backToMenuProfileDialog();
           },
           error: error => {
             console.log('Error changing password');

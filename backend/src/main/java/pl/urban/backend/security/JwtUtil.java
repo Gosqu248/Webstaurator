@@ -29,6 +29,12 @@ public class JwtUtil {
         secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
+    public String generateToken(@NotNull User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getRole().name());
+        return createToken(claims, user.getEmail());
+    }
+
     public String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -39,11 +45,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(@NotNull User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRole().name());
-        return createToken(claims, user.getEmail());
-    }
+
 
     public String extractSubjectFromToken(String token) {
         return extractClaim(token, Claims::getSubject);

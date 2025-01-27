@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="bindingEnabled" value="true" />
+    <option name="fileExclusions">
+      <list>
+        <option value="DIRECTORY:backend" />
+        <option value="DIRECTORY:frontend" />
+      </list>
+    </option>
+    <option name="projectKey" value="Gosqu248_Webstaurator" />
+    <option name="serverId" value="V1" />
+  </component>
+</project>

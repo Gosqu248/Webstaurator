@@ -25,7 +25,7 @@
 
 
 
-  <div class="option">
+  <div class="opti on">
     <h3 *ngIf="deliveryOption === 'delivery'">{{getTranslation('planDelivery')}}</h3>
     <h3 *ngIf="deliveryOption === 'pickup'">{{getTranslation('planPickUp')}}</h3>
     <div class="item" [ngClass]="{'selected': isDeliveryOptionSelected('fastest')}" (click)="setDelivery('fastest')">
