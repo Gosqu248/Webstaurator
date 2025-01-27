@@ -4,7 +4,7 @@ import {LanguageService} from "../../../services/language.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PaymentItemComponent} from "../payment-item/payment-item.component";
 import {NgForOf} from "@angular/common";
-import {PaymentMethod} from "../../../../../../../WebstauratorApp/src/interface/paymentMethod";
+import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 
 @Component({
