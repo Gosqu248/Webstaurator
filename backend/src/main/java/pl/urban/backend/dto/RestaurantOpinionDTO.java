@@ -15,7 +15,7 @@ public class RestaurantOpinionDTO {
     private double deliveryRating;
     private String comment;
     private ZonedDateTime createdAt;
-    private UserNameDTO user;
+    private UserNameResponse user;
 
 
 }

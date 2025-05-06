@@ -4,14 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pl.urban.backend.dto.UserDTO;
-import pl.urban.backend.dto.UserInfoForOrderDTO;
+import pl.urban.backend.dto.UserInfoForOrderResponse;
+import pl.urban.backend.dto.UserResponse;
 import pl.urban.backend.model.User;
 import pl.urban.backend.request.JwtResponse;
 import pl.urban.backend.request.LoginRequest;
@@ -128,7 +124,7 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    public UserDTO getUser(@RequestHeader("Authorization") String token) {
+    public UserResponse getUser(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));
         return userService.getUser(subject);
     }
@@ -156,9 +152,9 @@ public class AuthController {
     }
 
     @GetMapping("/userInfo")
-    public ResponseEntity<UserInfoForOrderDTO> getUserInfo(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<UserInfoForOrderResponse> getUserInfo(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubjectFromToken(token.substring(7));
-        UserInfoForOrderDTO userInfo = userService.getUserInfo(subject);
+        UserInfoForOrderResponse userInfo = userService.getUserInfo(subject);
         return ResponseEntity.ok(userInfo);
     }
 

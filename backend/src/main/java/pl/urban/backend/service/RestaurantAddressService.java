@@ -1,11 +1,11 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantDTO;
+import pl.urban.backend.dto.SearchedRestaurantResponse;
 import pl.urban.backend.model.Delivery;
-import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.repository.CustomRestaurantAddressRepository;
 import pl.urban.backend.repository.DeliveryRepository;
@@ -18,21 +18,15 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class RestaurantAddressService {
 
     private final RestaurantAddressRepository restaurantAddressRepository;
     private final GeocodingService geocodingService;
     private final DeliveryRepository deliveryRepository;
     private final RestaurantOpinionService restaurantOpinionService;
-    private CustomRestaurantAddressRepository customRestaurantAddressRepository;
+    //private CustomRestaurantAddressRepository customRestaurantAddressRepository;
 
-    public RestaurantAddressService(RestaurantAddressRepository restaurantAddressRepository, GeocodingService geocodingService, DeliveryRepository deliveryRepository, RestaurantOpinionService restaurantOpinionService, CustomRestaurantAddressRepository customRestaurantAddressRepository) {
-        this.restaurantAddressRepository = restaurantAddressRepository;
-        this.geocodingService = geocodingService;
-        this.deliveryRepository = deliveryRepository;
-        this.restaurantOpinionService = restaurantOpinionService;
-        this.customRestaurantAddressRepository = customRestaurantAddressRepository;
-    }
 
     public RestaurantAddress getRestaurantAddress(Long restaurantId) {
         return restaurantAddressRepository.findByRestaurantId(restaurantId);
@@ -49,7 +43,7 @@ public class RestaurantAddressService {
 
 
 
-    public List<SearchedRestaurantDTO> searchNearbyRestaurants(String address, double radiusKm) {
+    public List<SearchedRestaurantResponse> searchNearbyRestaurants(String address, double radiusKm) {
         double[] coords = geocodingService.getCoordinates(address);
         double latitude = coords[0];
         double longitude = coords[1];
@@ -62,30 +56,26 @@ public class RestaurantAddressService {
 
     }
 
-
-    public SearchedRestaurantDTO convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
-        SearchedRestaurantDTO dto = new SearchedRestaurantDTO();
-
-        dto.setRestaurantId(restaurantAddress.getRestaurant().getId());
-        dto.setLat(restaurantAddress.getLatitude());
-        dto.setLon(restaurantAddress.getLongitude());
-
-        Restaurant restaurant = restaurantAddress.getRestaurant();
-        dto.setName(restaurant.getName());
-        dto.setCategory(restaurant.getCategory());
-
+    public SearchedRestaurantResponse convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
         Long restaurantId = restaurantAddress.getRestaurant().getId();
 
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
-        dto.setDistance(distance);
-
-        dto.setRating(restaurantOpinionService.getRestaurantRating(restaurantId));
 
         Delivery delivery = deliveryRepository.findByRestaurantId(restaurantId);
-        dto.setPickup(delivery != null && delivery.getPickupTime() > 0);
-        dto.setDeliveryPrice(delivery != null ? delivery.getDeliveryPrice() : 0);
+        boolean isPickupAvailable = delivery != null && delivery.getPickupTime() > 0;
+        double deliveryPrice = delivery != null ? delivery.getDeliveryPrice() : 0;
 
-        return dto;
+        return new SearchedRestaurantResponse(
+                restaurantId,
+                restaurantAddress.getRestaurant().getName(),
+                restaurantAddress.getRestaurant().getCategory(),
+                isPickupAvailable,
+                distance,
+                restaurantOpinionService.getRestaurantRating(restaurantId),
+                deliveryPrice,
+                restaurantAddress.getLatitude(),
+                restaurantAddress.getLongitude()
+        );
     }
 
     private List<RestaurantAddress> searchNearbyRestaurants(double latitude, double longitude, double radiusKm) {
@@ -129,7 +119,7 @@ public class RestaurantAddressService {
         List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
         long endTime = System.currentTimeMillis();
 
-        List<SearchedRestaurantDTO> dto = restaurantAddresses.parallelStream()
+        List<SearchedRestaurantResponse> dto = restaurantAddresses.parallelStream()
                 .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
                 .toList();
 

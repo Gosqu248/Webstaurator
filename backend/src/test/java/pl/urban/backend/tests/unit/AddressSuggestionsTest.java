@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SuggestDTO;
+import pl.urban.backend.dto.SuggestResponse;
 import pl.urban.backend.model.AddressSuggestions;
 import pl.urban.backend.repository.AddressSuggestionsRepository;
 import pl.urban.backend.service.AddressSuggestionsService;
@@ -42,8 +42,9 @@ class AddressSuggestionsTest {
         addressSuggestions = new AddressSuggestions();
         addressSuggestions.setName("Test Address");
 
-        SuggestDTO suggestDTO = new SuggestDTO();
-        suggestDTO.setName("Test Address");
+        SuggestResponse suggestDTO = new SuggestResponse(
+                "Test Address"
+        );
     }
 
     @Test
@@ -52,11 +53,11 @@ class AddressSuggestionsTest {
 
         when(addressSuggestionsRepository.findTop5ByNameContainingIgnoreCase(eq("Test"))).thenReturn(List.of(addressSuggestions));
 
-        List<SuggestDTO> result = addressSuggestionsService.getSuggestions("Test");
+        List<SuggestResponse> result = addressSuggestionsService.getSuggestions("Test");
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertEquals("Test Address", result.getFirst().getName());
+        assertEquals("Test Address", result.getFirst().name());
         verify(addressSuggestionsRepository, times(1)).findTop5ByNameContainingIgnoreCase(eq("Test"));
         logger.info("Completed testGetSuggestions");
     }
@@ -81,10 +82,10 @@ class AddressSuggestionsTest {
     void testConvertToDTO() {
         logger.info("Running testConvertToDTO");
 
-        SuggestDTO result = addressSuggestionsService.convertToDTO(addressSuggestions);
+        SuggestResponse result = addressSuggestionsService.convertToDTO(addressSuggestions);
 
         assertNotNull(result);
-        assertEquals("Test Address", result.getName());
+        assertEquals("Test Address", result.name());
         logger.info("Completed testConvertToDTO");
     }
 }

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SuggestDTO;
+import pl.urban.backend.dto.SuggestResponse;
 import pl.urban.backend.service.AddressSuggestionsService;
 
 import java.util.List;
@@ -27,17 +27,18 @@ public class AddressSuggestionsTests {
     public void testGetSuggestions() {
         String partialName = "Krakowska";
 
-        SuggestDTO suggest1 = new SuggestDTO();
-        suggest1.setName("Krakowska 13, Tarnów");
+        SuggestResponse suggest1 = new SuggestResponse(
+                "Krakowska 13, Tarnów"
+        );
 
 
-        List<SuggestDTO> expectedSuggestions = List.of(suggest1);
+        List<SuggestResponse> expectedSuggestions = List.of(suggest1);
 
-        List<SuggestDTO> actualSuggestions = addressSuggestionsService.getSuggestions(partialName);
+        List<SuggestResponse> actualSuggestions = addressSuggestionsService.getSuggestions(partialName);
 
         assertNotNull(actualSuggestions);
         assertEquals(expectedSuggestions.size(), actualSuggestions.size());
-        assertEquals(expectedSuggestions.getFirst().getName(), actualSuggestions.getFirst().getName());
+        assertEquals(expectedSuggestions.getFirst().name(), actualSuggestions.getFirst().name());
         logger.info("Test dla podpowiedzi dla '{}'' zakończony sukcesem", partialName);
     }
 

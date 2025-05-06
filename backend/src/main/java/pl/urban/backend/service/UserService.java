@@ -2,8 +2,8 @@ package pl.urban.backend.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.UserDTO;
-import pl.urban.backend.dto.UserInfoForOrderDTO;
+import pl.urban.backend.dto.UserResponse;
+import pl.urban.backend.dto.UserInfoForOrderResponse;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
 
@@ -50,7 +50,7 @@ public class UserService {
         return String.valueOf(user.getRole());
     }
 
-    public UserDTO getUser(String subject) {
+    public UserResponse getUser(String subject) {
         User user = getUserBySubject(subject);
         return convertToDTO(user);
     }
@@ -63,24 +63,18 @@ public class UserService {
     }
 
 
-    public UserInfoForOrderDTO getUserInfo(String subject) {
+    public UserInfoForOrderResponse getUserInfo(String subject) {
         User user = getUserBySubject(subject);
-        UserInfoForOrderDTO userInfo = new UserInfoForOrderDTO();
-        userInfo.setId(user.getId());
-        userInfo.setName(user.getName());
-        userInfo.setEmail(user.getEmail());
-        userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
-        return userInfo;
+        return new UserInfoForOrderResponse(user.getId(), user.getName(), user.getEmail(), user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
     }
 
-    public UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setEmail(user.getEmail());
-        dto.setRole(String.valueOf(user.getRole()));
-        return dto;
+    public UserResponse convertToDTO(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                String.valueOf(user.getRole())
+        );
     }
 
 

@@ -1,9 +1,6 @@
 package pl.urban.backend.service;
 
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantDTO;
-import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserAddress;
 import pl.urban.backend.repository.UserAddressRepository;

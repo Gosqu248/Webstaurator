@@ -2,13 +2,11 @@ package pl.urban.backend.service;
 
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SuggestDTO;
+import pl.urban.backend.dto.SuggestResponse;
 import pl.urban.backend.model.AddressSuggestions;
 import pl.urban.backend.repository.AddressSuggestionsRepository;
-import pl.urban.backend.request.GeoCodingResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AddressSuggestionsService {
@@ -21,7 +19,7 @@ public class AddressSuggestionsService {
         this.geocodingService = geocodingService;
     }
 
-    public List<SuggestDTO> getSuggestions(String partialName) {
+    public List<SuggestResponse> getSuggestions(String partialName) {
         List<AddressSuggestions> addressSuggestions = addressSuggestionsRepository.findTop5ByNameContainingIgnoreCase(partialName);
         return addressSuggestions.parallelStream()
                 .map(this::convertToDTO)
@@ -36,10 +34,10 @@ public class AddressSuggestionsService {
             return coordinatesDTO;
     }
 
-    public SuggestDTO convertToDTO(AddressSuggestions addressSuggestions) {
-        SuggestDTO suggestDTO = new SuggestDTO();
-        suggestDTO.setName(addressSuggestions.getName());
-        return suggestDTO;
+    public SuggestResponse convertToDTO(AddressSuggestions addressSuggestions) {
+        return new SuggestResponse(
+                addressSuggestions.getName()
+        );
     }
 
 

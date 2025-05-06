@@ -3,7 +3,7 @@ package pl.urban.backend.service;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.RestaurantOpinionDTO;
-import pl.urban.backend.dto.UserNameDTO;
+import pl.urban.backend.dto.UserNameResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.repository.RestaurantOpinionRepository;
@@ -80,10 +80,8 @@ public class RestaurantOpinionService {
 
         User user = opinion.getUser();
         if (user != null) {
-            UserNameDTO userDTO = new UserNameDTO();
-            userDTO.setId(user.getId());
-            userDTO.setName(user.getName());
-            dto.setUser(userDTO);
+            UserNameResponse userResponse = new UserNameResponse(user.getId(), user.getName());
+            dto.setUser(userResponse);
         }
 
         return dto;
