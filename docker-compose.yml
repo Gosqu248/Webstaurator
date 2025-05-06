@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${SURVEY_DB_HOST}:${SURVEY_DB_PORT}/${SURVEY_DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${SURVEY_DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SURVEY_DB_PASSWORD}
+#    depends_on:
+#      - db
+
+
+#  db:
+#    restart: always
+#    image: postgres:17-alpine
+#    ports:
+#      - 5432:5432
+#    environment:
+#      - POSTGRES_USER=${SURVEY_DB_USERNAME}
+#      - POSTGRES_PASSWORD=${SURVEY_DB_PASSWORD}
+#      - POSTGRES_DB=${SURVEY_DB_NAME}
+#    volumes:
+#      - db_data:/var/lib/postgresql/data
+#
+#volumes:
+#  db_data:
