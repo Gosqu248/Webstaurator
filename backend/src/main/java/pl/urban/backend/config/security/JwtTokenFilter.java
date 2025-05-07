@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,19 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
-
-
     private final JwtUtil jwtUtil;
-
-    public JwtTokenFilter(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
-
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-
         if (request.getRequestURI().equals("/auth/register")) {
             filterChain.doFilter(request, response);
             return;
@@ -56,10 +51,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         null,
                         authorities
                 );
-
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                System.out.println("JWT Token parsing error: " + e.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
                 SecurityContextHolder.clearContext();
             }
         }
