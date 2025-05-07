@@ -3,7 +3,9 @@ package pl.urban.backend.tests.unit;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.urban.backend.dto.RestaurantOpinionDTO;
+import pl.urban.backend.dto.request.RestaurantOpinionRequest;
+import pl.urban.backend.dto.response.RestaurantOpinionResponse;
+import pl.urban.backend.dto.response.UserNameResponse;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantOpinion;
@@ -35,10 +37,10 @@ class RestaurantOpinionTests {
         when(restaurantOpinionRepository.findAllByRestaurantId(eq(restaurantId), any()))
                 .thenReturn(List.of(opinion));
 
-        List<RestaurantOpinionDTO> result = service.getRestaurantOpinion(restaurantId);
+        List<RestaurantOpinionResponse> result = service.getRestaurantOpinion(restaurantId);
 
         assertEquals(1, result.size());
-        assertEquals(1L, result.getFirst().getId());
+        assertEquals(1L, result.getFirst().id());
         logger.info("Test zakończony sukcesem - znaleziono {} opinii dla restauracji o ID: {}", result.size(), restaurantId);
     }
 
@@ -65,10 +67,13 @@ class RestaurantOpinionTests {
     @Test
     void addOpinion_ShouldSaveAndReturnOpinion() {
         Long orderId = 1L;
-        RestaurantOpinionDTO dto = new RestaurantOpinionDTO();
-        dto.setQualityRating(5);
-        dto.setDeliveryRating(4);
-        dto.setComment("Good");
+        UserNameResponse userNameResponse = new UserNameResponse(1L, "John");
+        RestaurantOpinionRequest dto = new RestaurantOpinionRequest(
+                1L,
+                5,
+                "Good",
+                userNameResponse
+        );
 
         Order order = new Order();
         User user = new User();

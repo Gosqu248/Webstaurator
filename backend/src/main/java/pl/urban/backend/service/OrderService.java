@@ -3,8 +3,8 @@ package pl.urban.backend.service;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.urban.backend.dto.AdminOrderDTO;
-import pl.urban.backend.dto.OrderDTO;
+import pl.urban.backend.dto.response.AdminOrderResponse;
+import pl.urban.backend.dto.response.OrderResponse;
 import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
@@ -34,9 +34,9 @@ public class OrderService {
         this.userAddressRepository = userAddressRepository;
     }
 
-    public List<AdminOrderDTO> getAllOrders() {
+    public List<AdminOrderResponse> getAllOrders() {
         return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate")).stream()
-                .map(this::convertToAdminDTO)
+                .map(this::toAdminOrderResponse)
                 .collect(Collectors.toList());
     }
 
@@ -48,12 +48,12 @@ public class OrderService {
     }
 
     @Transactional
-    public  List<OrderDTO> getUserOrders(String  subject) {
+    public  List<OrderResponse> getUserOrders(String  subject) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
         List<Order> orders = orderRepository.findByUserId(user.getId(), Sort.by(Sort.Direction.DESC, "orderDate"));
         return orders.parallelStream()
-                .map(this::convertToDTO)
+                .map(this::fromOrder)
                 .collect(Collectors.toList());
     }
 
@@ -129,51 +129,57 @@ public class OrderService {
         }
     }
 
-    private OrderDTO convertToDTO(Order order) {
-        OrderDTO dto = new OrderDTO();
-
-        dto.setId(order.getId());
-        dto.setDeliveryOption(order.getDeliveryOption());
-        dto.setDeliveryTime(order.getDeliveryTime());
-        dto.setOrderDate(order.getOrderDate());
-        dto.setOrderMenus(order.getOrderMenus());
-        dto.setPaymentId(order.getPaymentId());
-        dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setRestaurantId(order.getRestaurant().getId());
-        dto.setRestaurantName(order.getRestaurant().getName());
-        dto.setStatus(order.getStatus());
-        dto.setTotalPrice(order.getTotalPrice());
-        dto.setUserAddress(order.getUserAddress());
-        dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
-        dto.setHasOpinion(order.getRestaurantOpinion() != null);
-
-        return dto;
+    private OrderResponse fromOrder(Order order) {
+        return new OrderResponse(
+                order.getId(),
+                order.getDeliveryOption(),
+                order.getDeliveryTime(),
+                order.getOrderDate(),
+                order.getOrderMenus(),
+                order.getPaymentId(),
+                order.getPaymentMethod(),
+                order.getRestaurant().getId(),
+                order.getRestaurant().getName(),
+                order.getRestaurant().getLogoUrl(),
+                order.getStatus(),
+                order.getTotalPrice(),
+                order.getUserAddress(),
+                order.getRestaurantOpinion() != null
+        );
     }
 
-   private AdminOrderDTO convertToAdminDTO(Order order) {
-        AdminOrderDTO dto = new AdminOrderDTO();
+   private AdminOrderResponse toAdminOrderResponse(Order order) {
+        UserAddress userAddress = order.getUserAddress();
+        if (userAddress == null) {
+            throw new IllegalArgumentException("User address not found for order with ID: " + order.getId());
+        }
+        User user = order.getUser();
+        if (user == null) {
+            throw new IllegalArgumentException("User not found for order with ID: " + order.getId());
+        }
 
-       dto.setId(order.getId());
-       dto.setDeliveryOption(order.getDeliveryOption());
-       dto.setDeliveryTime(order.getDeliveryTime());
-       dto.setOrderDate(order.getOrderDate());
-       dto.setOrderMenus(order.getOrderMenus());
-       dto.setPaymentId(order.getPaymentId());
-       dto.setPaymentMethod(order.getPaymentMethod());
-       dto.setRestaurantId(order.getRestaurant().getId());
-       dto.setRestaurantName(order.getRestaurant().getName());
-       dto.setStatus(order.getStatus());
-       dto.setTotalPrice(order.getTotalPrice());
-       dto.setCity(order.getUserAddress().getCity());
-       dto.setHouseNumber(order.getUserAddress().getHouseNumber());
-       dto.setStreet(order.getUserAddress().getStreet());
-       dto.setZipCode(order.getUserAddress().getZipCode());
-       dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
-       dto.setUserName(order.getUser().getName());
-       dto.setUserEmail(order.getUser().getEmail());
-       dto.setUserPhone(order.getUserAddress().getPhoneNumber());
+       return new AdminOrderResponse(
+               order.getId(),
+               order.getDeliveryOption(),
+               order.getDeliveryTime(),
+               order.getOrderDate(),
+               order.getOrderMenus(),
+               order.getPaymentId(),
+               order.getPaymentMethod(),
+               order.getRestaurant().getId(),
+               order.getRestaurant().getName(),
+               order.getRestaurant().getLogoUrl(),
+               order.getStatus(),
+               order.getTotalPrice(),
+               user.getName(),
+               user.getEmail(),
+               userAddress.getPhoneNumber(),
+               userAddress.getStreet(),
+               userAddress.getHouseNumber(),
+               userAddress.getCity(),
+               userAddress.getZipCode()
 
-       return dto;
+       );
    }
 
     @Transactional

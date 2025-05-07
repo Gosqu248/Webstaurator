@@ -1,8 +1,11 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.urban.backend.dto.AddRestaurantDTO;
+import pl.urban.backend.dto.request.AddRestaurantRequest;
+import pl.urban.backend.dto.response.AddRestaurantResponse;
+import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
 
@@ -10,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class RestaurantService {
 
      private final RestaurantRepository restaurantRepository;
@@ -20,124 +24,101 @@ public class RestaurantService {
      private final DeliveryRepository deliveryRepository;
      private final DeliveryHourRepository deliveryHourRepository;
 
-
-    public RestaurantService(RestaurantRepository restaurantRepository, GeocodingService geocodingService, PaymentRepository paymentRepository, AdditivesRepository additivesRepository, RestaurantAddressRepository restaurantAddressRepository, DeliveryRepository deliveryRepository, DeliveryHourRepository deliveryHourRepository) {
-        this.restaurantRepository = restaurantRepository;
-        this.geocodingService = geocodingService;
-        this.paymentRepository = paymentRepository;
-        this.additivesRepository = additivesRepository;
-        this.restaurantAddressRepository = restaurantAddressRepository;
-        this.deliveryRepository = deliveryRepository;
-        this.deliveryHourRepository = deliveryHourRepository;
-    }
-
-
-    public Restaurant getRestaurantById(Long id) {
-        return restaurantRepository.findById(id).orElse(null);
+    @Transactional
+    public RestaurantResponse getRestaurantById(Long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
+        return fromRestaurant(restaurant);
     }
 
     @Transactional
-    public Restaurant addRestaurant(AddRestaurantDTO addRestaurantDto) {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(addRestaurantDto.getName());
-        restaurant.setCategory(addRestaurantDto.getCategory());
-        restaurant.setLogoUrl(addRestaurantDto.getLogoUrl());
-        restaurant.setImageUrl(addRestaurantDto.getImageUrl());
-
-
-        if (addRestaurantDto.getRestaurantAddress() != null) {
-            RestaurantAddress address = addRestaurantDto.getRestaurantAddress();
-            String addressString = address.getStreet() + " " + address.getFlatNumber() + ", " + address.getZipCode() + " " + address.getCity();
-            double[] coordinates = geocodingService.getCoordinates(addressString);
-            address.setLatitude(coordinates[0]);
-            address.setLongitude(coordinates[1]);
-            address.setRestaurant(restaurant);
-            restaurant.setRestaurantAddress(address);
-        } else {
+    public RestaurantResponse addRestaurant(AddRestaurantRequest addRestaurantRequest) {
+        if (addRestaurantRequest.restaurantAddress() == null) {
             throw new IllegalArgumentException("Restaurant address is required");
         }
-
-        if (addRestaurantDto.getDelivery() != null) {
-            Delivery delivery = addRestaurantDto.getDelivery();
-            delivery.setRestaurant(restaurant);
-            restaurant.setDelivery(delivery);
-        } else {
+        if (addRestaurantRequest.delivery() == null) {
             throw new IllegalArgumentException("Delivery is required");
         }
-
-        if (addRestaurantDto.getDeliveryHours() != null) {
-            for (DeliveryHour hour : addRestaurantDto.getDeliveryHours()) {
-                hour.setRestaurant(restaurant);
-            }
-            restaurant.setDeliveryHours(addRestaurantDto.getDeliveryHours());
-        } else {
+        if (addRestaurantRequest.deliveryHours() == null) {
             throw new IllegalArgumentException("Delivery hours are required");
         }
-
-        if (addRestaurantDto.getPaymentMethods() != null) {
-            Set<Payment> payments = new HashSet<>();
-            for (String paymentName : addRestaurantDto.getPaymentMethods()) {
-                Payment payment = paymentRepository.findByMethod(paymentName);
-                if (payment != null) {
-                    payments.add(payment);
-                }
-            }
-            restaurant.setPayments(new ArrayList<>(payments));
-        } else {
+        if (addRestaurantRequest.paymentMethods() == null) {
             throw new IllegalArgumentException("Payments are required");
         }
-
-        if (addRestaurantDto.getMenu() != null) {
-            Set<Menu> menus = new HashSet<>();
-            for (Menu menuItem : addRestaurantDto.getMenu()) {
-                if (menuItem.getAdditives() != null) {
-                    List<Additives> updatedAdditives = new ArrayList<>();
-                    for (Additives additive : menuItem.getAdditives()) {
-                        Additives existingAdditive = additivesRepository.findByNameAndValue(additive.getName(), additive.getValue());
-                        if (existingAdditive == null) {
-                            additivesRepository.save(additive);
-                            updatedAdditives.add(additive);
-                        } else {
-                            updatedAdditives.add(existingAdditive);
-                        }
-                    }
-                    menuItem.setAdditives(updatedAdditives);
-                    for (Additives additive : updatedAdditives) {
-                        if (additive.getMenus() == null) {
-                            additive.setMenus(new ArrayList<>());
-                        }
-                        additive.getMenus().add(menuItem);
-                    }
-                } else {
-                    menuItem.setAdditives(new ArrayList<>());
-                }
-                menuItem.setRestaurant(Collections.singleton(restaurant));
-                menus.add(menuItem);
-            }
-            restaurant.setMenu(menus);
-        } else {
+        if (addRestaurantRequest.menu() == null) {
             throw new IllegalArgumentException("Menu is required");
         }
 
-        return restaurantRepository.save(restaurant);
+        RestaurantAddress address = addRestaurantRequest.restaurantAddress();
+        String addressString = address.getStreet() + " " + address.getFlatNumber() + ", " + address.getZipCode() + " " + address.getCity();
+        double[] coordinates = geocodingService.getCoordinates(addressString);
+        address.setLatitude(coordinates[0]);
+        address.setLongitude(coordinates[1]);
+
+        Delivery delivery = addRestaurantRequest.delivery();
+        delivery.setRestaurant(null); // Will be set later
+
+        List<DeliveryHour> deliveryHours = addRestaurantRequest.deliveryHours();
+        deliveryHours.forEach(hour -> hour.setRestaurant(null)); // Will be set later
+
+        Set<Payment> payments = addRestaurantRequest.paymentMethods().stream()
+                .map(paymentRepository::findByMethod)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Set<Menu> menus = addRestaurantRequest.menu().stream()
+                .peek(menuItem -> {
+                    if (menuItem.getAdditives() != null) {
+                        List<Additives> updatedAdditives = menuItem.getAdditives().stream()
+                                .map(additive -> {
+                                    Additives existingAdditive = additivesRepository.findByNameAndValue(additive.getName(), additive.getValue());
+                                    return existingAdditive != null ? existingAdditive : additivesRepository.save(additive);
+                                })
+                                .collect(Collectors.toList());
+                        menuItem.setAdditives(updatedAdditives);
+                    } else {
+                        menuItem.setAdditives(new ArrayList<>());
+                    }
+                    menuItem.setRestaurant(Collections.singleton(null));
+                })
+                .collect(Collectors.toSet());
+
+        Restaurant restaurant = Restaurant.builder()
+                .name(addRestaurantRequest.name())
+                .category(addRestaurantRequest.category())
+                .logoUrl(addRestaurantRequest.logoUrl())
+                .imageUrl(addRestaurantRequest.imageUrl())
+                .restaurantAddress(address)
+                .delivery(delivery)
+                .deliveryHours(deliveryHours)
+                .payments(new ArrayList<>(payments))
+                .menu(menus)
+                .build();
+
+        address.setRestaurant(restaurant);
+        delivery.setRestaurant(restaurant);
+        deliveryHours.forEach(hour -> hour.setRestaurant(restaurant));
+        menus.forEach(menuItem -> menuItem.setRestaurant(Collections.singleton(restaurant)));
+
+        return fromRestaurant(restaurantRepository.save(restaurant));
     }
 
 
     @Transactional
-    public Restaurant updateRestaurant(AddRestaurantDTO addRestaurantDto, Long restaurantId) {
+    public RestaurantResponse updateRestaurant(AddRestaurantRequest addRestaurantRequest, Long restaurantId) {
         // Find the existing restaurant
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurant not found with ID: " + restaurantId));
 
         // Update basic details
-        restaurant.setName(addRestaurantDto.getName());
-        restaurant.setCategory(addRestaurantDto.getCategory());
-        restaurant.setLogoUrl(addRestaurantDto.getLogoUrl());
-        restaurant.setImageUrl(addRestaurantDto.getImageUrl());
+        restaurant.setName(addRestaurantRequest.name());
+        restaurant.setCategory(addRestaurantRequest.category());
+        restaurant.setLogoUrl(addRestaurantRequest.logoUrl());
+        restaurant.setImageUrl(addRestaurantRequest.imageUrl());
 
         // Update address
-        if (addRestaurantDto.getRestaurantAddress() != null) {
-            RestaurantAddress newAddress = addRestaurantDto.getRestaurantAddress();
+        if (addRestaurantRequest.restaurantAddress() != null) {
+            RestaurantAddress newAddress = addRestaurantRequest.restaurantAddress();
             RestaurantAddress existingAddress = restaurant.getRestaurantAddress();
 
             if (existingAddress == null) {
@@ -158,8 +139,8 @@ public class RestaurantService {
         }
 
         // Update delivery
-        if (addRestaurantDto.getDelivery() != null) {
-            Delivery newDelivery = addRestaurantDto.getDelivery();
+        if (addRestaurantRequest.delivery() != null) {
+            Delivery newDelivery = addRestaurantRequest.delivery();
             Delivery existingDelivery = restaurant.getDelivery();
 
             if (existingDelivery == null) {
@@ -179,9 +160,9 @@ public class RestaurantService {
         }
 
         // Update delivery hours
-        if (addRestaurantDto.getDeliveryHours() != null) {
+        if (addRestaurantRequest.deliveryHours() != null) {
             List<DeliveryHour> existingHours = restaurant.getDeliveryHours();
-            List<DeliveryHour> updatedHours = addRestaurantDto.getDeliveryHours();
+            List<DeliveryHour> updatedHours = addRestaurantRequest.deliveryHours();
 
             // Map existing hours by dayOfWeek for quick lookup
             Map<Integer, DeliveryHour> hoursMap = existingHours.stream()
@@ -204,9 +185,9 @@ public class RestaurantService {
         }
 
         // Update payment methods
-        if (addRestaurantDto.getPaymentMethods() != null) {
+        if (addRestaurantRequest.paymentMethods() != null) {
             List<Payment> payments = new ArrayList<>();
-            for (String paymentName : addRestaurantDto.getPaymentMethods()) {
+            for (String paymentName : addRestaurantRequest.paymentMethods()) {
                 Payment payment = paymentRepository.findByMethod(paymentName);
                 if (payment != null) {
                     payments.add(payment);
@@ -218,9 +199,9 @@ public class RestaurantService {
         }
 
         // Update menu items
-        if (addRestaurantDto.getMenu() != null) {
+        if (addRestaurantRequest.menu() != null) {
             Set<Menu> existingMenus = restaurant.getMenu();
-            for (Menu newMenuItem : addRestaurantDto.getMenu()) {
+            for (Menu newMenuItem : addRestaurantRequest.menu()) {
                 Menu existingMenuItem = existingMenus.stream()
                         .filter(menu -> menu.getName().equals(newMenuItem.getName()))
                         .findFirst()
@@ -256,7 +237,7 @@ public class RestaurantService {
             throw new IllegalArgumentException("Menu is required");
         }
 
-        return restaurantRepository.save(restaurant);
+        return fromRestaurant(restaurantRepository.save(restaurant));
     }
 
 
@@ -304,76 +285,24 @@ public class RestaurantService {
     }
 
     @Transactional
-    public AddRestaurantDTO getRestaurantForEdit(Long id) {
+    public AddRestaurantResponse getRestaurantForEdit(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
 
-        AddRestaurantDTO addRestaurantDto = new AddRestaurantDTO();
-        addRestaurantDto.setName(restaurant.getName());
-        addRestaurantDto.setCategory(restaurant.getCategory());
-        addRestaurantDto.setLogoUrl(restaurant.getLogoUrl());
-        addRestaurantDto.setImageUrl(restaurant.getImageUrl());
-
-        if (restaurant.getRestaurantAddress() != null) {
-            RestaurantAddress address = restaurant.getRestaurantAddress();
-            RestaurantAddress dtoAddress = new RestaurantAddress();
-            dtoAddress.setStreet(address.getStreet());
-            dtoAddress.setFlatNumber(address.getFlatNumber());
-            dtoAddress.setZipCode(address.getZipCode());
-            dtoAddress.setCity(address.getCity());
-
-            addRestaurantDto.setRestaurantAddress(dtoAddress);
-        }
-
-        if (restaurant.getDelivery() != null) {
-            Delivery delivery = new Delivery();
-            delivery.setDeliveryPrice(restaurant.getDelivery().getDeliveryPrice());
-            delivery.setMinimumPrice(restaurant.getDelivery().getMinimumPrice());
-            delivery.setDeliveryMinTime(restaurant.getDelivery().getDeliveryMinTime());
-            delivery.setDeliveryMaxTime(restaurant.getDelivery().getDeliveryMaxTime());
-            delivery.setPickupTime(restaurant.getDelivery().getPickupTime());
-            addRestaurantDto.setDelivery(delivery);
-        }
-
-        if (restaurant.getDeliveryHours() != null) {
-            List<DeliveryHour> deliveryHours = new ArrayList<>(restaurant.getDeliveryHours());
-            addRestaurantDto.setDeliveryHours(deliveryHours);
-        }
-
-        if (restaurant.getPayments() != null) {
-            List<String> paymentMethods = restaurant.getPayments()
-                    .stream()
-                    .map(Payment::getMethod)
-                    .collect(Collectors.toList());
-            addRestaurantDto.setPaymentMethods(paymentMethods);
-        }
-
-        if (restaurant.getMenu() != null) {
-            Set<Menu> menus = new HashSet<>();
-            for (Menu menuItem : restaurant.getMenu()) {
-                Menu dtoMenuItem = new Menu();
-                dtoMenuItem.setName(menuItem.getName());
-                dtoMenuItem.setCategory(menuItem.getCategory());
-                dtoMenuItem.setIngredients(menuItem.getIngredients());
-                dtoMenuItem.setImage(menuItem.getImage());
-                dtoMenuItem.setPrice(menuItem.getPrice());
-
-                if (menuItem.getAdditives() != null) {
-                    List<Additives> additives = new ArrayList<>(menuItem.getAdditives());
-                    dtoMenuItem.setAdditives(additives);
-                } else {
-                    dtoMenuItem.setAdditives(new ArrayList<>());
-                }
-
-                menus.add(dtoMenuItem);
-            }
-            addRestaurantDto.setMenu(menus);
-        }
-
-        return addRestaurantDto;
+        return new AddRestaurantResponse(
+                restaurant.getName(),
+                restaurant.getCategory(),
+                restaurant.getLogoUrl(),
+                restaurant.getImageUrl(),
+                restaurant.getRestaurantAddress(),
+                restaurant.getPayments().stream()
+                        .map(Payment::getMethod)
+                        .collect(Collectors.toList()),
+                restaurant.getDelivery(),
+                restaurant.getDeliveryHours(),
+                restaurant.getMenu()
+        );
     }
-
-
 
     public String getLogo(Long id) {
         Restaurant restaurant = restaurantRepository.findLogoById(id);
@@ -390,7 +319,20 @@ public class RestaurantService {
     }
 
 
-    public List<Restaurant> getAllRestaurants() {
-        return restaurantRepository.findAll();
+    public List<RestaurantResponse> getAllRestaurants() {
+        return restaurantRepository.findAll()
+                .stream()
+                .map(this::fromRestaurant)
+                .collect(Collectors.toList());
+    }
+
+    private RestaurantResponse fromRestaurant(Restaurant restaurant) {
+        return new RestaurantResponse(
+                restaurant.getId(),
+                restaurant.getName(),
+                restaurant.getCategory(),
+                restaurant.getLogoUrl(),
+                restaurant.getImageUrl()
+        );
     }
 }

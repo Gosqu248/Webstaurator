@@ -3,11 +3,10 @@ package pl.urban.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantResponse;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.RestaurantAddress;
-import pl.urban.backend.repository.CustomRestaurantAddressRepository;
 import pl.urban.backend.repository.DeliveryRepository;
 import pl.urban.backend.repository.RestaurantAddressRepository;
 
@@ -32,9 +31,9 @@ public class RestaurantAddressService {
         return restaurantAddressRepository.findByRestaurantId(restaurantId);
     }
 
-    public CoordinatesDTO getCoordinatesByRestaurantId(Long restaurantId) {
+    public CoordinatesResponse getCoordinatesByRestaurantId(Long restaurantId) {
         RestaurantAddress restaurantAddress = restaurantAddressRepository.findByRestaurantId(restaurantId);
-        return convertToCoordinatesDTO(restaurantAddress);
+        return toCoordinatesResponse(restaurantAddress);
     }
 
     public List<RestaurantAddress> findAll() {
@@ -132,13 +131,11 @@ public class RestaurantAddressService {
         return times;
     }
 
-    CoordinatesDTO convertToCoordinatesDTO(RestaurantAddress restaurantAddress) {
-        CoordinatesDTO dto = new CoordinatesDTO();
-
-        dto.setLat(restaurantAddress.getLatitude());
-        dto.setLon(restaurantAddress.getLongitude());
-
-        return dto;
+    CoordinatesResponse toCoordinatesResponse(RestaurantAddress restaurantAddress) {
+        return new CoordinatesResponse(
+                restaurantAddress.getLatitude(),
+                restaurantAddress.getLongitude()
+        );
     }
 
 }

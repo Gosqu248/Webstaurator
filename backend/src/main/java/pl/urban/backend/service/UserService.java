@@ -2,14 +2,10 @@ package pl.urban.backend.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.UserResponse;
-import pl.urban.backend.dto.UserInfoForOrderResponse;
+import pl.urban.backend.dto.response.UserResponse;
+import pl.urban.backend.dto.response.UserInfoForOrderResponse;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class UserService {

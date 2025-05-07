@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SuggestResponse;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.SuggestResponse;
 import pl.urban.backend.model.AddressSuggestions;
 import pl.urban.backend.repository.AddressSuggestionsRepository;
 import pl.urban.backend.service.AddressSuggestionsService;
@@ -69,7 +69,7 @@ class AddressSuggestionsTest {
         double[] mockCoordinates = { 51.5074, 0.1278 };
         when(geocodingService.getCoordinates(eq("Test Address"))).thenReturn(mockCoordinates);
 
-        CoordinatesDTO result = addressSuggestionsService.getCoordinates("Test Address");
+        CoordinatesResponse result = addressSuggestionsService.getCoordinates("Test Address");
 
         assertNotNull(result);
         assertEquals(51.5074, result.getLat());

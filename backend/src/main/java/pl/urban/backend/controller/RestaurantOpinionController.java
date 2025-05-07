@@ -1,7 +1,8 @@
 package pl.urban.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
-import pl.urban.backend.dto.RestaurantOpinionDTO;
+import pl.urban.backend.dto.request.RestaurantOpinionRequest;
+import pl.urban.backend.dto.response.RestaurantOpinionResponse;
 import pl.urban.backend.model.RestaurantOpinion;
 import pl.urban.backend.service.RestaurantOpinionService;
 
@@ -18,13 +19,13 @@ public class RestaurantOpinionController {
     }
 
     @GetMapping("/restaurantOpinions")
-    public List<RestaurantOpinionDTO> getRestaurantOpinion(@RequestParam Long restaurantId) {
+    public List<RestaurantOpinionResponse> getRestaurantOpinion(@RequestParam Long restaurantId) {
         return restaurantOpinionService.getRestaurantOpinion(restaurantId);
     }
 
     @PostMapping("/addOpinion")
-    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionDTO opinionDTO, @RequestParam Long orderId) {
-        return restaurantOpinionService.addOpinion(opinionDTO, orderId);
+    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionRequest opinionRequest, @RequestParam Long orderId) {
+        return restaurantOpinionService.addOpinion(opinionRequest, orderId);
     }
 
     @GetMapping("/getRatingRestaurant")

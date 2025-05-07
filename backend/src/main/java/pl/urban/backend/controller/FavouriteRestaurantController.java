@@ -1,8 +1,7 @@
 package pl.urban.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.urban.backend.dto.FavouriteRestaurantDTO;
+import pl.urban.backend.dto.response.FavouriteRestaurantResponse;
 import pl.urban.backend.request.FavouriteRequest;
 import pl.urban.backend.service.FavouriteRestaurantService;
 
@@ -19,7 +18,7 @@ public class FavouriteRestaurantController {
     }
 
     @GetMapping("/all")
-    public List<FavouriteRestaurantDTO> getAllUserFavouriteRestaurants(@RequestParam Long userId) {
+    public List<FavouriteRestaurantResponse> getAllUserFavouriteRestaurants(@RequestParam Long userId) {
         return favouriteRestaurantService.getAllUserFavouriteRestaurants(userId);
     }
 

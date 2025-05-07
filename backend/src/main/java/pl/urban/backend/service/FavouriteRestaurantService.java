@@ -1,9 +1,8 @@
 package pl.urban.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.FavouriteRestaurantDTO;
-import pl.urban.backend.dto.OpinionDTO;
+import pl.urban.backend.dto.response.FavouriteRestaurantResponse;
+import pl.urban.backend.dto.response.OpinionResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.FavouriteRestaurantRepository;
 import pl.urban.backend.repository.RestaurantRepository;
@@ -25,10 +24,10 @@ public class FavouriteRestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public List<FavouriteRestaurantDTO> getAllUserFavouriteRestaurants(Long userId) {
+    public List<FavouriteRestaurantResponse> getAllUserFavouriteRestaurants(Long userId) {
         List<FavouriteRestaurant> favouriteRestaurants = favouriteRestaurantRepository.findByUserId(userId);
         return favouriteRestaurants.stream()
-                .map(this::convertToDTO)
+                .map(this::fromFavouriteRestaurant)
                 .collect(Collectors.toList());
     }
 
@@ -68,38 +67,34 @@ public class FavouriteRestaurantService {
         return favouriteRestaurant;
     }
 
-    public FavouriteRestaurantDTO convertToDTO(FavouriteRestaurant favouriteRestaurant) {
-        FavouriteRestaurantDTO dto = new FavouriteRestaurantDTO();
-
-        dto.setId(favouriteRestaurant.getId());
-
+    public FavouriteRestaurantResponse fromFavouriteRestaurant(FavouriteRestaurant favouriteRestaurant) {
         Restaurant restaurant = favouriteRestaurant.getRestaurant();
-        if (restaurant != null) {
-            dto.setRestaurantId(restaurant.getId());
-            dto.setRestaurantName(restaurant.getName());
-            dto.setRestaurantCategory(restaurant.getCategory());
-            dto.setRestaurantLogoUrl(restaurant.getLogoUrl());
-
-
-            RestaurantAddress address = restaurant.getRestaurantAddress();
-            if (address != null) {
-                dto.setStreet(address.getStreet());
-                dto.setFlatNumber(address.getFlatNumber());
-            }
-
-            List<OpinionDTO> opinions = restaurant.getRestaurantOpinions().stream()
-                    .map(restaurantOpinion -> {
-                        OpinionDTO opinion = new OpinionDTO();
-                        opinion.setId(restaurantOpinion.getId());
-                        opinion.setQualityRating(restaurantOpinion.getQualityRating());
-                        opinion.setDeliveryRating(restaurantOpinion.getDeliveryRating());
-                        return opinion;
-                    })
-                    .collect(Collectors.toList());
-            dto.setRestaurantOpinion(opinions);
+        if (restaurant == null) {
+            throw new IllegalArgumentException("Restaurant not found for favourite restaurant with ID: " + favouriteRestaurant.getId());
+        }
+        RestaurantAddress address = restaurant.getRestaurantAddress();
+        if (address == null) {
+           throw new IllegalArgumentException("Restaurant address not found for restaurant with ID: " + restaurant.getId());
         }
 
-        return dto;
+        List<OpinionResponse> opinions = restaurant.getRestaurantOpinions().stream()
+                    .map(restaurantOpinion -> new OpinionResponse(
+                            restaurantOpinion.getId(),
+                            restaurantOpinion.getQualityRating(),
+                            restaurantOpinion.getDeliveryRating()
+                    ))
+                    .collect(Collectors.toList());
+
+        return new FavouriteRestaurantResponse(
+                favouriteRestaurant.getId(),
+                restaurant.getId(),
+                restaurant.getName(),
+                restaurant.getCategory(),
+                restaurant.getLogoUrl(),
+                address.getStreet(),
+                address.getFlatNumber(),
+                opinions
+        );
 
     }
 }

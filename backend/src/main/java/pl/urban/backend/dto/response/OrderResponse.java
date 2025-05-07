@@ -1,0 +1,26 @@
+package pl.urban.backend.dto.response;
+
+import pl.urban.backend.enums.OrderStatus;
+import pl.urban.backend.model.OrderMenu;
+import pl.urban.backend.model.UserAddress;
+
+import java.time.ZonedDateTime;
+import java.util.List;
+
+public record OrderResponse(
+        Long id,
+        String deliveryOption,
+        String deliveryTime,
+        ZonedDateTime orderDate,
+        List<OrderMenu> orderMenus,
+        String paymentId,
+        String paymentMethod,
+        Long restaurantId,
+        String restaurantName,
+        String restaurantLogo,
+        OrderStatus status,
+        double totalPrice,
+        UserAddress userAddress,
+        boolean hasOpinion
+) {
+}

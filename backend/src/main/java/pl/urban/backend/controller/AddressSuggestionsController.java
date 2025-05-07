@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.urban.backend.dto.CoordinatesDTO;
+import pl.urban.backend.dto.response.CoordinatesResponse;
 
-import pl.urban.backend.dto.SuggestResponse;
+import pl.urban.backend.dto.response.SuggestResponse;
 import pl.urban.backend.service.AddressSuggestionsService;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class AddressSuggestionsController {
     }
 
     @GetMapping("/getCoordinates")
-    public CoordinatesDTO getCoordinates(@RequestParam String address) {
+    public CoordinatesResponse getCoordinates(@RequestParam String address) {
         return addressSuggestionsService.getCoordinates(address);
     }
 }

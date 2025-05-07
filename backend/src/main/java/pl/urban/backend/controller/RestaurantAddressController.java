@@ -2,8 +2,8 @@ package pl.urban.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantResponse;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.service.RestaurantAddressService;
 
@@ -35,7 +35,7 @@ public class RestaurantAddressController {
     }
 
     @GetMapping("/getCoordinates")
-    public ResponseEntity<CoordinatesDTO> getCoordinates(@RequestParam Long restaurantId) {
+    public ResponseEntity<CoordinatesResponse> getCoordinates(@RequestParam Long restaurantId) {
         return ResponseEntity.ok(restaurantAddressService.getCoordinatesByRestaurantId(restaurantId));
     }
 }

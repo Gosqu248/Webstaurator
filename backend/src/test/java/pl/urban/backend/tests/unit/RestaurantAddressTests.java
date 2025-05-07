@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import pl.urban.backend.controller.RestaurantAddressController;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantResponse;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.service.RestaurantAddressService;
@@ -130,19 +130,20 @@ class RestaurantAddressTests {
     void testGetCoordinates() {
         logger.info("Running testGetCoordinates");
 
-        CoordinatesDTO testCoordinates = new CoordinatesDTO();
-        testCoordinates.setLat(52.229676);
-        testCoordinates.setLon(21.012229);
+        CoordinatesResponse testCoordinates = new CoordinatesResponse(
+                52.229676,
+                21.012229
+        );
 
         when(restaurantAddressService.getCoordinatesByRestaurantId(1L))
                 .thenReturn(testCoordinates);
 
-        ResponseEntity<CoordinatesDTO> response = restaurantAddressController.getCoordinates(1L);
+        ResponseEntity<CoordinatesResponse> response = restaurantAddressController.getCoordinates(1L);
 
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertEquals(testCoordinates.getLat(), response.getBody().getLat());
-        assertEquals(testCoordinates.getLon(), response.getBody().getLon());
+        assertEquals(testCoordinates.lat(), response.getBody().lat());
+        assertEquals(testCoordinates.lon(), response.getBody().lon());
 
         logger.info("Completed testGetCoordinates");
     }

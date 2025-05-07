@@ -2,8 +2,7 @@ package pl.urban.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +11,9 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name="restaurants")
 public class Restaurant {
@@ -31,44 +33,36 @@ public class Restaurant {
     private String imageUrl;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Delivery delivery;
 
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    @JsonIgnore
     private RestaurantAddress restaurantAddress;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "restaurant_menu",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_id")
     )
-    @JsonIgnore
     private Set<Menu> menu = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     private List<DeliveryHour> deliveryHours;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     private List<RestaurantOpinion> restaurantOpinions;
 
     @OneToMany(mappedBy = "restaurant")
-    @JsonIgnore
     private List<FavouriteRestaurant> favouriteRestaurants;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "restaurant_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_id")
     )
-    @JsonIgnore
     private List<Payment> payments;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Order> orders;
 

@@ -1,4 +1,4 @@
-package pl.urban.backend.dto;
+package pl.urban.backend.dto.response;
 
 public record UserInfoForOrderResponse(
         Long id,

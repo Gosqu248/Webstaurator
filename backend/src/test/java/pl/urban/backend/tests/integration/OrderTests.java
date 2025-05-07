@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.urban.backend.dto.AdminOrderDTO;
+import pl.urban.backend.dto.response.AdminOrderResponse;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.service.OrderService;
@@ -63,7 +63,7 @@ public class OrderTests {
         Long orderCount = orderRepository.count();
 
         // When
-        List<AdminOrderDTO> order = orderService.getAllOrders();
+        List<AdminOrderResponse> order = orderService.getAllOrders();
 
         // Then
         assertEquals(orderCount, order.size());
