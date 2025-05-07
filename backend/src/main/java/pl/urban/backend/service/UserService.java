@@ -1,8 +1,13 @@
 package pl.urban.backend.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.urban.backend.config.security.JwtUtil;
+import pl.urban.backend.dto.request.SignInWithTokenRequest;
+import pl.urban.backend.dto.request.UserRequest;
+import pl.urban.backend.dto.response.LoginResponse;
 import pl.urban.backend.dto.response.UserResponse;
 import pl.urban.backend.dto.response.UserInfoForOrderResponse;
 import pl.urban.backend.model.User;
@@ -13,13 +18,32 @@ import pl.urban.backend.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtUtil jwtUtil;
+    private final MapperService mapper;
 
-    public void registerUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+    public void registerUser(UserRequest user) {
+        if (userRepository.findByEmail(user.email()).isPresent()) {
             throw new IllegalArgumentException("User with this email already exists");
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+
+        User.builder()
+                .email(user.email())
+                .password(bCryptPasswordEncoder.encode(user.password()))
+                .build();
+    }
+
+
+    public LoginResponse signWithToken(@Valid SignInWithTokenRequest request) {
+        String email = jwtUtil.extractSubject(request.token());
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+        String token = jwtUtil.generateAuthToken(user);
+
+        return new LoginResponse(
+                token,
+                fromUser(user)
+        );
     }
 
     public Boolean changePassword(String subject, String password, String newPassword) {
@@ -68,4 +92,5 @@ public class UserService {
                 String.valueOf(user.getRole())
         );
     }
+
 }

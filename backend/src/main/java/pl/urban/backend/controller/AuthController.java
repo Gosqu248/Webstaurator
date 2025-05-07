@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.request.SignInWithTokenRequest;
+import pl.urban.backend.dto.response.LoginResponse;
 import pl.urban.backend.dto.response.UserInfoForOrderResponse;
 import pl.urban.backend.dto.response.UserResponse;
 import pl.urban.backend.model.User;
 import pl.urban.backend.dto.response.JwtResponse;
-import pl.urban.backend.dto.request.LoginRequest;
+import pl.urban.backend.dto.request.UserRequest;
 import pl.urban.backend.dto.request.PasswordResetRequest;
 import pl.urban.backend.dto.request.TwoFactorVerificationRequest;
 import pl.urban.backend.config.security.JwtUtil;
@@ -37,7 +40,7 @@ public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRequest user) {
         userService.registerUser(user);
         Map<String, String> response = new HashMap<>();
         response.put("message", "User registered successfully");
@@ -45,26 +48,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        logger.info("Login attempt for user: {}", loginRequest.email());
+    public ResponseEntity<?> loginUser(@RequestBody @Valid UserRequest userRequest) {
+        logger.info("Login attempt for user: {}", userRequest.email());
 
         try {
-            User user = userService.getUserBySubject(loginRequest.email());
+            User user = userService.getUserBySubject(userRequest.email());
 
             if (user == null) {
-                logger.warn("User not found: {}", loginRequest.email());
+                logger.warn("User not found: {}", userRequest.email());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("Invalid credentials");
             }
 
             if (userSecurityService.isAccountLocked(user)) {
-                logger.warn("Account is locked for user: {}", loginRequest.email());
+                logger.warn("Account is locked for user: {}", userRequest.email());
                 return ResponseEntity.status(423)
                         .body("Account is locked. Try again later.");
             }
 
-            if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-                logger.error("Invalid password for user: {}", loginRequest.email());
+            if (!passwordEncoder.matches(userRequest.password(), user.getPassword())) {
+                logger.error("Invalid password for user: {}", userRequest.email());
                 userSecurityService.incrementFailedLoginAttempts(user);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("Invalid credentials");
@@ -83,7 +86,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify-2fa")
-    public ResponseEntity<?> verifyTwoFactorCode(@RequestBody TwoFactorVerificationRequest request) throws Exception {
+    public ResponseEntity<?> verifyTwoFactorCode(@RequestBody @Valid TwoFactorVerificationRequest request) throws Exception {
         User user = userService.getUserBySubject(request.email());
 
         if(user == null) {
@@ -99,7 +102,7 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordResetRequest request) {
         User user = userService.getUserBySubject(request.email());
 
         if (user == null) {
@@ -114,6 +117,13 @@ public class AuthController {
         emailService.sendEmail(user.getEmail(), "Resetowanie hasła", emailContent);
 
         return ResponseEntity.ok(Map.of("message", "Link do resetowania hasła został wysłany na Twój email."));
+    }
+
+    @GetMapping("sign-in-with-token")
+    public ResponseEntity<LoginResponse> loginWithToken(
+            @RequestBody @Valid SignInWithTokenRequest request
+    ) {
+        return ResponseEntity.ok(userService.signWithToken(request));
     }
 
     @GetMapping("/user")

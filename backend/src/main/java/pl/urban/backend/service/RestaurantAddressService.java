@@ -23,9 +23,7 @@ public class RestaurantAddressService {
     private final GeocodingService geocodingService;
     private final DeliveryRepository deliveryRepository;
     private final RestaurantOpinionService restaurantOpinionService;
-    //private CustomRestaurantAddressRepository customRestaurantAddressRepository;
     private final MapperService mapper;
-
 
     public RestaurantAddressResponse getRestaurantAddress(Long restaurantId) {
         return mapper.fromRestaurantAddress(restaurantAddressRepository.findByRestaurantId(restaurantId));

@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import pl.urban.backend.controller.AuthController;
 import pl.urban.backend.model.User;
 import pl.urban.backend.dto.response.JwtResponse;
-import pl.urban.backend.dto.request.LoginRequest;
+import pl.urban.backend.dto.request.UserRequest;
 import pl.urban.backend.dto.request.TwoFactorVerificationRequest;
 import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.UserSecurityService;
@@ -49,6 +49,11 @@ class AuthTests {
 
     private User testUser;
 
+    private UserRequest testUserRequest = new UserRequest(
+            "test@example.com",
+            "password"
+    );
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -60,32 +65,34 @@ class AuthTests {
     @Test
     void testRegisterUser() {
         logger.info("Running testRegisterUser");
-        doNothing().when(userService).registerUser(any(User.class));
+        doNothing().when(userService).registerUser(any(UserRequest.class));
 
-        ResponseEntity<?> response = authController.registerUser(testUser);
+
+
+        ResponseEntity<?> response = authController.registerUser(testUserRequest);
 
         assertEquals(200, response.getStatusCodeValue());
         assertTrue(((Map<?, ?>) Objects.requireNonNull(response.getBody())).containsKey("message"));
         assertEquals("User registered successfully", ((Map<?, ?>) response.getBody()).get("message"));
-        verify(userService, times(1)).registerUser(eq(testUser));
+        verify(userService, times(1)).registerUser(eq(testUserRequest));
         logger.info("Completed testRegisterUser");
     }
 
     @Test
     void testLoginUserSuccess() throws Exception {
         logger.info("Running testLoginUserSuccess");
-        LoginRequest loginRequest = new LoginRequest(
+        UserRequest userRequest = new UserRequest(
                 "test@example.com",
                 "password"
         );
 
-        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(userRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(false);
         doAnswer(invocation -> null).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         doAnswer(invocation -> null).when(userSecurityService).resetFailedLoginAttempts(eq(testUser));
         doAnswer(invocation -> null).when(userSecurityService).generateAndSendTwoFactorCode(eq(testUser));
 
-        ResponseEntity<?> response = authController.loginUser(loginRequest);
+        ResponseEntity<?> response = authController.loginUser(userRequest);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(true, response.getBody());
@@ -95,15 +102,15 @@ class AuthTests {
     @Test
     void testLoginUserAccountLocked() throws Exception {
         logger.info("Running testLoginUserAccountLocked");
-        LoginRequest loginRequest = new LoginRequest(
+        UserRequest userRequest = new UserRequest(
                 "test@example.com",
                 "password"
         );
 
-        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(userRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(true);
 
-        ResponseEntity<?> response = authController.loginUser(loginRequest);
+        ResponseEntity<?> response = authController.loginUser(userRequest);
 
         assertEquals(423, response.getStatusCodeValue());
         assertEquals("Account is locked. Try again later.", response.getBody());
@@ -151,31 +158,31 @@ class AuthTests {
     @Test
     void testRegisterUserFailure() {
         logger.info("Running testRegisterUserFailure");
-        doThrow(new RuntimeException("Registration failed")).when(userService).registerUser(any(User.class));
+        doThrow(new RuntimeException("Registration failed")).when(userService).registerUser(any(UserRequest.class));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            authController.registerUser(testUser);
+            authController.registerUser(testUserRequest);
         });
 
         assertEquals("Registration failed", exception.getMessage());
-        verify(userService, times(1)).registerUser(eq(testUser));
+        verify(userService, times(1)).registerUser(eq(testUserRequest));
         logger.info("Completed testRegisterUserFailure");
     }
 
     @Test
     void testLoginUserIncorrectPassword() throws Exception {
         logger.info("Running testLoginUserIncorrectPassword");
-        LoginRequest loginRequest = new LoginRequest(
+        UserRequest userRequest = new UserRequest(
                 "test@example.com",
                 "wrong-password"
         );
 
-        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(userRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(false);
         doThrow(new RuntimeException("Bad credentials")).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            authController.loginUser(loginRequest);
+            authController.loginUser(userRequest);
         });
 
         assertEquals("Bad credentials", exception.getMessage());
