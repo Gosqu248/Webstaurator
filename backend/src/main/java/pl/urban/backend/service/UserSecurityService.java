@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserSecurity;
@@ -9,15 +10,10 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class UserSecurityService {
-
     private final UserSecurityRepository userSecurityRepository;
     private final EmailService emailService;
-
-    public UserSecurityService(UserSecurityRepository userSecurityRepository, EmailService emailService) {
-        this.userSecurityRepository = userSecurityRepository;
-        this.emailService = emailService;
-    }
 
     public void incrementFailedLoginAttempts(User user) {
         UserSecurity userSecurity =  ensureUserSecurity(user);

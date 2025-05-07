@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.CoordinatesResponse;
@@ -10,15 +11,10 @@ import pl.urban.backend.service.RestaurantAddressService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/restaurantAddress")
 public class RestaurantAddressController {
-
     private final RestaurantAddressService restaurantAddressService;
-
-
-    public RestaurantAddressController(RestaurantAddressService restaurantAddressService) {
-        this.restaurantAddressService = restaurantAddressService;
-    }
 
     @GetMapping("/search")
     public ResponseEntity<List<SearchedRestaurantResponse>> searchRestaurants(

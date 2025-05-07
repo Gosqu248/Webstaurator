@@ -1,6 +1,5 @@
-package pl.urban.backend.security;
+package pl.urban.backend.config.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

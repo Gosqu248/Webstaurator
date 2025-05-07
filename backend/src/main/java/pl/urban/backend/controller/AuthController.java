@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -9,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.UserInfoForOrderResponse;
 import pl.urban.backend.dto.response.UserResponse;
 import pl.urban.backend.model.User;
-import pl.urban.backend.request.JwtResponse;
-import pl.urban.backend.request.LoginRequest;
-import pl.urban.backend.request.PasswordResetRequest;
-import pl.urban.backend.request.TwoFactorVerificationRequest;
-import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.dto.response.JwtResponse;
+import pl.urban.backend.dto.request.LoginRequest;
+import pl.urban.backend.dto.request.PasswordResetRequest;
+import pl.urban.backend.dto.request.TwoFactorVerificationRequest;
+import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.EmailService;
 import pl.urban.backend.service.UserSecurityService;
 import pl.urban.backend.service.UserService;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -34,15 +36,6 @@ public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-
-    public AuthController(UserService userService, JwtUtil tokenProvider, BCryptPasswordEncoder passwordEncoder, UserSecurityService userSecurityService, EmailService emailService) {
-        this.userService = userService;
-        this.jwtToken = tokenProvider;
-        this.passwordEncoder = passwordEncoder;
-        this.userSecurityService = userSecurityService;
-        this.emailService = emailService;
-    }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         userService.registerUser(user);
@@ -53,25 +46,25 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        logger.info("Login attempt for user: {}", loginRequest.getEmail());
+        logger.info("Login attempt for user: {}", loginRequest.email());
 
         try {
-            User user = userService.getUserBySubject(loginRequest.getEmail());
+            User user = userService.getUserBySubject(loginRequest.email());
 
             if (user == null) {
-                logger.warn("User not found: {}", loginRequest.getEmail());
+                logger.warn("User not found: {}", loginRequest.email());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("Invalid credentials");
             }
 
             if (userSecurityService.isAccountLocked(user)) {
-                logger.warn("Account is locked for user: {}", loginRequest.getEmail());
+                logger.warn("Account is locked for user: {}", loginRequest.email());
                 return ResponseEntity.status(423)
                         .body("Account is locked. Try again later.");
             }
 
-            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                logger.error("Invalid password for user: {}", loginRequest.getEmail());
+            if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
+                logger.error("Invalid password for user: {}", loginRequest.email());
                 userSecurityService.incrementFailedLoginAttempts(user);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("Invalid credentials");
@@ -91,13 +84,13 @@ public class AuthController {
 
     @PostMapping("/verify-2fa")
     public ResponseEntity<?> verifyTwoFactorCode(@RequestBody TwoFactorVerificationRequest request) throws Exception {
-        User user = userService.getUserBySubject(request.getEmail());
+        User user = userService.getUserBySubject(request.email());
 
         if(user == null) {
             throw new IllegalArgumentException("User with this email not found");
         }
 
-        if (userSecurityService.verifyTwoFactorCode(user, request.getCode())) {
+        if (userSecurityService.verifyTwoFactorCode(user, request.code())) {
             final String jwt = jwtToken.generateToken(user);
             return ResponseEntity.ok(new JwtResponse(jwt));
         } else {
@@ -107,7 +100,7 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest request) {
-        User user = userService.getUserBySubject(request.getEmail());
+        User user = userService.getUserBySubject(request.email());
 
         if (user == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "Użytkownik nie znaleziony"));

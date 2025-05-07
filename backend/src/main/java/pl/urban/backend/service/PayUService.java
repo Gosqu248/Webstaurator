@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.model.OrderMenu;
-import pl.urban.backend.request.OrderRequest;
+import pl.urban.backend.dto.request.OrderRequest;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class PayUService {
 
     @Value("https://secure.snd.payu.com/api/v2_1/orders")
@@ -42,10 +44,6 @@ public class PayUService {
     private static final OkHttpClient client = new OkHttpClient();
     private static String accessToken = null;
     private static Instant tokenExpiration = null;
-
-    public PayUService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public String getOAuthToken() {
         if (accessToken != null && tokenExpiration != null && Instant.now().isBefore(tokenExpiration)) {

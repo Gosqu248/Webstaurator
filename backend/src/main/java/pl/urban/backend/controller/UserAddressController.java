@@ -1,25 +1,21 @@
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.model.UserAddress;
-import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.UserAddressService;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/address")
 public class UserAddressController {
-
-
     private final UserAddressService userAddressService;
     private final JwtUtil jwtToken;
 
-    public UserAddressController(UserAddressService userAddressService, JwtUtil jwtToken) {
-        this.userAddressService = userAddressService;
-        this.jwtToken = jwtToken;
-    }
 
 
     @GetMapping("/all")

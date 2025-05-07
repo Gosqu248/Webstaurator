@@ -1,6 +1,7 @@
 package pl.urban.backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +12,10 @@ import pl.urban.backend.service.PayUService;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/payU")
 public class PayUController {
-
     private final PayUService payUService;
-
-    public PayUController(PayUService payUService) {
-        this.payUService = payUService;
-    }
 
     @GetMapping("/generateAuthHeader")
     public ResponseEntity<String> getTokens() {
@@ -37,7 +34,7 @@ public class PayUController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-    
+
     @GetMapping("/getPaymentStatus")
     public ResponseEntity<String> getPayUOrderStatus(@RequestParam String orderId) {
         try {

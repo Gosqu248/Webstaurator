@@ -1,4 +1,4 @@
-package pl.urban.backend.request;
+package pl.urban.backend.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

@@ -10,10 +10,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import pl.urban.backend.controller.AuthController;
 import pl.urban.backend.model.User;
-import pl.urban.backend.request.JwtResponse;
-import pl.urban.backend.request.LoginRequest;
-import pl.urban.backend.request.TwoFactorVerificationRequest;
-import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.dto.response.JwtResponse;
+import pl.urban.backend.dto.request.LoginRequest;
+import pl.urban.backend.dto.request.TwoFactorVerificationRequest;
+import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.UserSecurityService;
 import pl.urban.backend.service.UserService;
 
@@ -74,11 +74,12 @@ class AuthTests {
     @Test
     void testLoginUserSuccess() throws Exception {
         logger.info("Running testLoginUserSuccess");
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
-        loginRequest.setPassword("password");
+        LoginRequest loginRequest = new LoginRequest(
+                "test@example.com",
+                "password"
+        );
 
-        when(userService.getUserBySubject(eq(loginRequest.getEmail()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(false);
         doAnswer(invocation -> null).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         doAnswer(invocation -> null).when(userSecurityService).resetFailedLoginAttempts(eq(testUser));
@@ -94,11 +95,12 @@ class AuthTests {
     @Test
     void testLoginUserAccountLocked() throws Exception {
         logger.info("Running testLoginUserAccountLocked");
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
-        loginRequest.setPassword("password");
+        LoginRequest loginRequest = new LoginRequest(
+                "test@example.com",
+                "password"
+        );
 
-        when(userService.getUserBySubject(eq(loginRequest.getEmail()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(true);
 
         ResponseEntity<?> response = authController.loginUser(loginRequest);
@@ -111,12 +113,13 @@ class AuthTests {
     @Test
     void testVerifyTwoFactorCodeSuccess() throws Exception {
         logger.info("Running testVerifyTwoFactorCodeSuccess");
-        TwoFactorVerificationRequest request = new TwoFactorVerificationRequest();
-        request.setEmail("test@example.com");
-        request.setCode("123456");
+        TwoFactorVerificationRequest request = new TwoFactorVerificationRequest(
+                "test@example.com",
+                "123456"
+        );
 
-        when(userService.getUserBySubject(eq(request.getEmail()))).thenReturn(testUser);
-        when(userSecurityService.verifyTwoFactorCode(eq(testUser), eq(request.getCode()))).thenReturn(true);
+        when(userService.getUserBySubject(eq(request.email()))).thenReturn(testUser);
+        when(userSecurityService.verifyTwoFactorCode(eq(testUser), eq(request.code()))).thenReturn(true);
         when(jwtUtil.generateToken(eq(testUser))).thenReturn("test-token");
 
         ResponseEntity<?> response = authController.verifyTwoFactorCode(request);
@@ -129,12 +132,13 @@ class AuthTests {
     @Test
     void testVerifyTwoFactorCodeFailure() {
         logger.info("Running testVerifyTwoFactorCodeFailure");
-        TwoFactorVerificationRequest request = new TwoFactorVerificationRequest();
-        request.setEmail("test@example.com");
-        request.setCode("wrong-code");
+        TwoFactorVerificationRequest request = new TwoFactorVerificationRequest(
+                "test@example.com",
+                "wrong-code"
+        );
 
-        when(userService.getUserBySubject(eq(request.getEmail()))).thenReturn(testUser);
-        when(userSecurityService.verifyTwoFactorCode(eq(testUser), eq(request.getCode()))).thenReturn(false);
+        when(userService.getUserBySubject(eq(request.email()))).thenReturn(testUser);
+        when(userSecurityService.verifyTwoFactorCode(eq(testUser), eq(request.code()))).thenReturn(false);
 
         Exception exception = assertThrows(Exception.class, () -> {
             authController.verifyTwoFactorCode(request);
@@ -161,11 +165,12 @@ class AuthTests {
     @Test
     void testLoginUserIncorrectPassword() throws Exception {
         logger.info("Running testLoginUserIncorrectPassword");
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
-        loginRequest.setPassword("wrong-password");
+        LoginRequest loginRequest = new LoginRequest(
+                "test@example.com",
+                "wrong-password"
+        );
 
-        when(userService.getUserBySubject(eq(loginRequest.getEmail()))).thenReturn(testUser);
+        when(userService.getUserBySubject(eq(loginRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(false);
         doThrow(new RuntimeException("Bad credentials")).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
 

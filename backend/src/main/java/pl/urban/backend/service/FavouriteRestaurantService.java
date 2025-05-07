@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.response.FavouriteRestaurantResponse;
 import pl.urban.backend.dto.response.OpinionResponse;
@@ -12,17 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FavouriteRestaurantService {
-
     private final FavouriteRestaurantRepository favouriteRestaurantRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
-
-    public FavouriteRestaurantService(FavouriteRestaurantRepository favouriteRestaurantRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
-        this.favouriteRestaurantRepository = favouriteRestaurantRepository;
-        this.userRepository = userRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
 
     public List<FavouriteRestaurantResponse> getAllUserFavouriteRestaurants(Long userId) {
         List<FavouriteRestaurant> favouriteRestaurants = favouriteRestaurantRepository.findByUserId(userId);

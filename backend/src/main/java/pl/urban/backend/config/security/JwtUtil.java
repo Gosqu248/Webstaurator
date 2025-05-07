@@ -1,4 +1,4 @@
-package pl.urban.backend.security;
+package pl.urban.backend.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

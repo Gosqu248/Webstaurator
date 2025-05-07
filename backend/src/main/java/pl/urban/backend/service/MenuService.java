@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +16,10 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MenuService {
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;
-
-    public MenuService(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
-        this.menuRepository = menuRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
 
     public List<Menu> getRestaurantMenu(Long restaurantId) {
         List<Menu> menuItems = menuRepository.findByRestaurantId(restaurantId);

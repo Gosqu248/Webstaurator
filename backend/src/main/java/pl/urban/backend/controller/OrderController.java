@@ -1,30 +1,24 @@
 // OrderController.java
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.AdminOrderResponse;
 import pl.urban.backend.dto.response.OrderResponse;
 import pl.urban.backend.model.Order;
-import pl.urban.backend.security.JwtUtil;
+import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.OrderService;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/order")
 public class OrderController {
-
     private final OrderService orderService;
     private final JwtUtil jwtToken;
-
-
-    public OrderController(OrderService orderService, JwtUtil jwtToken) {
-        this.orderService = orderService;
-        this.jwtToken = jwtToken;
-    }
-
 
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<AdminOrderResponse>> getAllOrders() {

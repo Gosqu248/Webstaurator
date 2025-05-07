@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,10 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/menu")
 public class MenuController {
-
     private final MenuService menuService;
-
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
-    }
 
     @GetMapping("/getRestaurantMenu")
     public ResponseEntity<List<Menu>> getMenuByRestaurantId(@RequestParam Long restaurantId) {

@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.response.CoordinatesResponse;
 import pl.urban.backend.dto.response.SuggestResponse;
@@ -9,15 +10,10 @@ import pl.urban.backend.repository.AddressSuggestionsRepository;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AddressSuggestionsService {
-
     private final AddressSuggestionsRepository addressSuggestionsRepository;
     private final GeocodingService geocodingService;
-
-    public AddressSuggestionsService(AddressSuggestionsRepository addressSuggestionsRepository, GeocodingService geocodingService) {
-        this.addressSuggestionsRepository = addressSuggestionsRepository;
-        this.geocodingService = geocodingService;
-    }
 
     public List<SuggestResponse> getSuggestions(String partialName) {
         List<AddressSuggestions> addressSuggestions = addressSuggestionsRepository.findTop5ByNameContainingIgnoreCase(partialName);

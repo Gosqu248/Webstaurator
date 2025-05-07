@@ -17,9 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/restaurant")
 public class RestaurantController {
-
     private final RestaurantService restaurantService;
-
 
     @GetMapping("/getAll")
     public List<RestaurantResponse> getAllRestaurants() {

@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,25 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-
     private final OrderRepository orderRepository;
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
     private final AdditivesRepository additivesRepository;
     private final UserAddressRepository userAddressRepository;
-
-    public OrderService(OrderRepository orderRepository, RestaurantRepository restaurantRepository,
-                        UserRepository userRepository, MenuRepository menuRepository,
-                        AdditivesRepository additivesRepository, UserAddressRepository userAddressRepository) {
-        this.orderRepository = orderRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.userRepository = userRepository;
-        this.menuRepository = menuRepository;
-        this.additivesRepository = additivesRepository;
-        this.userAddressRepository = userAddressRepository;
-    }
 
     public List<AdminOrderResponse> getAllOrders() {
         return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate")).stream()

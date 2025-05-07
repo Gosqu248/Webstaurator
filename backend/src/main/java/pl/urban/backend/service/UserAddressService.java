@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserAddress;
@@ -10,17 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserAddressService {
-
      private  final UserAddressRepository userAddressRepository;
      private final UserRepository userRepository;
      private final GeocodingService geocodingService;
-
-    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, GeocodingService geocodingService) {
-        this.userAddressRepository = userAddressRepository;
-        this.userRepository = userRepository;
-        this.geocodingService = geocodingService;
-    }
 
     public UserAddress findAddressById(String subject, Long addressId) {
         User user = userRepository.findByEmail(subject)

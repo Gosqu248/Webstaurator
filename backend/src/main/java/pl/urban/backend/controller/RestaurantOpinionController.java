@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.request.RestaurantOpinionRequest;
 import pl.urban.backend.dto.response.RestaurantOpinionResponse;
@@ -9,14 +10,10 @@ import pl.urban.backend.service.RestaurantOpinionService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/opinions")
 public class RestaurantOpinionController {
-
     private final RestaurantOpinionService restaurantOpinionService;
-
-    public RestaurantOpinionController(RestaurantOpinionService restaurantOpinionService) {
-        this.restaurantOpinionService = restaurantOpinionService;
-    }
 
     @GetMapping("/restaurantOpinions")
     public List<RestaurantOpinionResponse> getRestaurantOpinion(@RequestParam Long restaurantId) {
