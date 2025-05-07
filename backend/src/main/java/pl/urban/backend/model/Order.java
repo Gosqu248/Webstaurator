@@ -37,7 +37,6 @@ public class Order {
     @Column(nullable = true, unique = true)
     private String paymentId;
 
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

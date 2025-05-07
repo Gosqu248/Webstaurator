@@ -103,22 +103,18 @@ public class RestaurantService {
             restaurantAddressRepository.delete(address);
             restaurant.setRestaurantAddress(null);
         }
-
         if (restaurant.getDelivery() != null) {
             Delivery delivery = restaurant.getDelivery();
             deliveryRepository.delete(delivery);
             restaurant.setDelivery(null);
         }
-
         if (restaurant.getDeliveryHours() != null) {
             deliveryHourRepository.deleteAll(restaurant.getDeliveryHours());
             restaurant.getDeliveryHours().clear();
         }
-
         if (restaurant.getPayments() != null) {
             restaurant.getPayments().clear();
         }
-
         if (restaurant.getMenu() != null) {
             for (Menu menuItem : restaurant.getMenu()) {
                 if (menuItem.getAdditives() != null) {
@@ -144,13 +140,17 @@ public class RestaurantService {
                 restaurant.getCategory(),
                 restaurant.getLogoUrl(),
                 restaurant.getImageUrl(),
-                restaurant.getRestaurantAddress(),
+                mapper.fromRestaurantAddress(restaurant.getRestaurantAddress()),
                 restaurant.getPayments().stream()
                         .map(Payment::getMethod)
                         .collect(Collectors.toList()),
-                restaurant.getDelivery(),
-                restaurant.getDeliveryHours(),
-                restaurant.getMenu()
+                mapper.fromDelivery(restaurant.getDelivery()),
+                restaurant.getDeliveryHours().stream()
+                        .map(mapper::fromDeliveryHour)
+                        .toList(),
+                restaurant.getMenu().stream()
+                        .map(mapper::fromMenu)
+                        .collect(Collectors.toSet())
         );
     }
 

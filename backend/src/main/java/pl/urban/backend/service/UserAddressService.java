@@ -76,12 +76,12 @@ public class UserAddressService {
             throw new IllegalArgumentException("Address with this id not found");
         }
 
-        userAddress.getUser().setId(null);
+        userAddress.setUser(null);
         userAddressRepository.save(userAddress);
     }
 
 
-    public UserAddress updateAddress(String subject, Long addressId, UserAddress updatedAddress) {
+    public UserAddressResponse updateAddress(String subject, Long addressId, UserAddressRequest updatedAddress) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
 
@@ -92,15 +92,15 @@ public class UserAddressService {
             throw new IllegalArgumentException("Address with this id not found");
         }
 
-        userAddress.setStreet(updatedAddress.getStreet());
-        userAddress.setHouseNumber(updatedAddress.getHouseNumber());
-        userAddress.setFloorNumber(updatedAddress.getFloorNumber());
-        userAddress.setAccessCode(updatedAddress.getAccessCode());
-        userAddress.setZipCode(updatedAddress.getZipCode());
-        userAddress.setCity(updatedAddress.getCity());
-        userAddress.setPhoneNumber(updatedAddress.getPhoneNumber());
+        userAddress.setStreet(updatedAddress.street());
+        userAddress.setHouseNumber(updatedAddress.houseNumber());
+        userAddress.setFloorNumber(updatedAddress.floorNumber());
+        userAddress.setAccessCode(updatedAddress.accessCode());
+        userAddress.setZipCode(updatedAddress.zipCode());
+        userAddress.setCity(updatedAddress.city());
+        userAddress.setPhoneNumber(updatedAddress.phoneNumber());
 
-        return userAddressRepository.save(userAddress);
+        return mapper.fromUserAddress(userAddressRepository.save(userAddress));
 
     }
 

@@ -29,5 +29,4 @@ public class UserSecurity {
     private String twoFactorCode;
 
     private Long twoFactorCodeExpireTime;
-
 }

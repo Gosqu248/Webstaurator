@@ -38,7 +38,7 @@ public class UserAddressController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserAddress> updateAddress(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody UserAddress userAddress) {
+    public ResponseEntity<UserAddressResponse> updateAddress(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody UserAddressRequest userAddress) {
         String subject = jwtToken.extractSubject(token.substring(7));
         return ResponseEntity.ok(userAddressService.updateAddress(subject, id, userAddress));
     }

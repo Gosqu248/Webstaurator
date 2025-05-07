@@ -1,6 +1,5 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @Table
 @Entity(name = "additives")
 public class Additives {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +25,6 @@ public class Additives {
 
     private double price;
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "menu_additives",
@@ -36,7 +33,6 @@ public class Additives {
     )
     private List<Menu> menus;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "chooseAdditives")
     private List<OrderMenu> orderMenus;
 }
