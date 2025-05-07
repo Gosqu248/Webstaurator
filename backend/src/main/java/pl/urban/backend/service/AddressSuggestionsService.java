@@ -18,7 +18,7 @@ public class AddressSuggestionsService {
     public List<SuggestResponse> getSuggestions(String partialName) {
         List<AddressSuggestions> addressSuggestions = addressSuggestionsRepository.findTop5ByNameContainingIgnoreCase(partialName);
         return addressSuggestions.parallelStream()
-                .map(this::convertToDTO)
+                .map(this::toAddressSuggestions)
                 .collect(java.util.stream.Collectors.toList());
     }
 
@@ -30,7 +30,7 @@ public class AddressSuggestionsService {
             );
     }
 
-    public SuggestResponse convertToDTO(AddressSuggestions addressSuggestions) {
+    public SuggestResponse toAddressSuggestions(AddressSuggestions addressSuggestions) {
         return new SuggestResponse(
                 addressSuggestions.getName()
         );

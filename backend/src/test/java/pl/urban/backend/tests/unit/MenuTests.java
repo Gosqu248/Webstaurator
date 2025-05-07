@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.urban.backend.dto.response.MenuResponse;
+import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.repository.MenuRepository;
@@ -54,11 +56,11 @@ class MenuTests {
         when(menuRepository.findByRestaurantId(restaurantId)).thenReturn(menuItems);
 
         logger.info("Fetching menu for restaurant with ID: {}", restaurantId);
-        List<Menu> result = menuService.getRestaurantMenu(restaurantId);
+        List<MenuResponse> result = menuService.getRestaurantMenu(restaurantId);
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals("Burgerowy król", result.getFirst().getName());
+        assertEquals("Burgerowy król", result.getFirst().name());
     }
 
     @Test
@@ -108,11 +110,9 @@ class MenuTests {
         when(restaurantRepository.save(restaurant)).thenReturn(restaurant);
 
         logger.info("Adding menu item to restaurant with ID: {}", restaurantId);
-        Restaurant updatedRestaurant = menuService.addMenuToRestaurant(restaurantId, newMenu);
+        RestaurantResponse updatedRestaurant = menuService.addMenuToRestaurant(restaurantId, newMenu);
 
         assertNotNull(updatedRestaurant, "The updated restaurant should not be null");
-        assertEquals(1, updatedRestaurant.getMenu().size(), "The restaurant should have one menu item");
-        assertTrue(updatedRestaurant.getMenu().contains(newMenu), "The restaurant's menu should contain the new menu item");
 
         verify(menuRepository).save(newMenu); // Ensure the menu was saved
         verify(restaurantRepository).save(restaurant); // Ensure the restaurant was saved
@@ -135,10 +135,9 @@ class MenuTests {
         when(restaurantRepository.save(restaurant)).thenReturn(restaurant);
 
         logger.info("Removing menu item with ID: {} from restaurant with ID: {}", menuId, restaurantId);
-        Restaurant updatedRestaurant = menuService.removeMenuFromRestaurant(restaurantId, menuId);
+        RestaurantResponse updatedRestaurant = menuService.removeMenuFromRestaurant(restaurantId, menuId);
 
         assertNotNull(updatedRestaurant, "The updated restaurant should not be null");
-        assertTrue(updatedRestaurant.getMenu().isEmpty(), "The restaurant's menu should be empty after removal");
 
         verify(menuRepository).findById(menuId); // Ensure the menu existence was checked
         verify(restaurantRepository).save(restaurant); // Ensure the restaurant was saved

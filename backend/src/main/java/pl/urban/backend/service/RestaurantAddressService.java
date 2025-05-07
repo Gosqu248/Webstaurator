@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.RestaurantAddressResponse;
 import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.Delivery;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.repository.DeliveryRepository;
 import pl.urban.backend.repository.RestaurantAddressRepository;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,22 +24,20 @@ public class RestaurantAddressService {
     private final DeliveryRepository deliveryRepository;
     private final RestaurantOpinionService restaurantOpinionService;
     //private CustomRestaurantAddressRepository customRestaurantAddressRepository;
+    private final MapperService mapper;
 
 
-    public RestaurantAddress getRestaurantAddress(Long restaurantId) {
-        return restaurantAddressRepository.findByRestaurantId(restaurantId);
+    public RestaurantAddressResponse getRestaurantAddress(Long restaurantId) {
+        return mapper.fromRestaurantAddress(restaurantAddressRepository.findByRestaurantId(restaurantId));
     }
 
     public CoordinatesResponse getCoordinatesByRestaurantId(Long restaurantId) {
-        RestaurantAddress restaurantAddress = restaurantAddressRepository.findByRestaurantId(restaurantId);
-        return toCoordinatesResponse(restaurantAddress);
+        return toCoordinatesResponse(restaurantAddressRepository.findByRestaurantId(restaurantId));
     }
 
-    public List<RestaurantAddress> findAll() {
-        return restaurantAddressRepository.findAll();
-    }
-
-
+//    public List<RestaurantAddress> findAll() {
+//        return restaurantAddressRepository.findAll();
+//    }
 
     public List<SearchedRestaurantResponse> searchNearbyRestaurants(String address, double radiusKm) {
         double[] coords = geocodingService.getCoordinates(address);
@@ -50,12 +47,11 @@ public class RestaurantAddressService {
         List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
 
         return restaurantAddresses.parallelStream()
-                .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
+                .map(restaurantAddress -> toSearchedRestaurantResponse(restaurantAddress, latitude, longitude))
                 .collect(Collectors.toList());
-
     }
 
-    public SearchedRestaurantResponse convertToDTO(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
+    public SearchedRestaurantResponse toSearchedRestaurantResponse(RestaurantAddress restaurantAddress, double userLatitude, double userLongitude) {
         Long restaurantId = restaurantAddress.getRestaurant().getId();
 
         double distance = calculateDistance(userLatitude, userLongitude, restaurantAddress.getLatitude(), restaurantAddress.getLongitude());
@@ -105,31 +101,30 @@ public class RestaurantAddressService {
         double distance = R * c;
 
         return Math.round(distance * 1000.0) / 1000.0;
-
     }
 
-    public List<Long> searchTime(String address, double radiusKm) {
-        double[] coords = geocodingService.getCoordinates(address);
-        double latitude = coords[0];
-        double longitude = coords[1];
-
-        long startTime = System.currentTimeMillis();
-
-        List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
-        long endTime = System.currentTimeMillis();
-
-        List<SearchedRestaurantResponse> dto = restaurantAddresses.parallelStream()
-                .map(restaurantAddress -> convertToDTO(restaurantAddress, latitude, longitude))
-                .toList();
-
-        long endTimeMax = System.currentTimeMillis();
-
-        List<Long> times = new ArrayList<>();
-        times.add(endTime - startTime);
-        times.add(endTimeMax - endTime);
-
-        return times;
-    }
+//    public List<Long> searchTime(String address, double radiusKm) {
+//        double[] coords = geocodingService.getCoordinates(address);
+//        double latitude = coords[0];
+//        double longitude = coords[1];
+//
+//        long startTime = System.currentTimeMillis();
+//
+//        List<RestaurantAddress> restaurantAddresses = searchNearbyRestaurants(latitude, longitude, radiusKm);
+//        long endTime = System.currentTimeMillis();
+//
+//        List<SearchedRestaurantResponse> dto = restaurantAddresses.parallelStream()
+//                .map(restaurantAddress -> toSearchedRestaurantResponse(restaurantAddress, latitude, longitude))
+//                .toList();
+//
+//        long endTimeMax = System.currentTimeMillis();
+//
+//        List<Long> times = new ArrayList<>();
+//        times.add(endTime - startTime);
+//        times.add(endTimeMax - endTime);
+//
+//        return times;
+//    }
 
     CoordinatesResponse toCoordinatesResponse(RestaurantAddress restaurantAddress) {
         return new CoordinatesResponse(

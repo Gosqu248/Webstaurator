@@ -72,8 +72,8 @@ class AddressSuggestionsTest {
         CoordinatesResponse result = addressSuggestionsService.getCoordinates("Test Address");
 
         assertNotNull(result);
-        assertEquals(51.5074, result.getLat());
-        assertEquals(0.1278, result.getLon());
+        assertEquals(51.5074, result.lat());
+        assertEquals(0.1278, result.lon());
         verify(geocodingService, times(1)).getCoordinates(eq("Test Address"));
         logger.info("Completed testGetCoordinates");
     }
@@ -82,7 +82,7 @@ class AddressSuggestionsTest {
     void testConvertToDTO() {
         logger.info("Running testConvertToDTO");
 
-        SuggestResponse result = addressSuggestionsService.convertToDTO(addressSuggestions);
+        SuggestResponse result = addressSuggestionsService.toAddressSuggestions(addressSuggestions);
 
         assertNotNull(result);
         assertEquals("Test Address", result.name());

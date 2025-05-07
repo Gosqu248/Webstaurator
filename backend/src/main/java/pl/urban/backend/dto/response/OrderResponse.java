@@ -12,7 +12,7 @@ public record OrderResponse(
         String deliveryOption,
         String deliveryTime,
         ZonedDateTime orderDate,
-        List<OrderMenu> orderMenus,
+        List<OrderMenuResponse> orderMenus,
         String paymentId,
         String paymentMethod,
         Long restaurantId,
@@ -20,7 +20,7 @@ public record OrderResponse(
         String restaurantLogo,
         OrderStatus status,
         double totalPrice,
-        UserAddress userAddress,
+        UserAddressResponse userAddress,
         boolean hasOpinion
 ) {
 }

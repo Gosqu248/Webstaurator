@@ -91,7 +91,7 @@ public class AuthController {
         }
 
         if (userSecurityService.verifyTwoFactorCode(user, request.code())) {
-            final String jwt = jwtToken.generateToken(user);
+            final String jwt = jwtToken.generateAuthToken(user);
             return ResponseEntity.ok(new JwtResponse(jwt));
         } else {
             throw new Exception("Bad verification codes");
@@ -106,7 +106,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", "Użytkownik nie znaleziony"));
         }
 
-        String token = jwtToken.generateToken(user);
+        String token = jwtToken.generatePasswordResetToken(user);
 
         String resetUrl = "<a href='http://localhost:4200/reset-password?token=" + token + "'>http://localhost:4200/reset-password?token=" + token + "</a>";
         String emailContent = "Resetowanie hasła do strony Webstaurator. <br> <br>  Kliknij w poniższy link, aby zresetować hasło: <br><br>" + resetUrl;
@@ -118,26 +118,26 @@ public class AuthController {
 
     @GetMapping("/user")
     public UserResponse getUser(@RequestHeader("Authorization") String token) {
-        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        String subject = jwtToken.extractSubject(token.substring(7));
         return userService.getUser(subject);
     }
 
     @GetMapping("/role")
     public ResponseEntity<String> getRole(@RequestHeader("Authorization") String token) {
-        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        String subject = jwtToken.extractSubject(token.substring(7));
         return ResponseEntity.ok().header("Content-Type", "text/plain").body(userService.getRole(subject));
     }
 
     @PutMapping("/changeName")
     public ResponseEntity<String>  changeUserName(@RequestHeader("Authorization") String token, @RequestBody String name) {
-        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        String subject = jwtToken.extractSubject(token.substring(7));
         String updatedName = userService.changeName(subject, name);
         return ResponseEntity.ok(updatedName);
     }
 
     @PutMapping("/changePassword")
     public ResponseEntity<Boolean> changePassword(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> passwords) {
-        String subject =jwtToken.extractSubjectFromToken(token.substring(7));
+        String subject =jwtToken.extractSubject(token.substring(7));
         String password = passwords.get("password");
         String newPassword = passwords.get("newPassword");
         Boolean updatePassword = userService.changePassword(subject, password, newPassword);
@@ -146,7 +146,7 @@ public class AuthController {
 
     @GetMapping("/userInfo")
     public ResponseEntity<UserInfoForOrderResponse> getUserInfo(@RequestHeader("Authorization") String token) {
-        String subject = jwtToken.extractSubjectFromToken(token.substring(7));
+        String subject = jwtToken.extractSubject(token.substring(7));
         UserInfoForOrderResponse userInfo = userService.getUserInfo(subject);
         return ResponseEntity.ok(userInfo);
     }

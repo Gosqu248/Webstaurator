@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.urban.backend.dto.response.PaymentResponse;
 import pl.urban.backend.model.Payment;
 import pl.urban.backend.service.PaymentMethodService;
 
@@ -38,13 +39,13 @@ public class PaymentMethodTests {
         List<Payment> expectedPayments = List.of(payment1, payment2);
 
         // When
-        List<Payment> actualPayments = paymentMethodService.getALlPaymentsByRestaurantId(restaurantId);
+        List<PaymentResponse> actualPayments = paymentMethodService.getALlPaymentsByRestaurantId(restaurantId);
 
         // Then
         assertNotNull(actualPayments);
         assertEquals(expectedPayments.size(), actualPayments.size());
-        assertEquals(expectedPayments.get(0).getMethod(), actualPayments.get(0).getMethod());
-        assertEquals(expectedPayments.get(1).getMethod(), actualPayments.get(1).getMethod());
+        assertEquals(expectedPayments.get(0).getMethod(), actualPayments.get(0).method());
+        assertEquals(expectedPayments.get(1).getMethod(), actualPayments.get(1).method());
         logger.info("Test dla płatności dla restauracji z ID '{}' zakończony sukcesem", restaurantId);
     }
 
@@ -62,13 +63,13 @@ public class PaymentMethodTests {
         List<Payment> expectedPayments = List.of(payment1, payment2);
 
         // When
-        List<Payment> actualPayments = paymentMethodService.getAllPayments();
+        List<PaymentResponse> actualPayments = paymentMethodService.getAllPayments();
 
         // Then
         assertNotNull(actualPayments);
         assertEquals(expectedPayments.size(), actualPayments.size());
-        assertEquals(expectedPayments.get(0).getMethod(), actualPayments.get(0).getMethod());
-        assertEquals(expectedPayments.get(1).getMethod(), actualPayments.get(1).getMethod());
+        assertEquals(expectedPayments.get(0).getMethod(), actualPayments.get(0).method());
+        assertEquals(expectedPayments.get(1).getMethod(), actualPayments.get(1).method());
         logger.info("Test dla wszystkich płatności zakończony sukcesem");
     }
 

@@ -120,7 +120,7 @@ class AuthTests {
 
         when(userService.getUserBySubject(eq(request.email()))).thenReturn(testUser);
         when(userSecurityService.verifyTwoFactorCode(eq(testUser), eq(request.code()))).thenReturn(true);
-        when(jwtUtil.generateToken(eq(testUser))).thenReturn("test-token");
+        when(jwtUtil.generateAuthToken(eq(testUser))).thenReturn("test-token");
 
         ResponseEntity<?> response = authController.verifyTwoFactorCode(request);
 

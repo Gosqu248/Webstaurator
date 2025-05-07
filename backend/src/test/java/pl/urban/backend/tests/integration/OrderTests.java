@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.urban.backend.dto.response.AdminOrderResponse;
-import pl.urban.backend.model.Order;
+import pl.urban.backend.dto.response.OrderResponse;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.service.OrderService;
 
@@ -32,15 +32,15 @@ public class OrderTests {
         Long existingOrderId = 1L;
 
         // When
-        Order order = orderService.getOrderById(existingOrderId);
+        OrderResponse order = orderService.getOrderById(existingOrderId);
 
         // Then
         assertNotNull(order);
-        assertEquals(existingOrderId, order.getId());
-        assertNotNull(order.getRestaurant());
-        assertNotNull(order.getOrderMenus());
-        assertFalse(order.getOrderMenus().isEmpty());
-        logger.info("Test zakończony sukcesem - znaleziono zamówienie o ID: {} , koszt zamówienia: {}zł", order.getId(), order.getTotalPrice());
+        assertEquals(existingOrderId, order.id());
+        assertNotNull(order.restaurantId());
+        assertNotNull(order.orderMenus());
+        assertFalse(order.orderMenus().isEmpty());
+        logger.info("Test zakończony sukcesem - znaleziono zamówienie o ID: {} , koszt zamówienia: {}zł", order.id(), order.totalPrice());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class OrderTests {
         Long orderCount = orderRepository.countByRestaurantId(restaurantId);
 
         // When
-        List<Order> orders = orderService.getAllRestaurantOrders(restaurantId);
+        List<OrderResponse> orders = orderService.getAllRestaurantOrders(restaurantId);
 
         // Then
         assertEquals(orderCount, orders.size());

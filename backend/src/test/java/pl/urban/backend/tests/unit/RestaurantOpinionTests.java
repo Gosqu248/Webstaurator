@@ -12,6 +12,7 @@ import pl.urban.backend.model.RestaurantOpinion;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.repository.RestaurantOpinionRepository;
+import pl.urban.backend.service.MapperService;
 import pl.urban.backend.service.RestaurantOpinionService;
 
 import java.util.List;
@@ -26,7 +27,8 @@ class RestaurantOpinionTests {
 
     private final RestaurantOpinionRepository restaurantOpinionRepository = mock(RestaurantOpinionRepository.class);
     private final OrderRepository orderRepository = mock(OrderRepository.class);
-    private final RestaurantOpinionService service = new RestaurantOpinionService(restaurantOpinionRepository, orderRepository);
+    private final MapperService mapperService = mock(MapperService.class);
+    private final RestaurantOpinionService service = new RestaurantOpinionService(restaurantOpinionRepository, orderRepository, mapperService);
 
     @Test
     void getRestaurantOpinion_ShouldReturnListOfOpinions() {
@@ -91,10 +93,10 @@ class RestaurantOpinionTests {
 
         when(restaurantOpinionRepository.save(any(RestaurantOpinion.class))).thenReturn(savedOpinion);
 
-        RestaurantOpinion result = service.addOpinion(dto, orderId);
+        RestaurantOpinionResponse result = service.addOpinion(dto, orderId);
 
-        assertEquals(1L, result.getId());
+        assertEquals(1L, result.id());
         verify(restaurantOpinionRepository).save(any(RestaurantOpinion.class));
-        logger.info("Test zakończony sukcesem - dodano opinię o ID: {} dla zamówienia o ID: {}", result.getId(), orderId);
+        logger.info("Test zakończony sukcesem - dodano opinię o ID: {} dla zamówienia o ID: {}", result.id(), orderId);
     }
 }

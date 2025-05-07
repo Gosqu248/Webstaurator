@@ -21,7 +21,7 @@ public class RestaurantOpinionController {
     }
 
     @PostMapping("/addOpinion")
-    public RestaurantOpinion addOpinion(@RequestBody RestaurantOpinionRequest opinionRequest, @RequestParam Long orderId) {
+    public RestaurantOpinionResponse addOpinion(@RequestBody RestaurantOpinionRequest opinionRequest, @RequestParam Long orderId) {
         return restaurantOpinionService.addOpinion(opinionRequest, orderId);
     }
 

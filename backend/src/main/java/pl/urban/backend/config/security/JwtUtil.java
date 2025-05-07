@@ -13,7 +13,6 @@ import pl.urban.backend.model.User;
 
 import java.security.Key;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,12 +113,10 @@ public class JwtUtil {
         try {
             Claims claims = extractAllClaims(token);
 
-            // Check if token is expired
             if (claims.getExpiration().before(Date.from(Instant.now()))) {
                 throw new JwtException("Token is expired");
             }
 
-            // Check token purpose
             String purpose = claims.get("purpose", String.class);
             if (!expectedPurpose.getValue().equals(purpose)) {
                 throw new JwtException("Token purpose does not match");

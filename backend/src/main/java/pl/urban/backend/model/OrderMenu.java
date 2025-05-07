@@ -2,13 +2,15 @@ package pl.urban.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "order_menu")
 public class OrderMenu {
@@ -33,7 +35,6 @@ public class OrderMenu {
     private List<Additives> chooseAdditives;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "order_id")
     private Order order;
 }

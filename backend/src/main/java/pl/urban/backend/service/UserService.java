@@ -21,6 +21,7 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+
     public Boolean changePassword(String subject, String password, String newPassword) {
         User user = getUserBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
@@ -31,7 +32,6 @@ public class UserService {
         userRepository.save(user);
         return true;
     }
-
 
     public User getUserBySubject(String subject) {
         return userRepository.findByEmail(subject)
@@ -45,7 +45,7 @@ public class UserService {
 
     public UserResponse getUser(String subject) {
         User user = getUserBySubject(subject);
-        return convertToDTO(user);
+        return fromUser(user);
     }
 
     public String changeName(String subject, String name) {
@@ -55,13 +55,12 @@ public class UserService {
         return name;
     }
 
-
     public UserInfoForOrderResponse getUserInfo(String subject) {
         User user = getUserBySubject(subject);
         return new UserInfoForOrderResponse(user.getId(), user.getName(), user.getEmail(), user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
     }
 
-    public UserResponse convertToDTO(User user) {
+    public UserResponse fromUser(User user) {
         return new UserResponse(
                 user.getId(),
                 user.getName(),
@@ -69,6 +68,4 @@ public class UserService {
                 String.valueOf(user.getRole())
         );
     }
-
-
 }

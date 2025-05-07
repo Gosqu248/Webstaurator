@@ -1,7 +1,10 @@
 package pl.urban.backend.dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import pl.urban.backend.model.*;
+import pl.urban.backend.model.Delivery;
+import pl.urban.backend.model.DeliveryHour;
+import pl.urban.backend.model.Menu;
+import pl.urban.backend.model.RestaurantAddress;
 
 import java.util.List;
 import java.util.Set;

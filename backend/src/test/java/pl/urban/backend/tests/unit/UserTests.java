@@ -129,7 +129,7 @@ class UserTests {
         user.setEmail("user@example.com");
         user.setRole(Role.admin);
 
-        UserResponse userDTO = userService.convertToDTO(user);
+        UserResponse userDTO = userService.fromUser(user);
 
         assertNotNull(userDTO);
         assertEquals(1L, userDTO.id());

@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.urban.backend.dto.request.AddRestaurantRequest;
+import pl.urban.backend.dto.response.DeliveryHourResponse;
 import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.PaymentRepository;
@@ -107,7 +108,7 @@ class RestaurantTests {
         menus.add(newMenu);
 
 
-        List<DeliveryHour> deliveryHour = deliveryHourService.getDeliveryTimeFromRestaurantId(1L);
+        List<DeliveryHourResponse> deliveryHour = deliveryHourService.getDeliveryTimeFromRestaurantId(1L);
 
 
         AddRestaurantRequest dto = new AddRestaurantRequest(

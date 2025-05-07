@@ -24,8 +24,7 @@ class JwtUtilTests {
     @BeforeEach
     void setUp() {
         jwtUtil = new JwtUtil();
-        jwtUtil.rotateKey();
-        jwtUtil.expiration = 3600L;
+        jwtUtil.standardExpirationSeconds = 3600L;
 
         testUser = new User();
         testUser.setEmail("test@example.com");
@@ -35,7 +34,7 @@ class JwtUtilTests {
     @Test
     void testGenerateToken() {
         logger.info("Running testGenerateToken");
-        String token = jwtUtil.generateToken(testUser);
+        String token = jwtUtil.generateAuthToken(testUser);
 
         assertNotNull(token, "Token should not be null");
         assertEquals(3, token.split("\\.").length, "Token should be in valid JWT format");
@@ -45,8 +44,8 @@ class JwtUtilTests {
     @Test
     void testExtractSubjectFromToken() {
         logger.info("Running testExtractSubjectFromToken");
-        String token = jwtUtil.generateToken(testUser);
-        String subject = jwtUtil.extractSubjectFromToken(token);
+        String token = jwtUtil.generateAuthToken(testUser);
+        String subject = jwtUtil.extractSubject(token);
 
         assertEquals(testUser.getEmail(), subject, "Subject should match the user's email");
         logger.info("Completed testExtractSubjectFromToken");
@@ -55,7 +54,7 @@ class JwtUtilTests {
     @Test
     void testExtractClaims() {
         logger.info("Running testExtractClaims");
-        String token = jwtUtil.generateToken(testUser);
+        String token = jwtUtil.generateAuthToken(testUser);
         Claims claims = jwtUtil.extractAllClaims(token);
 
         assertNotNull(claims, "Claims should not be null");
@@ -67,11 +66,10 @@ class JwtUtilTests {
     @Test
     void testRotateKeyInvalidatesOldTokens() {
         logger.info("Running testRotateKeyInvalidatesOldTokens");
-        String token = jwtUtil.generateToken(testUser);
-        jwtUtil.rotateKey(); // Rotate key to invalidate previous tokens
+        String token = jwtUtil.generateAuthToken(testUser);
 
         Exception exception = assertThrows(io.jsonwebtoken.security.SecurityException.class, () -> {
-            jwtUtil.extractSubjectFromToken(token);
+            jwtUtil.extractSubject(token);
         });
 
         assertTrue(exception.getMessage().contains("JWT signature does not match"), "Old token should be invalid");
@@ -81,13 +79,13 @@ class JwtUtilTests {
     @Test
     void testTokenExpiration() throws InterruptedException {
         logger.info("Running testTokenExpiration");
-        jwtUtil.expiration = 1L; // Set short expiration time for testing
-        String token = jwtUtil.generateToken(testUser);
+        jwtUtil.standardExpirationSeconds = 1L; // Set short expiration time for testing
+        String token = jwtUtil.generateAuthToken(testUser);
 
         Thread.sleep(2000); // Wait for the token to expire
 
         Exception exception = assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> {
-            jwtUtil.extractSubjectFromToken(token);
+            jwtUtil.extractSubject(token);
         });
 
         assertTrue(exception.getMessage().contains("JWT expired"), "Expired token should throw exception");

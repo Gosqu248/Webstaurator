@@ -15,7 +15,7 @@ public class GoogleAuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtToken;
 
-    public  String googleLogin(OAuth2User principal) {
+    public String googleLogin(OAuth2User principal) {
         String email = principal.getAttribute("email");
         String name = principal.getAttribute("name");
 
@@ -27,7 +27,7 @@ public class GoogleAuthService {
             newUser.setRole(Role.user);
             return userRepository.save(newUser);
         });
-        return jwtToken.generateToken(user);
+        return jwtToken.generateAuthToken(user);
     }
 
 }

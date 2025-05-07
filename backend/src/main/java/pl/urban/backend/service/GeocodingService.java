@@ -12,7 +12,6 @@ import pl.urban.backend.dto.response.GeoCodingResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-
 @Service
 @RequiredArgsConstructor
 public class GeocodingService {
@@ -64,7 +63,6 @@ public class GeocodingService {
                 .replace("ś", "s")
                 .replace("ź", "z")
                 .replace("ż", "z");
-
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.RestaurantAddressResponse;
 import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.service.RestaurantAddressService;
@@ -26,7 +27,7 @@ public class RestaurantAddressController {
 
 
     @GetMapping("/get")
-    public RestaurantAddress getRestaurantAddress(@RequestParam Long restaurantId) {
+    public RestaurantAddressResponse getRestaurantAddress(@RequestParam Long restaurantId) {
         return restaurantAddressService.getRestaurantAddress(restaurantId);
     }
 

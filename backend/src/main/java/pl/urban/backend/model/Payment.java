@@ -2,13 +2,15 @@ package pl.urban.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "payment")
 public class Payment {
@@ -22,6 +24,5 @@ public class Payment {
     private String image;
 
     @ManyToMany(mappedBy = "payments")
-    @JsonIgnore
     private Set<Restaurant> restaurants;
 }

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import pl.urban.backend.controller.RestaurantAddressController;
 import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.RestaurantAddressResponse;
 import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantAddress;
@@ -34,7 +35,7 @@ class RestaurantAddressTests {
     @Mock
     private RestaurantAddressService restaurantAddressService;
 
-    private RestaurantAddress testRestaurantAddress;
+    private RestaurantAddressResponse testRestaurantAddress;
     private SearchedRestaurantResponse testSearchedRestaurantResponse;
 
     @BeforeEach
@@ -48,11 +49,16 @@ class RestaurantAddressTests {
         testRestaurant.setName("Test Restaurant");
         testRestaurant.setCategory("Italian");
 
-        testRestaurantAddress = new RestaurantAddress();
-        testRestaurantAddress.setRestaurant(testRestaurant);
-        testRestaurantAddress.setLatitude(52.229676);
-        testRestaurantAddress.setLongitude(21.012229);
-
+        testRestaurantAddress = new RestaurantAddressResponse(
+                1L,
+                "Test Street 123",
+                "Test City",
+                "Test Country",
+                "33-100",
+                52.229676,
+                21.012229,
+                testRestaurant.getId()
+        );
         // Initialize test DTO
         testSearchedRestaurantResponse = new SearchedRestaurantResponse(
                 1L,
@@ -116,12 +122,12 @@ class RestaurantAddressTests {
         when(restaurantAddressService.getRestaurantAddress(1L))
                 .thenReturn(testRestaurantAddress);
 
-        RestaurantAddress result = restaurantAddressController.getRestaurantAddress(1L);
+        RestaurantAddressResponse result = restaurantAddressController.getRestaurantAddress(1L);
 
         assertNotNull(result);
-        assertEquals(testRestaurantAddress.getRestaurant().getId(), result.getRestaurant().getId());
-        assertEquals(testRestaurantAddress.getLatitude(), result.getLatitude());
-        assertEquals(testRestaurantAddress.getLongitude(), result.getLongitude());
+        assertEquals(testRestaurantAddress.restaurantId(), result.restaurantId());
+        assertEquals(testRestaurantAddress.latitude(), result.latitude());
+        assertEquals(testRestaurantAddress.longitude(), result.longitude());
 
         logger.info("Completed testGetRestaurantAddress");
     }
@@ -155,7 +161,7 @@ class RestaurantAddressTests {
         when(restaurantAddressService.getRestaurantAddress(999L))
                 .thenReturn(null);
 
-        RestaurantAddress result = restaurantAddressController.getRestaurantAddress(999L);
+        RestaurantAddressResponse result = restaurantAddressController.getRestaurantAddress(999L);
 
         assertNull(result);
 

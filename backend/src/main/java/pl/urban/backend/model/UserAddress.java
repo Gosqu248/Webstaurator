@@ -1,16 +1,15 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_addresses")
 public class UserAddress {
@@ -48,14 +47,8 @@ public class UserAddress {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @JsonIgnore
     private User user;
 
-    @Column(name = "user_id")
-    @JsonProperty("userId")
-    private Long userId;
-
     @OneToMany(mappedBy = "userAddress")
-    @JsonIgnore
     private List<Order> order;
 }

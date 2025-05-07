@@ -19,7 +19,6 @@ public class EmailService {
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String senderEmail;
 
-
     @Async
     public void sendEmail(String to, String subject, String content) {
         CompletableFuture.runAsync(() -> {
