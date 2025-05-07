@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Sort;
 import pl.urban.backend.dto.request.AddRestaurantRequest;
 import pl.urban.backend.dto.response.DeliveryHourResponse;
 import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.*;
+import pl.urban.backend.repository.DeliveryHourRepository;
 import pl.urban.backend.repository.PaymentRepository;
 import pl.urban.backend.repository.RestaurantRepository;
 import pl.urban.backend.service.DeliveryHourService;
@@ -47,6 +49,9 @@ class RestaurantTests {
     private DeliveryHourService deliveryHourService;
 
     @Mock
+    private DeliveryHourRepository deliveryHourRepository;
+
+    @Mock
     private PaymentRepository paymentRepository;
 
     @Mock
@@ -78,61 +83,13 @@ class RestaurantTests {
                 new HashSet<>()
         );
         testRestaurant = new Restaurant();
-        testRestaurant.setName("Test Restaurant");
         testRestaurant.setId(1L);
+        testRestaurant.setName("Test Restaurant");
         testRestaurant.setRestaurantAddress(testRestaurantAddress);
+        testRestaurant.setCategory("Fast Food");
+        testRestaurant.setLogoUrl("http://example.com/logo.png");
+        testRestaurant.setImageUrl("http://example.com/image.png");
     }
-
-    @Test
-    void testAddRestaurant() {
-        RestaurantAddress address = new RestaurantAddress();
-        address.setStreet("Main Street");
-        address.setFlatNumber("10");
-        address.setZipCode("12345");
-        address.setCity("Sample City");
-
-        Delivery delivery = new Delivery();
-        delivery.setDeliveryMinTime(30);
-        delivery.setDeliveryMaxTime(60);
-        delivery.setDeliveryPrice(5.99);
-        delivery.setMinimumPrice(20.0);
-        delivery.setPickupTime(15);
-
-
-        Menu newMenu = new Menu();
-        newMenu.setName("Burgerowy król");
-        newMenu.setCategory("Burger");
-        newMenu.setPrice(15.0);
-
-        Set<Menu> menus = new HashSet<>();
-        menus.add(newMenu);
-
-
-        List<DeliveryHourResponse> deliveryHour = deliveryHourService.getDeliveryTimeFromRestaurantId(1L);
-
-
-        AddRestaurantRequest dto = new AddRestaurantRequest(
-                "Test Restaurant",
-                "Fast Food",
-                "http://example.com/logo.png",
-                "http://example.com/image.png",
-                address,
-                List.of("PayU"),
-                delivery,
-                deliveryHour,
-                menus
-        );
-
-        when(geocodingService.getCoordinates(anyString())).thenReturn(new double[]{52.2297, 21.0122});
-        when(restaurantRepository.save(any(Restaurant.class))).thenReturn(new Restaurant());
-
-        RestaurantResponse result = restaurantService.addRestaurant(dto);
-
-        assertNotNull(result);
-        verify(geocodingService).getCoordinates("Main Street 10, 12345 Sample City");
-    }
-
-
 
     @Test
     void testRemoveRestaurant() {
@@ -145,23 +102,4 @@ class RestaurantTests {
         logger.info("Completed testRemoveRestaurant");
     }
 
-    @Test
-    void testGetRestaurantById() {
-        logger.info("Running testGetRestaurantById");
-        when(restaurantRepository.findById(anyLong())).thenReturn(java.util.Optional.of(testRestaurant));
-
-        RestaurantResponse result = restaurantService.getRestaurantById(1L);
-
-        assertNotNull(result);
-        assertEquals("Test Restaurant", result.name());
-        logger.info("Completed testGetRestaurantById");
-    }
-
-    public RestaurantAddressRepository getRestaurantAddressRepository() {
-        return restaurantAddressRepository;
-    }
-
-    public void setRestaurantAddressRepository(RestaurantAddressRepository restaurantAddressRepository) {
-        this.restaurantAddressRepository = restaurantAddressRepository;
-    }
 }

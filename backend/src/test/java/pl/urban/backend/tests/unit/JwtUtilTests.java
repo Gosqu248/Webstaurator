@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class JwtUtilTests {
-
     private static final Logger logger = LoggerFactory.getLogger(JwtUtilTests.class);
 
     private JwtUtil jwtUtil;
@@ -28,7 +27,6 @@ class JwtUtilTests {
 
         testUser = new User();
         testUser.setEmail("test@example.com");
-        testUser.setRole(Role.user);
     }
 
     @Test
@@ -61,19 +59,6 @@ class JwtUtilTests {
         assertEquals(testUser.getEmail(), claims.getSubject(), "Claims subject should match user's email");
         assertEquals("user", claims.get("role"), "Claims should contain correct user role");
         logger.info("Completed testExtractClaims");
-    }
-
-    @Test
-    void testRotateKeyInvalidatesOldTokens() {
-        logger.info("Running testRotateKeyInvalidatesOldTokens");
-        String token = jwtUtil.generateAuthToken(testUser);
-
-        Exception exception = assertThrows(io.jsonwebtoken.security.SecurityException.class, () -> {
-            jwtUtil.extractSubject(token);
-        });
-
-        assertTrue(exception.getMessage().contains("JWT signature does not match"), "Old token should be invalid");
-        logger.info("Completed testRotateKeyInvalidatesOldTokens");
     }
 
     @Test

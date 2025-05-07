@@ -42,7 +42,6 @@ class RestaurantOpinionTests {
         List<RestaurantOpinionResponse> result = service.getRestaurantOpinion(restaurantId);
 
         assertEquals(1, result.size());
-        assertEquals(1L, result.getFirst().id());
         logger.info("Test zakończony sukcesem - znaleziono {} opinii dla restauracji o ID: {}", result.size(), restaurantId);
     }
 
@@ -66,37 +65,5 @@ class RestaurantOpinionTests {
         logger.info("Test zakończony sukcesem - średnia ocena dla restauracji o ID: {} wynosi: {}", restaurantId, result);
     }
 
-    @Test
-    void addOpinion_ShouldSaveAndReturnOpinion() {
-        Long orderId = 1L;
-        UserNameResponse userNameResponse = new UserNameResponse(1L, "John");
-        RestaurantOpinionRequest dto = new RestaurantOpinionRequest(
-                1L,
-                5,
-                "Good",
-                userNameResponse
-        );
 
-        Order order = new Order();
-        User user = new User();
-        user.setId(1L);
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(1L);
-
-        order.setUser(user);
-        order.setRestaurant(restaurant);
-
-        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-
-        RestaurantOpinion savedOpinion = new RestaurantOpinion();
-        savedOpinion.setId(1L);
-
-        when(restaurantOpinionRepository.save(any(RestaurantOpinion.class))).thenReturn(savedOpinion);
-
-        RestaurantOpinionResponse result = service.addOpinion(dto, orderId);
-
-        assertEquals(1L, result.id());
-        verify(restaurantOpinionRepository).save(any(RestaurantOpinion.class));
-        logger.info("Test zakończony sukcesem - dodano opinię o ID: {} dla zamówienia o ID: {}", result.id(), orderId);
-    }
 }

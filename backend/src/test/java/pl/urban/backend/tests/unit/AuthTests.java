@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.urban.backend.controller.AuthController;
 import pl.urban.backend.model.User;
 import pl.urban.backend.dto.response.JwtResponse;
@@ -29,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class AuthTests {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthTests.class);
 
     @InjectMocks
@@ -47,9 +49,11 @@ class AuthTests {
     @Mock
     private UserSecurityService userSecurityService;
 
+    @Spy
+    private BCryptPasswordEncoder brcyptPasswordEncoder;
     private User testUser;
 
-    private UserRequest testUserRequest = new UserRequest(
+    private final UserRequest testUserRequest = new UserRequest(
             "test@example.com",
             "password"
     );
@@ -60,6 +64,7 @@ class AuthTests {
         testUser = new User();
         testUser.setEmail("test@example.com");
         testUser.setName("Test User");
+        testUser.setPassword(brcyptPasswordEncoder.encode("password"));
     }
 
     @Test
@@ -170,7 +175,7 @@ class AuthTests {
     }
 
     @Test
-    void testLoginUserIncorrectPassword() throws Exception {
+    void testLoginUserIncorrectPassword() {
         logger.info("Running testLoginUserIncorrectPassword");
         UserRequest userRequest = new UserRequest(
                 "test@example.com",
@@ -179,15 +184,18 @@ class AuthTests {
 
         when(userService.getUserBySubject(eq(userRequest.email()))).thenReturn(testUser);
         when(userSecurityService.isAccountLocked(eq(testUser))).thenReturn(false);
-        doThrow(new RuntimeException("Bad credentials")).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        // Simulate bad credentials inside authenticate():
+        doThrow(new RuntimeException("Bad credentials"))
+                .when(authenticationManager)
+                .authenticate(any(UsernamePasswordAuthenticationToken.class));
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            authController.loginUser(userRequest);
-        });
+        ResponseEntity<?> response = authController.loginUser(userRequest);
 
-        assertEquals("Bad credentials", exception.getMessage());
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Invalid credentials", response.getBody());
         logger.info("Completed testLoginUserIncorrectPassword");
     }
+
 
 
 }
