@@ -86,7 +86,6 @@ public class MapperService {
                 orderMenu.getId(),
                 orderMenu.getQuantity(),
                 fromMenu(orderMenu.getMenu()),
-                orderMenu.getMenu().getName(),
                 orderMenu.getChooseAdditives().stream()
                         .map(additive -> new AdditivesResponse(
                                 additive.getId(),

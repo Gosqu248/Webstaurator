@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {NgClass, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {PayUService} from "../../../services/pay-u.service";
 import {environment} from "../../../../environments/environment";
 import {OrderService} from "../../../services/order.service";
-import {Order, OrderStatus} from "../../../interfaces/order";
+import {OrderRequest, OrderStatus} from "../../../interfaces/order";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/language.service";
 import {Router, RouterLink} from "@angular/router";
@@ -24,7 +24,7 @@ export class PaymentConfirmationComponent implements OnInit{
   paymentId: string = ' ';
   status: string = '';
   background = environment.api + '/img/Pay-conf-back.webp';
-  order: Order = {} as Order;
+  order: OrderRequest = {} as OrderRequest;
   isLoading: boolean = true;
 
   constructor(private payUService: PayUService,
@@ -104,6 +104,6 @@ export class PaymentConfirmationComponent implements OnInit{
   resetState() {
     this.paymentId = '';
     this.status = '';
-    this.order = {} as Order;
+    this.order = {} as OrderRequest;
   }
 }

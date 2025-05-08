@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.request.OrderRequest;
 import pl.urban.backend.dto.response.AdminOrderResponse;
 import pl.urban.backend.dto.response.OrderResponse;
 import pl.urban.backend.model.Order;
@@ -58,14 +59,8 @@ public class OrderController {
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<?> createOrder(@RequestBody Order order) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequest order) {
         try {
-            // Basic validation
-            if (order == null || (order.getUser() == null || order.getUser().getId() == null)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Order request is missing required information");
-            }
-
             OrderResponse createdOrder = orderService.createOrder(order);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
         } catch (IllegalArgumentException e) {

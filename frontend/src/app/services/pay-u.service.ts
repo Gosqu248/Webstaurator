@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Order} from "../interfaces/order";
+import {Order, OrderRequest} from "../interfaces/order";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
@@ -12,7 +12,7 @@ export class PayUService {
   constructor(private http: HttpClient) { }
 
   private apiUrl = environment.api + '/api/payU';
-  createPayUPayment(order: Order): Observable<PaymentResponse> {
+  createPayUPayment(order: OrderRequest): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(`${this.apiUrl}/createPayment`, order);
   }
 

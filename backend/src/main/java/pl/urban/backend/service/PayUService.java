@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.model.OrderMenu;
-import pl.urban.backend.dto.request.OrderRequest;
+import pl.urban.backend.dto.request.OrderPaymentRequest;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -89,19 +89,19 @@ public class PayUService {
         String token = getOAuthToken();
         headers.set("Authorization", "Bearer " + token);
 
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setCustomerIp(ip);
-        orderRequest.setMerchantPosId(clientId);
-        orderRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
-        orderRequest.setCurrencyCode("PLN");
-        orderRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100)));
-        orderRequest.setContinueUrl("http://localhost:4200/payment-confirmation");
+        OrderPaymentRequest orderPaymentRequest = new OrderPaymentRequest();
+        orderPaymentRequest.setCustomerIp(ip);
+        orderPaymentRequest.setMerchantPosId(clientId);
+        orderPaymentRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
+        orderPaymentRequest.setCurrencyCode("PLN");
+        orderPaymentRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100)));
+        orderPaymentRequest.setContinueUrl("http://localhost:4200/payment-confirmation");
 
-        List<OrderRequest.Product> products = getProducts(order);
-        orderRequest.setProducts(products);
+        List<OrderPaymentRequest.Product> products = getProducts(order);
+        orderPaymentRequest.setProducts(products);
 
 
-        HttpEntity<OrderRequest> entity = new HttpEntity<>(orderRequest, headers);
+        HttpEntity<OrderPaymentRequest> entity = new HttpEntity<>(orderPaymentRequest, headers);
         ResponseEntity<String> response = restTemplate.exchange(
                 payuApiUrl,
                 HttpMethod.POST,
@@ -128,11 +128,11 @@ public class PayUService {
     }
 
     @NotNull
-    private static List<OrderRequest.Product> getProducts(Order order) {
-        List<OrderRequest.Product> products = new ArrayList<>();
+    private static List<OrderPaymentRequest.Product> getProducts(Order order) {
+        List<OrderPaymentRequest.Product> products = new ArrayList<>();
         List<OrderMenu> orderMenus = order.getOrderMenus();
         for (OrderMenu orderMenu : orderMenus) {
-            OrderRequest.Product product = new OrderRequest.Product();
+            OrderPaymentRequest.Product product = new OrderPaymentRequest.Product();
             product.setName(orderMenu.getMenu().getName());
             product.setUnitPrice(String.valueOf((int) (orderMenu.getMenu().getPrice() * 100)));
             product.setQuantity(String.valueOf(orderMenu.getQuantity()));

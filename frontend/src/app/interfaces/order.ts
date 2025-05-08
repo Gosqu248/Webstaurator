@@ -15,7 +15,26 @@ export interface Order {
   userAddress: UserAddress | null;
   restaurant: Restaurant;
   paymentId: string | null;
+}
 
+export interface OrderRequest {
+  userId: number;
+  userAddressId: number | null;
+  restaurantId: number;
+  orderMenus: OrderMenuRequest[];
+  deliveryOption: string;
+  deliveryTime: string;
+  paymentId: string | null;
+  paymentMethod: string;
+  status: OrderStatus;
+  totalPrice: number;
+  comment: string;
+}
+
+export interface OrderMenuRequest {
+  quantity: number;
+  menuId: number;
+  chooseAdditivesId: number[];
 }
 
 export interface OrderMenu {

@@ -7,7 +7,6 @@ public record OrderMenuResponse(
         Long id,
         int quantity,
         MenuResponse menu,
-        String menuName,
         List<AdditivesResponse> chooseAdditives
 ) {
 }

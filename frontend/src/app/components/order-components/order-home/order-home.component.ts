@@ -1,13 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild, Inject, PLATFORM_ID} from '@angular/core';
 import {OrderBasketComponent} from "../order-basket/order-basket.component";
-import {NgIf} from "@angular/common";
 import {OrderPersonalInfoComponent} from "../order-personal-info/order-personal-info.component";
 import {OrderDeliveryComponent} from "../order-delivery/order-delivery.component";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {AddressesService} from "../../../services/addresses.service";
 import {OrderPaymentComponent} from "../order-payment/order-payment.component";
 import {AuthService} from "../../../services/auth.service";
-import {Order, OrderStatus} from "../../../interfaces/order";
+import {OrderMenuRequest, OrderRequest, OrderStatus} from "../../../interfaces/order";
 import {RestaurantService} from "../../../services/restaurant.service";
 import {Restaurant} from "../../../interfaces/restaurant";
 import {UserDTO} from "../../../interfaces/user.interface";
@@ -112,19 +111,36 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     const userAddress = this.orderDelivery.selectedAddress ? this.orderDelivery.selectedAddress : null
     const deliveryOption = this.deliveryOption === 'delivery' ? 'dostawa' : 'odbiór osobisty';
 
+    const orderMenusRequest: OrderMenuRequest[] = this.basket.orderMenus.map(item => {
+      if (item.menu.id == null) {
+        throw new Error('Brak menuId w elemencie koszyka');
+      }
+      const menuId: number = item.menu.id;
+
+      const chooseAdditivesId: number[] = (item.chooseAdditives ?? [])
+        .map(a => a.id)
+        .filter((id): id is number => id != null);
+
+      return {
+        quantity: item.quantity,
+        menuId,
+        chooseAdditivesId
+      };
+    });
+
     if (restaurantId) {
-      const order: Order = {
+      const order: OrderRequest = {
+        userId: user.id,
+        userAddressId: userAddress?.id || null,
+        restaurantId: this.restaurant.id,
+        orderMenus: orderMenusRequest,
+        deliveryOption: deliveryOption,
+        deliveryTime: deliveryTime,
+        paymentId: null,
         paymentMethod: this.orderPayment.selectedPayment?.method || '',
         status: OrderStatus.niezaplacone,
         totalPrice: this.basket.totalPrice,
-        deliveryTime: deliveryTime,
-        deliveryOption: deliveryOption,
         comment: this.orderPersonalInfo.relevantInformation,
-        paymentId: null,
-        user: user,
-        restaurant: this.restaurant,
-        orderMenus: this.basket.orderMenus,
-        userAddress: userAddress,
       }
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {

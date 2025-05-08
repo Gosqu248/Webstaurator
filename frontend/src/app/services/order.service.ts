@@ -2,7 +2,7 @@ import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {CartService} from "./cart.service";
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AdminOrderDTO, Order, OrderDTO, OrderMenu} from "../interfaces/order";
+import {AdminOrderDTO, Order, OrderDTO, OrderMenu, OrderRequest} from "../interfaces/order";
 import {BehaviorSubject} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 
@@ -23,7 +23,7 @@ export class OrderService {
     return this.http.get<OrderDTO[]>(`${this.apiUrl}/getUserOrders`, {headers});
   }
 
-  createOrder(order: Order) {
+  createOrder(order: OrderRequest) {
     order.totalPrice = parseFloat(order.totalPrice.toFixed(2));
     return this.http.post<Order>(`${this.apiUrl}/createOrder`, order).subscribe({
       next: () => {
