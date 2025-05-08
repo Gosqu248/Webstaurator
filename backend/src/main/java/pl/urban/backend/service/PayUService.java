@@ -16,9 +16,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import pl.urban.backend.model.Order;
-import pl.urban.backend.model.OrderMenu;
+import pl.urban.backend.dto.request.OrderMenuRequest;
+import pl.urban.backend.dto.request.OrderRequest;
 import pl.urban.backend.dto.request.OrderPaymentRequest;
+import pl.urban.backend.model.Menu;
+import pl.urban.backend.model.Restaurant;
+import pl.urban.backend.repository.MenuRepository;
+import pl.urban.backend.repository.RestaurantRepository;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -44,6 +48,8 @@ public class PayUService {
     private static final OkHttpClient client = new OkHttpClient();
     private static String accessToken = null;
     private static Instant tokenExpiration = null;
+    private final RestaurantRepository restaurantRepository;
+    private final MenuRepository menuRepository;
 
     public String getOAuthToken() {
         if (accessToken != null && tokenExpiration != null && Instant.now().isBefore(tokenExpiration)) {
@@ -83,18 +89,21 @@ public class PayUService {
         }
     }
 
-    public Map<String,String> createOrder(Order order, String ip) {
+    public Map<String,String> createOrder(OrderRequest order, String ip) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         String token = getOAuthToken();
         headers.set("Authorization", "Bearer " + token);
 
+        Restaurant restaurant = restaurantRepository.findById(order.restaurantId())
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono restauracji o podanym ID"));
+
         OrderPaymentRequest orderPaymentRequest = new OrderPaymentRequest();
         orderPaymentRequest.setCustomerIp(ip);
         orderPaymentRequest.setMerchantPosId(clientId);
-        orderPaymentRequest.setDescription("Zamówienie z " + order.getRestaurant().getName());
+        orderPaymentRequest.setDescription("Zamówienie z " + restaurant.getName());
         orderPaymentRequest.setCurrencyCode("PLN");
-        orderPaymentRequest.setTotalAmount(String.valueOf((int) (order.getTotalPrice() * 100)));
+        orderPaymentRequest.setTotalAmount(String.valueOf((int) (order.totalPrice() * 100)));
         orderPaymentRequest.setContinueUrl("http://localhost:4200/payment-confirmation");
 
         List<OrderPaymentRequest.Product> products = getProducts(order);
@@ -128,44 +137,29 @@ public class PayUService {
     }
 
     @NotNull
-    private static List<OrderPaymentRequest.Product> getProducts(Order order) {
+    private List<OrderPaymentRequest.Product> getProducts(OrderRequest orderRequest) {
         List<OrderPaymentRequest.Product> products = new ArrayList<>();
-        List<OrderMenu> orderMenus = order.getOrderMenus();
-        for (OrderMenu orderMenu : orderMenus) {
+        List<OrderMenuRequest> orderMenuRequests = orderRequest.orderMenus();
+
+        if (orderMenuRequests == null || orderMenuRequests.isEmpty()) {
+            throw new IllegalArgumentException("Order must contain at least one menu item");
+        }
+
+        for (OrderMenuRequest orderMenuRequest : orderMenuRequests) {
+            if (orderMenuRequest == null || orderMenuRequest.menuId() == null) {
+                throw new IllegalArgumentException("Menu ID is required for order items");
+            }
+
+            Menu menu = menuRepository.findById(orderMenuRequest.menuId())
+                    .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono menu o podanym ID"));
+
             OrderPaymentRequest.Product product = new OrderPaymentRequest.Product();
-            product.setName(orderMenu.getMenu().getName());
-            product.setUnitPrice(String.valueOf((int) (orderMenu.getMenu().getPrice() * 100)));
-            product.setQuantity(String.valueOf(orderMenu.getQuantity()));
+            product.setName(menu.getName());
+            product.setUnitPrice(String.valueOf((int) (menu.getPrice() * 100)));
+            product.setQuantity(String.valueOf(orderMenuRequest.quantity()));
             products.add(product);
         }
         return products;
-    }
-
-    public JSONObject getOrderById(String orderId) {
-        String token = getOAuthToken();
-        if (token == null) {
-            throw new RuntimeException("Nie udało się uzyskać tokenu OAuth");
-        }
-
-        Request request = new Request.Builder()
-                .url("https://secure.snd.payu.com/api/v2_1/orders/" + orderId)
-                .get()
-                .addHeader("Authorization", "Bearer " + token)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                throw new RuntimeException("Błąd podczas pobierania szczegółów zamówienia: " + response.message());
-            }
-
-            assert response.body() != null;
-            String responseBody = response.body().string();
-            return new JSONObject(responseBody);
-        } catch (IOException e) {
-            throw new RuntimeException("Błąd podczas wykonywania żądania do API PayU", e);
-        } catch (JSONException e) {
-            throw new RuntimeException("Błąd podczas przetwarzania odpowiedzi JSON", e);
-        }
     }
 
     public String getOrderStatus(String orderId) {

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.urban.backend.dto.request.OrderRequest;
 import pl.urban.backend.model.Order;
 import pl.urban.backend.service.PayUService;
 
@@ -23,7 +24,7 @@ public class PayUController {
         return ResponseEntity.ok(tokenResponse);
     }
     @PostMapping("/createPayment")
-    public ResponseEntity<Map<String, String>> createPayment(@RequestBody Order order, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> createPayment(@RequestBody OrderRequest order, HttpServletRequest request) {
         try {
             String ip = request.getRemoteAddr();
             Map<String, String> result = payUService.createOrder(order, ip);

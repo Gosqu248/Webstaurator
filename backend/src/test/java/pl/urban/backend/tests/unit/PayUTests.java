@@ -6,11 +6,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import pl.urban.backend.controller.PayUController;
-import pl.urban.backend.model.Order;
+import pl.urban.backend.dto.request.OrderMenuRequest;
+import pl.urban.backend.dto.request.OrderRequest;
+import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.service.PayUService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,11 +28,43 @@ class PayUTests {
     private HttpServletRequest request;
 
     private PayUController payUController;
+    private OrderRequest sampleOrderRequest;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         payUController = new PayUController(payUService);
+
+        // Initialize sample OrderRequest for tests
+        sampleOrderRequest = createSampleOrderRequest();
+    }
+
+    private OrderRequest createSampleOrderRequest() {
+        OrderMenuRequest menuItem1 = new OrderMenuRequest(
+                2,
+                1L,
+                List.of(1L, 2L)
+        );
+
+        OrderMenuRequest menuItem2 = new OrderMenuRequest(
+                1,
+                3L,
+                List.of(4L)
+        );
+
+        return new OrderRequest(
+                1L,
+                2L,
+                3L,
+                List.of(menuItem1, menuItem2),
+                "Delivery",
+                "12:00-13:00",
+                null,
+                "Card",
+                OrderStatus.niezapłacone,
+                55.90,
+                "Please deliver to the side entrance"
+        );
     }
 
     @Test
@@ -46,29 +81,27 @@ class PayUTests {
 
     @Test
     void shouldCreatePaymentSuccessfully() {
-        Order mockOrder = new Order();
         String mockIp = "127.0.0.1";
         Map<String, String> mockResponse = Map.of("redirectUri", "http://example.com", "orderId", "123");
 
         when(request.getRemoteAddr()).thenReturn(mockIp);
-        when(payUService.createOrder(mockOrder, mockIp)).thenReturn(mockResponse);
+        when(payUService.createOrder(sampleOrderRequest, mockIp)).thenReturn(mockResponse);
 
-        ResponseEntity<Map<String, String>> response = payUController.createPayment(mockOrder, request);
+        ResponseEntity<Map<String, String>> response = payUController.createPayment(sampleOrderRequest, request);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(mockResponse, response.getBody());
-        verify(payUService, times(1)).createOrder(mockOrder, mockIp);
+        verify(payUService, times(1)).createOrder(sampleOrderRequest, mockIp);
     }
 
     @Test
     void shouldHandleCreatePaymentException() {
-        Order mockOrder = new Order();
         String mockIp = "127.0.0.1";
 
         when(request.getRemoteAddr()).thenReturn(mockIp);
-        when(payUService.createOrder(mockOrder, mockIp)).thenThrow(new RuntimeException("Error"));
+        when(payUService.createOrder(sampleOrderRequest, mockIp)).thenThrow(new RuntimeException("Error"));
 
-        ResponseEntity<Map<String, String>> response = payUController.createPayment(mockOrder, request);
+        ResponseEntity<Map<String, String>> response = payUController.createPayment(sampleOrderRequest, request);
 
         assertEquals(500, response.getStatusCodeValue());
         assertEquals("Error", response.getBody().get("error"));
