@@ -54,7 +54,7 @@ public class UserAddressService {
         double longitude = coords[1];
 
         UserAddress userAddress = toUserAddress(addressRequest, user, latitude, longitude);
-        return mapper.fromUserAddress(userAddress);
+        return mapper.fromUserAddress(userAddressRepository.save(userAddress));
     }
 
     public List<UserAddressResponse> getAllAddresses(String subject) {
@@ -108,11 +108,11 @@ public class UserAddressService {
         return UserAddress.builder()
                 .street(addressRequest.street())
                 .houseNumber(addressRequest.houseNumber())
+                .city(addressRequest.city())
+                .zipCode(addressRequest.zipCode())
+                .phoneNumber(addressRequest.phoneNumber())
                 .floorNumber(addressRequest.floorNumber())
                 .accessCode(addressRequest.accessCode())
-                .zipCode(addressRequest.zipCode())
-                .city(addressRequest.city())
-                .phoneNumber(addressRequest.phoneNumber())
                 .latitude(latitude)
                 .longitude(longitude)
                 .user(user)

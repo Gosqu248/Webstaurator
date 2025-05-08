@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.request.UserAddressRequest;
 import pl.urban.backend.dto.response.UserAddressResponse;
-import pl.urban.backend.model.UserAddress;
 import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.UserAddressService;
 

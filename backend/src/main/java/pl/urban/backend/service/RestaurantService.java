@@ -196,20 +196,24 @@ public class RestaurantService {
     private Set<Menu> processMenuItems(Set<Menu> menuItems) {
         return menuItems.stream()
                 .peek(menuItem -> {
-                    if (menuItem.getAdditives() != null) {
-                        List<Additives> updatedAdditives = menuItem.getAdditives().stream()
-                                .map(additive -> {
-                                    Additives existingAdditive = additivesRepository.findByNameAndValue(additive.getName(), additive.getValue());
-                                    return existingAdditive != null ? existingAdditive : additivesRepository.save(additive);
-                                })
-                                .collect(Collectors.toList());
-                        menuItem.setAdditives(updatedAdditives);
-                    } else {
-                        menuItem.setAdditives(new ArrayList<>());
-                    }
+                    proccessAdditives(menuItem);
                     menuItem.setRestaurant(Collections.singleton(null));
                 })
                 .collect(Collectors.toSet());
+    }
+
+    private void proccessAdditives(Menu menuItem) {
+        if (menuItem.getAdditives() != null) {
+            List<Additives> updatedAdditives = menuItem.getAdditives().stream()
+                    .map(additive -> {
+                        Additives existingAdditive = additivesRepository.findByNameAndValue(additive.getName(), additive.getValue());
+                        return existingAdditive != null ? existingAdditive : additivesRepository.save(additive);
+                    })
+                    .collect(Collectors.toList());
+            menuItem.setAdditives(updatedAdditives);
+        } else {
+            menuItem.setAdditives(new ArrayList<>());
+        }
     }
 
     private void updateRestaurantAddress(Restaurant restaurant, RestaurantAddress newAddress) {
@@ -295,18 +299,7 @@ public class RestaurantService {
             } else {
                 newMenuItem.setRestaurant(Collections.singleton(restaurant));
 
-                if (newMenuItem.getAdditives() != null) {
-                    List<Additives> updatedAdditives = newMenuItem.getAdditives().stream()
-                            .map(additive -> {
-                                Additives existingAdditive = additivesRepository.findByNameAndValue(
-                                        additive.getName(), additive.getValue());
-                                return existingAdditive != null ? existingAdditive : additivesRepository.save(additive);
-                            })
-                            .collect(Collectors.toList());
-                    newMenuItem.setAdditives(updatedAdditives);
-                } else {
-                    newMenuItem.setAdditives(new ArrayList<>());
-                }
+                proccessAdditives(newMenuItem);
 
                 existingMenuItems.add(newMenuItem);
             }

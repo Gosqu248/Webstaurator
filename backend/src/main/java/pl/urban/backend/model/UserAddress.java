@@ -18,31 +18,14 @@ public class UserAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String street;
-
-    @Column(nullable = false)
     private String houseNumber;
-
-    @Column(nullable = false)
     private String city;
-
-    @Column(nullable = false)
     private String zipCode;
-
-    @Column(nullable = false)
     private String phoneNumber;
-
-    @Column(nullable = true)
     private String floorNumber;
-
-    @Column(nullable = true)
     private String accessCode;
-
-    @Column(nullable = false)
     private double latitude;
-
-    @Column(nullable = false)
     private double longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)

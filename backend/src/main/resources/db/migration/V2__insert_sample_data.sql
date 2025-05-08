@@ -10,11 +10,11 @@ INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (1, 'McW
 INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (5, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/220639894', null, 'WieśMac® Podwójny', 28.6);
 INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (7, 'Napoje', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/-879071002', null, 'Coca-Cola®', 7.9);
 INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (6, 'Napoje', null, null, 'Woda gazowana', 8.5);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (35, 'Przystawki', '', 'pieczywo, burrata, mortadela, bazylia', 'Bruschetta', 41);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (36, 'Przystawki', '', 'tuńczyk, mango, ogórek, mięta, piklowana cebula, pieczywo', 'Tartare di tonno', 56);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (37, 'Pizza', '', 'sos pomidorowy, mozzarella, szynka, pieczarki', 'Pizza Prosciutto e Funghi', 45.5);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (38, 'Pizza', '', 'ciasto, sos, ananas, ser, kurczak', 'Pizza Hawajska 40cm', 49);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (39, 'Pieczywo', 'xd', 'chleb', 'Chleb', 10);
+INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (10, 'Przystawki', '', 'pieczywo, burrata, mortadela, bazylia', 'Bruschetta', 41);
+INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (11, 'Przystawki', '', 'tuńczyk, mango, ogórek, mięta, piklowana cebula, pieczywo', 'Tartare di tonno', 56);
+INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (12, 'Pizza', '', 'sos pomidorowy, mozzarella, szynka, pieczarki', 'Pizza Prosciutto e Funghi', 45.5);
+INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (13, 'Pizza', '', 'ciasto, sos, ananas, ser, kurczak', 'Pizza Hawajska 40cm', 49);
+INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (14, 'Pieczywo', 'xd', 'chleb', 'Chleb', 10);
 
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (1, 'Amerykańska', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header/headers/header', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header_standard/logo_465x320', 'McDonald''s Tarnów, Krakowska');
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (2, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header/headers/header', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header_standard/logo_465x320', 'McDonald''s Tarnów, Jana Pawła');
@@ -27,7 +27,7 @@ INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (10, 'P
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (11, 'Tajska', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1732181414/static-takeaway-com/images/generic/heroes/61/61_thai_51', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1732181414/static-takeaway-com/images/restaurants/pl/NNQ70O7/logo_465x320', 'ThaiCooking');
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (7, 'Ciasto', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1732179740/static-takeaway-com/images/generic/heroes/251/251_cake_7', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1732179740/static-takeaway-com/images/chains/pl/ciacho_bez_cukru/logo_465x320', 'Ciacho Bez Cukru');
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (8, 'Kuchnia Arabska', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1732180390/static-takeaway-com/images/generic/heroes/1606/531_kebab_15', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1732180390/static-takeaway-com/images/restaurants/pl/Q17QRORN/logo_465x320', 'Mustafa Kebab');
-INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (45, 'Pizza', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1734525587/static-takeaway-com/images/generic/heroes/1386/1386_pizza_91', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1734525587/static-takeaway-com/images/restaurants/pl/0Q3OQQ11/logo_465x320', 'Restauracja Villa Toscana');
+INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (12, 'Pizza', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1734525587/static-takeaway-com/images/generic/heroes/1386/1386_pizza_91', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1734525587/static-takeaway-com/images/restaurants/pl/0Q3OQQ11/logo_465x320', 'Restauracja Villa Toscana');
 
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (1, 'Tarnów', '309', 49.9870677, 20.92365244458111, 'Krakowska', '33-100', 1);
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (2, 'Tarnów', '26', 50.034368650000005, 21.0114193, 'aleja Jana Pawła II', '33-100', 2);
@@ -39,7 +39,7 @@ INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, st
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (9, 'Tarnów', '3', 50.011522400000004, 20.98279884642857, 'Nowy Świat', '33-100', 9);
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (10, 'Tarnów', '30', 50.02387875, 20.988074833564724, 'Józefa Piłsudskiego', '33-100', 10);
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (11, 'Tarnów', '46', 50.0144227, 21.0013931430518, 'Lwowska', '33-100', 11);
-INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (28, 'Zakopane', '10', 49.296559650000006, 19.959398831789837, 'Sienkiewicza', '34-500', 45);
+INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (12, 'Zakopane', '10', 49.296559650000006, 19.959398831789837, 'Sienkiewicza', '34-500', 12);
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (4, 'Tarnów', '2', 0, 0, 'Kasprowicza', '33-100', 4);
 
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (2, 2);
@@ -62,8 +62,8 @@ INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (8, 2);
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (9, 2);
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (10, 2);
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (11, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (45, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (45, 1);
+INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (12, 2);
+INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (12, 1);
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (4, 1);
 INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (4, 2);
 
@@ -78,7 +78,7 @@ INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, 
 INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (9, 45, 20, 5, 45, 15, 9);
 INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (10, 75, 50, 5, 25, 15, 10);
 INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (11, 70, 50, 6, 45, 20, 11);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (37, 60, 20, 4, 35, 15, 45);
+INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (12, 60, 20, 4, 35, 15, 12);
 
 
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (1, '22:45', 0, '11:45', 1);
@@ -156,15 +156,15 @@ INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (77, '20:30', 2, '11:00', 11);
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (9, '22:45', 5, '0:15', 2);
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (10, '22:45', 6, '00:15', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (253, '22:00', 1, '13:00', 45);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (78, '22:00', 1, '13:00', 12);
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (25, '23:00', 6, '14:30', 4);
 INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (26, '22:00', 0, '14:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (254, '22:00', 2, '13:00', 45);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (255, '22:00', 3, '13:00', 45);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (256, '22:00', 4, '13:00', 45);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (257, '22:00', 5, '13:00', 45);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (258, '23:00', 6, '13:00', 45);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (259, '23:00', 0, '13:00', 45);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (79, '22:00', 2, '13:00', 12);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (80, '22:00', 3, '13:00', 12);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (81, '22:00', 4, '13:00', 12);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (82, '22:00', 5, '13:00', 12);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (83, '23:00', 6, '13:00', 12);
+INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (84, '23:00', 0, '13:00', 12);
 
 
 INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 3);
@@ -194,25 +194,27 @@ INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 2);
 INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 8);
 INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 5);
 INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 6);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (45, 35);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (45, 36);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (45, 37);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (4, 38);
+INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 10);
+INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 11);
+INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 12);
+INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (4, 13);
 
 
-INSERT INTO additives (id, name, price, value) VALUES (2, 'Rozmiar', 0, 'McZestaw');
-INSERT INTO additives (id, name, price, value) VALUES (3, 'Rozmiar', 3, 'McZestaw powiększony');
-INSERT INTO additives (id, name, price, value) VALUES (4, 'Dodatek', 0, 'Frytki');
-INSERT INTO additives (id, name, price, value) VALUES (5, 'Dodatek', 0, 'Sałatka');
-INSERT INTO additives (id, name, price, value) VALUES (6, 'Napój', 0, 'Sprite®');
-INSERT INTO additives (id, name, price, value) VALUES (7, 'Napój', 0, 'Woda gazowana');
-INSERT INTO additives (id, name, price, value) VALUES (8, 'Napój', 0, 'Coca-Cola® Zero');
-INSERT INTO additives (id, name, price, value) VALUES (9, 'Napój', 0, 'Sprite®');
-INSERT INTO additives (id, name, price, value) VALUES (10, 'Napój', 0, 'Kawa');
-INSERT INTO additives (id, name, price, value) VALUES (11, 'Napój', 0, 'Herbata');
-INSERT INTO additives (id, name, price, value) VALUES (14, 'Napój', 0, 'Cola');
-INSERT INTO additives (id, name, price, value) VALUES (15, 'Napój', 0, 'Sprite');
+INSERT INTO additives (id, name, price, value) VALUES (1, 'Rozmiar', 0, 'McZestaw');
+INSERT INTO additives (id, name, price, value) VALUES (2, 'Rozmiar', 3, 'McZestaw powiększony');
+INSERT INTO additives (id, name, price, value) VALUES (3, 'Dodatek', 0, 'Frytki');
+INSERT INTO additives (id, name, price, value) VALUES (4, 'Dodatek', 0, 'Sałatka');
+INSERT INTO additives (id, name, price, value) VALUES (5, 'Napój', 0, 'Sprite®');
+INSERT INTO additives (id, name, price, value) VALUES (6, 'Napój', 0, 'Woda gazowana');
+INSERT INTO additives (id, name, price, value) VALUES (7, 'Napój', 0, 'Coca-Cola® Zero');
+INSERT INTO additives (id, name, price, value) VALUES (8, 'Napój', 0, 'Sprite®');
+INSERT INTO additives (id, name, price, value) VALUES (9, 'Napój', 0, 'Kawa');
+INSERT INTO additives (id, name, price, value) VALUES (10, 'Napój', 0, 'Herbata');
+INSERT INTO additives (id, name, price, value) VALUES (11, 'Napój', 0, 'Cola');
+INSERT INTO additives (id, name, price, value) VALUES (12, 'Napój', 0, 'Sprite');
 
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (1, 2);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (1, 4);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (2, 2);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (2, 4);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (3, 2);
@@ -223,13 +225,73 @@ INSERT INTO menu_additives (additive_id, menu_id) VALUES (5, 2);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (5, 4);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (6, 2);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (6, 4);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (7, 2);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (7, 4);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (8, 4);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (7, 2);
 INSERT INTO menu_additives (additive_id, menu_id) VALUES (8, 2);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (9, 2);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (9, 4);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (10, 37);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (11, 37);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (14, 37);
-INSERT INTO menu_additives (additive_id, menu_id) VALUES (15, 37);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (8, 4);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (9, 12);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (10, 12);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (11, 12);
+INSERT INTO menu_additives (additive_id, menu_id) VALUES (12, 12);
+
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (1, 49.9892392, 20.9011874, 'Sportowa 3, Zbylitowska Góra');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (2, 50.0111345, 20.982408484206346, 'Krakowska 13, Tarnów');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (3, 49.8564352, 20.8086652, '32-840 Zakliczyn');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (4, 50.0529334, 19.948661, 'Starowiślna 69, 31-035 Kraków');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (5, 50.05188608333333, 19.949849708333335, '31-035');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (6, 49.85496906411742, 20.804921425415863, 'Spokojna 10, Zakliczyn');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (7, 49.9721883, 20.6167351, 'Ludwika Solskiego 14a, 32-800 Brzesko');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (8, 49.296559650000006, 19.959398831789837, 'Sienkiewicza 10, 34-500 Zakopane');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (9, 49.2757934, 19.969281065702543, 'Zakopane');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (10, 49.9678396, 20.6068496, 'Brzesko');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (11, 49.971342250000006, 20.593644001225808, 'Leśna 2, 32-800 Brzesko');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (12, 50.02233082291197, 20.975425131903688, '33-100');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (13, 52.2337172, 21.071432235636493, 'Warszawa');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (14, 54.5164982, 18.5402738, 'Gdynia');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (15, 52.4082663, 16.9335199, 'Poznań');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (16, 51.1089776, 17.0326689, 'Wrocław');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (17, 52.52465015, 17.598152438162245, 'Gniezno');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (18, 50.2712401, 19.21556284229424, 'Sosnowiec');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (19, 48.8588897, 2.3200410217200766, 'Paris');
+INSERT INTO address_suggestions (id, lat, lon, name) VALUES (20, 49.85496906411742, 20.804921425415863, 'Spokojna 10, Zakliczyn 32-840');
+
+
+SELECT setval(
+               pg_get_serial_sequence('restaurants', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM restaurants)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('payment', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM payment)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('menu', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM menu)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('additives', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM additives)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('delivery', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM delivery)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('delivery_hour', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM delivery_hour)
+       );
+
+SELECT setval(
+               pg_get_serial_sequence('restaurant_addresses', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM restaurant_addresses)
+       );
+
+SELECT setval(
+                pg_get_serial_sequence('address_suggestions', 'id'),
+                (SELECT COALESCE(MAX(id),0) FROM address_suggestions)
+       );
