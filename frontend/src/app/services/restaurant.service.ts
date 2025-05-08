@@ -12,8 +12,6 @@ export class RestaurantService {
   private apiUrl = environment.api + '/api/restaurant';
   constructor(private http: HttpClient) {}
 
-  
-
   getRestaurantById(id: number): Observable<Restaurant> {
     return this.http.get<Restaurant>(`${this.apiUrl}/getRestaurant?id=${id}`);
   }

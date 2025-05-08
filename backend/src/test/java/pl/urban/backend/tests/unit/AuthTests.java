@@ -54,6 +54,7 @@ class AuthTests {
     private User testUser;
 
     private final UserRequest testUserRequest = new UserRequest(
+            "Test User",
             "test@example.com",
             "password"
     );
@@ -87,6 +88,7 @@ class AuthTests {
     void testLoginUserSuccess() throws Exception {
         logger.info("Running testLoginUserSuccess");
         UserRequest userRequest = new UserRequest(
+                "Test User",
                 "test@example.com",
                 "password"
         );
@@ -108,6 +110,7 @@ class AuthTests {
     void testLoginUserAccountLocked() throws Exception {
         logger.info("Running testLoginUserAccountLocked");
         UserRequest userRequest = new UserRequest(
+                "Test User",
                 "test@example.com",
                 "password"
         );
@@ -178,6 +181,7 @@ class AuthTests {
     void testLoginUserIncorrectPassword() {
         logger.info("Running testLoginUserIncorrectPassword");
         UserRequest userRequest = new UserRequest(
+                "Test User",
                 "test@example.com",
                 "wrong-password"
         );

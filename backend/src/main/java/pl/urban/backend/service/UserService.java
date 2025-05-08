@@ -10,6 +10,7 @@ import pl.urban.backend.dto.request.UserRequest;
 import pl.urban.backend.dto.response.LoginResponse;
 import pl.urban.backend.dto.response.UserResponse;
 import pl.urban.backend.dto.response.UserInfoForOrderResponse;
+import pl.urban.backend.enums.Role;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
 
@@ -19,17 +20,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtUtil jwtUtil;
-    private final MapperService mapper;
 
-    public void registerUser(UserRequest user) {
-        if (userRepository.findByEmail(user.email()).isPresent()) {
+    public void registerUser(UserRequest request) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new IllegalArgumentException("User with this email already exists");
         }
 
-        User.builder()
-                .email(user.email())
-                .password(bCryptPasswordEncoder.encode(user.password()))
+        User user = User.builder()
+                .name(request.name())
+                .email(request.email())
+                .password(bCryptPasswordEncoder.encode(request.password()))
+                .role(Role.user)
                 .build();
+
+        userRepository.save(user);
     }
 
 
