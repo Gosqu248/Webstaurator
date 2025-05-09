@@ -33,7 +33,9 @@ export class InfoComponent implements OnInit {
   }
 
   getRestaurant(): void {
-    this.searchedRestaurant = this.searchedRestaurantsService.getSearchedRestaurant(this.restaurantId);
+    this.searchedRestaurantsService.selectedRestaurant$.subscribe(restaurant => {
+      this.searchedRestaurant = restaurant;
+    });
   }
 
   getDayName(dayOfWeek: number): string {

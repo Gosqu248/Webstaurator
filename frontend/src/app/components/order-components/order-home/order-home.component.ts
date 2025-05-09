@@ -198,11 +198,8 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
         const id = parseInt(restaurantId);
 
       this.restaurantAddressService.getCoordinates(id).subscribe(coordinates => {
-        this.coordinates = coordinates;
-        console.log(coordinates)
         this.addressService.getAvailableAddresses(token, coordinates).subscribe(addresses => {
           this.addresses = addresses;
-          console.log(addresses)
         });
       });
       } else {

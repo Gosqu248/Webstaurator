@@ -1,21 +1,7 @@
 .menu {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center the element */
-  display: flex;
-  flex-direction: column;
+  padding: 15px 30px;
   align-items: center;
-  width: 800px;
-  min-height: 550px;
-  height: auto;
-  padding: 10px 30px;
-  text-align: center;
-  position: fixed;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  z-index: 100;
-  border-radius: 30px;
-  font-family: 'Fira Sans', sans-serif;
+  justify-content: center;
 }
 
 .menu-first {
@@ -24,8 +10,8 @@
   align-items: flex-start;
   justify-content: space-between;
   width: 90%;
+  margin: 0 auto;
   height: 12%;
-  margin-bottom: 10px;
 }
 
 .menu-first h2{

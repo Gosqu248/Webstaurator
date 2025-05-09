@@ -33,7 +33,7 @@
         <i class="fa-regular fa-hourglass-half"></i>
         <div class="text">
           <h3>{{getTranslation('asSoonAsPossible')}}</h3>
-          <p *ngIf="deliveryOption === 'delivery'">{{minTime}}-{{maxTime}}min</p>
+          <p *ngIf="deliveryOption === 'delivery'">{{restaurant.delivery?.deliveryMinTime}}-{{restaurant.delivery?.deliveryMaxTime}}min</p>
           <p *ngIf="deliveryOption === 'pickup'">{{pickUpTime}}min</p>
         </div>
       </div>

@@ -127,10 +127,9 @@ export class NavbarComponent implements OnInit{
 
   openMenuDialog() {
     this.dialog.open(MenuComponent, {
-      width: '400px',
-      height: '400px',
-      position: { top: '50%', left: '50%' },
-      panelClass: 'centered-dialog'
+      width: '100%',
+      maxWidth: '800px',
+
     });
   }
 

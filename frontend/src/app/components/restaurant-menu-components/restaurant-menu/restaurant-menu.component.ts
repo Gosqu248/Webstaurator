@@ -20,17 +20,7 @@ export class RestaurantMenuComponent implements OnInit {
   constructor(private searchedRestaurantService: SearchedRestaurantsService) {}
 
   ngOnInit(): void {
-    this.getRestaurant();
-
+    this.restaurant = this.searchedRestaurantService.getSelectedRestaurant();
   }
 
-  getRestaurant() {
-    if (typeof sessionStorage !== 'undefined') {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-      if (restaurantId) {
-        const id = parseInt(restaurantId);
-        this.restaurant = this.searchedRestaurantService.getSearchedRestaurant(id)
-      }
-    }
-  }
 }

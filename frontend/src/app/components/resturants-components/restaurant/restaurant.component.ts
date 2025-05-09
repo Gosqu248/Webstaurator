@@ -62,14 +62,6 @@ export class RestaurantComponent implements OnInit, OnChanges {
   }
 
   private loadRestaurant() {
-    const address = sessionStorage.getItem('searchAddress');
-
-    if (!address) {
-      throw new Error('No address found');
-    }
-    this.address = address;
-
-
     this.searchedRestaurantService.searchedRestaurants$.subscribe((restaurants) => {
       this.searchedRestaurants = restaurants;
       this.updateRestaurant();
