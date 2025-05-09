@@ -1,11 +1,11 @@
 <div class="order-home">
   <div class="left-container">
-      <app-order-delivery [addresses]="addresses" [coordinates]="coordinates" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
+      <app-order-delivery [addresses]="addresses" [restaurant]="restaurant" [coordinates]="coordinates" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
       <app-order-payment></app-order-payment>
       <app-order-personal-info [user]="user"></app-order-personal-info>
   </div>
   <div class="basket">
-    <app-order-basket [canOrder]="canOrder" (acceptOrder)="acceptOrder()"></app-order-basket>
+    <app-order-basket [canOrder]="canOrder" [restaurant]="restaurant" (acceptOrder)="acceptOrder()"></app-order-basket>
   </div>
 
 </div>

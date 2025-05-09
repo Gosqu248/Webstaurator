@@ -7,11 +7,9 @@ import { UserAddress } from '../../../interfaces/user.address.interface';
 import { OrderDeliveryItemComponent } from '../order-delivery-item/order-delivery-item.component';
 import { AddAddressDialogComponent } from '../add-address-dialog/add-address-dialog.component';
 import {AddressesService} from "../../../services/api/addresses.service";
-import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
 import {AuthService} from "../../../services/api/auth.service";
 import {Coordinates} from "../../../interfaces/coordinates";
-import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
@@ -32,8 +30,8 @@ export class OrderDeliveryComponent implements OnInit{
   @Output() openLoginDialog = new EventEmitter<unknown>();
   @Input() addresses!: UserAddress[];
   @Input() coordinates!: Coordinates;
+  @Input() restaurant!: SearchedRestaurant;
 
-  restaurant: SearchedRestaurant = {} as SearchedRestaurant;
   selectedAddress: UserAddress = {} as UserAddress;
   selectedDeliveryOption: string | null = null;
   pickUpTime: number = 0;
@@ -44,23 +42,16 @@ export class OrderDeliveryComponent implements OnInit{
   constructor(private languageService: LanguageService,
               @Inject(PLATFORM_ID) private platformId: Object,
               private addressService: AddressesService,
-              private searchedRestaurantsService: SearchedRestaurantsService,
               protected authService: AuthService,
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.getRestaurant();
     this.getDeliveryOption();
     if (isPlatformBrowser(this.platformId)) {
       this.token = localStorage.getItem('jwt');
     }
   }
 
-  getRestaurant() {
-    this.searchedRestaurantsService.selectedRestaurant$.subscribe(restaurant => {
-      this.restaurant = restaurant;
-    });
-  }
 
 
   getDeliveryOption() {

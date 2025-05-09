@@ -31,7 +31,7 @@ export class RestaurantBasketComponent implements OnInit{
   pickupOrder: string = "";
   isNotPickUp: boolean = false;
   ordersPrice: number = 0;
-  deliveryPrice: string | null = null;
+  deliveryPrice: number = 0;
   totalPrice: number = 0;
   minimumPrice: number = 0;
   isPriceValid: boolean = true;
@@ -75,7 +75,7 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   calculateOrderPrice(option: string) {
-    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus, option);
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus, option, this.restaurant.deliveryPrice);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
     this.totalPrice = totalPrice  + this.serviceFee;

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild, Inject, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {OrderBasketComponent} from "../order-basket/order-basket.component";
 import {OrderPersonalInfoComponent} from "../order-personal-info/order-personal-info.component";
 import {OrderDeliveryComponent} from "../order-delivery/order-delivery.component";
@@ -7,19 +7,18 @@ import {AddressesService} from "../../../services/api/addresses.service";
 import {OrderPaymentComponent} from "../order-payment/order-payment.component";
 import {AuthService} from "../../../services/api/auth.service";
 import {OrderMenuRequest, OrderRequest, OrderStatus} from "../../../interfaces/order";
-import {RestaurantService} from "../../../services/api/restaurant.service";
-import {Restaurant} from "../../../interfaces/restaurant";
 import {UserDTO} from "../../../interfaces/user.interface";
 import {OptionService} from "../../../services/state/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
-import {isPlatformBrowser} from "@angular/common";
 import {PayUService} from "../../../services/api/pay-u.service";
 import {OrderService} from "../../../services/api/order.service";
 import {Router} from "@angular/router";
 import {RestaurantAddressService} from "../../../services/api/restaurant-address.service";
 import {Coordinates} from "../../../interfaces/coordinates";
 import {PaymentResponse} from "../../../interfaces/paymentMethod";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
   selector: 'app-order-home',
@@ -43,7 +42,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   user: UserDTO = {} as UserDTO;
   canOrder: boolean = false;
   userId: number | null = null;
-  restaurant: Restaurant = {} as Restaurant;
+  restaurant: SearchedRestaurant = {} as SearchedRestaurant;
   deliveryOption: string = '';
   payUPaymentId: number | null = null;
   coordinates: Coordinates = {} as Coordinates;
@@ -52,16 +51,14 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               private addressService: AddressesService,
               private optionService: OptionService,
               private restaurantAddressService: RestaurantAddressService,
-              private restaurantService: RestaurantService,
+              private searchedRestaurantService: SearchedRestaurantsService,
               private dialog: MatDialog,
               private router: Router,
               private payUService: PayUService,
-              private orderService: OrderService,
-              @Inject(PLATFORM_ID) private platformId: Object) {}
+              private orderService: OrderService) {}
 
   ngOnInit() {
     this.getRestaurant();
-
     this.optionService.selectBasketDelivery$.subscribe(delivery => {
       this.deliveryOption = delivery;
     });
@@ -132,7 +129,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
       const order: OrderRequest = {
         userId: user.id,
         userAddressId: userAddress?.id || null,
-        restaurantId: this.restaurant.id,
+        restaurantId: this.restaurant.restaurantId,
         orderMenus: orderMenusRequest,
         deliveryOption: deliveryOption,
         deliveryTime: deliveryTime,
@@ -168,16 +165,10 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   }
 
   getRestaurant() {
-    if (isPlatformBrowser(this.platformId)) {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-
-      if (restaurantId) {
-        this.restaurantService.getRestaurantById(parseInt(restaurantId)).subscribe((data: Restaurant) => {
-          this.restaurant = data;
-        });
-      }
-      this.subscribeToAuthChanges();
-    }
+    this.searchedRestaurantService.selectedRestaurant$.subscribe(restaurant => {
+      this.restaurant = restaurant;
+    });
+    this.subscribeToAuthChanges();
   }
 
   openLoginDialog(): void {

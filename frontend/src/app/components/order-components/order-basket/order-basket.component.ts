@@ -6,6 +6,7 @@ import {OrderService} from "../../../services/api/order.service";
 import {OrderBasketItemComponent} from "../order-basket-item/order-basket-item.component";
 import {OrderMenu} from "../../../interfaces/order";
 import {OptionService} from "../../../services/state/option.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
   selector: 'app-order-basket',
@@ -25,11 +26,12 @@ export class OrderBasketComponent implements OnInit{
   @Input() canOrder!: boolean;
   orderMenus: OrderMenu[] = [];
   ordersPrice: number = 0;
-  deliveryPrice: string | null = null;
+  deliveryPrice: number = 0;
   totalPrice: number = 0;
   restaurantName: string | null = null;
   deliveryOption: string = '';
   serviceFee: number = 2;
+  @Input() restaurant!: SearchedRestaurant;
 
   constructor(private languageService: LanguageService,
               private optionService: OptionService,
@@ -63,7 +65,7 @@ export class OrderBasketComponent implements OnInit{
 
   }
   calculatePrices() {
-    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus, this.deliveryOption);
+    const { ordersPrice, deliveryPrice, totalPrice } = this.orderService.calculateOrderPrice(this.orderMenus, this.deliveryOption, this.restaurant.deliveryPrice);
     this.ordersPrice = ordersPrice;
     this.deliveryPrice = deliveryPrice;
     this.totalPrice = totalPrice + this.serviceFee;

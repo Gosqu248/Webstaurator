@@ -62,19 +62,16 @@ export class OrderService {
     this.saveOrderMenus(orderMenus);
   }
 
-  calculateOrderPrice(orderMenu: OrderMenu[], deliveryOption: string): { ordersPrice: number, deliveryPrice: string | null, totalPrice: number } {
+  calculateOrderPrice(orderMenu: OrderMenu[], deliveryOption: string, delPrice: number): { ordersPrice: number, deliveryPrice: number, totalPrice: number } {
     const ordersPrice = orderMenu.reduce((total, order) => {
       const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
       return total + ((order.menu.price + additivePrice) * (order.quantity || 1));
     }, 0);
-    let deliveryPrice: string | null;
-
-    typeof sessionStorage !== 'undefined' ? deliveryPrice = sessionStorage.getItem("deliveryPrice") : deliveryPrice = null;
 
       if (deliveryOption === 'delivery') {
-        return {ordersPrice, deliveryPrice, totalPrice: ordersPrice + (deliveryPrice ? parseFloat(deliveryPrice) : 0)};
+        return {ordersPrice, deliveryPrice: delPrice, totalPrice: ordersPrice + delPrice};
       } else {
-        return {ordersPrice, deliveryPrice: null, totalPrice: ordersPrice};
+        return {ordersPrice, deliveryPrice: 0, totalPrice: ordersPrice};
       }
     }
 
