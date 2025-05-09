@@ -5,13 +5,14 @@ import {RestaurantService} from "../../../services/api/restaurant.service";
 import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.component";
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-restaurant-menu',
   standalone: true,
   imports: [
     RestaurantBasketComponent,
-    RestaurantMainComponent
+    RestaurantMainComponent,
   ],
   templateUrl: './restaurant-menu.component.html',
   styleUrl: './restaurant-menu.component.css'

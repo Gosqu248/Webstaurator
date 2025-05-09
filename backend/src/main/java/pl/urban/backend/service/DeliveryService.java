@@ -3,7 +3,6 @@ package pl.urban.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.response.DeliveryResponse;
-import pl.urban.backend.model.Delivery;
 import pl.urban.backend.repository.DeliveryRepository;
 
 @Service

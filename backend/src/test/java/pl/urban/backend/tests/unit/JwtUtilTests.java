@@ -3,7 +3,6 @@ package pl.urban.backend.tests.unit;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.urban.backend.enums.Role;
 import pl.urban.backend.model.User;
 import pl.urban.backend.config.security.JwtUtil;
 

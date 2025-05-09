@@ -25,7 +25,7 @@ public class Additives {
 
     private double price;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "menu_additives",
             joinColumns = @JoinColumn(name = "additive_id"),

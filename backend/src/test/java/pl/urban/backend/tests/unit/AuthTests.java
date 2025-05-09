@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import org.slf4j.Logger;
@@ -85,7 +83,7 @@ class AuthTests {
     }
 
     @Test
-    void testLoginUserSuccess() throws Exception {
+    void testLoginUserSuccess() {
         logger.info("Running testLoginUserSuccess");
         UserRequest userRequest = new UserRequest(
                 "Test User",
@@ -107,7 +105,7 @@ class AuthTests {
     }
 
     @Test
-    void testLoginUserAccountLocked() throws Exception {
+    void testLoginUserAccountLocked() {
         logger.info("Running testLoginUserAccountLocked");
         UserRequest userRequest = new UserRequest(
                 "Test User",

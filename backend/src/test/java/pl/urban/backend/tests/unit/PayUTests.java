@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -104,7 +105,7 @@ class PayUTests {
         ResponseEntity<Map<String, String>> response = payUController.createPayment(sampleOrderRequest, request);
 
         assertEquals(500, response.getStatusCodeValue());
-        assertEquals("Error", response.getBody().get("error"));
+        assertEquals("Error", Objects.requireNonNull(response.getBody()).get("error"));
     }
 
     @Test

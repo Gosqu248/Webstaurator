@@ -51,7 +51,6 @@ export class OptionService {
 
   }
 
-
   loadDeliveryOptionFromStorage(): string {
     if (typeof localStorage !== 'undefined') {
       const deliveryOption = localStorage.getItem('deliveryOption');

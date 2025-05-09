@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.MenuResponse;
 import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.Menu;
-import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.service.MenuService;
 
 import java.util.List;

@@ -14,7 +14,6 @@ import pl.urban.backend.service.GeocodingService;
 
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import org.slf4j.Logger;

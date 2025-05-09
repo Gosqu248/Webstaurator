@@ -150,8 +150,7 @@ public class AuthController {
         String subject =jwtToken.extractSubject(token.substring(7));
         String password = passwords.get("password");
         String newPassword = passwords.get("newPassword");
-        Boolean updatePassword = userService.changePassword(subject, password, newPassword);
-        return ResponseEntity.ok(updatePassword);
+        return ResponseEntity.ok(userService.changePassword(subject, password, newPassword));
     }
 
     @GetMapping("/userInfo")

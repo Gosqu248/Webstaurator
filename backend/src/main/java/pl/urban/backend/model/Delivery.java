@@ -1,6 +1,5 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,7 +28,7 @@ public class Delivery {
     @Column(nullable = false)
     private double minimumPrice;
 
-    @Column(nullable = true)
+    @Column()
     private int pickupTime;
 
     @OneToOne

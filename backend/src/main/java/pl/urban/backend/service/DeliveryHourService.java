@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.dto.response.DeliveryHourResponse;
-import pl.urban.backend.model.DeliveryHour;
 import pl.urban.backend.repository.DeliveryHourRepository;
 
 import java.util.List;
