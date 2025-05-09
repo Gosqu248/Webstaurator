@@ -1,7 +1,7 @@
 <div class="order-home">
   <div class="left-container">
       <app-order-delivery [addresses]="addresses" [restaurant]="restaurant" [coordinates]="coordinates" (openLoginDialog)="openLoginDialog()"></app-order-delivery>
-      <app-order-payment></app-order-payment>
+      <app-order-payment [paymentMethods]="restaurant.paymentMethods"></app-order-payment>
       <app-order-personal-info [user]="user"></app-order-personal-info>
   </div>
   <div class="basket">

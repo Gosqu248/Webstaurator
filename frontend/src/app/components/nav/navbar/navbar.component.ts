@@ -129,7 +129,6 @@ export class NavbarComponent implements OnInit{
     this.dialog.open(MenuComponent, {
       width: '100%',
       maxWidth: '800px',
-
     });
   }
 

@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { LanguageService } from "../../../services/state/language.service";
-import { AddressesService } from "../../../services/api/addresses.service";
-import { LanguageTranslations } from "../../../interfaces/language.interface";
-import { UserAddress } from "../../../interfaces/user.address.interface";
+import { LanguageService } from "../../../../services/state/language.service";
+import { AddressesService } from "../../../../services/api/addresses.service";
+import { LanguageTranslations } from "../../../../interfaces/language.interface";
+import { UserAddress } from "../../../../interfaces/user.address.interface";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
+import {MenuAddressesComponent} from "../menu-addresses.component";
 
 @Component({
   selector: 'app-menu-address-change',

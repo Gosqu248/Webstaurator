@@ -4,13 +4,15 @@ import {LanguageService} from "../../../services/state/language.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserDTO} from '../../../interfaces/user.interface';
 import {AddressesService} from "../../../services/api/addresses.service";
+import {PhoneNumberFormatterDirective} from "../../../directives/phone-number-formatter.directive";
 
 @Component({
   selector: 'app-order-personal-info',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PhoneNumberFormatterDirective
   ],
   templateUrl: './order-personal-info.component.html',
   styleUrl: './order-personal-info.component.css'

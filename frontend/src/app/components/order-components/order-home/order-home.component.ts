@@ -184,18 +184,11 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   getUserAddresses(token: string | null) {
     if (token) {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-      if (restaurantId) {
-        const id = parseInt(restaurantId);
-
-      this.restaurantAddressService.getCoordinates(id).subscribe(coordinates => {
+      this.restaurantAddressService.getCoordinates(this.restaurant.restaurantId).subscribe(coordinates => {
         this.addressService.getAvailableAddresses(token, coordinates).subscribe(addresses => {
           this.addresses = addresses;
         });
       });
-      } else {
-        console.error('Restaurant id is not set');
-      }
     } else {
       console.error('Token is not set');
     }

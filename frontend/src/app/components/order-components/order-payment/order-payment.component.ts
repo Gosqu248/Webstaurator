@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { NgIf } from '@angular/common';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { LanguageService } from '../../../services/state/language.service';
-import { PaymentMethodsService } from '../../../services/api/payment-methods.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPaymentComponent } from '../edit-payment-dialog/edit-payment.component';
-import { environment } from '../../../../environments/environment';
 import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 @Component({
@@ -17,39 +15,17 @@ import {PaymentMethod} from "../../../interfaces/paymentMethod";
   templateUrl: './order-payment.component.html',
   styleUrls: ['./order-payment.component.css']
 })
-export class OrderPaymentComponent implements OnInit {
-  payments: PaymentMethod[] = [];
-  selectedPayment: PaymentMethod | null = null;
+export class OrderPaymentComponent  implements OnInit {
+  @Input() paymentMethods!: PaymentMethod[] | undefined;
+  selectedPayment: PaymentMethod | undefined = undefined;
 
   constructor(
     private languageService: LanguageService,
     private dialog: MatDialog,
-    private paymentService: PaymentMethodsService
   ) {}
 
   ngOnInit() {
-    this.getPayments();
-  }
-
-  getPayments(): void {
-    if (typeof sessionStorage !== 'undefined') {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-      const id = restaurantId ? parseInt(restaurantId) : null;
-
-      if (id) {
-        this.paymentService.getRestaurantPaymentMethods(id).subscribe((data) => {
-          this.payments = data.map((payment) => {
-            payment.image = environment.api + payment.image;
-            return payment;
-          });
-
-          if (!this.selectedPayment) {
-            const payment = sessionStorage.getItem('payment');
-            payment ? this.selectedPayment = JSON.parse(payment) : this.selectedPayment = this.payments[0];
-          }
-        });
-      }
-    }
+    this.selectedPayment = this.paymentMethods?.[0];
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
@@ -60,7 +36,7 @@ export class OrderPaymentComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPaymentComponent, {
       width: '600px',
       maxWidth: '100vw',
-      data: { payments: this.payments, selectedPayment: this.selectedPayment }
+      data: { payments: this.paymentMethods, selectedPayment: this.selectedPayment }
     });
 
     dialogRef.afterClosed().subscribe((result) => {

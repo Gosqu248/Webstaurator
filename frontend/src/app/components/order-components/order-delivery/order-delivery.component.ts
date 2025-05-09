@@ -52,8 +52,6 @@ export class OrderDeliveryComponent implements OnInit{
     }
   }
 
-
-
   getDeliveryOption() {
     if (typeof localStorage !== 'undefined') {
       const deliveryOption = localStorage.getItem('deliveryOption');
@@ -83,7 +81,7 @@ export class OrderDeliveryComponent implements OnInit{
 
   isAddressSelected(address: UserAddress): boolean {
     if (this.addresses.length === 1) {
-      this.selectedAddress = this.addresses[0];
+      this.setAddress(this.addresses[0]);
     }
     return this.selectedAddress !== null && address.id === this.selectedAddress.id;
   }
