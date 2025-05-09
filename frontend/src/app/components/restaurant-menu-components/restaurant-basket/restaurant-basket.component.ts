@@ -7,11 +7,8 @@
  import {CartService} from "../../../services/state/cart.service";
  import {Router} from "@angular/router";
  import {OrderService} from "../../../services/api/order.service";
- import {Restaurant} from "../../../interfaces/restaurant";
- import {RestaurantService} from "../../../services/api/restaurant.service";
  import {OrderMenu} from "../../../interfaces/order";
- import {DeliveryService} from "../../../services/api/delivery.service";
- import {Delivery} from "../../../interfaces/delivery.interface";
+ import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
   selector: 'app-restaurant-basket',
@@ -27,9 +24,7 @@
   styleUrl: './restaurant-basket.component.css'
 })
 export class RestaurantBasketComponent implements OnInit{
-  @Input() restaurantId!: number;
-  restaurant: Restaurant = {} as Restaurant;
-  delivery: Delivery = {} as Delivery;
+  @Input() restaurant!: SearchedRestaurant;
   orderMenus: OrderMenu[] = [];
   selectedOption: string = "";
   deliveryOrder: string = "";
@@ -44,18 +39,17 @@ export class RestaurantBasketComponent implements OnInit{
   serviceFee: number = 2;
   isOpen: boolean = true;
 
-
   constructor(private languageService: LanguageService,
               private optionService: OptionService,
-              private deliveryService: DeliveryService,
               private router: Router,
-              private restaurantService: RestaurantService,
               private orderService: OrderService,
               private cartService: CartService) {}
 
   ngOnInit() {
     this.getIsOpen()
-    this.getRestaurant();
+    this.getDelivery();
+    this.getPickUp();
+    this.cartService.setCurrentRestaurantId(this.restaurant.restaurantId);
     this.selectedOption = this.optionService.selectedOption.value;
     this.getCart();
   }
@@ -64,20 +58,6 @@ export class RestaurantBasketComponent implements OnInit{
     const is = sessionStorage.getItem("isOpen");
     if (is) {
       this.isOpen = is === "true";
-    }
-  }
-
-  getRestaurant() {
-    if (this.restaurantId) {
-      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
-        this.restaurant = data;
-        this.getPickUp();
-        this.cartService.setCurrentRestaurantId(data.id);
-      });
-      this.deliveryService.getDelivery(this.restaurantId).subscribe((delivery) => {
-        this.delivery = delivery;
-        this.deliveryOrder = delivery.deliveryMinTime + "-" + delivery.deliveryMaxTime + " min";
-      });
     }
   }
 
@@ -106,8 +86,7 @@ export class RestaurantBasketComponent implements OnInit{
   }
 
   getMinimumPrice() {
-    if (typeof sessionStorage === 'undefined') return;
-    const minPrice = sessionStorage.getItem("minPrice");
+    const minPrice = this.restaurant.delivery?.minimumPrice;
     this.minimumPrice = minPrice ? +minPrice : 0;
 
     this.minimumPrice > this.ordersPrice ? this.isPriceValid = false : this.isPriceValid = true;
@@ -124,8 +103,13 @@ export class RestaurantBasketComponent implements OnInit{
     this.calculateOrderPrice(option);
   }
 
+  getDelivery() {
+    this.deliveryOrder = this.restaurant.delivery?.deliveryMinTime + " - " + this.restaurant.delivery?.deliveryMaxTime + " min";
+    this.selectedOption = 'delivery';
+  }
+
   getPickUp() {
-   const pickup = this.delivery?.pickupTime ;
+   const pickup = this.restaurant.delivery?.pickupTime ;
    if (pickup && pickup > 0) {
      this.pickupOrder = pickup + " min"
    } else {

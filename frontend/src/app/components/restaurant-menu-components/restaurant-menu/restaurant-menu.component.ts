@@ -3,6 +3,8 @@ import {RestaurantBasketComponent} from "../restaurant-basket/restaurant-basket.
 import { Restaurant } from '../../../interfaces/restaurant';
 import {RestaurantService} from "../../../services/api/restaurant.service";
 import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.component";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
   selector: 'app-restaurant-menu',
@@ -15,11 +17,9 @@ import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.compon
   styleUrl: './restaurant-menu.component.css'
 })
 export class RestaurantMenuComponent implements OnInit {
-  restaurantId: number = 0;
-  restaurant: Restaurant = {} as Restaurant;
-  image: string = '';
+  restaurant: SearchedRestaurant = {} as SearchedRestaurant;
 
-  constructor(private restaurantService: RestaurantService) {}
+  constructor(private searchedRestaurantService: SearchedRestaurantsService) {}
 
   ngOnInit(): void {
     this.getRestaurant();
@@ -28,16 +28,10 @@ export class RestaurantMenuComponent implements OnInit {
 
   getRestaurant() {
     if (typeof sessionStorage !== 'undefined') {
-
-
       const restaurantId = sessionStorage.getItem('restaurantId');
       if (restaurantId) {
         const id = parseInt(restaurantId);
-        this.restaurantId = id;
-        this.restaurantService.getRestaurantById(id).subscribe((data: Restaurant) => {
-          this.restaurant = data;
-          this.image = data.imageUrl;
-        });
+        this.restaurant = this.searchedRestaurantService.getSearchedRestaurant(id)
       }
     }
   }

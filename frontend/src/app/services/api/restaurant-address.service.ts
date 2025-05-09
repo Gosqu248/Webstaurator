@@ -8,6 +8,7 @@ import { Coordinates } from "../../interfaces/coordinates";
 import {SearchedRestaurantsService} from "../state/searched-restaurant.service";
 import {DeliveryService} from "./delivery.service";
 import {PaymentMethodsService} from "./payment-methods.service";
+import {RestaurantService} from "./restaurant.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class RestaurantAddressService {
     private http: HttpClient,
     private searchedRestaurantsService: SearchedRestaurantsService,
     private deliveryService: DeliveryService,
+    private restaurantService: RestaurantService,
     private paymentMethodsService: PaymentMethodsService
   ) {}
 
@@ -35,12 +37,19 @@ export class RestaurantAddressService {
           }
 
           const restaurantWithData = restaurants.map(restaurant => {
+            const restaurantObs = this.restaurantService.getRestaurantById(restaurant.restaurantId);
             const addressObs = this.getRestaurantAddress(restaurant.restaurantId);
             const deliveryObs = this.deliveryService.getDelivery(restaurant.restaurantId);
             const deliveryTimeObs = this.deliveryService.getDeliveryTIme(restaurant.restaurantId);
-            const paymentObs = this.paymentMethodsService.getRestaurantPaymentMethods(restaurant.restaurantId);
+            const paymentObs = this.paymentMethodsService.getRestaurantPaymentMethods(restaurant.restaurantId).pipe(
+              map(paymentMethods => paymentMethods.map(payment => ({
+                  ...payment,
+                  image: environment.api + payment.image
+              })))
+            );
 
             return forkJoin({
+              restaurant: restaurantObs,
               address: addressObs,
               delivery: deliveryObs,
               deliveryTime: deliveryTimeObs,
@@ -48,6 +57,7 @@ export class RestaurantAddressService {
             }).pipe(
               map(data => ({
                 ...restaurant,
+                restaurant: data.restaurant,
                 restaurantAddress: data.address,
                 delivery: data.delivery,
                 deliveryHours: data.deliveryTime,

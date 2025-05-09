@@ -10,7 +10,6 @@ import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {RestaurantService} from "../../../services/api/restaurant.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SessionService} from "../../../services/state/session.service";
 
 
 @Component({
@@ -37,7 +36,6 @@ export class RestaurantItemComponent implements OnInit{
               private languageService:LanguageService,
               private restaurantService: RestaurantService,
               private restaurantOpinionService: RestaurantOpinionService,
-              private sessionService: SessionService,
               private router:Router) {}
 
   ngOnInit() {
@@ -98,16 +96,11 @@ export class RestaurantItemComponent implements OnInit{
     });
   }
 
-  setSessionRestaurant() {
-    this.sessionService.setSessionRestaurant(this.restaurantId, this.restaurant, this.restaurantDelivery, this.isOpen)
-  }
-
 
   goToMenu(restaurant: Restaurant) {
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
     sessionStorage.setItem('restaurantId', restaurant.id.toString());
 
-    this.setSessionRestaurant();
     this.router.navigate(['/menu', formattedName]);
   }
 
