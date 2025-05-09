@@ -4,7 +4,6 @@ import { DecimalPipe, NgForOf, NgIf } from "@angular/common";
 import { InfoMapComponent } from "../info-map/info-map.component";
 import { SearchedRestaurant } from "../../../interfaces/searched-restaurant";
 import {LanguageService} from "../../../services/state/language.service";
-import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 
 @Component({
   selector: 'app-info',
@@ -18,25 +17,13 @@ import {SearchedRestaurantsService} from "../../../services/state/searched-resta
   templateUrl: './info.component.html',
   styleUrl: './info.component.css'
 })
-export class InfoComponent implements OnInit {
-  @Input() restaurantId!: number;
+export class InfoComponent {
   @Input() restaurantName!: string;
-  searchedRestaurant: SearchedRestaurant = {} as SearchedRestaurant;
+  @Input() searchedRestaurant!: SearchedRestaurant;
 
   constructor(
     private languageService: LanguageService,
-    private searchedRestaurantsService: SearchedRestaurantsService,
   ) {}
-
-  ngOnInit() {
-    this.getRestaurant();
-  }
-
-  getRestaurant(): void {
-    this.searchedRestaurantsService.selectedRestaurant$.subscribe(restaurant => {
-      this.searchedRestaurant = restaurant;
-    });
-  }
 
   getDayName(dayOfWeek: number): string {
     const days = [

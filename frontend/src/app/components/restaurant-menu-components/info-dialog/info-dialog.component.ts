@@ -15,6 +15,8 @@ import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 import {OpinionItemComponent} from "../opinion-item/opinion-item.component";
 import {InfoComponent} from "../info/info.component";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
 @Component({
@@ -37,14 +39,15 @@ import {InfoComponent} from "../info/info.component";
   styleUrls: ['./info-dialog.component.css']
 })
 export class InfoDialogComponent implements OnInit{
-  restaurantId: number = 0;
   opinions: RestaurantOpinion[] = [];
   opinionLength: number = 0;
   restaurantName: string = '';
   rating: number = 0;
+  searchedRestaurant: SearchedRestaurant = {} as SearchedRestaurant;
 
   constructor(
     private languageService: LanguageService,
+    private searchedRestaurantsService: SearchedRestaurantsService,
     private restaurantOpinionService: RestaurantOpinionService,
     public dialogRef: MatDialogRef<InfoDialogComponent>,
   ) {}
@@ -55,8 +58,14 @@ export class InfoDialogComponent implements OnInit{
     this.getAverageRating();
   }
 
+  getRestaurant(): void {
+    this.searchedRestaurantsService.selectedRestaurant$.subscribe(restaurant => {
+      this.searchedRestaurant = restaurant;
+    });
+  }
+
   getRestaurantOpinions() {
-    this.restaurantOpinionService.getRestaurantOpinions(this.restaurantId).subscribe({
+    this.restaurantOpinionService.getRestaurantOpinions(this.searchedRestaurant.restaurantId).subscribe({
         next: (opinions: RestaurantOpinion[]) => {
           this.opinions = opinions;
           this.opinionLength = opinions.length;
@@ -68,7 +77,7 @@ export class InfoDialogComponent implements OnInit{
   }
 
   getAverageRating() {
-    this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+    this.restaurantOpinionService.getRating(this.searchedRestaurant.restaurantId).subscribe({
       next: (rating: number) => {
         this.rating = rating
       },
@@ -80,13 +89,6 @@ export class InfoDialogComponent implements OnInit{
 
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  getRestaurant() {
-    const id = sessionStorage.getItem('restaurantId');
-    const name = sessionStorage.getItem('restaurantName');
-    this.restaurantId = id ? parseInt(id) : 0;
-    this.restaurantName = name ? name : '';
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {
