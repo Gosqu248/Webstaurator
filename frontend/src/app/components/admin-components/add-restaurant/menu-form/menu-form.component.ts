@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup, FormsModule} from "@angular/forms";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import {LanguageService} from "../../../../services/state/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {NgForOf} from "@angular/common";

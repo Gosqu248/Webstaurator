@@ -67,7 +67,7 @@ export class OrderService {
       const additivePrice = this.cartService.calculateAdditivePrice(order.chooseAdditives || []);
       return total + ((order.menu.price + additivePrice) * (order.quantity || 1));
     }, 0);
-    let deliveryPrice = null;
+    let deliveryPrice: string | null;
 
     typeof sessionStorage !== 'undefined' ? deliveryPrice = sessionStorage.getItem("deliveryPrice") : deliveryPrice = null;
 

@@ -39,7 +39,7 @@ export class ResetPasswordComponent {
           this.resetMessage = 'Email z linkiem do resetowania hasła został wysłany';
         }
       },
-      error: (error) => {
+      error: () => {
         this.isResetError = true;
         this.resetMessage = 'Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później';
       }

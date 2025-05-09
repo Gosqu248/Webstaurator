@@ -2,10 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LanguageService } from "../../../services/state/language.service";
 import { AddressesService } from "../../../services/api/addresses.service";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { UserAddress } from "../../../interfaces/user.address.interface";
-import {MenuComponent} from "../menu/menu.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 

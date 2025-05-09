@@ -3,7 +3,6 @@ package pl.urban.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.response.PaymentResponse;
-import pl.urban.backend.model.Payment;
 import pl.urban.backend.service.PaymentMethodService;
 
 import java.util.List;

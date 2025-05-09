@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Order, OrderRequest} from "../../interfaces/order";
+import {OrderRequest} from "../../interfaces/order";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";

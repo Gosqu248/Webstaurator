@@ -1,14 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MonitorOrderItemComponent} from "../../order-monitoring/monitor-order-item/monitor-order-item.component";
-import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {environment} from "../../../../../environments/environment";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {LanguageService} from "../../../../services/state/language.service";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RestaurantService} from "../../../../services/api/restaurant.service";
 import {MatTimepickerModule} from "@angular/material/timepicker";
-import {MatInput, MatInputModule} from "@angular/material/input";
+import {MatInputModule} from "@angular/material/input";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {PaymentMethodsService} from "../../../../services/api/payment-methods.service";

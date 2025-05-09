@@ -1,8 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {
-    RestaurantBasketItemComponent
-} from "../../restaurant-menu-components/restaurant-basket-item/restaurant-basket-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/state/language.service";
 import {OrderService} from "../../../services/api/order.service";

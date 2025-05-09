@@ -1,8 +1,6 @@
 package pl.urban.backend.dto.response;
 
 import pl.urban.backend.enums.OrderStatus;
-import pl.urban.backend.model.OrderMenu;
-import pl.urban.backend.model.UserAddress;
 
 import java.time.ZonedDateTime;
 import java.util.List;

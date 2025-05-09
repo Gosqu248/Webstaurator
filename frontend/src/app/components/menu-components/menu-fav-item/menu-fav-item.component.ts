@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Favourites} from "../../../interfaces/favourites";
-import {DecimalPipe} from "@angular/common";
 import {FavouriteService} from "../../../services/api/favourite.service";
 import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 

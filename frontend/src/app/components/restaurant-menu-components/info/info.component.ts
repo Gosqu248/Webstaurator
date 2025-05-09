@@ -1,14 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LanguageTranslations } from "../../../interfaces/language.interface";
-import { DeliveryHour } from "../../../interfaces/delivery.interface";
 import { DecimalPipe, NgForOf, NgIf } from "@angular/common";
-import { environment } from "../../../../environments/environment";
-import { PaymentMethod } from "../../../interfaces/paymentMethod";
 import { InfoMapComponent } from "../info-map/info-map.component";
 import { SearchedRestaurant } from "../../../interfaces/searched-restaurant";
 import {LanguageService} from "../../../services/state/language.service";
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
-import {PaymentMethodsService} from "../../../services/api/payment-methods.service";
 
 @Component({
   selector: 'app-info',

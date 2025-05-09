@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  MatDialogActions,
-  MatDialogContent,
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";

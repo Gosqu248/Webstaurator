@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {NgClass, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterLink} from "@angular/router";
 import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {AddressesService} from "../../../services/api/addresses.service";
@@ -53,7 +52,7 @@ export class MenuAddAddressComponent {
             console.log('Address added successfully', response);
             this.backToMenuAddressesDialog();
           },
-          error: error => {
+          error: () => {
             alert('Prawdopodobnie podany adres jest nieprawidłowy. Spróbuj ponownie.');
           }
         });

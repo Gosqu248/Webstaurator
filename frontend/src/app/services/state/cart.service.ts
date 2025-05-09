@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Additives, Menu} from "../../interfaces/menu";
+import {Additives} from "../../interfaces/menu";
 import {BehaviorSubject} from "rxjs";
 import {OrderMenu} from "../../interfaces/order";
 

@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Sort;
 import pl.urban.backend.dto.request.AddRestaurantRequest;
-import pl.urban.backend.dto.response.DeliveryHourResponse;
-import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.DeliveryHourRepository;
 import pl.urban.backend.repository.PaymentRepository;
@@ -17,8 +14,6 @@ import pl.urban.backend.service.DeliveryHourService;
 import pl.urban.backend.service.GeocodingService;
 import pl.urban.backend.service.RestaurantService;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.slf4j.Logger;
@@ -28,7 +23,6 @@ import pl.urban.backend.repository.RestaurantAddressRepository;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 class RestaurantTests {
 

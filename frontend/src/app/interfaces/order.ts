@@ -1,6 +1,6 @@
 import {Additives, Menu} from "./menu";
 import {Restaurant} from "./restaurant";
-import {User, UserDTO} from "./user.interface";
+import {UserDTO} from "./user.interface";
 import {UserAddress} from "./user.address.interface";
 
 export interface Order {

@@ -3,20 +3,14 @@ package pl.urban.backend.tests.unit;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.urban.backend.dto.request.RestaurantOpinionRequest;
 import pl.urban.backend.dto.response.RestaurantOpinionResponse;
-import pl.urban.backend.dto.response.UserNameResponse;
-import pl.urban.backend.model.Order;
-import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.model.RestaurantOpinion;
-import pl.urban.backend.model.User;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.repository.RestaurantOpinionRepository;
 import pl.urban.backend.service.MapperService;
 import pl.urban.backend.service.RestaurantOpinionService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

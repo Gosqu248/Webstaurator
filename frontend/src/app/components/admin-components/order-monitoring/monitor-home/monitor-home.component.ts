@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgForOf, NgIf} from "@angular/common";
-import {OrderItemComponent} from "../../../user-orders-components/order-item/order-item.component";
 import {environment} from "../../../../../environments/environment";
-import {AdminOrderDTO, OrderDTO} from "../../../../interfaces/order";
-import {Subscription} from "rxjs";
+import {AdminOrderDTO} from "../../../../interfaces/order";
 import {AuthService} from "../../../../services/api/auth.service";
 import {LanguageService} from "../../../../services/state/language.service";
 import {OrderService} from "../../../../services/api/order.service";

@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {RouterLink} from "@angular/router";
 import {AddressesService} from "../../../services/api/addresses.service";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
-import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddAddressComponent} from "../menu-add-address/menu-add-address.component";

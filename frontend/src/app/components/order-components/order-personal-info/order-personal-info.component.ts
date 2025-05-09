@@ -2,8 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/state/language.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
-import {User, UserDTO} from '../../../interfaces/user.interface';
+import {UserDTO} from '../../../interfaces/user.interface';
 import {AddressesService} from "../../../services/api/addresses.service";
 
 @Component({

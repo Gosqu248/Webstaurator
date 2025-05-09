@@ -7,8 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.urban.backend.dto.response.MenuResponse;
-import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.repository.MenuRepository;

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.request.RestaurantOpinionRequest;
 import pl.urban.backend.dto.response.RestaurantOpinionResponse;
-import pl.urban.backend.model.RestaurantOpinion;
 import pl.urban.backend.service.RestaurantOpinionService;
 
 import java.util.List;

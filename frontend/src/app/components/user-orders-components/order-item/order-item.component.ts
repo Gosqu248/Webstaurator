@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OrderDTO} from "../../../interfaces/order";
-import {DatePipe, NgClass, NgForOf, NgIf, registerLocaleData} from "@angular/common";
+import {DatePipe, NgForOf, NgIf, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl';
 import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";

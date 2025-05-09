@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantBasketComponent} from "../restaurant-basket/restaurant-basket.component";
-import { Restaurant } from '../../../interfaces/restaurant';
-import {RestaurantService} from "../../../services/api/restaurant.service";
 import {RestaurantMainComponent} from "../restaurant-main/restaurant-main.component";
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
-import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-restaurant-menu',

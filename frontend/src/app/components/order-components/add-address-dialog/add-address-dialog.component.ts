@@ -46,7 +46,7 @@ export class AddAddressDialogComponent {
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
         this.addressService.addAddress(jwt, this.addressForm.value).subscribe({
-          next: response => {
+          next: () => {
           },
           error: error => {
             console.log('Error adding address', error);

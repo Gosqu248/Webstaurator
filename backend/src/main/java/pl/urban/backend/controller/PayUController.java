@@ -2,12 +2,10 @@ package pl.urban.backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.request.OrderRequest;
-import pl.urban.backend.model.Order;
 import pl.urban.backend.service.PayUService;
 
 import java.util.Map;

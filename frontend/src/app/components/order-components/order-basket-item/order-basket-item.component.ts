@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Menu} from "../../../interfaces/menu";
 import {DecimalPipe} from "@angular/common";
 import {CartService} from "../../../services/state/cart.service";
 import {OrderMenu} from "../../../interfaces/order";

@@ -4,7 +4,7 @@ import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/state/language.service";
 import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";

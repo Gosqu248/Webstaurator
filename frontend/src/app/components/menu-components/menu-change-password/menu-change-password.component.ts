@@ -11,7 +11,7 @@ import {
 import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {AuthService} from "../../../services/api/auth.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
@@ -67,7 +67,7 @@ export class MenuChangePasswordComponent {
             console.log('Password changed: ', response);
             this.backToMenuProfileDialog();
           },
-          error: error => {
+          error: () => {
             console.log('Error changing password');
             this.isError = true;
           }

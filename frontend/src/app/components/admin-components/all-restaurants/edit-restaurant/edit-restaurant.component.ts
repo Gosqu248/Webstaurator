@@ -21,7 +21,7 @@ import {Menu} from "../../../../interfaces/menu";
 import {LanguageService} from "../../../../services/state/language.service";
 import {PaymentMethodsService} from "../../../../services/api/payment-methods.service";
 import {RestaurantService} from "../../../../services/api/restaurant.service";
-import {AddRestaurant, Restaurant} from "../../../../interfaces/restaurant";
+import {AddRestaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "../../../../interfaces/paymentMethod";

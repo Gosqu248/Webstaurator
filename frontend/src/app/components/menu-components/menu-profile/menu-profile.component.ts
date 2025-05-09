@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgClass, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/state/language.service";
 import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import { RouterLink} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuChangePasswordComponent} from "../menu-change-password/menu-change-password.component";

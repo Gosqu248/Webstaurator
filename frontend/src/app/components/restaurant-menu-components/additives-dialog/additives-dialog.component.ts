@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Additives} from "../../../interfaces/menu";
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { MatTabsModule } from '@angular/material/tabs';
-import {InfoComponent} from "../info/info.component";
 import {AdditiveItemComponent} from "../additive-item/additive-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {LanguageService} from "../../../services/state/language.service";

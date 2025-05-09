@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
-import {RouterLink} from "@angular/router";
+import {NgForOf} from "@angular/common";
 import {FavouriteService} from "../../../services/api/favourite.service";
 import {Favourites} from "../../../interfaces/favourites";
 import {LanguageTranslations} from "../../../interfaces/language.interface";

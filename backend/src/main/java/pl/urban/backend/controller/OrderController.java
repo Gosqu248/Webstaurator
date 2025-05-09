@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.urban.backend.dto.request.OrderRequest;
 import pl.urban.backend.dto.response.AdminOrderResponse;
 import pl.urban.backend.dto.response.OrderResponse;
-import pl.urban.backend.model.Order;
 import pl.urban.backend.config.security.JwtUtil;
 import pl.urban.backend.service.OrderService;
 
