@@ -1,7 +1,7 @@
 import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {User, UserDTO} from "../interfaces/user.interface";
+import {User, UserDTO} from "../../interfaces/user.interface";
 import {BehaviorSubject, catchError, map, Observable, of, tap, throwError} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 

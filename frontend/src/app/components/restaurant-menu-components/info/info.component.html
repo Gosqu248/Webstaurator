@@ -7,7 +7,7 @@
       <h3>{{getTranslation('deliveryHour')}}</h3>
     </div>
     <div class="item-container">
-      <div class="hour-item" *ngFor="let hour of deliveryTime">
+      <div class="hour-item" *ngFor="let hour of searchedRestaurant.deliveryHours">
         <p>{{getDayName(hour.dayOfWeek)}}</p>
         <p *ngIf="hour.openTime !== 'null' && hour.openTime !== '0' ; else closed">{{hour.openTime}} - {{hour.closeTime}}</p>
         <ng-template #closed> {{getTranslation('closed')}} </ng-template>
@@ -21,11 +21,11 @@
     <div class="item-container">
       <div class="hour-item">
         <p>{{getTranslation('deliveryFee')}}</p>
-        <p> {{deliveryPrice | number:'1.2-2'}} zł</p>
+        <p> {{searchedRestaurant.deliveryPrice | number:'1.2-2'}} zł</p>
       </div>
       <div class="hour-item">
         <p>{{getTranslation('feesComment')}} </p>
-        <p> {{minimumPrice | number:'1.2-2'}} zł</p>
+        <p> {{searchedRestaurant.delivery?.minimumPrice | number:'1.2-2'}} zł</p>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
     </div>
     <div class="item-container">
       <div class="payment">
-        <div class="payment-item" *ngFor="let payment of payments">
+        <div class="payment-item" *ngFor="let payment of searchedRestaurant.paymentMethods">
           <img [src]="payment.image" [title]="payment.method" alt="">
         </div>
       </div>
@@ -46,9 +46,9 @@
       <h3>{{getTranslation('info')}}</h3>
     </div>
     <div class="item-container">
-        <p class="info-item"> {{restaurantName}}</p>
-        <p class="info-item"> {{restaurantAddress.street}} {{restaurantAddress.flatNumber}}</p>
-        <p class="info-item"> {{restaurantAddress.zipCode}} {{restaurantAddress.city}}</p>
+        <p class="info-item"> {{searchedRestaurant.name}}</p>
+        <p class="info-item"> {{searchedRestaurant.restaurantAddress?.street}} {{searchedRestaurant.restaurantAddress?.flatNumber}}</p>
+        <p class="info-item"> {{searchedRestaurant.restaurantAddress?.zipCode}} {{searchedRestaurant.restaurantAddress?.city}}</p>
     </div>
   </div>
 </div>

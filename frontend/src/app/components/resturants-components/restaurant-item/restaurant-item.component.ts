@@ -1,16 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Restaurant} from "../../../interfaces/restaurant";
-import {DeliveryService} from "../../../services/delivery.service";
+import {DeliveryService} from "../../../services/api/delivery.service";
 import {Delivery, DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {Router} from "@angular/router";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
-import {RestaurantService} from "../../../services/restaurant.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
+import {RestaurantService} from "../../../services/api/restaurant.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SessionService} from "../../../services/session.service";
+import {SessionService} from "../../../services/state/session.service";
 
 
 @Component({

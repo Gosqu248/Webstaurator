@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {AddRestaurant, Restaurant} from "../interfaces/restaurant";
+import {environment} from "../../../environments/environment";
+import {AddRestaurant, Restaurant} from "../../interfaces/restaurant";
 import {Observable} from "rxjs";
 
 @Injectable({

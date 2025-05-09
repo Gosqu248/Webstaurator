@@ -150,7 +150,7 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  border: black 0.5px solid;
+  border: black 1px solid;
 }
 
 .language-dropdown {

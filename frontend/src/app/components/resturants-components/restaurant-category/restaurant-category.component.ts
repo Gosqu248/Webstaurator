@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { CategoryItemComponent } from '../category-item/category-item.component';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {OptionService} from "../../../services/option.service";
+import {OptionService} from "../../../services/state/option.service";
 
 @Component({
   selector: 'app-restaurant-category',

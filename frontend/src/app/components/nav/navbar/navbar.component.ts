@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { environment } from "../../../../environments/environment";
 import { isPlatformBrowser, NgClass, NgIf } from "@angular/common";
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from "../../../services/state/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MenuComponent } from "../../menu-components/menu/menu.component";
 import {NavigationEnd, Router, RouterLink, RouterOutlet} from "@angular/router";
@@ -14,7 +14,7 @@ import {MenuAddressChangeComponent} from "../../menu-components/menu-address-cha
 import {MenuChangePasswordComponent} from "../../menu-components/menu-change-password/menu-change-password.component";
 import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/menu-add-address.component";
 import {RestaurantCategoryComponent} from "../../resturants-components/restaurant-category/restaurant-category.component";
-import {OptionService} from "../../../services/option.service";
+import {OptionService} from "../../../services/state/option.service";
 import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
 import {MatDialog} from "@angular/material/dialog";
 import {filter} from "rxjs";
@@ -24,20 +24,8 @@ import {filter} from "rxjs";
   standalone: true,
   imports: [
     NgIf,
-    MenuComponent,
-    RouterLink,
-    RouterOutlet,
     NgClass,
-    MenuLoginComponent,
-    MenuRegisterComponent,
-    MenuProfileComponent,
-    MenuAddressesComponent,
-    MenuLanguageComponent,
-    MenuAddressChangeComponent,
-    MenuChangePasswordComponent,
-    MenuAddAddressComponent,
-    RestaurantCategoryComponent,
-    MenuFavouriteComponent
+    RestaurantCategoryComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

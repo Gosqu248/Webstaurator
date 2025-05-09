@@ -6,8 +6,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {InfoComponent} from "../info/info.component";
 import {AdditiveItemComponent} from "../additive-item/additive-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
-import {CartService} from "../../../services/cart.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {CartService} from "../../../services/state/cart.service";
 import {OrderMenu} from "../../../interfaces/order";
 
 
@@ -18,7 +18,6 @@ import {OrderMenu} from "../../../interfaces/order";
     DecimalPipe,
     MatTabsModule,
     NgIf,
-    InfoComponent,
     NgForOf,
     AdditiveItemComponent,
     NgClass

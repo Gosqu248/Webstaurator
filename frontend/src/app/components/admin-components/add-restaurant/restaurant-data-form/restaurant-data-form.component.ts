@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 
 @Component({

@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {Restaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {RestaurantService} from "../../../../services/restaurant.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
 
 @Component({
   selector: 'app-all-restaurants-item',

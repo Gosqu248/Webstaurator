@@ -8,11 +8,11 @@ import {
 import { FormsModule } from "@angular/forms";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from "../../../services/state/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 import {OpinionItemComponent} from "../opinion-item/opinion-item.component";
@@ -24,8 +24,6 @@ import {InfoComponent} from "../info/info.component";
   standalone: true,
   imports: [
     MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

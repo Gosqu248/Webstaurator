@@ -1,17 +1,16 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {User, UserDTO} from '../../../interfaces/user.interface';
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 
 @Component({
   selector: 'app-order-personal-info',
   standalone: true,
   imports: [
     FormsModule,
-    NgIf,
     ReactiveFormsModule
   ],
   templateUrl: './order-personal-info.component.html',

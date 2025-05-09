@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UserAddress} from "../../../interfaces/user.address.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 import {RouterLink} from "@angular/router";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -12,7 +12,7 @@ import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-ch
   selector: 'app-menu-addresses-item',
   standalone: true,
   imports: [
-    RouterLink
+
   ],
   templateUrl: './menu-addresses-item.component.html',
   styleUrl: './menu-addresses-item.component.css'

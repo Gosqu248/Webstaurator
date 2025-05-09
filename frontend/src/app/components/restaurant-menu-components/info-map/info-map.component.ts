@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import * as L from 'leaflet';
-import {RestaurantService} from "../../../services/restaurant.service";
-import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {RestaurantService} from "../../../services/api/restaurant.service";
+import {RestaurantAddressService} from "../../../services/api/restaurant-address.service";
 
 @Component({
   selector: 'app-info-map',

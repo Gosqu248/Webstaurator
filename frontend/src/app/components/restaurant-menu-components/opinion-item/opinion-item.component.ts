@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RestaurantOpinion } from '../../../interfaces/restaurant-opinion';
 import {DatePipe, NgClass, NgForOf} from '@angular/common';
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {MatIcon} from "@angular/material/icon";
 

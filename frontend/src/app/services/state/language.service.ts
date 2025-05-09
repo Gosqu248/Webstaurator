@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Translations } from "../interfaces/language.interface";
+import { Translations } from "../../interfaces/language.interface";
 import {BehaviorSubject} from "rxjs";
 
 @Injectable({

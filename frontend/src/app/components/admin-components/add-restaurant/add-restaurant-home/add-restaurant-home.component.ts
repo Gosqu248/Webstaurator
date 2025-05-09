@@ -4,14 +4,14 @@ import {MonitorOrderItemComponent} from "../../order-monitoring/monitor-order-it
 import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {environment} from "../../../../../environments/environment";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RestaurantService} from "../../../../services/restaurant.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
 import {MatTimepickerModule} from "@angular/material/timepicker";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
-import {PaymentMethodsService} from "../../../../services/payment-methods.service";
+import {PaymentMethodsService} from "../../../../services/api/payment-methods.service";
 import {RestaurantDataFormComponent} from "../restaurant-data-form/restaurant-data-form.component";
 import {RestaurantAddressFormComponent} from "../restaurant-address-form/restaurant-address-form.component";
 import {
@@ -31,15 +31,9 @@ import {PaymentMethod} from "../../../../interfaces/paymentMethod";
   selector: 'app-add-restaurant-home',
   standalone: true,
   imports: [
-    MatProgressSpinner,
-    MonitorOrderItemComponent,
-    NgForOf,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     MatTimepickerModule,
-    TitleCasePipe,
-    MatInput,
     MatInputModule,
     RestaurantDataFormComponent,
     RestaurantAddressFormComponent,

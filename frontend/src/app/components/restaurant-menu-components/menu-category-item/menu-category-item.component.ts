@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OptionService} from "../../../services/option.service";
+import {OptionService} from "../../../services/state/option.service";
 import {NgClass} from "@angular/common";
 
 @Component({

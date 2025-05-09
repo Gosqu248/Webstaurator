@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Restaurant} from "../interfaces/restaurant";
-import {Delivery} from "../interfaces/delivery.interface";
+import {Restaurant} from "../../interfaces/restaurant";
+import {Delivery} from "../../interfaces/delivery.interface";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
@@ -16,13 +16,7 @@ import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component
   selector: 'app-menu',
   standalone: true,
   imports: [
-    NgIf,
-    MenuLanguageComponent,
-    MenuRegisterComponent,
-    MenuLoginComponent,
-    MenuProfileComponent,
-    RouterLink,
-    RouterOutlet
+    NgIf
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']

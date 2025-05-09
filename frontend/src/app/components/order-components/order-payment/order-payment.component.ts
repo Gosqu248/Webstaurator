@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
-import { LanguageService } from '../../../services/language.service';
-import { PaymentMethodsService } from '../../../services/payment-methods.service';
+import { LanguageService } from '../../../services/state/language.service';
+import { PaymentMethodsService } from '../../../services/api/payment-methods.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPaymentComponent } from '../edit-payment-dialog/edit-payment.component';
 import { environment } from '../../../../environments/environment';

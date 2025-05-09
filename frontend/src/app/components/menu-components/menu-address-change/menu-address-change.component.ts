@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { LanguageService } from "../../../services/language.service";
-import { AddressesService } from "../../../services/addresses.service";
+import { LanguageService } from "../../../services/state/language.service";
+import { AddressesService } from "../../../services/api/addresses.service";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { UserAddress } from "../../../interfaces/user.address.interface";
@@ -14,8 +14,7 @@ import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule,
-    RouterLink
+    ReactiveFormsModule
   ],
   templateUrl: './menu-address-change.component.html',
   styleUrl: './menu-address-change.component.css'

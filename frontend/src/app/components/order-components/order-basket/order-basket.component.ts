@@ -4,11 +4,11 @@ import {
     RestaurantBasketItemComponent
 } from "../../restaurant-menu-components/restaurant-basket-item/restaurant-basket-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
-import {OrderService} from "../../../services/order.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {OrderService} from "../../../services/api/order.service";
 import {OrderBasketItemComponent} from "../order-basket-item/order-basket-item.component";
 import {OrderMenu} from "../../../interfaces/order";
-import {OptionService} from "../../../services/option.service";
+import {OptionService} from "../../../services/state/option.service";
 
 @Component({
   selector: 'app-order-basket',

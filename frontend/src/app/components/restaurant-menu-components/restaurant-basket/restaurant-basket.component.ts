@@ -1,16 +1,16 @@
  import {Component, Input, OnInit} from '@angular/core';
  import {LanguageTranslations} from "../../../interfaces/language.interface";
- import {LanguageService} from "../../../services/language.service";
+ import {LanguageService} from "../../../services/state/language.service";
  import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
- import {OptionService} from "../../../services/option.service";
+ import {OptionService} from "../../../services/state/option.service";
  import {RestaurantBasketItemComponent} from "../restaurant-basket-item/restaurant-basket-item.component";
- import {CartService} from "../../../services/cart.service";
+ import {CartService} from "../../../services/state/cart.service";
  import {Router} from "@angular/router";
- import {OrderService} from "../../../services/order.service";
+ import {OrderService} from "../../../services/api/order.service";
  import {Restaurant} from "../../../interfaces/restaurant";
- import {RestaurantService} from "../../../services/restaurant.service";
+ import {RestaurantService} from "../../../services/api/restaurant.service";
  import {OrderMenu} from "../../../interfaces/order";
- import {DeliveryService} from "../../../services/delivery.service";
+ import {DeliveryService} from "../../../services/api/delivery.service";
  import {Delivery} from "../../../interfaces/delivery.interface";
 
 @Component({

@@ -4,10 +4,10 @@ import {OrderMenuItemComponent} from "../../../user-orders-components/order-menu
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {AdminOrderDTO, OrderStatus} from "../../../../interfaces/order";
 import localePl from '@angular/common/locales/pl';
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmChangeStatusComponent} from "../confirm-change-status/confirm-change-status.component";
-import {OrderService} from "../../../../services/order.service";
+import {OrderService} from "../../../../services/api/order.service";
 
 
 @Component({

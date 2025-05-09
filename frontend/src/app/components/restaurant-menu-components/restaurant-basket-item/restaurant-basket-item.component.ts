@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Menu} from "../../../interfaces/menu";
 import {DecimalPipe, NgIf} from "@angular/common";
-import {CartService} from "../../../services/cart.service";
+import {CartService} from "../../../services/state/cart.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderMenu} from "../../../interfaces/order";

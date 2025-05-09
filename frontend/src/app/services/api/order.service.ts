@@ -1,8 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {CartService} from "./cart.service";
-import {environment} from "../../environments/environment";
+import {CartService} from "../state/cart.service";
+import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AdminOrderDTO, Order, OrderDTO, OrderMenu, OrderRequest} from "../interfaces/order";
+import {AdminOrderDTO, Order, OrderDTO, OrderMenu, OrderRequest} from "../../interfaces/order";
 import {BehaviorSubject} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 

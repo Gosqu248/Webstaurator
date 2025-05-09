@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterLink} from "@angular/router";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 
@@ -14,9 +14,7 @@ import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component
   standalone: true,
   imports: [
     NgIf,
-    ReactiveFormsModule,
-    RouterLink,
-    NgClass
+    ReactiveFormsModule
   ],
   templateUrl: './menu-add-address.component.html',
   styleUrl: './menu-add-address.component.css'

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormArray, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 import {NgForOf, NgIf} from "@angular/common";

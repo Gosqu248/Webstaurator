@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
-import {PayUService} from "../../../services/pay-u.service";
+import {PayUService} from "../../../services/api/pay-u.service";
 import {environment} from "../../../../environments/environment";
-import {OrderService} from "../../../services/order.service";
+import {OrderService} from "../../../services/api/order.service";
 import {OrderRequest, OrderStatus} from "../../../interfaces/order";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 

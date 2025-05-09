@@ -13,11 +13,7 @@ import {MenuComponent} from "../menu-components/menu/menu.component";
   imports: [
     HomeFirstSectionComponent,
     HomeSecondSectionComponent,
-    HomeThirdSectionComponent,
-    RouterOutlet,
-    NgClass,
-    MenuComponent,
-    NgIf
+    HomeThirdSectionComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

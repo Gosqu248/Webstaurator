@@ -2,10 +2,10 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {NgIf, NgForOf, DecimalPipe} from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LanguageService } from '../../../services/language.service';
-import { MenuService } from '../../../services/menu.service';
-import { OptionService } from '../../../services/option.service';
-import { FavouriteService } from '../../../services/favourite.service';
+import { LanguageService } from '../../../services/state/language.service';
+import { MenuService } from '../../../services/api/menu.service';
+import { OptionService } from '../../../services/state/option.service';
+import { FavouriteService } from '../../../services/api/favourite.service';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { MenuCategoryItemComponent } from '../menu-category-item/menu-category-item.component';
 import { FilterByCategoryPipe } from '../../../pipes/filter-by-category.pipe';
@@ -14,13 +14,13 @@ import { NgOptimizedImage } from '@angular/common';
 import {Menu} from "../../../interfaces/menu";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Restaurant} from "../../../interfaces/restaurant";
-import {RestaurantService} from "../../../services/restaurant.service";
-import {AuthService} from "../../../services/auth.service";
+import {RestaurantService} from "../../../services/api/restaurant.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {Delivery} from "../../../interfaces/delivery.interface";
-import {DeliveryService} from "../../../services/delivery.service";
+import {DeliveryService} from "../../../services/api/delivery.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -34,8 +34,6 @@ import {Subscription} from "rxjs";
     NgForOf,
     FilterByCategoryPipe,
     RestaurantMenuItemComponent,
-    NgOptimizedImage,
-    InfoDialogComponent,
     DecimalPipe
   ],
   templateUrl: './restaurant-main.component.html',

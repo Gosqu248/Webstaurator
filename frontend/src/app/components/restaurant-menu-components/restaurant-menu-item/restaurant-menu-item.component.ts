@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {Menu} from "../../../interfaces/menu";
 import {FilterByCategoryPipe} from "../../../pipes/filter-by-category.pipe";
-import {CartService} from "../../../services/cart.service";
+import {CartService} from "../../../services/state/cart.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
 import {OrderMenu} from "../../../interfaces/order";

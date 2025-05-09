@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserAddress } from '../interfaces/user.address.interface';
+import { UserAddress } from '../../interfaces/user.address.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Coordinates} from "../interfaces/coordinates";
+import {Coordinates} from "../../interfaces/coordinates";
 
 @Injectable({
   providedIn: 'root'

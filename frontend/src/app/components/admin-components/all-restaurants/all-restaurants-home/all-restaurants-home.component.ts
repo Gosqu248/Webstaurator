@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LanguageService} from "../../../../services/language.service";
-import {RestaurantService} from "../../../../services/restaurant.service";
+import {LanguageService} from "../../../../services/state/language.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
 import {Restaurant} from "../../../../interfaces/restaurant";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgForOf, NgIf} from "@angular/common";

@@ -1,8 +1,8 @@
 import {Component,} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {Router, RouterLink} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
@@ -16,8 +16,7 @@ import {MenuRegisterComponent} from "../menu-register/menu-register.component";
     FormsModule,
     NgIf,
     ReactiveFormsModule,
-    NgClass,
-    RouterLink
+    NgClass
   ],
   templateUrl: './menu-login.component.html',
   styleUrl: './menu-login.component.css'

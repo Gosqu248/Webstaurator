@@ -5,9 +5,9 @@ import {OrderItemComponent} from "../../../user-orders-components/order-item/ord
 import {environment} from "../../../../../environments/environment";
 import {AdminOrderDTO, OrderDTO} from "../../../../interfaces/order";
 import {Subscription} from "rxjs";
-import {AuthService} from "../../../../services/auth.service";
-import {LanguageService} from "../../../../services/language.service";
-import {OrderService} from "../../../../services/order.service";
+import {AuthService} from "../../../../services/api/auth.service";
+import {LanguageService} from "../../../../services/state/language.service";
+import {OrderService} from "../../../../services/api/order.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {MonitorOrderItemComponent} from "../monitor-order-item/monitor-order-item.component";
 
@@ -18,7 +18,6 @@ import {MonitorOrderItemComponent} from "../monitor-order-item/monitor-order-ite
     MatProgressSpinner,
     NgForOf,
     NgIf,
-    OrderItemComponent,
     MonitorOrderItemComponent
   ],
   templateUrl: './monitor-home.component.html',

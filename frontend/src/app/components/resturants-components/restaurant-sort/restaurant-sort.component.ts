@@ -1,18 +1,17 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {SortItemComponent} from "../sort-item/sort-item.component";
 import {NgClass, NgForOf} from "@angular/common";
-import {OptionService} from "../../../services/option.service";
-import {MapService} from "../../../services/map.service";
+import {OptionService} from "../../../services/state/option.service";
+import {MapService} from "../../../services/state/map.service";
 
 @Component({
   selector: 'app-restaurant-sort',
   standalone: true,
   imports: [
     SortItemComponent,
-    NgForOf,
-    NgClass
+    NgForOf
   ],
   templateUrl: './restaurant-sort.component.html',
   styleUrl: './restaurant-sort.component.css'

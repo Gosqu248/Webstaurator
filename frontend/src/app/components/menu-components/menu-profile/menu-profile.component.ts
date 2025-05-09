@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import { RouterLink} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
@@ -16,8 +16,8 @@ import {MenuChangePasswordComponent} from "../menu-change-password/menu-change-p
     FormsModule,
     NgIf,
     ReactiveFormsModule,
-    NgClass,
-    RouterLink,
+
+
   ],
   templateUrl: './menu-profile.component.html',
   styleUrl: './menu-profile.component.css'

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 
 @Component({
   selector: 'app-confirm-change-status',

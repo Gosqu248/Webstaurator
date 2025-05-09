@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {environment} from "../../../../environments/environment";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {RouterLink} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
@@ -11,8 +11,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
   selector: 'app-menu-language',
   standalone: true,
   imports: [
-    NgIf,
-    RouterLink
+    NgIf
   ],
   templateUrl: './menu-language.component.html',
   styleUrl: './menu-language.component.css'

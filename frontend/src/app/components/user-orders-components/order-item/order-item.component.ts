@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OrderDTO} from "../../../interfaces/order";
 import {DatePipe, NgClass, NgForOf, NgIf, registerLocaleData} from "@angular/common";
 import localePl from '@angular/common/locales/pl';
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {OrderMenuItemComponent} from "../order-menu-item/order-menu-item.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -14,8 +14,7 @@ import {AddOpinionDialogComponent} from "../add-opinion-dialog/add-opinion-dialo
   imports: [
     OrderMenuItemComponent,
     NgForOf,
-    NgIf,
-    NgClass
+    NgIf
   ],
   templateUrl: './order-item.component.html',
   styleUrl: './order-item.component.css',

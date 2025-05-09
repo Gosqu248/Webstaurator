@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {RouterLink} from "@angular/router";
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
 import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
@@ -16,12 +16,9 @@ import {MenuAddAddressComponent} from "../menu-add-address/menu-add-address.comp
   selector: 'app-menu-addresses',
   standalone: true,
   imports: [
-    NgIf,
     ReactiveFormsModule,
-    RouterLink,
     MenuAddressesItemComponent,
-    NgForOf,
-    MenuAddressChangeComponent
+    NgForOf
   ],
   templateUrl: './menu-addresses.component.html',
   styleUrl: './menu-addresses.component.css'

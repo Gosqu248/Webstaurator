@@ -8,11 +8,11 @@ import {
   ValidationErrors,
   ValidatorFn, Validators
 } from "@angular/forms";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 
@@ -22,7 +22,6 @@ import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
   imports: [
     FormsModule,
     NgClass,
-    RouterLink,
     ReactiveFormsModule,
     NgIf
   ],

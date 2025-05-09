@@ -8,8 +8,8 @@ import {
   ValidatorFn,
   Validators
 } from "@angular/forms";
-import {AuthService} from "../../../services/auth.service";
-import {LanguageService} from "../../../services/language.service";
+import {AuthService} from "../../../services/api/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {User} from "../../../interfaces/user.interface";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
@@ -26,8 +26,7 @@ import {MenuLoginComponent} from "../menu-login/menu-login.component";
     NgIf,
     FormsModule,
     ReactiveFormsModule,
-    NgClass,
-    RouterLink
+    NgClass
   ],
   templateUrl: './menu-register.component.html',
   styleUrl: './menu-register.component.css'

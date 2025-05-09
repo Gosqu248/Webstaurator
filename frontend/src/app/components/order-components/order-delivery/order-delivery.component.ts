@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser, NgClass, NgForOf, NgIf} from '@angular/common';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
-import { LanguageService } from '../../../services/language.service';
+import { LanguageService } from '../../../services/state/language.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserAddress } from '../../../interfaces/user.address.interface';
 import { OrderDeliveryItemComponent } from '../order-delivery-item/order-delivery-item.component';
 import { AddAddressDialogComponent } from '../add-address-dialog/add-address-dialog.component';
-import {AddressesService} from "../../../services/addresses.service";
-import {DeliveryService} from "../../../services/delivery.service";
+import {AddressesService} from "../../../services/api/addresses.service";
+import {DeliveryService} from "../../../services/api/delivery.service";
 import {DeliveryHour} from "../../../interfaces/delivery.interface";
 import {ChooseHourDialogComponent} from "../choose-hour-dialog/choose-hour-dialog.component";
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {Coordinates} from "../../../interfaces/coordinates";
 
 

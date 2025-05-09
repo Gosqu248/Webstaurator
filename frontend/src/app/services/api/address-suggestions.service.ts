@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {Suggest} from "../interfaces/suggest";
-import {Coordinates} from "../interfaces/coordinates";
+import {Suggest} from "../../interfaces/suggest";
+import {Coordinates} from "../../interfaces/coordinates";
 
 @Injectable({
   providedIn: 'root'
