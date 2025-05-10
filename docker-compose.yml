@@ -1,4 +1,10 @@
 services:
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+
   backend:
     build: ./backend
     ports:
@@ -9,7 +15,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${SURVEY_DB_PASSWORD}
     depends_on:
       - db
-
 
   db:
     restart: always
@@ -22,6 +27,17 @@ services:
       - POSTGRES_DB=${SURVEY_DB_NAME}
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  gateway:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
 
 volumes:
   db_data:
