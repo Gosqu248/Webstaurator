@@ -2,8 +2,9 @@ import {EventEmitter, Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {User, UserDTO} from "../../interfaces/user.interface";
-import {BehaviorSubject, catchError, map, Observable, of, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
+import {Login} from "../../interfaces/login";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,25 @@ export class AuthService {
       );
   }
 
+  loginWithToken(): Observable<any> {
+    if (!this.accessToken) {
+      return of(false);
+    }
+
+    return this.http.post<Login>(`${this.apiUrl}/loginWithToken`, {
+      accessToken: this.accessToken,
+    }).pipe(
+      switchMap((response: Login) => {
+        if (response.accessToken) {
+          this.accessToken = response.accessToken;
+        }
+        return of(true);
+      }),
+      catchError(() => of(false))
+
+    );
+  }
+
   resetPassword(email: string): Observable<any> {
     return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, {email}).pipe(
       catchError(error => {
@@ -78,7 +98,6 @@ export class AuthService {
       localStorage.removeItem('jwt');
       localStorage.removeItem('name');
       localStorage.removeItem('email');
-
     }
     this.isAuthenticatedSubject.next(false);
 
@@ -94,8 +113,17 @@ export class AuthService {
     return this.http.put<boolean>(`${this.apiUrl}/changePassword`, {password, newPassword}, {headers});
   }
 
+  set accessToken(token: string) {
+    localStorage.setItem('jwt', token);
+  }
+
+  get accessToken(): string {
+    return localStorage.getItem('jwt') ?? '';
+  }
+
   isAuthenticated(): boolean {
     if (isPlatformBrowser(this.platformId)) {
+      this.loginWithToken();
       return !!localStorage.getItem('jwt');
     } else {
       return false;

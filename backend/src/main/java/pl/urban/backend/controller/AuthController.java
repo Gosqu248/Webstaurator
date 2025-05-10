@@ -119,7 +119,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "Link do resetowania hasła został wysłany na Twój email."));
     }
 
-    @GetMapping("sign-in-with-token")
+    @PostMapping("sign-in-with-token")
     public ResponseEntity<LoginResponse> loginWithToken(
             @RequestBody @Valid SignInWithTokenRequest request
     ) {

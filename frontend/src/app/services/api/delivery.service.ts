@@ -23,12 +23,17 @@ export class DeliveryService {
     });
   }
 
-  checkIfOpen(deliveryTime: DeliveryHour[]): boolean {
+  checkIfOpen(deliveryTime: DeliveryHour[] | undefined): boolean {
     const currentTime = new Date();
     const currentDay = currentTime.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
     const currentHour = currentTime.getHours();
     const currentMinutes = currentTime.getMinutes();
     const currentTotalMinutes = currentHour * 60 + currentMinutes;
+
+    if (!deliveryTime) {
+      console.error('Delivery time data is not available.');
+      return false;
+    }
 
     const todayDeliveryHour = deliveryTime.find(d => d.dayOfWeek === currentDay); // Adjust for Sunday
 

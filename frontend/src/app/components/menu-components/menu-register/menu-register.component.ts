@@ -120,7 +120,10 @@ export class MenuRegisterComponent {
 
   backToMenuDialog() {
     this.closeDialog();
-    this.dialog.open(MenuComponent);
+    this.dialog.open(MenuComponent, {
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 
   goToLoginDialog() {

@@ -8,6 +8,7 @@ import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
+import {DeliveryService} from "../../../services/api/delivery.service";
 
 
 @Component({
@@ -30,11 +31,14 @@ export class RestaurantItemComponent implements OnInit{
   constructor(private languageService:LanguageService,
               private searchedRestaurantService: SearchedRestaurantsService,
               private restaurantOpinionService: RestaurantOpinionService,
+              private deliveryService: DeliveryService,
               private router:Router) {}
 
   ngOnInit() {
     this.getSearchedRestaurant();
     this.getRestaurantOpinions()
+    this.isOpen = this.deliveryService.checkIfOpen(this.restaurant.deliveryHours);
+
     this.getAverageRating();
   }
 
