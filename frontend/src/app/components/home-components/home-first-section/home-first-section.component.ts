@@ -12,15 +12,14 @@ import {RestaurantAddressService} from "../../../services/api/restaurant-address
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 
 @Component({
-  selector: 'app-home-first-section',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    NgForOf
-  ],
-  templateUrl: './home-first-section.component.html',
-  styleUrl: './home-first-section.component.css'
+    selector: 'app-home-first-section',
+    imports: [
+        FormsModule,
+        NgIf,
+        NgForOf
+    ],
+    templateUrl: './home-first-section.component.html',
+    styleUrl: './home-first-section.component.css'
 })
 export class HomeFirstSectionComponent implements OnInit{
   currentLanguage: string;

@@ -11,17 +11,15 @@ import {OrderService} from "../../../../services/api/order.service";
 
 
 @Component({
-  selector: 'app-monitor-order-item',
-  standalone: true,
+    selector: 'app-monitor-order-item',
     imports: [
         NgForOf,
         NgIf,
         OrderMenuItemComponent
     ],
-  templateUrl: './monitor-order-item.component.html',
-  styleUrl: './monitor-order-item.component.css',
-  providers: [DatePipe]
-
+    templateUrl: './monitor-order-item.component.html',
+    styleUrl: './monitor-order-item.component.css',
+    providers: [DatePipe]
 })
 export class MonitorOrderItemComponent implements OnInit{
   @Input() order!: AdminOrderDTO;

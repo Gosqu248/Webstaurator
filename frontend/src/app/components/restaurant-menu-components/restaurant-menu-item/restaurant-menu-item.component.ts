@@ -8,17 +8,16 @@ import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.com
 import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
-  selector: 'app-restaurant-menu-item',
-  standalone: true,
-  imports: [
-    NgForOf,
-    FilterByCategoryPipe,
-    NgIf,
-    DecimalPipe,
-    NgClass
-  ],
-  templateUrl: './restaurant-menu-item.component.html',
-  styleUrl: './restaurant-menu-item.component.css'
+    selector: 'app-restaurant-menu-item',
+    imports: [
+        NgForOf,
+        FilterByCategoryPipe,
+        NgIf,
+        DecimalPipe,
+        NgClass
+    ],
+    templateUrl: './restaurant-menu-item.component.html',
+    styleUrl: './restaurant-menu-item.component.css'
 })
 export class RestaurantMenuItemComponent {
   @Input() menu!: Menu[];

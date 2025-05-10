@@ -2,11 +2,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 @Component({
-  selector: 'app-payment-item',
-  standalone: true,
-  imports: [],
-  templateUrl: './payment-item.component.html',
-  styleUrl: './payment-item.component.css'
+    selector: 'app-payment-item',
+    imports: [],
+    templateUrl: './payment-item.component.html',
+    styleUrl: './payment-item.component.css'
 })
 export class PaymentItemComponent {
   @Input() payment!: PaymentMethod;

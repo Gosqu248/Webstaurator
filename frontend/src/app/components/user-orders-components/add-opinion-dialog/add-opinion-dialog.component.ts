@@ -8,15 +8,14 @@ import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion
 import {RestaurantOpinionDTO} from "../../../interfaces/restaurant-opinion";
 
 @Component({
-  selector: 'app-add-opinion-dialog',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgClass,
-    FormsModule
-  ],
-  templateUrl: './add-opinion-dialog.component.html',
-  styleUrl: './add-opinion-dialog.component.css'
+    selector: 'app-add-opinion-dialog',
+    imports: [
+        NgForOf,
+        NgClass,
+        FormsModule
+    ],
+    templateUrl: './add-opinion-dialog.component.html',
+    styleUrl: './add-opinion-dialog.component.css'
 })
 export class AddOpinionDialogComponent {
   qualityRating: number = 0;

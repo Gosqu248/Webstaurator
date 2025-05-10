@@ -7,13 +7,12 @@ import { EditPaymentComponent } from '../edit-payment-dialog/edit-payment.compon
 import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 @Component({
-  selector: 'app-order-payment',
-  standalone: true,
-  imports: [
-    NgIf
-  ],
-  templateUrl: './order-payment.component.html',
-  styleUrls: ['./order-payment.component.css']
+    selector: 'app-order-payment',
+    imports: [
+        NgIf
+    ],
+    templateUrl: './order-payment.component.html',
+    styleUrls: ['./order-payment.component.css']
 })
 export class OrderPaymentComponent  implements OnInit {
   @Input() paymentMethods!: PaymentMethod[] | undefined;

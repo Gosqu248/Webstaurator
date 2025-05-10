@@ -11,19 +11,18 @@ import {OrderMenu} from "../../../interfaces/order";
 
 
 @Component({
-  selector: 'app-additives-dialog',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    MatTabsModule,
-    NgIf,
-    NgForOf,
-    AdditiveItemComponent,
-    NgClass
-  ],
-  templateUrl: './additives-dialog.component.html',
-  styleUrl: './additives-dialog.component.css',
-  styles: [`:host { width: 1200px; max-width: 100vw; }`],
+    selector: 'app-additives-dialog',
+    imports: [
+        DecimalPipe,
+        MatTabsModule,
+        NgIf,
+        NgForOf,
+        AdditiveItemComponent,
+        NgClass
+    ],
+    templateUrl: './additives-dialog.component.html',
+    styleUrl: './additives-dialog.component.css',
+    styles: [`:host { width: 1200px; max-width: 100vw; }`]
 })
 export class AdditivesDialogComponent implements OnInit {
   quantity: number = 1;

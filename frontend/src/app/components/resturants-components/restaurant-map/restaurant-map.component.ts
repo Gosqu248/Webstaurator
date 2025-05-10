@@ -9,13 +9,10 @@ import {RestaurantService} from "../../../services/api/restaurant.service";
 import {DistanceFilterPipe} from "../../../pipes/distance-filter.pipe";
 
 @Component({
-  selector: 'app-restaurant-map',
-  standalone: true,
-  imports: [
-
-  ],
-  templateUrl: './restaurant-map.component.html',
-  styleUrl: './restaurant-map.component.css'
+    selector: 'app-restaurant-map',
+    imports: [],
+    templateUrl: './restaurant-map.component.html',
+    styleUrl: './restaurant-map.component.css'
 })
 export class RestaurantMapComponent implements OnInit, OnDestroy, OnChanges {
   @Input() restaurants!: SearchedRestaurant[];

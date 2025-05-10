@@ -21,16 +21,15 @@ import {SearchedRestaurantsService} from "../../../services/state/searched-resta
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-order-home',
-  standalone: true,
-  imports: [
-    OrderBasketComponent,
-    OrderPersonalInfoComponent,
-    OrderDeliveryComponent,
-    OrderPaymentComponent
-  ],
-  templateUrl: './order-home.component.html',
-  styleUrl: './order-home.component.css'
+    selector: 'app-order-home',
+    imports: [
+        OrderBasketComponent,
+        OrderPersonalInfoComponent,
+        OrderDeliveryComponent,
+        OrderPaymentComponent
+    ],
+    templateUrl: './order-home.component.html',
+    styleUrl: './order-home.component.css'
 })
 export class OrderHomeComponent implements OnInit, AfterViewInit {
   @ViewChild(OrderDeliveryComponent) orderDelivery!: OrderDeliveryComponent;

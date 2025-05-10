@@ -5,14 +5,13 @@ import {NgClass, NgForOf} from "@angular/common";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-home-third-section',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgForOf
-  ],
-  templateUrl: './home-third-section.component.html',
-  styleUrl: './home-third-section.component.css'
+    selector: 'app-home-third-section',
+    imports: [
+        NgClass,
+        NgForOf
+    ],
+    templateUrl: './home-third-section.component.html',
+    styleUrl: './home-third-section.component.css'
 })
 export class HomeThirdSectionComponent implements OnInit, OnDestroy{
   activeWhyIndex = 0;

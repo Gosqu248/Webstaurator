@@ -8,14 +8,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
-  selector: 'app-restaurant-basket-item',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    NgIf
-  ],
-  templateUrl: './restaurant-basket-item.component.html',
-  styleUrl: './restaurant-basket-item.component.css'
+    selector: 'app-restaurant-basket-item',
+    imports: [
+        DecimalPipe,
+        NgIf
+    ],
+    templateUrl: './restaurant-basket-item.component.html',
+    styleUrl: './restaurant-basket-item.component.css'
 })
 export class RestaurantBasketItemComponent implements OnInit{
   @Input() orderMenu!: OrderMenu;

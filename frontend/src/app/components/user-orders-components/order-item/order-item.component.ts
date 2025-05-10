@@ -9,16 +9,15 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddOpinionDialogComponent} from "../add-opinion-dialog/add-opinion-dialog.component";
 
 @Component({
-  selector: 'app-order-item',
-  standalone: true,
-  imports: [
-    OrderMenuItemComponent,
-    NgForOf,
-    NgIf
-  ],
-  templateUrl: './order-item.component.html',
-  styleUrl: './order-item.component.css',
-  providers: [DatePipe]
+    selector: 'app-order-item',
+    imports: [
+        OrderMenuItemComponent,
+        NgForOf,
+        NgIf
+    ],
+    templateUrl: './order-item.component.html',
+    styleUrl: './order-item.component.css',
+    providers: [DatePipe]
 })
 export class OrderItemComponent implements OnInit {
   @Input() order!: OrderDTO;

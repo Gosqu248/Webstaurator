@@ -19,16 +19,15 @@ import {MenuComponent} from "../menu/menu.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 
 @Component({
-  selector: 'app-menu-register',
-  standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    NgClass
-  ],
-  templateUrl: './menu-register.component.html',
-  styleUrl: './menu-register.component.css'
+    selector: 'app-menu-register',
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NgClass
+    ],
+    templateUrl: './menu-register.component.html',
+    styleUrl: './menu-register.component.css'
 })
 export class MenuRegisterComponent {
   registerForm: FormGroup;

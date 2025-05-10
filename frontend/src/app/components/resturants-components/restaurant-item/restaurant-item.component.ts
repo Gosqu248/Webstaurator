@@ -11,15 +11,14 @@ import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
 @Component({
-  selector: 'app-restaurant-item',
-  standalone: true,
-  imports: [
-    NgIf,
-    DecimalPipe,
-    MatProgressSpinner
-  ],
-  templateUrl: './restaurant-item.component.html',
-  styleUrl: './restaurant-item.component.css'
+    selector: 'app-restaurant-item',
+    imports: [
+        NgIf,
+        DecimalPipe,
+        MatProgressSpinner
+    ],
+    templateUrl: './restaurant-item.component.html',
+    styleUrl: './restaurant-item.component.css'
 })
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurantId!: number;

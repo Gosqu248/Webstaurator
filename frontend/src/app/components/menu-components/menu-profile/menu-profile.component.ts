@@ -9,17 +9,14 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuChangePasswordComponent} from "../menu-change-password/menu-change-password.component";
 
 @Component({
-  selector: 'app-menu-profile',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule,
-
-
-  ],
-  templateUrl: './menu-profile.component.html',
-  styleUrl: './menu-profile.component.css'
+    selector: 'app-menu-profile',
+    imports: [
+        FormsModule,
+        NgIf,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './menu-profile.component.html',
+    styleUrl: './menu-profile.component.css'
 })
 export class MenuProfileComponent implements OnInit {
   name: string = '';

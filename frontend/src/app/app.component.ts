@@ -5,11 +5,10 @@ import {NgClass} from "@angular/common";
 import {filter} from "rxjs";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, NgClass],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, NavbarComponent, NgClass],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
   title = 'Webstaurator';

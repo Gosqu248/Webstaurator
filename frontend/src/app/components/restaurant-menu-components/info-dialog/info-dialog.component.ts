@@ -20,23 +20,22 @@ import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
 @Component({
-  selector: 'app-info-dialog',
-  standalone: true,
-  imports: [
-    MatDialogTitle,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatTabsModule,
-    NgClass,
-    NgForOf,
-    DecimalPipe,
-    OpinionItemComponent,
-    InfoComponent
-  ],
-  templateUrl: './info-dialog.component.html',
-  styleUrls: ['./info-dialog.component.css']
+    selector: 'app-info-dialog',
+    imports: [
+        MatDialogTitle,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatTabsModule,
+        NgClass,
+        NgForOf,
+        DecimalPipe,
+        OpinionItemComponent,
+        InfoComponent
+    ],
+    templateUrl: './info-dialog.component.html',
+    styleUrls: ['./info-dialog.component.css']
 })
 export class InfoDialogComponent implements OnInit{
   opinions: RestaurantOpinion[] = [];

@@ -3,14 +3,13 @@ import {Additives} from "../../../interfaces/menu";
 import {NgClass, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-additive-item',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass
-  ],
-  templateUrl: './additive-item.component.html',
-  styleUrl: './additive-item.component.css'
+    selector: 'app-additive-item',
+    imports: [
+        NgIf,
+        NgClass
+    ],
+    templateUrl: './additive-item.component.html',
+    styleUrl: './additive-item.component.css'
 })
 export class AdditiveItemComponent {
   @Input() additive!: Additives;

@@ -25,22 +25,21 @@ import {Router} from "@angular/router";
 import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
-  selector: 'app-add-restaurant-home',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatTimepickerModule,
-    MatInputModule,
-    RestaurantDataFormComponent,
-    RestaurantAddressFormComponent,
-    RestaurantDeliveryDataFormComponent,
-    RestaurantPaymentFormComponent,
-    RestaurantDeliveryHoursFormComponent,
-    MenuFormComponent
-  ],
-  templateUrl: './add-restaurant-home.component.html',
-  styleUrl: './add-restaurant-home.component.css',
+    selector: 'app-add-restaurant-home',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatTimepickerModule,
+        MatInputModule,
+        RestaurantDataFormComponent,
+        RestaurantAddressFormComponent,
+        RestaurantDeliveryDataFormComponent,
+        RestaurantPaymentFormComponent,
+        RestaurantDeliveryHoursFormComponent,
+        MenuFormComponent
+    ],
+    templateUrl: './add-restaurant-home.component.html',
+    styleUrl: './add-restaurant-home.component.css'
 })
 export class AddRestaurantHomeComponent implements OnInit{
   background = environment.api + '/img/AddRestaurant.webp';

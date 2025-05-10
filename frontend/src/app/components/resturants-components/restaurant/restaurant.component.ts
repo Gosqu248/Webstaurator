@@ -13,18 +13,17 @@ import {MapService} from "../../../services/state/map.service";
 import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 
 @Component({
-  selector: 'app-restaurant',
-  standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    RestaurantSortComponent,
-    RestaurantItemComponent,
-    NgForOf,
-    RestaurantMapComponent
-  ],
-  templateUrl: './restaurant.component.html',
-  styleUrl: './restaurant.component.css'
+    selector: 'app-restaurant',
+    imports: [
+        NgIf,
+        FormsModule,
+        RestaurantSortComponent,
+        RestaurantItemComponent,
+        NgForOf,
+        RestaurantMapComponent
+    ],
+    templateUrl: './restaurant.component.html',
+    styleUrl: './restaurant.component.css'
 })
 export class RestaurantComponent implements OnInit, OnChanges {
   searchedRestaurants: SearchedRestaurant[] = [];

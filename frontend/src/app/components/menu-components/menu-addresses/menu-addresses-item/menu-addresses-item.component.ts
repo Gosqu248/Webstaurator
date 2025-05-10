@@ -8,13 +8,10 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
 
 @Component({
-  selector: 'app-menu-addresses-item',
-  standalone: true,
-  imports: [
-
-  ],
-  templateUrl: './menu-addresses-item.component.html',
-  styleUrl: './menu-addresses-item.component.css'
+    selector: 'app-menu-addresses-item',
+    imports: [],
+    templateUrl: './menu-addresses-item.component.html',
+    styleUrl: './menu-addresses-item.component.css'
 })
 export class MenuAddressesItemComponent {
   @Input() address?: UserAddress;

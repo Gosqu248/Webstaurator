@@ -3,14 +3,13 @@ import {NgClass, NgIf} from "@angular/common";
 import {UserAddress} from "../../../interfaces/user.address.interface";
 
 @Component({
-  selector: 'app-order-delivery-item',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass
-  ],
-  templateUrl: './order-delivery-item.component.html',
-  styleUrl: './order-delivery-item.component.css'
+    selector: 'app-order-delivery-item',
+    imports: [
+        NgIf,
+        NgClass
+    ],
+    templateUrl: './order-delivery-item.component.html',
+    styleUrl: './order-delivery-item.component.css'
 })
 export class OrderDeliveryItemComponent {
   @Input() address!: UserAddress;

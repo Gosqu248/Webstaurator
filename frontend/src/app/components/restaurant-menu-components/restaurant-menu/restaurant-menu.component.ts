@@ -5,14 +5,13 @@ import {SearchedRestaurantsService} from "../../../services/state/searched-resta
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-restaurant-menu',
-  standalone: true,
-  imports: [
-    RestaurantBasketComponent,
-    RestaurantMainComponent,
-  ],
-  templateUrl: './restaurant-menu.component.html',
-  styleUrl: './restaurant-menu.component.css'
+    selector: 'app-restaurant-menu',
+    imports: [
+        RestaurantBasketComponent,
+        RestaurantMainComponent,
+    ],
+    templateUrl: './restaurant-menu.component.html',
+    styleUrl: './restaurant-menu.component.css'
 })
 export class RestaurantMenuComponent implements OnInit {
   restaurant: SearchedRestaurant = {} as SearchedRestaurant;

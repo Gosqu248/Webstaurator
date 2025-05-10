@@ -8,14 +8,13 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {MenuAddressesComponent} from "../menu-addresses.component";
 
 @Component({
-  selector: 'app-menu-address-change',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './menu-address-change.component.html',
-  styleUrl: './menu-address-change.component.css'
+    selector: 'app-menu-address-change',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './menu-address-change.component.html',
+    styleUrl: './menu-address-change.component.css'
 })
 export class MenuAddressChangeComponent implements OnInit {
   changeForm: FormGroup;

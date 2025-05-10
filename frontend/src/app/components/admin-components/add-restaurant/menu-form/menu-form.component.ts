@@ -6,14 +6,13 @@ import {NgForOf} from "@angular/common";
 import {Menu} from "../../../../interfaces/menu";
 
 @Component({
-  selector: 'app-menu-form',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf
-  ],
-  templateUrl: './menu-form.component.html',
-  styleUrl: './menu-form.component.css'
+    selector: 'app-menu-form',
+    imports: [
+        FormsModule,
+        NgForOf
+    ],
+    templateUrl: './menu-form.component.html',
+    styleUrl: './menu-form.component.css'
 })
 export class MenuFormComponent implements  OnChanges{
   @Output() menuItemsChange = new EventEmitter<Menu[]>();

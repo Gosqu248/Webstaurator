@@ -10,16 +10,15 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 
 @Component({
-  selector: 'app-menu-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule,
-    NgClass
-  ],
-  templateUrl: './menu-login.component.html',
-  styleUrl: './menu-login.component.css'
+    selector: 'app-menu-login',
+    imports: [
+        FormsModule,
+        NgIf,
+        ReactiveFormsModule,
+        NgClass
+    ],
+    templateUrl: './menu-login.component.html',
+    styleUrl: './menu-login.component.css'
 })
 export class MenuLoginComponent {
   loginForm: FormGroup;

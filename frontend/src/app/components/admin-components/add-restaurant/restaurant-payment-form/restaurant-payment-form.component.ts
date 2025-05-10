@@ -6,15 +6,14 @@ import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-restaurant-payment-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgIf,
-    NgForOf
-  ],
-  templateUrl: './restaurant-payment-form.component.html',
-  styleUrl: './restaurant-payment-form.component.css'
+    selector: 'app-restaurant-payment-form',
+    imports: [
+        ReactiveFormsModule,
+        NgIf,
+        NgForOf
+    ],
+    templateUrl: './restaurant-payment-form.component.html',
+    styleUrl: './restaurant-payment-form.component.css'
 })
 export class RestaurantPaymentFormComponent {
   @Input() parentForm!: FormGroup;

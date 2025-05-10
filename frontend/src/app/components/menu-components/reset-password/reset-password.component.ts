@@ -5,14 +5,13 @@ import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-reset-password',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgIf
-  ],
-  templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css'
+    selector: 'app-reset-password',
+    imports: [
+        ReactiveFormsModule,
+        NgIf
+    ],
+    templateUrl: './reset-password.component.html',
+    styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;

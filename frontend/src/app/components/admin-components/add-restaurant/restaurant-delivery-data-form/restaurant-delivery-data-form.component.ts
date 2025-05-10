@@ -5,13 +5,12 @@ import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {Delivery} from "../../../../interfaces/delivery.interface";
 
 @Component({
-  selector: 'app-restaurant-delivery-data-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
-  templateUrl: './restaurant-delivery-data-form.component.html',
-  styleUrl: './restaurant-delivery-data-form.component.css'
+    selector: 'app-restaurant-delivery-data-form',
+    imports: [
+        ReactiveFormsModule
+    ],
+    templateUrl: './restaurant-delivery-data-form.component.html',
+    styleUrl: './restaurant-delivery-data-form.component.css'
 })
 export class RestaurantDeliveryDataFormComponent {
   @Input() parentForm!: FormGroup;

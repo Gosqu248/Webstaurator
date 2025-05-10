@@ -1,6 +1,7 @@
 package pl.urban.backend.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,10 +24,12 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebSecurity
 public class SecurityConfig  {
     private final JwtTokenFilter jwtTokenFilter;
     private final GoogleAuthService googleAuthService;
+
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -45,18 +48,16 @@ public class SecurityConfig  {
                         auth.anyRequest().permitAll();
                         }
                 )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(oauth2login -> {
                     oauth2login
                             .successHandler((request, response, authentication) ->{
                                 OAuth2User principal = (OAuth2User) authentication.getPrincipal();
                                 String token = googleAuthService.googleLogin(principal);
-                                response.sendRedirect("http://localhost:4200?token=" + token);
+                                response.sendRedirect(frontendUrl + "?token=" + token);
                              })
                      .failureHandler((request, response, exception) -> {
-                        response.sendRedirect("http://localhost:4200?error=true");
+                        response.sendRedirect(frontendUrl + "?error=true");
                     });
                 })
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
@@ -65,22 +66,5 @@ public class SecurityConfig  {
 
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://192.168.0.31:8081", "http://192.168.0.27", "http://192.168.0.27:8081"));
-        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Cache-Control"));
-        corsConfiguration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
-
-    @Bean
-    public AuthenticationManager  authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
 
 }

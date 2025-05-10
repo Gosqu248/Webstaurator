@@ -4,16 +4,15 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {OptionService} from "../../../services/state/option.service";
 
 @Component({
-  selector: 'app-restaurant-category',
-  standalone: true,
-  imports: [
-    CategoryItemComponent,
-    NgForOf,
-    NgClass,
-    NgIf
-  ],
-  templateUrl: './restaurant-category.component.html',
-  styleUrls: ['./restaurant-category.component.css']
+    selector: 'app-restaurant-category',
+    imports: [
+        CategoryItemComponent,
+        NgForOf,
+        NgClass,
+        NgIf
+    ],
+    templateUrl: './restaurant-category.component.html',
+    styleUrls: ['./restaurant-category.component.css']
 })
 export class RestaurantCategoryComponent implements OnInit, AfterViewInit {
   @Input() selectedOption!: string;

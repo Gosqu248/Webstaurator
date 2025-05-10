@@ -11,16 +11,15 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'app-order-home',
-  standalone: true,
-  imports: [
-    OrderItemComponent,
-    NgForOf,
-    MatProgressSpinner,
-    NgIf
-  ],
-  templateUrl: './order-home.component.html',
-  styleUrl: './order-home.component.css'
+    selector: 'app-order-home',
+    imports: [
+        OrderItemComponent,
+        NgForOf,
+        MatProgressSpinner,
+        NgIf
+    ],
+    templateUrl: './order-home.component.html',
+    styleUrl: './order-home.component.css'
 })
 export class OrderHomeComponent implements OnInit, OnDestroy {
   background = environment.api + '/img/ordersBackground.webp';

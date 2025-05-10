@@ -9,17 +9,16 @@ import {AllRestaurantsItemComponent} from "../all-restaurants-item/all-restauran
 import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-all-restaurants-home',
-  standalone: true,
-  imports: [
-    MatProgressSpinner,
-    NgIf,
-    NgForOf,
-    AllRestaurantsItemComponent,
-    FormsModule
-  ],
-  templateUrl: './all-restaurants-home.component.html',
-  styleUrls: ['./all-restaurants-home.component.css']
+    selector: 'app-all-restaurants-home',
+    imports: [
+        MatProgressSpinner,
+        NgIf,
+        NgForOf,
+        AllRestaurantsItemComponent,
+        FormsModule
+    ],
+    templateUrl: './all-restaurants-home.component.html',
+    styleUrls: ['./all-restaurants-home.component.css']
 })
 export class AllRestaurantsHomeComponent implements OnInit{
   restaurants: Restaurant[] = [];

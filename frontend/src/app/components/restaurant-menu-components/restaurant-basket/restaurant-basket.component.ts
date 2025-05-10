@@ -11,17 +11,16 @@
  import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-restaurant-basket',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass,
-    RestaurantBasketItemComponent,
-    NgForOf,
-    DecimalPipe
-  ],
-  templateUrl: './restaurant-basket.component.html',
-  styleUrl: './restaurant-basket.component.css'
+    selector: 'app-restaurant-basket',
+    imports: [
+        NgIf,
+        NgClass,
+        RestaurantBasketItemComponent,
+        NgForOf,
+        DecimalPipe
+    ],
+    templateUrl: './restaurant-basket.component.html',
+    styleUrl: './restaurant-basket.component.css'
 })
 export class RestaurantBasketComponent implements OnInit{
   @Input() restaurant!: SearchedRestaurant;

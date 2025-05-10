@@ -4,13 +4,12 @@ import {LanguageService} from "../../../../services/state/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 
 @Component({
-  selector: 'app-restaurant-address-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
-  templateUrl: './restaurant-address-form.component.html',
-  styleUrl: './restaurant-address-form.component.css'
+    selector: 'app-restaurant-address-form',
+    imports: [
+        ReactiveFormsModule
+    ],
+    templateUrl: './restaurant-address-form.component.html',
+    styleUrl: './restaurant-address-form.component.css'
 })
 export class RestaurantAddressFormComponent {
   @Input() parentForm!: FormGroup;

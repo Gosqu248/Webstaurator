@@ -8,14 +8,13 @@ import {PaymentMethod} from "../../../interfaces/paymentMethod";
 
 
 @Component({
-  selector: 'app-edit-payment',
-  standalone: true,
-  imports: [
-    PaymentItemComponent,
-    NgForOf
-  ],
-  templateUrl: './edit-payment.component.html',
-  styleUrl: './edit-payment.component.css'
+    selector: 'app-edit-payment',
+    imports: [
+        PaymentItemComponent,
+        NgForOf
+    ],
+    templateUrl: './edit-payment.component.html',
+    styleUrl: './edit-payment.component.css'
 })
 export class EditPaymentComponent {
   payments: PaymentMethod[] = [];

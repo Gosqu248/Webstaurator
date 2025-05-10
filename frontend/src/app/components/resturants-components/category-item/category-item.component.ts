@@ -3,13 +3,12 @@ import {NgIf} from "@angular/common";
 import {environment} from "../../../../environments/environment";
 
 @Component({
-  selector: 'app-category-item',
-  standalone: true,
-  imports: [
-    NgIf
-  ],
-  templateUrl: './category-item.component.html',
-  styleUrl: './category-item.component.css'
+    selector: 'app-category-item',
+    imports: [
+        NgIf
+    ],
+    templateUrl: './category-item.component.html',
+    styleUrl: './category-item.component.css'
 })
 export class CategoryItemComponent implements OnInit{
   @Input() name!: string;

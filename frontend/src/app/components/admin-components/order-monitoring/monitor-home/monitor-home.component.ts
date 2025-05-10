@@ -10,16 +10,15 @@ import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {MonitorOrderItemComponent} from "../monitor-order-item/monitor-order-item.component";
 
 @Component({
-  selector: 'app-monitor-home',
-  standalone: true,
-  imports: [
-    MatProgressSpinner,
-    NgForOf,
-    NgIf,
-    MonitorOrderItemComponent
-  ],
-  templateUrl: './monitor-home.component.html',
-  styleUrl: './monitor-home.component.css'
+    selector: 'app-monitor-home',
+    imports: [
+        MatProgressSpinner,
+        NgForOf,
+        NgIf,
+        MonitorOrderItemComponent
+    ],
+    templateUrl: './monitor-home.component.html',
+    styleUrl: './monitor-home.component.css'
 })
 export class MonitorHomeComponent implements OnInit{
   background = environment.api + '/img/ordersBackground.webp';

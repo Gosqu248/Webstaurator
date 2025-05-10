@@ -11,15 +11,14 @@ import {MatDialog} from "@angular/material/dialog";
 import {filter} from "rxjs";
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass,
-    RestaurantCategoryComponent
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+    selector: 'app-navbar',
+    imports: [
+        NgIf,
+        NgClass,
+        RestaurantCategoryComponent
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
   apiUrl = environment.api;

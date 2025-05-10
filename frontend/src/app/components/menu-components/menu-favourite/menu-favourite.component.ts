@@ -9,14 +9,13 @@ import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-menu-favourite',
-  standalone: true,
-  imports: [
-    NgForOf,
-    MenuFavItemComponent
-  ],
-  templateUrl: './menu-favourite.component.html',
-  styleUrl: './menu-favourite.component.css'
+    selector: 'app-menu-favourite',
+    imports: [
+        NgForOf,
+        MenuFavItemComponent
+    ],
+    templateUrl: './menu-favourite.component.html',
+    styleUrl: './menu-favourite.component.css'
 })
 export class MenuFavouriteComponent  implements OnInit{
   userId: number = 0;

@@ -13,13 +13,12 @@ import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component
 import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component";
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [
-    NgIf
-  ],
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+    selector: 'app-menu',
+    imports: [
+        NgIf
+    ],
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;

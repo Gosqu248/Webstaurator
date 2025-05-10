@@ -6,16 +6,15 @@ import { SearchedRestaurant } from "../../../interfaces/searched-restaurant";
 import {LanguageService} from "../../../services/state/language.service";
 
 @Component({
-  selector: 'app-info',
-  standalone: true,
-  imports: [
-    NgForOf,
-    DecimalPipe,
-    InfoMapComponent,
-    NgIf
-  ],
-  templateUrl: './info.component.html',
-  styleUrl: './info.component.css'
+    selector: 'app-info',
+    imports: [
+        NgForOf,
+        DecimalPipe,
+        InfoMapComponent,
+        NgIf
+    ],
+    templateUrl: './info.component.html',
+    styleUrl: './info.component.css'
 })
 export class InfoComponent {
   @Input() restaurantName!: string;

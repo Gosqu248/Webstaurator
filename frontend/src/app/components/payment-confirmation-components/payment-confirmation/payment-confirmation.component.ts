@@ -10,15 +10,14 @@ import {Router, RouterLink} from "@angular/router";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
-  selector: 'app-payment-confirmation',
-  standalone: true,
-  imports: [
-    NgIf,
-    RouterLink,
-    MatProgressSpinner
-  ],
-  templateUrl: './payment-confirmation.component.html',
-  styleUrl: './payment-confirmation.component.css'
+    selector: 'app-payment-confirmation',
+    imports: [
+        NgIf,
+        RouterLink,
+        MatProgressSpinner
+    ],
+    templateUrl: './payment-confirmation.component.html',
+    styleUrl: './payment-confirmation.component.css'
 })
 export class PaymentConfirmationComponent implements OnInit{
   paymentId: string = ' ';

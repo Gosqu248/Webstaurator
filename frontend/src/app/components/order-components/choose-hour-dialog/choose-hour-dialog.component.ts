@@ -7,14 +7,13 @@ import {LanguageService} from "../../../services/state/language.service";
 import {OptionService} from "../../../services/state/option.service";
 
 @Component({
-  selector: 'app-choose-hour-dialog',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
-  templateUrl: './choose-hour-dialog.component.html',
-  styleUrl: './choose-hour-dialog.component.css'
+    selector: 'app-choose-hour-dialog',
+    imports: [
+        NgForOf,
+        NgIf
+    ],
+    templateUrl: './choose-hour-dialog.component.html',
+    styleUrl: './choose-hour-dialog.component.css'
 })
 export class ChooseHourDialogComponent implements OnInit {
   selectedHour: string | null = null;

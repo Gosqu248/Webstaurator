@@ -5,16 +5,15 @@ import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {LanguageService} from "../../../../services/state/language.service";
 
 @Component({
-  selector: 'app-confirm-change-status',
-  standalone: true,
-  imports: [
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatButton
-  ],
-  templateUrl: './confirm-change-status.component.html',
-  styleUrl: './confirm-change-status.component.css'
+    selector: 'app-confirm-change-status',
+    imports: [
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatButton
+    ],
+    templateUrl: './confirm-change-status.component.html',
+    styleUrl: './confirm-change-status.component.css'
 })
 export class ConfirmChangeStatusComponent {
   constructor(public dialogRef: MatDialogRef<ConfirmChangeStatusComponent>,

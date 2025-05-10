@@ -20,20 +20,19 @@ import {Subscription} from "rxjs";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-restaurant-main',
-  standalone: true,
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-    FormsModule,
-    MenuCategoryItemComponent,
-    NgForOf,
-    FilterByCategoryPipe,
-    RestaurantMenuItemComponent,
-    DecimalPipe
-  ],
-  templateUrl: './restaurant-main.component.html',
-  styleUrls: ['./restaurant-main.component.css']
+    selector: 'app-restaurant-main',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        FormsModule,
+        MenuCategoryItemComponent,
+        NgForOf,
+        FilterByCategoryPipe,
+        RestaurantMenuItemComponent,
+        DecimalPipe
+    ],
+    templateUrl: './restaurant-main.component.html',
+    styleUrls: ['./restaurant-main.component.css']
 })
 export class RestaurantMainComponent implements OnInit, OnDestroy {
   @Input() restaurant!: SearchedRestaurant;

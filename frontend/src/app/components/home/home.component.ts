@@ -6,15 +6,14 @@ import {HomeSecondSectionComponent} from "../home-components/home-second-section
 import {HomeThirdSectionComponent} from "../home-components/home-third-section/home-third-section.component";
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  templateUrl: './home.component.html',
-  imports: [
-    HomeFirstSectionComponent,
-    HomeSecondSectionComponent,
-    HomeThirdSectionComponent
-  ],
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    imports: [
+        HomeFirstSectionComponent,
+        HomeSecondSectionComponent,
+        HomeThirdSectionComponent
+    ],
+    styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   constructor(

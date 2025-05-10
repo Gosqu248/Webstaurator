@@ -6,14 +6,13 @@ import {NgForOf} from "@angular/common";
 import {DeliveryHour} from "../../../../interfaces/delivery.interface";
 
 @Component({
-  selector: 'app-restaurant-delivery-hours-form',
-  standalone: true,
-  imports: [
-    NgForOf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './restaurant-delivery-hours-form.component.html',
-  styleUrl: './restaurant-delivery-hours-form.component.css'
+    selector: 'app-restaurant-delivery-hours-form',
+    imports: [
+        NgForOf,
+        ReactiveFormsModule
+    ],
+    templateUrl: './restaurant-delivery-hours-form.component.html',
+    styleUrl: './restaurant-delivery-hours-form.component.css'
 })
 export class RestaurantDeliveryHoursFormComponent {
   @Input() parentForm!: FormGroup;

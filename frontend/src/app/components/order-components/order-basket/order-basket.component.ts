@@ -9,17 +9,16 @@ import {OptionService} from "../../../services/state/option.service";
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-order-basket',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    NgForOf,
-    NgIf,
-    OrderBasketItemComponent,
-    NgClass
-  ],
-  templateUrl: './order-basket.component.html',
-  styleUrl: './order-basket.component.css'
+    selector: 'app-order-basket',
+    imports: [
+        DecimalPipe,
+        NgForOf,
+        NgIf,
+        OrderBasketItemComponent,
+        NgClass
+    ],
+    templateUrl: './order-basket.component.html',
+    styleUrl: './order-basket.component.css'
 })
 export class OrderBasketComponent implements OnInit{
   @Output() acceptOrder = new EventEmitter<void>();

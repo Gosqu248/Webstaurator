@@ -3,13 +3,12 @@ import {OptionService} from "../../../services/state/option.service";
 import {NgClass} from "@angular/common";
 
 @Component({
-  selector: 'app-menu-category-item',
-  standalone: true,
-  imports: [
-    NgClass
-  ],
-  templateUrl: './menu-category-item.component.html',
-  styleUrl: './menu-category-item.component.css'
+    selector: 'app-menu-category-item',
+    imports: [
+        NgClass
+    ],
+    templateUrl: './menu-category-item.component.html',
+    styleUrl: './menu-category-item.component.css'
 })
 export class MenuCategoryItemComponent implements OnInit{
   @Input() category!: string;

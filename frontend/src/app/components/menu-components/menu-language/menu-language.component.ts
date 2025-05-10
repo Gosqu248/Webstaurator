@@ -7,13 +7,12 @@ import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-menu-language',
-  standalone: true,
-  imports: [
-    NgIf
-  ],
-  templateUrl: './menu-language.component.html',
-  styleUrl: './menu-language.component.css'
+    selector: 'app-menu-language',
+    imports: [
+        NgIf
+    ],
+    templateUrl: './menu-language.component.html',
+    styleUrl: './menu-language.component.css'
 })
 export class MenuLanguageComponent {
   apiUrl = environment.api;

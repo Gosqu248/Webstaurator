@@ -6,14 +6,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddressesService } from "../../../services/api/addresses.service";
 
 @Component({
-  selector: 'app-add-address-dialog',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './add-address-dialog.component.html',
-  styleUrl: './add-address-dialog.component.css'
+    selector: 'app-add-address-dialog',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './add-address-dialog.component.html',
+    styleUrl: './add-address-dialog.component.css'
 })
 export class AddAddressDialogComponent {
   addressForm: FormGroup;

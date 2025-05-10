@@ -11,14 +11,13 @@ import {MenuAddressesComponent} from "../menu-addresses.component";
 
 
 @Component({
-  selector: 'app-menu-add-address',
-  standalone: true,
-  imports: [
-    NgIf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './menu-add-address.component.html',
-  styleUrl: './menu-add-address.component.css'
+    selector: 'app-menu-add-address',
+    imports: [
+        NgIf,
+        ReactiveFormsModule
+    ],
+    templateUrl: './menu-add-address.component.html',
+    styleUrl: './menu-add-address.component.css'
 })
 export class MenuAddAddressComponent {
   addressForm: FormGroup;

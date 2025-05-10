@@ -11,15 +11,14 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddAddressComponent} from "./menu-add-address/menu-add-address.component";
 
 @Component({
-  selector: 'app-menu-addresses',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MenuAddressesItemComponent,
-    NgForOf
-  ],
-  templateUrl: './menu-addresses.component.html',
-  styleUrl: './menu-addresses.component.css'
+    selector: 'app-menu-addresses',
+    imports: [
+        ReactiveFormsModule,
+        MenuAddressesItemComponent,
+        NgForOf
+    ],
+    templateUrl: './menu-addresses.component.html',
+    styleUrl: './menu-addresses.component.css'
 })
 export class MenuAddressesComponent implements OnInit{
   addresses: UserAddress[] = [];

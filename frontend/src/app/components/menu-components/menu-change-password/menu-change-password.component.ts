@@ -17,16 +17,15 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 
 @Component({
-  selector: 'app-menu-change-password',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgClass,
-    ReactiveFormsModule,
-    NgIf
-  ],
-  templateUrl: './menu-change-password.component.html',
-  styleUrl: './menu-change-password.component.css'
+    selector: 'app-menu-change-password',
+    imports: [
+        FormsModule,
+        NgClass,
+        ReactiveFormsModule,
+        NgIf
+    ],
+    templateUrl: './menu-change-password.component.html',
+    styleUrl: './menu-change-password.component.css'
 })
 export class MenuChangePasswordComponent {
   isVisibleOldPassword: boolean = false;

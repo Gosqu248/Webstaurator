@@ -27,20 +27,19 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
-  selector: 'app-edit-restaurant',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MenuFormComponent,
-    RestaurantAddressFormComponent,
-    RestaurantDataFormComponent,
-    RestaurantDeliveryDataFormComponent,
-    RestaurantDeliveryHoursFormComponent,
-    RestaurantPaymentFormComponent,
-    ReactiveFormsModule
-  ],
-  templateUrl: './edit-restaurant.component.html',
-  styleUrl: './edit-restaurant.component.css'
+    selector: 'app-edit-restaurant',
+    imports: [
+        FormsModule,
+        MenuFormComponent,
+        RestaurantAddressFormComponent,
+        RestaurantDataFormComponent,
+        RestaurantDeliveryDataFormComponent,
+        RestaurantDeliveryHoursFormComponent,
+        RestaurantPaymentFormComponent,
+        ReactiveFormsModule
+    ],
+    templateUrl: './edit-restaurant.component.html',
+    styleUrl: './edit-restaurant.component.css'
 })
 export class EditRestaurantComponent implements OnInit {
   background = environment.api + '/img/AddRestaurant.webp';

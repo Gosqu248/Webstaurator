@@ -14,16 +14,15 @@ import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
 @Component({
-  selector: 'app-order-delivery',
-  standalone: true,
-  imports: [
-    OrderDeliveryItemComponent,
-    NgIf,
-    NgForOf,
-    NgClass
-  ],
-  templateUrl: './order-delivery.component.html',
-  styleUrl: './order-delivery.component.css'
+    selector: 'app-order-delivery',
+    imports: [
+        OrderDeliveryItemComponent,
+        NgIf,
+        NgForOf,
+        NgClass
+    ],
+    templateUrl: './order-delivery.component.html',
+    styleUrl: './order-delivery.component.css'
 })
 export class OrderDeliveryComponent implements OnInit{
   @Output() deliveryChanged = new EventEmitter<void>();

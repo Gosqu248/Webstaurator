@@ -7,15 +7,14 @@ import {AddressesService} from "../../../services/api/addresses.service";
 import {PhoneNumberFormatterDirective} from "../../../directives/phone-number-formatter.directive";
 
 @Component({
-  selector: 'app-order-personal-info',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    PhoneNumberFormatterDirective
-  ],
-  templateUrl: './order-personal-info.component.html',
-  styleUrl: './order-personal-info.component.css'
+    selector: 'app-order-personal-info',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        PhoneNumberFormatterDirective
+    ],
+    templateUrl: './order-personal-info.component.html',
+    styleUrl: './order-personal-info.component.css'
 })
 export class OrderPersonalInfoComponent implements OnInit, OnChanges{
   @Output() personalInfoChanged = new EventEmitter<void>();

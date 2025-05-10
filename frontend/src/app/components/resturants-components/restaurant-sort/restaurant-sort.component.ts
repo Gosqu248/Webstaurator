@@ -7,14 +7,13 @@ import {OptionService} from "../../../services/state/option.service";
 import {MapService} from "../../../services/state/map.service";
 
 @Component({
-  selector: 'app-restaurant-sort',
-  standalone: true,
-  imports: [
-    SortItemComponent,
-    NgForOf
-  ],
-  templateUrl: './restaurant-sort.component.html',
-  styleUrl: './restaurant-sort.component.css'
+    selector: 'app-restaurant-sort',
+    imports: [
+        SortItemComponent,
+        NgForOf
+    ],
+    templateUrl: './restaurant-sort.component.html',
+    styleUrl: './restaurant-sort.component.css'
 })
 export class RestaurantSortComponent implements OnInit, OnChanges{
   sortItems: { description: string, icon: string }[] = []
