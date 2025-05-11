@@ -9,6 +9,7 @@
  import {OrderService} from "../../../services/api/order.service";
  import {OrderMenu} from "../../../interfaces/order";
  import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
+ import {DeliveryService} from "../../../services/api/delivery.service";
 
 @Component({
     selector: 'app-restaurant-basket',
@@ -41,11 +42,12 @@ export class RestaurantBasketComponent implements OnInit{
   constructor(private languageService: LanguageService,
               private optionService: OptionService,
               private router: Router,
+              private deliveryService: DeliveryService,
               private orderService: OrderService,
               private cartService: CartService) {}
 
   ngOnInit() {
-    this.getIsOpen()
+    this.checkIsOpen()
     this.getDelivery();
     this.getPickUp();
     this.cartService.setCurrentRestaurantId(this.restaurant.restaurantId);
@@ -53,12 +55,10 @@ export class RestaurantBasketComponent implements OnInit{
     this.getCart();
   }
 
-  getIsOpen() {
-    const is = sessionStorage.getItem("isOpen");
-    if (is) {
-      this.isOpen = is === "true";
-    }
+  checkIsOpen() {
+    this.isOpen = this.deliveryService.checkIfOpen(this.restaurant.deliveryHours);
   }
+
 
   getCart() {
     this.cartService.orderMenus$.subscribe(cart => {

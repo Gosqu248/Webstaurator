@@ -36,14 +36,17 @@ export class RestaurantItemComponent implements OnInit{
 
   ngOnInit() {
     this.getSearchedRestaurant();
+    this.checkIsOpen();
     this.getRestaurantOpinions()
-    this.isOpen = this.deliveryService.checkIfOpen(this.restaurant.deliveryHours);
-
     this.getAverageRating();
   }
 
   getSearchedRestaurant() {
     this.restaurant = this.searchedRestaurantService.getSearchedRestaurant(this.restaurantId);
+  }
+
+  checkIsOpen() {
+    this.isOpen = this.deliveryService.checkIfOpen(this.restaurant.deliveryHours);
   }
 
   getRestaurantOpinions() {
