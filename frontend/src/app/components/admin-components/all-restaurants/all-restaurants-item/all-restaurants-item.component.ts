@@ -1,16 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {Restaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {RestaurantService} from "../../../../services/restaurant.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
 
 @Component({
-  selector: 'app-all-restaurants-item',
-  standalone: true,
-  imports: [],
-  templateUrl: './all-restaurants-item.component.html',
-  styleUrl: './all-restaurants-item.component.css'
+    selector: 'app-all-restaurants-item',
+    imports: [],
+    templateUrl: './all-restaurants-item.component.html',
+    styleUrl: './all-restaurants-item.component.css'
 })
 export class AllRestaurantsItemComponent {
   @Input() restaurant!: Restaurant;

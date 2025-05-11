@@ -1,12 +1,13 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="delivery_hour")
 public class DeliveryHour {
@@ -22,7 +23,6 @@ public class DeliveryHour {
 
     private String closeTime;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

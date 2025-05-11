@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import pl.urban.backend.controller.RestaurantAddressController;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantDTO;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.RestaurantAddressResponse;
+import pl.urban.backend.dto.response.SearchedRestaurantResponse;
 import pl.urban.backend.model.Restaurant;
-import pl.urban.backend.model.RestaurantAddress;
 import pl.urban.backend.service.RestaurantAddressService;
 
 import java.util.Collections;
@@ -34,8 +34,8 @@ class RestaurantAddressTests {
     @Mock
     private RestaurantAddressService restaurantAddressService;
 
-    private RestaurantAddress testRestaurantAddress;
-    private SearchedRestaurantDTO testSearchedRestaurantDTO;
+    private RestaurantAddressResponse testRestaurantAddress;
+    private SearchedRestaurantResponse testSearchedRestaurantResponse;
 
     @BeforeEach
     void setUp() {
@@ -48,22 +48,28 @@ class RestaurantAddressTests {
         testRestaurant.setName("Test Restaurant");
         testRestaurant.setCategory("Italian");
 
-        testRestaurantAddress = new RestaurantAddress();
-        testRestaurantAddress.setRestaurant(testRestaurant);
-        testRestaurantAddress.setLatitude(52.229676);
-        testRestaurantAddress.setLongitude(21.012229);
-
+        testRestaurantAddress = new RestaurantAddressResponse(
+                1L,
+                "Test Street 123",
+                "Test City",
+                "Test Country",
+                "33-100",
+                52.229676,
+                21.012229,
+                testRestaurant.getId()
+        );
         // Initialize test DTO
-        testSearchedRestaurantDTO = new SearchedRestaurantDTO();
-        testSearchedRestaurantDTO.setRestaurantId(1L);
-        testSearchedRestaurantDTO.setName("Test Restaurant");
-        testSearchedRestaurantDTO.setCategory("Italian");
-        testSearchedRestaurantDTO.setLat(52.229676);
-        testSearchedRestaurantDTO.setLon(21.012229);
-        testSearchedRestaurantDTO.setDistance(2.5);
-        testSearchedRestaurantDTO.setRating(4.5);
-        testSearchedRestaurantDTO.setPickup(true);
-        testSearchedRestaurantDTO.setDeliveryPrice(10.0);
+        testSearchedRestaurantResponse = new SearchedRestaurantResponse(
+                1L,
+                "Test Restaurant",
+                "Italian",
+                true,
+                10.0,
+                4.5,
+                2.5,
+                52.229676,
+                21.012229
+        );
 
         logger.info("Test environment setup completed");
     }
@@ -73,21 +79,21 @@ class RestaurantAddressTests {
         logger.info("Running testSearchRestaurants");
 
         when(restaurantAddressService.searchNearbyRestaurants(anyString(), anyDouble()))
-                .thenReturn(Collections.singletonList(testSearchedRestaurantDTO));
+                .thenReturn(Collections.singletonList(testSearchedRestaurantResponse));
 
-        ResponseEntity<List<SearchedRestaurantDTO>> response = restaurantAddressController
+        ResponseEntity<List<SearchedRestaurantResponse>> response = restaurantAddressController
                 .searchRestaurants("Test Street 123", 6.0);
 
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
 
-        SearchedRestaurantDTO result = response.getBody().getFirst();
-        assertEquals(testSearchedRestaurantDTO.getRestaurantId(), result.getRestaurantId());
-        assertEquals(testSearchedRestaurantDTO.getName(), result.getName());
-        assertEquals(testSearchedRestaurantDTO.getCategory(), result.getCategory());
-        assertEquals(testSearchedRestaurantDTO.getDistance(), result.getDistance());
-        assertEquals(testSearchedRestaurantDTO.getRating(), result.getRating());
+        SearchedRestaurantResponse result = response.getBody().getFirst();
+        assertEquals(testSearchedRestaurantResponse.restaurantId(), result.restaurantId());
+        assertEquals(testSearchedRestaurantResponse.name(), result.name());
+        assertEquals(testSearchedRestaurantResponse.category(), result.category());
+        assertEquals(testSearchedRestaurantResponse.distance(), result.distance());
+        assertEquals(testSearchedRestaurantResponse.rating(), result.rating());
 
         logger.info("Completed testSearchRestaurants");
     }
@@ -97,9 +103,9 @@ class RestaurantAddressTests {
         logger.info("Running testSearchRestaurantsWithDefaultRadius");
 
         when(restaurantAddressService.searchNearbyRestaurants(anyString(), eq(6.0)))
-                .thenReturn(Collections.singletonList(testSearchedRestaurantDTO));
+                .thenReturn(Collections.singletonList(testSearchedRestaurantResponse));
 
-        ResponseEntity<List<SearchedRestaurantDTO>> response = restaurantAddressController
+        ResponseEntity<List<SearchedRestaurantResponse>> response = restaurantAddressController
                 .searchRestaurants("Test Street 123", 6.0);
 
         assertEquals(200, response.getStatusCodeValue());
@@ -115,12 +121,12 @@ class RestaurantAddressTests {
         when(restaurantAddressService.getRestaurantAddress(1L))
                 .thenReturn(testRestaurantAddress);
 
-        RestaurantAddress result = restaurantAddressController.getRestaurantAddress(1L);
+        RestaurantAddressResponse result = restaurantAddressController.getRestaurantAddress(1L);
 
         assertNotNull(result);
-        assertEquals(testRestaurantAddress.getRestaurant().getId(), result.getRestaurant().getId());
-        assertEquals(testRestaurantAddress.getLatitude(), result.getLatitude());
-        assertEquals(testRestaurantAddress.getLongitude(), result.getLongitude());
+        assertEquals(testRestaurantAddress.restaurantId(), result.restaurantId());
+        assertEquals(testRestaurantAddress.latitude(), result.latitude());
+        assertEquals(testRestaurantAddress.longitude(), result.longitude());
 
         logger.info("Completed testGetRestaurantAddress");
     }
@@ -129,19 +135,20 @@ class RestaurantAddressTests {
     void testGetCoordinates() {
         logger.info("Running testGetCoordinates");
 
-        CoordinatesDTO testCoordinates = new CoordinatesDTO();
-        testCoordinates.setLat(52.229676);
-        testCoordinates.setLon(21.012229);
+        CoordinatesResponse testCoordinates = new CoordinatesResponse(
+                52.229676,
+                21.012229
+        );
 
         when(restaurantAddressService.getCoordinatesByRestaurantId(1L))
                 .thenReturn(testCoordinates);
 
-        ResponseEntity<CoordinatesDTO> response = restaurantAddressController.getCoordinates(1L);
+        ResponseEntity<CoordinatesResponse> response = restaurantAddressController.getCoordinates(1L);
 
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
-        assertEquals(testCoordinates.getLat(), response.getBody().getLat());
-        assertEquals(testCoordinates.getLon(), response.getBody().getLon());
+        assertEquals(testCoordinates.lat(), response.getBody().lat());
+        assertEquals(testCoordinates.lon(), response.getBody().lon());
 
         logger.info("Completed testGetCoordinates");
     }
@@ -153,7 +160,7 @@ class RestaurantAddressTests {
         when(restaurantAddressService.getRestaurantAddress(999L))
                 .thenReturn(null);
 
-        RestaurantAddress result = restaurantAddressController.getRestaurantAddress(999L);
+        RestaurantAddressResponse result = restaurantAddressController.getRestaurantAddress(999L);
 
         assertNull(result);
 

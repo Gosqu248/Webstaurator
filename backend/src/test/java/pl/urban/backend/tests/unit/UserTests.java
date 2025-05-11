@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.urban.backend.dto.UserDTO;
-import pl.urban.backend.dto.UserInfoForOrderDTO;
+import pl.urban.backend.dto.response.UserInfoForOrderResponse;
+import pl.urban.backend.dto.response.UserResponse;
 import pl.urban.backend.enums.Role;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
@@ -16,7 +16,6 @@ import pl.urban.backend.service.UserService;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class UserTests {
@@ -113,12 +112,12 @@ class UserTests {
         user.setEmail("user@example.com");
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
 
-        UserInfoForOrderDTO userInfo = userService.getUserInfo("user@example.com");
+        UserInfoForOrderResponse userInfo = userService.getUserInfo("user@example.com");
 
         assertNotNull(userInfo);
-        assertEquals(1L, userInfo.getId());
-        assertEquals("John Doe", userInfo.getName());
-        assertEquals("user@example.com", userInfo.getEmail());
+        assertEquals(1L, userInfo.id());
+        assertEquals("John Doe", userInfo.name());
+        assertEquals("user@example.com", userInfo.email());
     }
 
     @Test
@@ -129,12 +128,12 @@ class UserTests {
         user.setEmail("user@example.com");
         user.setRole(Role.admin);
 
-        UserDTO userDTO = userService.convertToDTO(user);
+        UserResponse userDTO = userService.fromUser(user);
 
         assertNotNull(userDTO);
-        assertEquals(1L, userDTO.getId());
-        assertEquals("John Doe", userDTO.getName());
-        assertEquals("user@example.com", userDTO.getEmail());
-        assertEquals("admin", userDTO.getRole());
+        assertEquals(1L, userDTO.id());
+        assertEquals("John Doe", userDTO.name());
+        assertEquals("user@example.com", userDTO.email());
+        assertEquals("admin", userDTO.role());
     }
 }

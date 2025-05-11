@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from "../../../services/state/language.service";
 import { MatDialog } from "@angular/material/dialog";
-import { AddressesService } from "../../../services/addresses.service";
+import { AddressesService } from "../../../services/api/addresses.service";
 
 @Component({
-  selector: 'app-add-address-dialog',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './add-address-dialog.component.html',
-  styleUrl: './add-address-dialog.component.css'
+    selector: 'app-add-address-dialog',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './add-address-dialog.component.html',
+    styleUrl: './add-address-dialog.component.css'
 })
 export class AddAddressDialogComponent {
   addressForm: FormGroup;
@@ -46,7 +45,7 @@ export class AddAddressDialogComponent {
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
         this.addressService.addAddress(jwt, this.addressForm.value).subscribe({
-          next: response => {
+          next: () => {
           },
           error: error => {
             console.log('Error adding address', error);

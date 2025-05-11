@@ -1,19 +1,18 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {LanguageService} from "../../../../services/language.service";
+import {LanguageService} from "../../../../services/state/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {NgForOf} from "@angular/common";
 import {DeliveryHour} from "../../../../interfaces/delivery.interface";
 
 @Component({
-  selector: 'app-restaurant-delivery-hours-form',
-  standalone: true,
-  imports: [
-    NgForOf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './restaurant-delivery-hours-form.component.html',
-  styleUrl: './restaurant-delivery-hours-form.component.css'
+    selector: 'app-restaurant-delivery-hours-form',
+    imports: [
+        NgForOf,
+        ReactiveFormsModule
+    ],
+    templateUrl: './restaurant-delivery-hours-form.component.html',
+    styleUrl: './restaurant-delivery-hours-form.component.css'
 })
 export class RestaurantDeliveryHoursFormComponent {
   @Input() parentForm!: FormGroup;

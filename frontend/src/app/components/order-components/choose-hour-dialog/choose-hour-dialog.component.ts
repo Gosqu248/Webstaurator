@@ -3,18 +3,17 @@ import { DeliveryHour } from "../../../interfaces/delivery.interface";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {NgForOf, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
-import {OptionService} from "../../../services/option.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {OptionService} from "../../../services/state/option.service";
 
 @Component({
-  selector: 'app-choose-hour-dialog',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf
-  ],
-  templateUrl: './choose-hour-dialog.component.html',
-  styleUrl: './choose-hour-dialog.component.css'
+    selector: 'app-choose-hour-dialog',
+    imports: [
+        NgForOf,
+        NgIf
+    ],
+    templateUrl: './choose-hour-dialog.component.html',
+    styleUrl: './choose-hour-dialog.component.css'
 })
 export class ChooseHourDialogComponent implements OnInit {
   selectedHour: string | null = null;

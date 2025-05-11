@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-reset-password',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgIf
-  ],
-  templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css'
+    selector: 'app-reset-password',
+    imports: [
+        ReactiveFormsModule,
+        NgIf
+    ],
+    templateUrl: './reset-password.component.html',
+    styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
@@ -39,7 +38,7 @@ export class ResetPasswordComponent {
           this.resetMessage = 'Email z linkiem do resetowania hasła został wysłany';
         }
       },
-      error: (error) => {
+      error: () => {
         this.isResetError = true;
         this.resetMessage = 'Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie później';
       }

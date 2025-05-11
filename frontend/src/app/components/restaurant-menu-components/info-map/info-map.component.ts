@@ -1,15 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RestaurantAddress} from "../../../interfaces/restaurant-address";
 import * as L from 'leaflet';
-import {RestaurantService} from "../../../services/restaurant.service";
-import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {RestaurantService} from "../../../services/api/restaurant.service";
+import {RestaurantAddressService} from "../../../services/api/restaurant-address.service";
 
 @Component({
-  selector: 'app-info-map',
-  standalone: true,
-  imports: [],
-  templateUrl: './info-map.component.html',
-  styleUrl: './info-map.component.css'
+    selector: 'app-info-map',
+    imports: [],
+    templateUrl: './info-map.component.html',
+    styleUrl: './info-map.component.css'
 })
 export class InfoMapComponent implements OnInit{
   @Input() restaurantId!: number;

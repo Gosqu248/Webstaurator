@@ -2,6 +2,7 @@ package pl.urban.backend.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,16 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-
     private final JavaMailSender emailSender;
 
     @Value("${spring.mail.properties.mail.smtp.from}")
     private String senderEmail;
-
-    public EmailService(JavaMailSender emailSender) {
-        this.emailSender = emailSender;
-    }
 
     @Async
     public void sendEmail(String to, String subject, String content) {

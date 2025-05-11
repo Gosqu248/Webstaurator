@@ -1,6 +1,6 @@
-<div class="restaurant-item" (click)="goToMenu(restaurant)" *ngIf="restaurant.imageUrl && restaurant.logoUrl; else loading">
-  <img class="image" [src]="restaurant.imageUrl" alt="restaurant image" />
-  <img class="logo" [src]="restaurant.logoUrl" alt="restaurant logo" />
+<div class="restaurant-item" (click)="goToMenu(restaurant)" *ngIf="restaurant.restaurant?.imageUrl && restaurant.restaurant?.logoUrl; else loading">
+  <img class="image" [src]="restaurant.restaurant?.imageUrl" alt="restaurant image" />
+  <img class="logo" [src]="restaurant.restaurant?.logoUrl" alt="restaurant logo" />
   <div class="rating-container">
     <i class="fa-solid fa-star"></i>
     <h5>{{ rating | number:'1.1-1'}}</h5>
@@ -11,11 +11,11 @@
     <div class="left-description" >
       <div class="description-item" *ngIf="isOpen">
         <i class="fa-solid fa-truck"></i>
-        <h5>{{restaurantDelivery.deliveryPrice}} zł</h5>
+        <h5>{{restaurant.delivery?.deliveryPrice}} zł</h5>
       </div>
       <div class="description-item" *ngIf="isOpen">
         <i class="fa-regular fa-clock"></i>
-        <h5>{{restaurantDelivery.deliveryMinTime}}-{{restaurantDelivery.deliveryMaxTime}} min</h5>
+        <h5>{{restaurant.delivery?.deliveryMinTime}}-{{restaurant.delivery?.deliveryMaxTime}} min</h5>
       </div>
       <div class="description-item closed" *ngIf="!isOpen">
         <i class="fa-regular  fa-clock"></i>

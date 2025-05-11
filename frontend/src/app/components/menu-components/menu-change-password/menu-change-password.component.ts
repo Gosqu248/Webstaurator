@@ -8,26 +8,24 @@ import {
   ValidationErrors,
   ValidatorFn, Validators
 } from "@angular/forms";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgIf} from "@angular/common";
-import {Router, RouterLink} from "@angular/router";
-import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../../../services/api/auth.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
 
 @Component({
-  selector: 'app-menu-change-password',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgClass,
-    RouterLink,
-    ReactiveFormsModule,
-    NgIf
-  ],
-  templateUrl: './menu-change-password.component.html',
-  styleUrl: './menu-change-password.component.css'
+    selector: 'app-menu-change-password',
+    imports: [
+        FormsModule,
+        NgClass,
+        ReactiveFormsModule,
+        NgIf
+    ],
+    templateUrl: './menu-change-password.component.html',
+    styleUrl: './menu-change-password.component.css'
 })
 export class MenuChangePasswordComponent {
   isVisibleOldPassword: boolean = false;
@@ -68,7 +66,7 @@ export class MenuChangePasswordComponent {
             console.log('Password changed: ', response);
             this.backToMenuProfileDialog();
           },
-          error: error => {
+          error: () => {
             console.log('Error changing password');
             this.isError = true;
           }

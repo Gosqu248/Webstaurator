@@ -1,19 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {environment} from "../../../../environments/environment";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {NgClass, NgForOf} from "@angular/common";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-home-second-section',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgClass
-  ],
-  templateUrl: './home-second-section.component.html',
-  styleUrl: './home-second-section.component.css'
+    selector: 'app-home-second-section',
+    imports: [
+        NgForOf,
+        NgClass
+    ],
+    templateUrl: './home-second-section.component.html',
+    styleUrl: './home-second-section.component.css'
 })
 export class HomeSecondSectionComponent implements OnInit, OnDestroy{
   steps: { icon: string; title: string; description: string; }[] = [];

@@ -1,31 +1,24 @@
 import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {MenuLanguageComponent} from "../menu-language/menu-language.component";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 import {MenuLoginComponent} from "../menu-login/menu-login.component";
 import {MenuProfileComponent} from "../menu-profile/menu-profile.component";
-import {Router, RouterLink, RouterOutlet} from "@angular/router";
+import {Router} from "@angular/router";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuAddressesComponent} from "../menu-addresses/menu-addresses.component";
 import {MenuFavouriteComponent} from "../menu-favourite/menu-favourite.component";
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [
-    NgIf,
-    MenuLanguageComponent,
-    MenuRegisterComponent,
-    MenuLoginComponent,
-    MenuProfileComponent,
-    RouterLink,
-    RouterOutlet
-  ],
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+    selector: 'app-menu',
+    imports: [
+        NgIf
+    ],
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   showLanguageOption: boolean = false;

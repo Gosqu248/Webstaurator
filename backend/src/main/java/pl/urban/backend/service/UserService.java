@@ -1,33 +1,55 @@
 package pl.urban.backend.service;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.UserDTO;
-import pl.urban.backend.dto.UserInfoForOrderDTO;
+import pl.urban.backend.config.security.JwtUtil;
+import pl.urban.backend.dto.request.SignInWithTokenRequest;
+import pl.urban.backend.dto.request.UserRequest;
+import pl.urban.backend.dto.response.LoginResponse;
+import pl.urban.backend.dto.response.UserResponse;
+import pl.urban.backend.dto.response.UserInfoForOrderResponse;
+import pl.urban.backend.enums.Role;
 import pl.urban.backend.model.User;
 import pl.urban.backend.repository.UserRepository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
 @Service
+@RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-    public void registerUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+    public void registerUser(UserRequest request) {
+        if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new IllegalArgumentException("User with this email already exists");
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        User user = User.builder()
+                .name(request.name())
+                .email(request.email())
+                .password(bCryptPasswordEncoder.encode(request.password()))
+                .role(Role.user)
+                .build();
+
         userRepository.save(user);
     }
+
+
+    public LoginResponse signWithToken(@Valid SignInWithTokenRequest request) {
+        String email = jwtUtil.extractSubject(request.token());
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+        String token = jwtUtil.generateAuthToken(user);
+
+        return new LoginResponse(
+                token,
+                fromUser(user)
+        );
+    }
+
     public Boolean changePassword(String subject, String password, String newPassword) {
         User user = getUserBySubject(subject);
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
@@ -39,7 +61,6 @@ public class UserService {
         return true;
     }
 
-
     public User getUserBySubject(String subject) {
         return userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
@@ -50,9 +71,9 @@ public class UserService {
         return String.valueOf(user.getRole());
     }
 
-    public UserDTO getUser(String subject) {
+    public UserResponse getUser(String subject) {
         User user = getUserBySubject(subject);
-        return convertToDTO(user);
+        return fromUser(user);
     }
 
     public String changeName(String subject, String name) {
@@ -62,26 +83,18 @@ public class UserService {
         return name;
     }
 
-
-    public UserInfoForOrderDTO getUserInfo(String subject) {
+    public UserInfoForOrderResponse getUserInfo(String subject) {
         User user = getUserBySubject(subject);
-        UserInfoForOrderDTO userInfo = new UserInfoForOrderDTO();
-        userInfo.setId(user.getId());
-        userInfo.setName(user.getName());
-        userInfo.setEmail(user.getEmail());
-        userInfo.setPhoneNumber(user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
-        return userInfo;
+        return new UserInfoForOrderResponse(user.getId(), user.getName(), user.getEmail(), user.getAddresses().isEmpty() ? null : user.getAddresses().getFirst().getPhoneNumber());
     }
 
-    public UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setEmail(user.getEmail());
-        dto.setRole(String.valueOf(user.getRole()));
-        return dto;
+    public UserResponse fromUser(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                String.valueOf(user.getRole())
+        );
     }
-
 
 }

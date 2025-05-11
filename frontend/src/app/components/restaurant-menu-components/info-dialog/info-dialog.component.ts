@@ -1,54 +1,52 @@
 import {Component, OnInit} from '@angular/core';
 import {
-  MatDialogActions,
-  MatDialogContent,
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import { FormsModule } from "@angular/forms";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from "../../../services/state/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
 import {DecimalPipe, NgClass, NgForOf} from "@angular/common";
 import {OpinionItemComponent} from "../opinion-item/opinion-item.component";
 import {InfoComponent} from "../info/info.component";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 
 @Component({
-  selector: 'app-info-dialog',
-  standalone: true,
-  imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatTabsModule,
-    NgClass,
-    NgForOf,
-    DecimalPipe,
-    OpinionItemComponent,
-    InfoComponent
-  ],
-  templateUrl: './info-dialog.component.html',
-  styleUrls: ['./info-dialog.component.css']
+    selector: 'app-info-dialog',
+    imports: [
+        MatDialogTitle,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatTabsModule,
+        NgClass,
+        NgForOf,
+        DecimalPipe,
+        OpinionItemComponent,
+        InfoComponent
+    ],
+    templateUrl: './info-dialog.component.html',
+    styleUrls: ['./info-dialog.component.css']
 })
 export class InfoDialogComponent implements OnInit{
-  restaurantId: number = 0;
   opinions: RestaurantOpinion[] = [];
   opinionLength: number = 0;
   restaurantName: string = '';
   rating: number = 0;
+  searchedRestaurant: SearchedRestaurant = {} as SearchedRestaurant;
 
   constructor(
     private languageService: LanguageService,
+    private searchedRestaurantsService: SearchedRestaurantsService,
     private restaurantOpinionService: RestaurantOpinionService,
     public dialogRef: MatDialogRef<InfoDialogComponent>,
   ) {}
@@ -59,8 +57,14 @@ export class InfoDialogComponent implements OnInit{
     this.getAverageRating();
   }
 
+  getRestaurant(): void {
+    this.searchedRestaurantsService.selectedRestaurant$.subscribe(restaurant => {
+      this.searchedRestaurant = restaurant;
+    });
+  }
+
   getRestaurantOpinions() {
-    this.restaurantOpinionService.getRestaurantOpinions(this.restaurantId).subscribe({
+    this.restaurantOpinionService.getRestaurantOpinions(this.searchedRestaurant.restaurantId).subscribe({
         next: (opinions: RestaurantOpinion[]) => {
           this.opinions = opinions;
           this.opinionLength = opinions.length;
@@ -72,7 +76,7 @@ export class InfoDialogComponent implements OnInit{
   }
 
   getAverageRating() {
-    this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+    this.restaurantOpinionService.getRating(this.searchedRestaurant.restaurantId).subscribe({
       next: (rating: number) => {
         this.rating = rating
       },
@@ -84,13 +88,6 @@ export class InfoDialogComponent implements OnInit{
 
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  getRestaurant() {
-    const id = sessionStorage.getItem('restaurantId');
-    const name = sessionStorage.getItem('restaurantName');
-    this.restaurantId = id ? parseInt(id) : 0;
-    this.restaurantName = name ? name : '';
   }
 
   getTranslation<k extends keyof LanguageTranslations>(key: k): string {

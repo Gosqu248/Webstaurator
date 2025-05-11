@@ -1,13 +1,14 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="restaurant_addresses")
 public class RestaurantAddress {
@@ -35,7 +36,6 @@ public class RestaurantAddress {
     private double longitude;
 
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

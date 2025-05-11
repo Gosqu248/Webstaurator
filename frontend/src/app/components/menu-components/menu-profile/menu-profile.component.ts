@@ -1,26 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgClass, NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {NgIf} from "@angular/common";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import { RouterLink} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuChangePasswordComponent} from "../menu-change-password/menu-change-password.component";
 
 @Component({
-  selector: 'app-menu-profile',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule,
-    NgClass,
-    RouterLink,
-  ],
-  templateUrl: './menu-profile.component.html',
-  styleUrl: './menu-profile.component.css'
+    selector: 'app-menu-profile',
+    imports: [
+        FormsModule,
+        NgIf,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './menu-profile.component.html',
+    styleUrl: './menu-profile.component.css'
 })
 export class MenuProfileComponent implements OnInit {
   name: string = '';
@@ -73,7 +69,10 @@ export class MenuProfileComponent implements OnInit {
 
   backToMenuDialog() {
     this.closeDialog();
-    this.dialog.open(MenuComponent);
+    this.dialog.open(MenuComponent, {
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 
   goToChangePasswordDialog() {

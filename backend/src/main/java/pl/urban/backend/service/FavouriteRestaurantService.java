@@ -1,9 +1,8 @@
 package pl.urban.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.FavouriteRestaurantDTO;
-import pl.urban.backend.dto.OpinionDTO;
+import pl.urban.backend.dto.response.FavouriteRestaurantResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.FavouriteRestaurantRepository;
 import pl.urban.backend.repository.RestaurantRepository;
@@ -13,22 +12,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FavouriteRestaurantService {
-
     private final FavouriteRestaurantRepository favouriteRestaurantRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
+    private final MapperService mapper;
 
-    public FavouriteRestaurantService(FavouriteRestaurantRepository favouriteRestaurantRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
-        this.favouriteRestaurantRepository = favouriteRestaurantRepository;
-        this.userRepository = userRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
-
-    public List<FavouriteRestaurantDTO> getAllUserFavouriteRestaurants(Long userId) {
-        List<FavouriteRestaurant> favouriteRestaurants = favouriteRestaurantRepository.findByUserId(userId);
-        return favouriteRestaurants.stream()
-                .map(this::convertToDTO)
+    public List<FavouriteRestaurantResponse> getAllUserFavouriteRestaurants(Long userId) {
+        return favouriteRestaurantRepository.findByUserId(userId).stream()
+                .map(mapper::fromFavouriteRestaurant)
                 .collect(Collectors.toList());
     }
 
@@ -40,8 +33,6 @@ public class FavouriteRestaurantService {
             throw new IllegalArgumentException("Add Invalid user or restaurant ID");
         }
     }
-
-
 
     public void deleteFavouriteRestaurant(Long userId, Long restaurantId) {
         try {
@@ -68,38 +59,4 @@ public class FavouriteRestaurantService {
         return favouriteRestaurant;
     }
 
-    public FavouriteRestaurantDTO convertToDTO(FavouriteRestaurant favouriteRestaurant) {
-        FavouriteRestaurantDTO dto = new FavouriteRestaurantDTO();
-
-        dto.setId(favouriteRestaurant.getId());
-
-        Restaurant restaurant = favouriteRestaurant.getRestaurant();
-        if (restaurant != null) {
-            dto.setRestaurantId(restaurant.getId());
-            dto.setRestaurantName(restaurant.getName());
-            dto.setRestaurantCategory(restaurant.getCategory());
-            dto.setRestaurantLogoUrl(restaurant.getLogoUrl());
-
-
-            RestaurantAddress address = restaurant.getRestaurantAddress();
-            if (address != null) {
-                dto.setStreet(address.getStreet());
-                dto.setFlatNumber(address.getFlatNumber());
-            }
-
-            List<OpinionDTO> opinions = restaurant.getRestaurantOpinions().stream()
-                    .map(restaurantOpinion -> {
-                        OpinionDTO opinion = new OpinionDTO();
-                        opinion.setId(restaurantOpinion.getId());
-                        opinion.setQualityRating(restaurantOpinion.getQualityRating());
-                        opinion.setDeliveryRating(restaurantOpinion.getDeliveryRating());
-                        return opinion;
-                    })
-                    .collect(Collectors.toList());
-            dto.setRestaurantOpinion(opinions);
-        }
-
-        return dto;
-
-    }
 }

@@ -23,9 +23,7 @@
     <button *ngIf="!authService.isAuthenticated()" (click)="openLogin()"> {{getTranslation('login')}}</button>
   </div>
 
-
-
-  <div class="opti on">
+  <div class="option">
     <h3 *ngIf="deliveryOption === 'delivery'">{{getTranslation('planDelivery')}}</h3>
     <h3 *ngIf="deliveryOption === 'pickup'">{{getTranslation('planPickUp')}}</h3>
     <div class="item" [ngClass]="{'selected': isDeliveryOptionSelected('fastest')}" (click)="setDelivery('fastest')">
@@ -33,7 +31,7 @@
         <i class="fa-regular fa-hourglass-half"></i>
         <div class="text">
           <h3>{{getTranslation('asSoonAsPossible')}}</h3>
-          <p *ngIf="deliveryOption === 'delivery'">{{minTime}}-{{maxTime}}min</p>
+          <p *ngIf="deliveryOption === 'delivery'">{{restaurant.delivery?.deliveryMinTime}}-{{restaurant.delivery?.deliveryMaxTime}}min</p>
           <p *ngIf="deliveryOption === 'pickup'">{{pickUpTime}}min</p>
         </div>
       </div>

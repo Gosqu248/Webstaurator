@@ -1,22 +1,20 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Menu} from "../../../interfaces/menu";
 import {DecimalPipe, NgIf} from "@angular/common";
-import {CartService} from "../../../services/cart.service";
+import {CartService} from "../../../services/state/cart.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {AdditivesDialogComponent} from "../additives-dialog/additives-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {OrderMenu} from "../../../interfaces/order";
 
 @Component({
-  selector: 'app-restaurant-basket-item',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    NgIf
-  ],
-  templateUrl: './restaurant-basket-item.component.html',
-  styleUrl: './restaurant-basket-item.component.css'
+    selector: 'app-restaurant-basket-item',
+    imports: [
+        DecimalPipe,
+        NgIf
+    ],
+    templateUrl: './restaurant-basket-item.component.html',
+    styleUrl: './restaurant-basket-item.component.css'
 })
 export class RestaurantBasketItemComponent implements OnInit{
   @Input() orderMenu!: OrderMenu;

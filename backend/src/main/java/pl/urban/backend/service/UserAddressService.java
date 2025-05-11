@@ -1,76 +1,68 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SearchedRestaurantDTO;
-import pl.urban.backend.model.RestaurantAddress;
+import pl.urban.backend.dto.request.UserAddressRequest;
+import pl.urban.backend.dto.response.UserAddressResponse;
 import pl.urban.backend.model.User;
 import pl.urban.backend.model.UserAddress;
 import pl.urban.backend.repository.UserAddressRepository;
 import pl.urban.backend.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserAddressService {
-
      private  final UserAddressRepository userAddressRepository;
      private final UserRepository userRepository;
      private final GeocodingService geocodingService;
+     private final MapperService mapper;
 
-    public UserAddressService(UserAddressRepository userAddressRepository, UserRepository userRepository, GeocodingService geocodingService) {
-        this.userAddressRepository = userAddressRepository;
-        this.userRepository = userRepository;
-        this.geocodingService = geocodingService;
-    }
-
-    public UserAddress findAddressById(String subject, Long addressId) {
+    public UserAddressResponse findAddressById(String subject, Long addressId) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
 
         UserAddress address = userAddressRepository.findById(addressId)
                 .orElseThrow(() -> new IllegalArgumentException("Address with this id not found"));
 
-        if (!address.getUserId().equals(user.getId())) {
+        if (!address.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("Address does not belong to the user");
         }
-
-        return address;
+        return mapper.fromUserAddress(address);
     }
 
-    public List<UserAddress> findAvailableAddresses(String subject, double lat, double lon, double radiusKm) {
-
+    public List<UserAddressResponse> findAvailableAddresses(String subject, double lat, double lon, double radiusKm) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
 
         List<UserAddress> userAddresses = userAddressRepository.findAvailableAddresses(user.getId(), lat, lon, radiusKm);
 
-        return userAddresses.parallelStream()
-                .collect(Collectors.toList());
+        return userAddresses.stream()
+                .map(mapper::fromUserAddress)
+                .toList();
     }
 
 
-    public UserAddress addAddress(String subject, UserAddress userAddress) {
+    public UserAddressResponse addAddress(String subject, UserAddressRequest addressRequest) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
-        userAddress.setUserId(user.getId());
 
-        String address = userAddress.getStreet() + " " + userAddress.getHouseNumber() + ", " + userAddress.getCity();
+        String address = addressRequest.street() + " " + addressRequest.houseNumber() + ", " + addressRequest.city();
         double[] coords = geocodingService.getCoordinates(address);
         double latitude = coords[0];
         double longitude = coords[1];
 
-        userAddress.setLatitude(latitude);
-        userAddress.setLongitude(longitude);
-
-        return userAddressRepository.save(userAddress);
+        UserAddress userAddress = toUserAddress(addressRequest, user, latitude, longitude);
+        return mapper.fromUserAddress(userAddressRepository.save(userAddress));
     }
 
-    public List<UserAddress> getAllAddresses(String subject) {
+    public List<UserAddressResponse> getAllAddresses(String subject) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
-        return user.getAddresses();
+        return user.getAddresses().stream()
+                .map(mapper::fromUserAddress)
+                .toList();
     }
 
     public void deleteAddress(String subject, Long addressId) {
@@ -80,16 +72,16 @@ public class UserAddressService {
         UserAddress userAddress = userAddressRepository.findById(addressId)
                 .orElseThrow(() -> new IllegalArgumentException("Address with this id not found"));
 
-        if(!userAddress.getUserId().equals(user.getId())) {
+        if(!userAddress.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("Address with this id not found");
         }
 
-        userAddress.setUserId(null);
+        userAddress.setUser(null);
         userAddressRepository.save(userAddress);
     }
 
 
-    public UserAddress updateAddress(String subject, Long addressId, UserAddress updatedAddress) {
+    public UserAddressResponse updateAddress(String subject, Long addressId, UserAddressRequest updatedAddress) {
         User user = userRepository.findByEmail(subject)
                 .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
 
@@ -100,18 +92,31 @@ public class UserAddressService {
             throw new IllegalArgumentException("Address with this id not found");
         }
 
-        userAddress.setStreet(updatedAddress.getStreet());
-        userAddress.setHouseNumber(updatedAddress.getHouseNumber());
-        userAddress.setFloorNumber(updatedAddress.getFloorNumber());
-        userAddress.setAccessCode(updatedAddress.getAccessCode());
-        userAddress.setZipCode(updatedAddress.getZipCode());
-        userAddress.setCity(updatedAddress.getCity());
-        userAddress.setPhoneNumber(updatedAddress.getPhoneNumber());
+        userAddress.setStreet(updatedAddress.street());
+        userAddress.setHouseNumber(updatedAddress.houseNumber());
+        userAddress.setFloorNumber(updatedAddress.floorNumber());
+        userAddress.setAccessCode(updatedAddress.accessCode());
+        userAddress.setZipCode(updatedAddress.zipCode());
+        userAddress.setCity(updatedAddress.city());
+        userAddress.setPhoneNumber(updatedAddress.phoneNumber());
 
-        return userAddressRepository.save(userAddress);
+        return mapper.fromUserAddress(userAddressRepository.save(userAddress));
 
     }
 
-
+    private UserAddress toUserAddress(UserAddressRequest addressRequest, User user, double latitude, double longitude) {
+        return UserAddress.builder()
+                .street(addressRequest.street())
+                .houseNumber(addressRequest.houseNumber())
+                .city(addressRequest.city())
+                .zipCode(addressRequest.zipCode())
+                .phoneNumber(addressRequest.phoneNumber())
+                .floorNumber(addressRequest.floorNumber())
+                .accessCode(addressRequest.accessCode())
+                .latitude(latitude)
+                .longitude(longitude)
+                .user(user)
+                .build();
+    }
 
 }

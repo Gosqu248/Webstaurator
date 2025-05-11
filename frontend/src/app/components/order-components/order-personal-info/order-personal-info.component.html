@@ -13,7 +13,7 @@
      </div>
      <div class="input-container">
        <label for="phoneNumber">{{getTranslation('phoneNumber')}}</label>
-       <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" placeholder="{{getTranslation('phoneNumber')}}" autocomplete="phoneNumber" required>
+       <input id="phoneNumber" type="text" formControlName="phoneNumber" name="phoneNumber" placeholder="{{getTranslation('phoneNumber')}}" autocomplete="phoneNumber" required appPhoneNumberFormatter>
      </div>
    </form>
  </div>
@@ -23,7 +23,6 @@
    <div class="input-container">
      <label for="relevantInfo">{{getTranslation('relevantInformation')}}</label>
      <input id="relevantInfo" type="text" [(ngModel)]="relevantInformation"  required>
-
    </div>
  </div>
 

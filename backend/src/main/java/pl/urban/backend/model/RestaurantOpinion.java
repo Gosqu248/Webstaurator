@@ -1,9 +1,7 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.ZoneId;
@@ -11,6 +9,9 @@ import java.time.ZonedDateTime;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "restaurant_opinions")
 public class RestaurantOpinion {
@@ -37,17 +38,14 @@ public class RestaurantOpinion {
     }
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 

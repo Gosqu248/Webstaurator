@@ -1,22 +1,21 @@
 import {Component, Inject} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {NgClass, NgForOf} from "@angular/common";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {RestaurantOpinionDTO} from "../../../interfaces/restaurant-opinion";
 
 @Component({
-  selector: 'app-add-opinion-dialog',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgClass,
-    FormsModule
-  ],
-  templateUrl: './add-opinion-dialog.component.html',
-  styleUrl: './add-opinion-dialog.component.css'
+    selector: 'app-add-opinion-dialog',
+    imports: [
+        NgForOf,
+        NgClass,
+        FormsModule
+    ],
+    templateUrl: './add-opinion-dialog.component.html',
+    styleUrl: './add-opinion-dialog.component.css'
 })
 export class AddOpinionDialogComponent {
   qualityRating: number = 0;

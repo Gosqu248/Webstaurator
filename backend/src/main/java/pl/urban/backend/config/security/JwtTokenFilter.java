@@ -1,0 +1,62 @@
+package pl.urban.backend.config.security;
+
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+@AllArgsConstructor
+public class JwtTokenFilter extends OncePerRequestFilter {
+    private final JwtUtil jwtUtil;
+    @Override
+    protected void doFilterInternal(@NotNull HttpServletRequest request,
+                                    @NotNull HttpServletResponse response,
+                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+        if (request.getRequestURI().equals("/auth/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+
+            try {
+                Claims claims = jwtUtil.extractAllClaims(token);
+                String email = claims.getSubject();
+                String role = claims.get("role", String.class);
+
+                List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+                if (role != null) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
+                }
+
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                        email,
+                        null,
+                        authorities
+                );
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            } catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                SecurityContextHolder.clearContext();
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}

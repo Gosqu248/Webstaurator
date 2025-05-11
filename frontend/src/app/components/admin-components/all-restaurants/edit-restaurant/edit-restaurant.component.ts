@@ -18,29 +18,28 @@ import {environment} from "../../../../../environments/environment";
 import {RestaurantAddress} from "../../../../interfaces/restaurant-address";
 import {Delivery, DeliveryHour} from "../../../../interfaces/delivery.interface";
 import {Menu} from "../../../../interfaces/menu";
-import {LanguageService} from "../../../../services/language.service";
-import {PaymentMethodsService} from "../../../../services/payment-methods.service";
-import {RestaurantService} from "../../../../services/restaurant.service";
-import {AddRestaurant, Restaurant} from "../../../../interfaces/restaurant";
+import {LanguageService} from "../../../../services/state/language.service";
+import {PaymentMethodsService} from "../../../../services/api/payment-methods.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
+import {AddRestaurant} from "../../../../interfaces/restaurant";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "../../../../interfaces/paymentMethod";
 
 @Component({
-  selector: 'app-edit-restaurant',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MenuFormComponent,
-    RestaurantAddressFormComponent,
-    RestaurantDataFormComponent,
-    RestaurantDeliveryDataFormComponent,
-    RestaurantDeliveryHoursFormComponent,
-    RestaurantPaymentFormComponent,
-    ReactiveFormsModule
-  ],
-  templateUrl: './edit-restaurant.component.html',
-  styleUrl: './edit-restaurant.component.css'
+    selector: 'app-edit-restaurant',
+    imports: [
+        FormsModule,
+        MenuFormComponent,
+        RestaurantAddressFormComponent,
+        RestaurantDataFormComponent,
+        RestaurantDeliveryDataFormComponent,
+        RestaurantDeliveryHoursFormComponent,
+        RestaurantPaymentFormComponent,
+        ReactiveFormsModule
+    ],
+    templateUrl: './edit-restaurant.component.html',
+    styleUrl: './edit-restaurant.component.css'
 })
 export class EditRestaurantComponent implements OnInit {
   background = environment.api + '/img/AddRestaurant.webp';

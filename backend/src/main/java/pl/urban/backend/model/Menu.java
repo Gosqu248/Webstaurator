@@ -1,15 +1,16 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="menu")
 public class Menu {
@@ -34,11 +35,9 @@ public class Menu {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "menus")
     private List<Additives> additives;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "menu")
     private Set<Restaurant> restaurant;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderMenu> orderMenus;
 

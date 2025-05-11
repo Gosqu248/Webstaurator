@@ -1,36 +1,29 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MenuComponent } from '../../menu-components/menu/menu.component';
 import { NgForOf, NgIf} from '@angular/common';
-import { RestaurantCategoryComponent } from '../restaurant-category/restaurant-category.component';
 import { FormsModule } from '@angular/forms';
-import { LanguageService } from '../../../services/language.service';
+import { LanguageService } from '../../../services/state/language.service';
 import { LanguageTranslations } from '../../../interfaces/language.interface';
 import { RestaurantSortComponent } from '../restaurant-sort/restaurant-sort.component';
 
 import { RestaurantItemComponent } from '../restaurant-item/restaurant-item.component';
-import { OptionService } from '../../../services/option.service';
-import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import { OptionService } from '../../../services/state/option.service';
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 import {RestaurantMapComponent} from "../restaurant-map/restaurant-map.component";
-import {MapService} from "../../../services/map.service";
+import {MapService} from "../../../services/state/map.service";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 
 @Component({
-  selector: 'app-restaurant',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    MenuComponent,
-    NgIf,
-    RestaurantCategoryComponent,
-    FormsModule,
-    RestaurantSortComponent,
-    RestaurantItemComponent,
-    NgForOf,
-    RestaurantMapComponent
-  ],
-  templateUrl: './restaurant.component.html',
-  styleUrl: './restaurant.component.css'
+    selector: 'app-restaurant',
+    imports: [
+        NgIf,
+        FormsModule,
+        RestaurantSortComponent,
+        RestaurantItemComponent,
+        NgForOf,
+        RestaurantMapComponent
+    ],
+    templateUrl: './restaurant.component.html',
+    styleUrl: './restaurant.component.css'
 })
 export class RestaurantComponent implements OnInit, OnChanges {
   searchedRestaurants: SearchedRestaurant[] = [];
@@ -45,7 +38,7 @@ export class RestaurantComponent implements OnInit, OnChanges {
 
   constructor(
     private languageService: LanguageService,
-    private restaurantAddressService: RestaurantAddressService,
+    private searchedRestaurantService: SearchedRestaurantsService,
     private mapService: MapService,
     private optionService: OptionService
   ) {}
@@ -75,8 +68,7 @@ export class RestaurantComponent implements OnInit, OnChanges {
     }
     this.address = address;
 
-
-    this.restaurantAddressService.searchedRestaurants$.subscribe((restaurants) => {
+    this.searchedRestaurantService.searchedRestaurants$.subscribe((restaurants) => {
       this.searchedRestaurants = restaurants;
       this.updateRestaurant();
     });

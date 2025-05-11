@@ -1,9 +1,10 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pl.urban.backend.dto.RestaurantOpinionDTO;
-import pl.urban.backend.dto.UserNameDTO;
+import pl.urban.backend.dto.request.RestaurantOpinionRequest;
+import pl.urban.backend.dto.response.RestaurantOpinionResponse;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.OrderRepository;
 import pl.urban.backend.repository.RestaurantOpinionRepository;
@@ -15,23 +16,17 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class RestaurantOpinionService {
 
     private final RestaurantOpinionRepository restaurantOpinionRepository;
-
-
     private final OrderRepository orderRepository;
+    private final MapperService mapper;
 
-    public RestaurantOpinionService(RestaurantOpinionRepository restaurantOpinionRepository, OrderRepository orderRepository) {
-        this.restaurantOpinionRepository = restaurantOpinionRepository;
-
-        this.orderRepository = orderRepository;
-    }
-
-    public List<RestaurantOpinionDTO> getRestaurantOpinion(Long restaurantId) {
+    public List<RestaurantOpinionResponse> getRestaurantOpinion(Long restaurantId) {
         List<RestaurantOpinion> favouriteRestaurants = restaurantOpinionRepository.findAllByRestaurantId(restaurantId, Sort.by(Sort.Direction.DESC, "createdAt"));
         return favouriteRestaurants.stream()
-                .map(this::convertToDTO)
+                .map(mapper::fromRestaurantOpinion)
                 .collect(java.util.stream.Collectors.toList());
     }
 
@@ -48,13 +43,12 @@ public class RestaurantOpinionService {
         return bd.doubleValue();
     }
 
-
-    public RestaurantOpinion addOpinion(RestaurantOpinionDTO opinionDTO, Long orderId) {
+    public RestaurantOpinionResponse addOpinion(RestaurantOpinionRequest opinionRequest, Long orderId) {
         RestaurantOpinion opinion = new RestaurantOpinion();
 
-        opinion.setQualityRating(opinionDTO.getQualityRating());
-        opinion.setDeliveryRating(opinionDTO.getDeliveryRating());
-        opinion.setComment(opinionDTO.getComment());
+        opinion.setQualityRating(opinionRequest.qualityRating());
+        opinion.setDeliveryRating(opinionRequest.deliveryRating());
+        opinion.setComment(opinionRequest.comment());
 
         Order order = orderRepository.findById(orderId).orElseThrow();
         User user = order.getUser();
@@ -64,31 +58,7 @@ public class RestaurantOpinionService {
         opinion.setRestaurant(restaurant);
         opinion.setUser(user);
 
-        return restaurantOpinionRepository.save(opinion);
+        return mapper.fromRestaurantOpinion(restaurantOpinionRepository.save(opinion));
 
     }
-
-
-    public RestaurantOpinionDTO convertToDTO(RestaurantOpinion opinion) {
-        RestaurantOpinionDTO dto = new RestaurantOpinionDTO();
-
-        dto.setId(opinion.getId());
-        dto.setQualityRating(opinion.getQualityRating());
-        dto.setDeliveryRating(opinion.getDeliveryRating());
-        dto.setComment(opinion.getComment());
-        dto.setCreatedAt(opinion.getCreatedAt());
-
-        User user = opinion.getUser();
-        if (user != null) {
-            UserNameDTO userDTO = new UserNameDTO();
-            userDTO.setId(user.getId());
-            userDTO.setName(user.getName());
-            dto.setUser(userDTO);
-        }
-
-        return dto;
-
-    }
-
-
 }

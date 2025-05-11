@@ -1,30 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {RouterLink} from "@angular/router";
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 import {UserAddress} from "../../../interfaces/user.address.interface";
-import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
-import {MenuAddressChangeComponent} from "../menu-address-change/menu-address-change.component";
+import {MenuAddressesItemComponent} from "./menu-addresses-item/menu-addresses-item.component";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {MenuAddAddressComponent} from "../menu-add-address/menu-add-address.component";
+import {MenuAddAddressComponent} from "./menu-add-address/menu-add-address.component";
 
 @Component({
-  selector: 'app-menu-addresses',
-  standalone: true,
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-    RouterLink,
-    MenuAddressesItemComponent,
-    NgForOf,
-    MenuAddressChangeComponent
-  ],
-  templateUrl: './menu-addresses.component.html',
-  styleUrl: './menu-addresses.component.css'
+    selector: 'app-menu-addresses',
+    imports: [
+        ReactiveFormsModule,
+        MenuAddressesItemComponent,
+        NgForOf
+    ],
+    templateUrl: './menu-addresses.component.html',
+    styleUrl: './menu-addresses.component.css'
 })
 export class MenuAddressesComponent implements OnInit{
   addresses: UserAddress[] = [];
@@ -69,7 +63,10 @@ export class MenuAddressesComponent implements OnInit{
 
   backToMenuDialog() {
     this.closeDialog();
-    this.dialog.open(MenuComponent);
+    this.dialog.open(MenuComponent, {
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 
   openAddAddressDialog() {

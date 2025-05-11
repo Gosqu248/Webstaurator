@@ -1,8 +1,10 @@
 package pl.urban.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.urban.backend.dto.response.MenuResponse;
+import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.model.Menu;
 import pl.urban.backend.model.Restaurant;
 import pl.urban.backend.repository.MenuRepository;
@@ -15,20 +17,19 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MenuService {
     private final MenuRepository menuRepository;
     private final RestaurantRepository restaurantRepository;
+    private final MapperService mapper;
 
-    public MenuService(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
-        this.menuRepository = menuRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
-
-    public List<Menu> getRestaurantMenu(Long restaurantId) {
-        List<Menu> menuItems = menuRepository.findByRestaurantId(restaurantId);
+    public List<MenuResponse> getRestaurantMenu(Long restaurantId) {
+        List<MenuResponse> menuItems = menuRepository.findByRestaurantId(restaurantId)
+                .stream()
+                .map(mapper::fromMenu)
+                .collect(Collectors.toList());
         return sortByCategory(menuItems);
     }
-
 
     public Set<String> getRestaurantMenuCategories(Long restaurantId) {
         List<Menu> menuItems = menuRepository.findByRestaurantId(restaurantId);
@@ -37,10 +38,9 @@ public class MenuService {
                 .collect(Collectors.toSet());
     }
 
-
-    public List<Menu> sortByCategory(List<Menu> menuItems) {
-        Map<String, List<Menu>> sortedMenu = menuItems.stream()
-                .collect(Collectors.groupingBy(Menu::getCategory, TreeMap::new, Collectors.toList()));
+    public List<MenuResponse> sortByCategory(List<MenuResponse> menuItems) {
+        Map<String, List<MenuResponse>> sortedMenu = menuItems.stream()
+                .collect(Collectors.groupingBy(MenuResponse::category, TreeMap::new, Collectors.toList()));
 
         return sortedMenu.values().stream()
                 .flatMap(List::stream)
@@ -48,7 +48,7 @@ public class MenuService {
     }
 
     @Transactional
-    public Restaurant addMenuToRestaurant(Long restaurantId, Menu menu) {
+    public RestaurantResponse addMenuToRestaurant(Long restaurantId, Menu menu) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
 
@@ -61,11 +61,11 @@ public class MenuService {
         }
 
         restaurant.getMenu().add(existingMenu);
-        return restaurantRepository.save(restaurant);
+        return mapper.fromRestaurant(restaurantRepository.save(restaurant));
     }
 
     @Transactional
-    public Restaurant removeMenuFromRestaurant(Long restaurantId, Long menuId) {
+    public RestaurantResponse removeMenuFromRestaurant(Long restaurantId, Long menuId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
 
@@ -73,7 +73,7 @@ public class MenuService {
                 .orElseThrow(() -> new IllegalArgumentException("Menu not found"));
 
         restaurant.getMenu().remove(menu);
-        return restaurantRepository.save(restaurant);
+        return mapper.fromRestaurant(restaurantRepository.save(restaurant));
     }
 
 }

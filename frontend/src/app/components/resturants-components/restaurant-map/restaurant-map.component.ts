@@ -1,21 +1,18 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 import * as L from 'leaflet';
-import {AddressSuggestionsService} from "../../../services/address-suggestions.service";
+import {AddressSuggestionsService} from "../../../services/api/address-suggestions.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {Subscription} from 'rxjs';
-import {RestaurantService} from "../../../services/restaurant.service";
+import {RestaurantService} from "../../../services/api/restaurant.service";
 import {DistanceFilterPipe} from "../../../pipes/distance-filter.pipe";
 
 @Component({
-  selector: 'app-restaurant-map',
-  standalone: true,
-  imports: [
-    DistanceFilterPipe
-  ],
-  templateUrl: './restaurant-map.component.html',
-  styleUrl: './restaurant-map.component.css'
+    selector: 'app-restaurant-map',
+    imports: [],
+    templateUrl: './restaurant-map.component.html',
+    styleUrl: './restaurant-map.component.css'
 })
 export class RestaurantMapComponent implements OnInit, OnDestroy, OnChanges {
   @Input() restaurants!: SearchedRestaurant[];

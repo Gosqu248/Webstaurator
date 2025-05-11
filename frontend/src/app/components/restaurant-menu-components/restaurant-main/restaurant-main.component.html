@@ -1,6 +1,6 @@
 <div class="info-container">
   <div class="left-container">
-    <img class="image" [src]="restaurant.logoUrl" alt="restaurant image" />
+    <img class="image" [src]="restaurant.restaurant?.logoUrl" alt="restaurant image" />
     <h2 class="name">{{ restaurant.name }}</h2>
     <div class="icons-container">
       <div class="rating-container">
@@ -8,13 +8,13 @@
         <h5>{{ rating | number:'1.1-1' }}</h5>
         <h6>({{getRatingLength() }})</h6>
       </div>
-      <div class="description-item" *ngIf="delivery">
+      <div class="description-item" *ngIf="restaurant.delivery">
         <i class="fa-solid fa-truck"></i>
-        <h5>{{delivery.deliveryPrice | number:'1.2-2'}} zł</h5>
+        <h5>{{restaurant.delivery.deliveryPrice | number:'1.2-2'}} zł</h5>
       </div>
-      <div class="description-item" *ngIf="delivery">
+      <div class="description-item" *ngIf="restaurant.delivery">
         <i class="fa-regular fa-clock"></i>
-        <h5>{{delivery.deliveryMinTime}}-{{delivery.deliveryMaxTime}} min</h5>
+        <h5>{{restaurant.delivery.deliveryMinTime}}-{{restaurant.delivery.deliveryMaxTime}} min</h5>
       </div>
     </div>
   </div>

@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.urban.backend.dto.CoordinatesDTO;
-import pl.urban.backend.dto.SuggestDTO;
+import pl.urban.backend.dto.response.CoordinatesResponse;
+import pl.urban.backend.dto.response.SuggestResponse;
 import pl.urban.backend.service.AddressSuggestionsService;
 
 import java.util.List;
@@ -27,47 +27,50 @@ public class AddressSuggestionsTests {
     public void testGetSuggestions() {
         String partialName = "Krakowska";
 
-        SuggestDTO suggest1 = new SuggestDTO();
-        suggest1.setName("Krakowska 13, Tarnów");
+        SuggestResponse suggest1 = new SuggestResponse(
+                "Krakowska 13, Tarnów"
+        );
 
 
-        List<SuggestDTO> expectedSuggestions = List.of(suggest1);
+        List<SuggestResponse> expectedSuggestions = List.of(suggest1);
 
-        List<SuggestDTO> actualSuggestions = addressSuggestionsService.getSuggestions(partialName);
+        List<SuggestResponse> actualSuggestions = addressSuggestionsService.getSuggestions(partialName);
 
         assertNotNull(actualSuggestions);
         assertEquals(expectedSuggestions.size(), actualSuggestions.size());
-        assertEquals(expectedSuggestions.getFirst().getName(), actualSuggestions.getFirst().getName());
+        assertEquals(expectedSuggestions.getFirst().name(), actualSuggestions.getFirst().name());
         logger.info("Test dla podpowiedzi dla '{}'' zakończony sukcesem", partialName);
     }
 
     @Test
     public void testGetCoordinatesForAddressSpokojna10Zakliczyn() {
         String address = "Spokojna 10, Zakliczyn";
-        CoordinatesDTO expectedCoordinates = new CoordinatesDTO();
-        expectedCoordinates.setLat(49.85496906411742);
-        expectedCoordinates.setLon(20.804921425415863);
+        CoordinatesResponse expectedCoordinates = new CoordinatesResponse(
+                49.85496906411742,
+                20.804921425415863
+        );
 
-        CoordinatesDTO actualCoordinates = addressSuggestionsService.getCoordinates(address);
+        CoordinatesResponse actualCoordinates = addressSuggestionsService.getCoordinates(address);
 
         assertNotNull(actualCoordinates);
-        assertEquals(expectedCoordinates.getLat(), actualCoordinates.getLat());
-        assertEquals(expectedCoordinates.getLon(), actualCoordinates.getLon());
+        assertEquals(expectedCoordinates.lat(), actualCoordinates.lat());
+        assertEquals(expectedCoordinates.lon(), actualCoordinates.lon());
         logger.info("Test dla współrzędnych dla '{}'' zakończony sukcesem", address);
     }
 
     @Test
     public void testGetCoordinatesForKrakowska13Tarnow() {
         String address = "Krakowska 13, Tarnów";
-        CoordinatesDTO expectedCoordinates = new CoordinatesDTO();
-        expectedCoordinates.setLat(50.0111345);
-        expectedCoordinates.setLon(20.982408484206346);
+        CoordinatesResponse expectedCoordinates = new CoordinatesResponse(
+                50.0111345,
+                20.982408484206346
+        );
 
-        CoordinatesDTO actualCoordinates = addressSuggestionsService.getCoordinates(address);
+        CoordinatesResponse actualCoordinates = addressSuggestionsService.getCoordinates(address);
 
         assertNotNull(actualCoordinates);
-        assertEquals(expectedCoordinates.getLat(), actualCoordinates.getLat());
-        assertEquals(expectedCoordinates.getLon(), actualCoordinates.getLon());
+        assertEquals(expectedCoordinates.lat(), actualCoordinates.lat());
+        assertEquals(expectedCoordinates.lon(), actualCoordinates.lon());
         logger.info("Test dla współrzędnych dla '{}'' zakończony sukcesem", address);
     }
 

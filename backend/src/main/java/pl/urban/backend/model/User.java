@@ -1,17 +1,17 @@
 package pl.urban.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.urban.backend.enums.Role;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -34,19 +34,14 @@ public class User {
     private Role role = Role.user;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
     private List<UserAddress> addresses = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private List<FavouriteRestaurant> favouriteRestaurants;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<Order> orders;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
     private UserSecurity userSecurity;
-
 }

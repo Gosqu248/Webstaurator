@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LanguageService} from "../../../../services/language.service";
-import {RestaurantService} from "../../../../services/restaurant.service";
+import {LanguageService} from "../../../../services/state/language.service";
+import {RestaurantService} from "../../../../services/api/restaurant.service";
 import {Restaurant} from "../../../../interfaces/restaurant";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgForOf, NgIf} from "@angular/common";
@@ -9,17 +9,16 @@ import {AllRestaurantsItemComponent} from "../all-restaurants-item/all-restauran
 import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-all-restaurants-home',
-  standalone: true,
-  imports: [
-    MatProgressSpinner,
-    NgIf,
-    NgForOf,
-    AllRestaurantsItemComponent,
-    FormsModule
-  ],
-  templateUrl: './all-restaurants-home.component.html',
-  styleUrls: ['./all-restaurants-home.component.css']
+    selector: 'app-all-restaurants-home',
+    imports: [
+        MatProgressSpinner,
+        NgIf,
+        NgForOf,
+        AllRestaurantsItemComponent,
+        FormsModule
+    ],
+    templateUrl: './all-restaurants-home.component.html',
+    styleUrls: ['./all-restaurants-home.component.css']
 })
 export class AllRestaurantsHomeComponent implements OnInit{
   restaurants: Restaurant[] = [];

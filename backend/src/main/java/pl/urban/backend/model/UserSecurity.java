@@ -1,13 +1,15 @@
 package pl.urban.backend.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_security")
 public class UserSecurity {
@@ -27,5 +29,4 @@ public class UserSecurity {
     private String twoFactorCode;
 
     private Long twoFactorCodeExpireTime;
-
 }

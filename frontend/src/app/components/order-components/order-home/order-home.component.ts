@@ -1,38 +1,35 @@
-import {AfterViewInit, Component, OnInit, ViewChild, Inject, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {OrderBasketComponent} from "../order-basket/order-basket.component";
-import {NgIf} from "@angular/common";
 import {OrderPersonalInfoComponent} from "../order-personal-info/order-personal-info.component";
 import {OrderDeliveryComponent} from "../order-delivery/order-delivery.component";
 import {UserAddress} from "../../../interfaces/user.address.interface";
-import {AddressesService} from "../../../services/addresses.service";
+import {AddressesService} from "../../../services/api/addresses.service";
 import {OrderPaymentComponent} from "../order-payment/order-payment.component";
-import {AuthService} from "../../../services/auth.service";
-import {Order, OrderStatus} from "../../../interfaces/order";
-import {RestaurantService} from "../../../services/restaurant.service";
-import {Restaurant} from "../../../interfaces/restaurant";
+import {AuthService} from "../../../services/api/auth.service";
+import {OrderMenuRequest, OrderRequest, OrderStatus} from "../../../interfaces/order";
 import {UserDTO} from "../../../interfaces/user.interface";
-import {OptionService} from "../../../services/option.service";
+import {OptionService} from "../../../services/state/option.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
 import {MatDialog} from "@angular/material/dialog";
-import {isPlatformBrowser} from "@angular/common";
-import {PayUService} from "../../../services/pay-u.service";
-import {OrderService} from "../../../services/order.service";
+import {PayUService} from "../../../services/api/pay-u.service";
+import {OrderService} from "../../../services/api/order.service";
 import {Router} from "@angular/router";
-import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {RestaurantAddressService} from "../../../services/api/restaurant-address.service";
 import {Coordinates} from "../../../interfaces/coordinates";
 import {PaymentResponse} from "../../../interfaces/paymentMethod";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-order-home',
-  standalone: true,
-  imports: [
-    OrderBasketComponent,
-    OrderPersonalInfoComponent,
-    OrderDeliveryComponent,
-    OrderPaymentComponent
-  ],
-  templateUrl: './order-home.component.html',
-  styleUrl: './order-home.component.css'
+    selector: 'app-order-home',
+    imports: [
+        OrderBasketComponent,
+        OrderPersonalInfoComponent,
+        OrderDeliveryComponent,
+        OrderPaymentComponent
+    ],
+    templateUrl: './order-home.component.html',
+    styleUrl: './order-home.component.css'
 })
 export class OrderHomeComponent implements OnInit, AfterViewInit {
   @ViewChild(OrderDeliveryComponent) orderDelivery!: OrderDeliveryComponent;
@@ -44,7 +41,7 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   user: UserDTO = {} as UserDTO;
   canOrder: boolean = false;
   userId: number | null = null;
-  restaurant: Restaurant = {} as Restaurant;
+  restaurant: SearchedRestaurant = {} as SearchedRestaurant;
   deliveryOption: string = '';
   payUPaymentId: number | null = null;
   coordinates: Coordinates = {} as Coordinates;
@@ -53,16 +50,14 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
               private addressService: AddressesService,
               private optionService: OptionService,
               private restaurantAddressService: RestaurantAddressService,
-              private restaurantService: RestaurantService,
+              private searchedRestaurantService: SearchedRestaurantsService,
               private dialog: MatDialog,
               private router: Router,
               private payUService: PayUService,
-              private orderService: OrderService,
-              @Inject(PLATFORM_ID) private platformId: Object) {}
+              private orderService: OrderService) {}
 
   ngOnInit() {
     this.getRestaurant();
-
     this.optionService.selectBasketDelivery$.subscribe(delivery => {
       this.deliveryOption = delivery;
     });
@@ -112,19 +107,36 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
     const userAddress = this.orderDelivery.selectedAddress ? this.orderDelivery.selectedAddress : null
     const deliveryOption = this.deliveryOption === 'delivery' ? 'dostawa' : 'odbiór osobisty';
 
+    const orderMenusRequest: OrderMenuRequest[] = this.basket.orderMenus.map(item => {
+      if (item.menu.id == null) {
+        throw new Error('Brak menuId w elemencie koszyka');
+      }
+      const menuId: number = item.menu.id;
+
+      const chooseAdditivesId: number[] = (item.chooseAdditives ?? [])
+        .map(a => a.id)
+        .filter((id): id is number => id != null);
+
+      return {
+        quantity: item.quantity,
+        menuId,
+        chooseAdditivesId
+      };
+    });
+
     if (restaurantId) {
-      const order: Order = {
+      const order: OrderRequest = {
+        userId: user.id,
+        userAddressId: userAddress?.id || null,
+        restaurantId: this.restaurant.restaurantId,
+        orderMenus: orderMenusRequest,
+        deliveryOption: deliveryOption,
+        deliveryTime: deliveryTime,
+        paymentId: null,
         paymentMethod: this.orderPayment.selectedPayment?.method || '',
         status: OrderStatus.niezaplacone,
         totalPrice: this.basket.totalPrice,
-        deliveryTime: deliveryTime,
-        deliveryOption: deliveryOption,
         comment: this.orderPersonalInfo.relevantInformation,
-        paymentId: null,
-        user: user,
-        restaurant: this.restaurant,
-        orderMenus: this.basket.orderMenus,
-        userAddress: userAddress,
       }
 
       if (this.orderPayment.selectedPayment?.method === 'Gotówka') {
@@ -152,16 +164,10 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
   }
 
   getRestaurant() {
-    if (isPlatformBrowser(this.platformId)) {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-
-      if (restaurantId) {
-        this.restaurantService.getRestaurantById(parseInt(restaurantId)).subscribe((data: Restaurant) => {
-          this.restaurant = data;
-        });
-      }
-      this.subscribeToAuthChanges();
-    }
+    this.searchedRestaurantService.selectedRestaurant$.subscribe(restaurant => {
+      this.restaurant = restaurant;
+    });
+    this.subscribeToAuthChanges();
   }
 
   openLoginDialog(): void {
@@ -177,21 +183,11 @@ export class OrderHomeComponent implements OnInit, AfterViewInit {
 
   getUserAddresses(token: string | null) {
     if (token) {
-      const restaurantId = sessionStorage.getItem('restaurantId');
-      if (restaurantId) {
-        const id = parseInt(restaurantId);
-
-      this.restaurantAddressService.getCoordinates(id).subscribe(coordinates => {
-        this.coordinates = coordinates;
-        console.log(coordinates)
+      this.restaurantAddressService.getCoordinates(this.restaurant.restaurantId).subscribe(coordinates => {
         this.addressService.getAvailableAddresses(token, coordinates).subscribe(addresses => {
           this.addresses = addresses;
-          console.log(addresses)
         });
       });
-      } else {
-        console.error('Restaurant id is not set');
-      }
     } else {
       console.error('Token is not set');
     }

@@ -1,46 +1,24 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { environment } from "../../../../environments/environment";
 import { isPlatformBrowser, NgClass, NgIf } from "@angular/common";
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from "../../../services/state/language.service";
 import { LanguageTranslations } from "../../../interfaces/language.interface";
 import { MenuComponent } from "../../menu-components/menu/menu.component";
-import {NavigationEnd, Router, RouterLink, RouterOutlet} from "@angular/router";
-import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
-import {MenuRegisterComponent} from "../../menu-components/menu-register/menu-register.component";
-import {MenuProfileComponent} from "../../menu-components/menu-profile/menu-profile.component";
-import {MenuAddressesComponent} from "../../menu-components/menu-addresses/menu-addresses.component";
-import {MenuLanguageComponent} from "../../menu-components/menu-language/menu-language.component";
-import {MenuAddressChangeComponent} from "../../menu-components/menu-address-change/menu-address-change.component";
-import {MenuChangePasswordComponent} from "../../menu-components/menu-change-password/menu-change-password.component";
-import {MenuAddAddressComponent} from "../../menu-components/menu-add-address/menu-add-address.component";
+import {NavigationEnd, Router} from "@angular/router";
 import {RestaurantCategoryComponent} from "../../resturants-components/restaurant-category/restaurant-category.component";
-import {OptionService} from "../../../services/option.service";
-import {MenuFavouriteComponent} from "../../menu-components/menu-favourite/menu-favourite.component";
+import {OptionService} from "../../../services/state/option.service";
 import {MatDialog} from "@angular/material/dialog";
 import {filter} from "rxjs";
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [
-    NgIf,
-    MenuComponent,
-    RouterLink,
-    RouterOutlet,
-    NgClass,
-    MenuLoginComponent,
-    MenuRegisterComponent,
-    MenuProfileComponent,
-    MenuAddressesComponent,
-    MenuLanguageComponent,
-    MenuAddressChangeComponent,
-    MenuChangePasswordComponent,
-    MenuAddAddressComponent,
-    RestaurantCategoryComponent,
-    MenuFavouriteComponent
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+    selector: 'app-navbar',
+    imports: [
+        NgIf,
+        NgClass,
+        RestaurantCategoryComponent
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
   apiUrl = environment.api;
@@ -148,10 +126,8 @@ export class NavbarComponent implements OnInit{
 
   openMenuDialog() {
     this.dialog.open(MenuComponent, {
-      width: '400px',
-      height: '400px',
-      position: { top: '50%', left: '50%' },
-      panelClass: 'centered-dialog'
+      width: '100%',
+      maxWidth: '800px',
     });
   }
 

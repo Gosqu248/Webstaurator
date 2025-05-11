@@ -1,17 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Favourites} from "../../../interfaces/favourites";
-import {DecimalPipe} from "@angular/common";
-import {FavouriteService} from "../../../services/favourite.service";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {FavouriteService} from "../../../services/api/favourite.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 
 @Component({
-  selector: 'app-menu-fav-item',
-  standalone: true,
-  imports: [
-    DecimalPipe
-  ],
-  templateUrl: './menu-fav-item.component.html',
-  styleUrl: './menu-fav-item.component.css'
+    selector: 'app-menu-fav-item',
+    imports: [],
+    templateUrl: './menu-fav-item.component.html',
+    styleUrl: './menu-fav-item.component.css'
 })
 export class MenuFavItemComponent implements OnInit{
   @Input() favourite!: Favourites;

@@ -3,29 +3,26 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Additives} from "../../../interfaces/menu";
 import {DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { MatTabsModule } from '@angular/material/tabs';
-import {InfoComponent} from "../info/info.component";
 import {AdditiveItemComponent} from "../additive-item/additive-item.component";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
-import {CartService} from "../../../services/cart.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {CartService} from "../../../services/state/cart.service";
 import {OrderMenu} from "../../../interfaces/order";
 
 
 @Component({
-  selector: 'app-additives-dialog',
-  standalone: true,
-  imports: [
-    DecimalPipe,
-    MatTabsModule,
-    NgIf,
-    InfoComponent,
-    NgForOf,
-    AdditiveItemComponent,
-    NgClass
-  ],
-  templateUrl: './additives-dialog.component.html',
-  styleUrl: './additives-dialog.component.css',
-  styles: [`:host { width: 1200px; max-width: 100vw; }`],
+    selector: 'app-additives-dialog',
+    imports: [
+        DecimalPipe,
+        MatTabsModule,
+        NgIf,
+        NgForOf,
+        AdditiveItemComponent,
+        NgClass
+    ],
+    templateUrl: './additives-dialog.component.html',
+    styleUrl: './additives-dialog.component.css',
+    styles: [`:host { width: 1200px; max-width: 100vw; }`]
 })
 export class AdditivesDialogComponent implements OnInit {
   quantity: number = 1;

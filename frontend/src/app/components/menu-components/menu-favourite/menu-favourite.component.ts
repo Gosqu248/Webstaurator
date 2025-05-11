@@ -1,27 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {MenuAddressesItemComponent} from "../menu-addresses-item/menu-addresses-item.component";
-import {RouterLink} from "@angular/router";
-import {FavouriteService} from "../../../services/favourite.service";
+import {NgForOf} from "@angular/common";
+import {FavouriteService} from "../../../services/api/favourite.service";
 import {Favourites} from "../../../interfaces/favourites";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {MenuFavItemComponent} from "../menu-fav-item/menu-fav-item.component";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-menu-favourite',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgForOf,
-    MenuAddressesItemComponent,
-    RouterLink,
-    MenuFavItemComponent
-  ],
-  templateUrl: './menu-favourite.component.html',
-  styleUrl: './menu-favourite.component.css'
+    selector: 'app-menu-favourite',
+    imports: [
+        NgForOf,
+        MenuFavItemComponent
+    ],
+    templateUrl: './menu-favourite.component.html',
+    styleUrl: './menu-favourite.component.css'
 })
 export class MenuFavouriteComponent  implements OnInit{
   userId: number = 0;
@@ -55,6 +49,9 @@ export class MenuFavouriteComponent  implements OnInit{
 
   backToMenuDialog() {
     this.closeDialog();
-    this.dialog.open(MenuComponent);
+    this.dialog.open(MenuComponent, {
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 }

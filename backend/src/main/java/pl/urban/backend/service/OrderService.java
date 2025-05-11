@@ -1,10 +1,14 @@
 package pl.urban.backend.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.urban.backend.dto.AdminOrderDTO;
-import pl.urban.backend.dto.OrderDTO;
+import pl.urban.backend.dto.request.OrderMenuRequest;
+import pl.urban.backend.dto.request.OrderRequest;
+import pl.urban.backend.dto.response.AdminOrderResponse;
+import pl.urban.backend.dto.response.OrderResponse;
 import pl.urban.backend.enums.OrderStatus;
 import pl.urban.backend.model.*;
 import pl.urban.backend.repository.*;
@@ -13,178 +17,150 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class OrderService {
+import static java.lang.String.format;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class OrderService {
     private final OrderRepository orderRepository;
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
     private final AdditivesRepository additivesRepository;
     private final UserAddressRepository userAddressRepository;
+    private final MapperService mapper;
 
-    public OrderService(OrderRepository orderRepository, RestaurantRepository restaurantRepository,
-                        UserRepository userRepository, MenuRepository menuRepository,
-                        AdditivesRepository additivesRepository, UserAddressRepository userAddressRepository) {
-        this.orderRepository = orderRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.userRepository = userRepository;
-        this.menuRepository = menuRepository;
-        this.additivesRepository = additivesRepository;
-        this.userAddressRepository = userAddressRepository;
-    }
-
-    public List<AdminOrderDTO> getAllOrders() {
+    public List<AdminOrderResponse> getAllOrders() {
         return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate")).stream()
-                .map(this::convertToAdminDTO)
+                .map(mapper::toAdminOrderResponse)
                 .collect(Collectors.toList());
     }
 
-    public Order updateOrderStatus(Long orderId) {
+    public OrderResponse updateOrderStatus(Long orderId) {
+        if (orderId == null) {
+            throw new IllegalArgumentException("Order ID cannot be null");
+        }
+
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
         order.setStatus(OrderStatus.zapłacone);
-        return orderRepository.save(order);
+        return mapper.fromOrder(orderRepository.save(order));
     }
 
     @Transactional
-    public  List<OrderDTO> getUserOrders(String  subject) {
+    public List<OrderResponse> getUserOrders(String subject) {
+        if (subject == null || subject.trim().isEmpty()) {
+            throw new IllegalArgumentException("User email cannot be empty");
+        }
+
         User user = userRepository.findByEmail(subject)
-                .orElseThrow(() -> new IllegalArgumentException("User with this email not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User with email '" + subject + "' not found"));
+
         List<Order> orders = orderRepository.findByUserId(user.getId(), Sort.by(Sort.Direction.DESC, "orderDate"));
-        return orders.parallelStream()
-                .map(this::convertToDTO)
+        return orders.stream()  // Changed from parallelStream to regular stream for predictable error handling
+                .map(mapper::fromOrder)
                 .collect(Collectors.toList());
     }
 
-
-
     @Transactional
-    public Order createOrder(Order orderRequest) {
+    public OrderResponse createOrder(OrderRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Order request cannot be null");
+        }
+
         try {
-            Order order = new Order();
+            User user = userRepository.findById(request.userId())
+                    .orElseThrow(() -> new IllegalArgumentException(format("User not found with ID: %s", request.userId())));
 
-            order.setPaymentMethod(orderRequest.getPaymentMethod());
-            order.setStatus(orderRequest.getStatus());
-            order.setTotalPrice(orderRequest.getTotalPrice());
-            order.setDeliveryTime(orderRequest.getDeliveryTime());
-            order.setDeliveryOption(orderRequest.getDeliveryOption());
-            order.setComment(orderRequest.getComment());
-            order.setPaymentId(orderRequest.getPaymentId());
-            System.out.println(orderRequest.getPaymentId());
+            UserAddress userAddress = userAddressRepository.findById(request.userAddressId())
+                    .orElseThrow(() -> new IllegalArgumentException(format("User address not found with ID: %s", request.userAddressId())));
 
-            Restaurant restaurant = restaurantRepository.findById(orderRequest.getRestaurant().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Restaurant not found"));
-            order.setRestaurant(restaurant);
+            Restaurant restaurant = restaurantRepository.findById(request.restaurantId())
+                    .orElseThrow(() -> new IllegalArgumentException(format("Restaurant not found with ID: %s", request.restaurantId())));
 
-            User user = userRepository.findById(orderRequest.getUser().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("User not found"));
-            order.setUser(user);
+            List<OrderMenu> orderMenuEntities = new ArrayList<>();
+            if (request.orderMenus() != null && !request.orderMenus().isEmpty()) {
+                for (OrderMenuRequest menuReq : request.orderMenus()) {
+                    if (menuReq == null) continue;
 
-            if (orderRequest.getUserAddress() != null && orderRequest.getUserAddress().getId() != null) {
-                UserAddress userAddress = userAddressRepository.findById(orderRequest.getUserAddress().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("User address not found"));
-                order.setUserAddress(userAddress);
-            }
-
-
-            List<OrderMenu> orderMenus = new ArrayList<>();
-            if (orderRequest.getOrderMenus() != null && !orderRequest.getOrderMenus().isEmpty()) {
-                for (OrderMenu requestOrderMenu : orderRequest.getOrderMenus()) {
-                    OrderMenu orderMenu = new OrderMenu();
-
-                    orderMenu.setQuantity(requestOrderMenu.getQuantity());
-
-                    Menu menu = menuRepository.findById(requestOrderMenu.getMenu().getId())
-                            .orElseThrow(() -> new IllegalArgumentException("Menu not found"));
-                    orderMenu.setMenu(menu);
-
-                    if (requestOrderMenu.getChooseAdditives() != null && !requestOrderMenu.getChooseAdditives().isEmpty()) {
-                        List<Long> additiveIds = requestOrderMenu.getChooseAdditives().stream()
-                                .map(Additives::getId)
-                                .collect(Collectors.toList());
-                        List<Additives> additives = additivesRepository.findAllById(additiveIds);
-
-                        if (additives.size() != requestOrderMenu.getChooseAdditives().size()) {
-                            throw new IllegalArgumentException("One or more additives not found");
-                        }
-                        orderMenu.setChooseAdditives(additives);
+                    if (menuReq.menuId() == null) {
+                        throw new IllegalArgumentException("Menu ID is required for order items");
                     }
 
-                    orderMenu.setOrder(order);
-                    orderMenus.add(orderMenu);
+                    Menu menu = menuRepository.findById(menuReq.menuId())
+                            .orElseThrow(() -> new IllegalArgumentException(format("Menu item not found with ID: %s", menuReq.menuId())));
+
+                    List<Additives> chosenAdditives = new ArrayList<>();
+                    if (menuReq.chooseAdditivesId() != null && !menuReq.chooseAdditivesId().isEmpty()) {
+                        List<Additives> additives = additivesRepository.findAllById(menuReq.chooseAdditivesId());
+                        if (additives.size() != menuReq.chooseAdditivesId().size()) {
+                            throw new IllegalArgumentException("One or more additives not found");
+                        }
+                        chosenAdditives = additives;
+                    }
+
+                    OrderMenu oMenu = OrderMenu.builder()
+                            .menu(menu)
+                            .quantity(menuReq.quantity())
+                            .chooseAdditives(chosenAdditives)
+                            .build();
+                    orderMenuEntities.add(oMenu);
                 }
             }
 
-            order.setOrderMenus(orderMenus);
+            if (orderMenuEntities.isEmpty()) {
+                throw new IllegalArgumentException("Order must contain at least one menu item");
+            }
 
+            Order order = Order.builder()
+                    .user(user)
+                    .userAddress(userAddress)
+                    .restaurant(restaurant)
+                    .orderMenus(orderMenuEntities)
+                    .deliveryOption(request.deliveryOption())
+                    .deliveryTime(request.deliveryTime())
+                    .paymentId(request.paymentId())
+                    .paymentMethod(request.paymentMethod())
+                    .status(request.status())
+                    .totalPrice(request.totalPrice())
+                    .comment(request.comment())
+                    .build();
 
-            return orderRepository.save(order);
+            orderMenuEntities.forEach(menu -> menu.setOrder(order));
+            order.setOrderMenus(orderMenuEntities);
+
+            Order savedOrder = orderRepository.save(order);
+            return mapper.fromOrder(savedOrder);
+
         } catch (IllegalArgumentException e) {
-            System.err.println("Validation error: " + e.getMessage());
+            log.error("Validation error in createOrder: {}", e.getMessage());
             throw e;
         } catch (Exception e) {
-            System.err.println("Error creating order: " + e.getMessage());
+            log.error("Error creating order", e);
             throw new RuntimeException("Error creating order: " + e.getMessage(), e);
         }
     }
 
-    private OrderDTO convertToDTO(Order order) {
-        OrderDTO dto = new OrderDTO();
-
-        dto.setId(order.getId());
-        dto.setDeliveryOption(order.getDeliveryOption());
-        dto.setDeliveryTime(order.getDeliveryTime());
-        dto.setOrderDate(order.getOrderDate());
-        dto.setOrderMenus(order.getOrderMenus());
-        dto.setPaymentId(order.getPaymentId());
-        dto.setPaymentMethod(order.getPaymentMethod());
-        dto.setRestaurantId(order.getRestaurant().getId());
-        dto.setRestaurantName(order.getRestaurant().getName());
-        dto.setStatus(order.getStatus());
-        dto.setTotalPrice(order.getTotalPrice());
-        dto.setUserAddress(order.getUserAddress());
-        dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
-        dto.setHasOpinion(order.getRestaurantOpinion() != null);
-
-        return dto;
-    }
-
-   private AdminOrderDTO convertToAdminDTO(Order order) {
-        AdminOrderDTO dto = new AdminOrderDTO();
-
-       dto.setId(order.getId());
-       dto.setDeliveryOption(order.getDeliveryOption());
-       dto.setDeliveryTime(order.getDeliveryTime());
-       dto.setOrderDate(order.getOrderDate());
-       dto.setOrderMenus(order.getOrderMenus());
-       dto.setPaymentId(order.getPaymentId());
-       dto.setPaymentMethod(order.getPaymentMethod());
-       dto.setRestaurantId(order.getRestaurant().getId());
-       dto.setRestaurantName(order.getRestaurant().getName());
-       dto.setStatus(order.getStatus());
-       dto.setTotalPrice(order.getTotalPrice());
-       dto.setCity(order.getUserAddress().getCity());
-       dto.setHouseNumber(order.getUserAddress().getHouseNumber());
-       dto.setStreet(order.getUserAddress().getStreet());
-       dto.setZipCode(order.getUserAddress().getZipCode());
-       dto.setRestaurantLogo(order.getRestaurant().getLogoUrl());
-       dto.setUserName(order.getUser().getName());
-       dto.setUserEmail(order.getUser().getEmail());
-       dto.setUserPhone(order.getUserAddress().getPhoneNumber());
-
-       return dto;
-   }
 
     @Transactional
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+    public OrderResponse getOrderById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Order ID cannot be null");
+        }
+
+        return mapper.fromOrder(orderRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + id)));
     }
 
+    public List<OrderResponse> getAllRestaurantOrders(Long restaurantId) {
+        if (restaurantId == null) {
+            throw new IllegalArgumentException("Restaurant ID cannot be null");
+        }
 
-    public List<Order> getAllRestaurantOrders(Long restaurantId) {
-        return orderRepository.findAllByRestaurantId(restaurantId);
+        return orderRepository.findAllByRestaurantId(restaurantId)
+                .stream()
+                .map(mapper::fromOrder)
+                .collect(Collectors.toList());
     }
 }
-

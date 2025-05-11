@@ -2,49 +2,40 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {NgIf, NgForOf, DecimalPipe} from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LanguageService } from '../../../services/language.service';
-import { MenuService } from '../../../services/menu.service';
-import { OptionService } from '../../../services/option.service';
-import { FavouriteService } from '../../../services/favourite.service';
+import { LanguageService } from '../../../services/state/language.service';
+import { MenuService } from '../../../services/api/menu.service';
+import { OptionService } from '../../../services/state/option.service';
+import { FavouriteService } from '../../../services/api/favourite.service';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { MenuCategoryItemComponent } from '../menu-category-item/menu-category-item.component';
 import { FilterByCategoryPipe } from '../../../pipes/filter-by-category.pipe';
 import { RestaurantMenuItemComponent } from '../restaurant-menu-item/restaurant-menu-item.component';
-import { NgOptimizedImage } from '@angular/common';
 import {Menu} from "../../../interfaces/menu";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {Restaurant} from "../../../interfaces/restaurant";
-import {RestaurantService} from "../../../services/restaurant.service";
-import {AuthService} from "../../../services/auth.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {MenuLoginComponent} from "../../menu-components/menu-login/menu-login.component";
-import {Delivery} from "../../../interfaces/delivery.interface";
-import {DeliveryService} from "../../../services/delivery.service";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {Subscription} from "rxjs";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
 
 @Component({
-  selector: 'app-restaurant-main',
-  standalone: true,
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-    FormsModule,
-    MenuCategoryItemComponent,
-    NgForOf,
-    FilterByCategoryPipe,
-    RestaurantMenuItemComponent,
-    NgOptimizedImage,
-    InfoDialogComponent,
-    DecimalPipe
-  ],
-  templateUrl: './restaurant-main.component.html',
-  styleUrls: ['./restaurant-main.component.css']
+    selector: 'app-restaurant-main',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        FormsModule,
+        MenuCategoryItemComponent,
+        NgForOf,
+        FilterByCategoryPipe,
+        RestaurantMenuItemComponent,
+        DecimalPipe
+    ],
+    templateUrl: './restaurant-main.component.html',
+    styleUrls: ['./restaurant-main.component.css']
 })
 export class RestaurantMainComponent implements OnInit, OnDestroy {
-  @Input() restaurantId!: number;
-  restaurant: Restaurant = {} as Restaurant;
-  delivery: Delivery = {} as Delivery;
+  @Input() restaurant!: SearchedRestaurant;
   searchMenu: any;
   menu: Menu[] = [];
   categories: string[] = [];
@@ -64,24 +55,22 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
     private optionService: OptionService,
     private favouriteService: FavouriteService,
     private restaurantOpinionService: RestaurantOpinionService,
-    private deliveryService: DeliveryService,
-    private restaurantService: RestaurantService,
     private authService: AuthService,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.loading = false;
-      this.getRestaurant();
       this.checkIfFavourite();
       this.getCategories();
       this.getSelected();
+      this.getRestaurantOpinions(this.restaurant.restaurantId);
       this.getMenu();
       this.filterMenu();
       this.getAverageRating();
-    this.loginSubscription = this.authService.loginEvent.subscribe(() => {
-      this.refreshFavourite();
-    });
+      this.loginSubscription = this.authService.loginEvent.subscribe(() => {
+        this.refreshFavourite();
+      });
   }
 
   ngOnDestroy() {
@@ -91,20 +80,9 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
   }
 
   refreshFavourite() {
-    this.isFavourite(this.restaurant.id);
+    this.isFavourite(this.restaurant.restaurantId);
     console.log('Odświeżam dane ulubionych!');
   }
-
-  getRestaurant() {
-    if (this.restaurantId) {
-      this.restaurantService.getRestaurantById(this.restaurantId).subscribe((data: Restaurant) => {
-        this.restaurant = data;
-        this.getRestaurantOpinions(data.id);
-        this.getDelivery(data.id);
-      });
-    }
-  }
-
 
   isFavourite(restaurantId: number) {
     this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
@@ -113,12 +91,6 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
       this.isFavorite = isFavourite;
     });
   }
-  getDelivery(restaurantId: number) {
-    this.deliveryService.getDelivery(restaurantId).subscribe((delivery) => {
-      this.delivery = delivery;
-    });
-  }
-
   getRestaurantOpinions(restaurantId: number) {
     this.restaurantOpinionService.getRestaurantOpinions(restaurantId).subscribe({
       next: (opinions: RestaurantOpinion[]) => {
@@ -133,7 +105,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
   toggleFavourite() {
     if (this.authService.isAuthenticated()) {
       if (this.isFavorite) {
-        this.favouriteService.deleteFavourite(this.userId, this.restaurant.id).subscribe({
+        this.favouriteService.deleteFavourite(this.userId, this.restaurant.restaurantId).subscribe({
           next: () => {
             this.isFavorite = false;
 
@@ -144,7 +116,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
           }
         });
       } else {
-        this.favouriteService.addFavourite(this.userId, this.restaurant.id).subscribe({
+        this.favouriteService.addFavourite(this.userId, this.restaurant.restaurantId).subscribe({
           next: () => {
             this.isFavorite = true;
             console.log('Favourite added');
@@ -166,7 +138,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
     } else {
       this.userId = parseInt(localStorage.getItem('userId') || '0', 10);
       if (this.userId !== 0) {
-        this.isFavourite(this.restaurantId);
+        this.isFavourite(this.restaurant.restaurantId);
       } else {
         this.isFavorite = false;
         this.loading = false;
@@ -175,8 +147,8 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
     }
   }
   getMenu() {
-    if (this.restaurantId) {
-      this.menuService.getMenuByRestaurantId(this.restaurantId).subscribe(menu => {
+    if (this.restaurant.restaurantId) {
+      this.menuService.getMenuByRestaurantId(this.restaurant.restaurantId).subscribe(menu => {
         this.menu = menu;
         this.filterMenu();
       });
@@ -184,8 +156,8 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
   }
 
   getCategories() {
-    if (this.restaurantId) {
-      this.menuService.getCategories(this.restaurantId).subscribe(categories => {
+    if (this.restaurant.restaurantId) {
+      this.menuService.getCategories(this.restaurant.restaurantId).subscribe(categories => {
         this.categories = categories;
       });
     }
@@ -224,7 +196,7 @@ export class RestaurantMainComponent implements OnInit, OnDestroy {
 
   getAverageRating(): number {
     if (this.restaurant && this.restaurantOpinions) {
-      this.restaurantOpinionService.getRating(this.restaurantId).subscribe({
+      this.restaurantOpinionService.getRating(this.restaurant.restaurantId).subscribe({
         next: (rating: number) => {
           this.rating = rating
         },

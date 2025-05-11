@@ -1,26 +1,24 @@
 import {Component,} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
-import {LanguageService} from "../../../services/language.service";
-import {AuthService} from "../../../services/auth.service";
+import {LanguageService} from "../../../services/state/language.service";
+import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
 
 @Component({
-  selector: 'app-menu-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule,
-    NgClass,
-    RouterLink
-  ],
-  templateUrl: './menu-login.component.html',
-  styleUrl: './menu-login.component.css'
+    selector: 'app-menu-login',
+    imports: [
+        FormsModule,
+        NgIf,
+        ReactiveFormsModule,
+        NgClass
+    ],
+    templateUrl: './menu-login.component.html',
+    styleUrl: './menu-login.component.css'
 })
 export class MenuLoginComponent {
   loginForm: FormGroup;
@@ -115,7 +113,10 @@ export class MenuLoginComponent {
 
   backToMenuDialog() {
     this.closeDialog();
-    this.dialog.open(MenuComponent);
+    this.dialog.open(MenuComponent, {
+      width: '100%',
+      maxWidth: '800px',
+    });
   }
 
   goToRegisterDialog() {

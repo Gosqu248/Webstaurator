@@ -1,26 +1,25 @@
 import {Component, OnInit} from '@angular/core';
 import {LanguageTranslations} from "../../../interfaces/language.interface";
 import {environment} from "../../../../environments/environment";
-import {LanguageService} from "../../../services/language.service";
-import {Router, RouterLink} from "@angular/router";
+import {LanguageService} from "../../../services/state/language.service";
+import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, of, Subject, switchMap} from "rxjs";
-import {AddressSuggestionsService} from "../../../services/address-suggestions.service";
+import {debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import {AddressSuggestionsService} from "../../../services/api/address-suggestions.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {Suggest} from "../../../interfaces/suggest";
-import {RestaurantAddressService} from "../../../services/restaurant-address.service";
+import {RestaurantAddressService} from "../../../services/api/restaurant-address.service";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
 
 @Component({
-  selector: 'app-home-first-section',
-  standalone: true,
-  imports: [
-    RouterLink,
-    FormsModule,
-    NgIf,
-    NgForOf
-  ],
-  templateUrl: './home-first-section.component.html',
-  styleUrl: './home-first-section.component.css'
+    selector: 'app-home-first-section',
+    imports: [
+        FormsModule,
+        NgIf,
+        NgForOf
+    ],
+    templateUrl: './home-first-section.component.html',
+    styleUrl: './home-first-section.component.css'
 })
 export class HomeFirstSectionComponent implements OnInit{
   currentLanguage: string;
@@ -34,6 +33,7 @@ export class HomeFirstSectionComponent implements OnInit{
   constructor(private languageService: LanguageService,
               private suggestionsService: AddressSuggestionsService,
               private restaurantAddressService: RestaurantAddressService,
+              private searchedRestaurantService: SearchedRestaurantsService,
               private router: Router) {
     this.currentLanguage = this.languageService.getCurrentLanguage();
 
@@ -47,14 +47,13 @@ export class HomeFirstSectionComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.restaurantAddressService.removeRestaurantFromSessionStorage();
-
+    this.searchedRestaurantService.clearSearchedRestaurants();
   }
 
   searchRestaurants() {
     if (this.searchAddress !== '') {
       this.restaurantAddressService.searchRestaurant(this.searchAddress).subscribe((restaurants) => {
-        this.restaurantAddressService.setSearchedRestaurants(restaurants)
+        this.searchedRestaurantService.setSearchedRestaurants(restaurants)
       });
       sessionStorage.setItem('searchAddress', this.searchAddress);
 

@@ -1,65 +1,53 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Restaurant} from "../../../interfaces/restaurant";
-import {DeliveryService} from "../../../services/delivery.service";
-import {Delivery, DeliveryHour} from "../../../interfaces/delivery.interface";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {LanguageService} from "../../../services/language.service";
+import {LanguageService} from "../../../services/state/language.service";
 import {Router} from "@angular/router";
 import {RestaurantOpinion} from "../../../interfaces/restaurant-opinion";
-import {RestaurantOpinionService} from "../../../services/restaurant-opinion.service";
-import {RestaurantService} from "../../../services/restaurant.service";
+import {RestaurantOpinionService} from "../../../services/api/restaurant-opinion.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SessionService} from "../../../services/session.service";
+import {SearchedRestaurantsService} from "../../../services/state/searched-restaurant.service";
+import {SearchedRestaurant} from "../../../interfaces/searched-restaurant";
+import {DeliveryService} from "../../../services/api/delivery.service";
 
 
 @Component({
-  selector: 'app-restaurant-item',
-  standalone: true,
-  imports: [
-    NgIf,
-    DecimalPipe,
-    MatProgressSpinner
-  ],
-  templateUrl: './restaurant-item.component.html',
-  styleUrl: './restaurant-item.component.css'
+    selector: 'app-restaurant-item',
+    imports: [
+        NgIf,
+        DecimalPipe,
+        MatProgressSpinner
+    ],
+    templateUrl: './restaurant-item.component.html',
+    styleUrl: './restaurant-item.component.css'
 })
 export class RestaurantItemComponent implements OnInit{
   @Input() restaurantId!: number;
-  restaurant: Restaurant = {} as Restaurant;
-  restaurantDelivery: Delivery = {} as Delivery;
-  deliveryTime: DeliveryHour[] = [];
+  restaurant: SearchedRestaurant = {} as SearchedRestaurant;
   isOpen: boolean = true;
   restaurantOpinions: RestaurantOpinion[] = [];
   rating: number = 0;
 
-  constructor(private deliveryService: DeliveryService,
-              private languageService:LanguageService,
-              private restaurantService: RestaurantService,
+  constructor(private languageService:LanguageService,
+              private searchedRestaurantService: SearchedRestaurantsService,
               private restaurantOpinionService: RestaurantOpinionService,
-              private sessionService: SessionService,
+              private deliveryService: DeliveryService,
               private router:Router) {}
 
   ngOnInit() {
-    this.getRestaurant();
+    this.getSearchedRestaurant();
+    this.checkIsOpen();
     this.getRestaurantOpinions()
-    this.getDelivery()
-    this.getDeliveryTime();
     this.getAverageRating();
   }
 
-  getRestaurant() {
-    this.restaurantService.getRestaurantById(this.restaurantId).subscribe((restaurant) => {
-      this.restaurant = restaurant;
-    });
+  getSearchedRestaurant() {
+    this.restaurant = this.searchedRestaurantService.getSearchedRestaurant(this.restaurantId);
   }
 
-  getDelivery() {
-    this.deliveryService.getDelivery(this.restaurantId).subscribe((delivery) => {
-      this.restaurantDelivery = delivery;
-    });
+  checkIsOpen() {
+    this.isOpen = this.deliveryService.checkIfOpen(this.restaurant.deliveryHours);
   }
-
 
   getRestaurantOpinions() {
     this.restaurantOpinionService.getRestaurantOpinions(this.restaurantId).subscribe({
@@ -86,28 +74,14 @@ export class RestaurantItemComponent implements OnInit{
   getRatingLength(): number {
     if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('ratingLength', this.restaurantOpinions.length.toString());
-
     }
     return this.restaurantOpinions.length;
   }
 
-  getDeliveryTime(): void {
-    this.deliveryService.getDeliveryTIme(this.restaurantId).subscribe((data) => {
-      this.deliveryTime = data;
-      this.isOpen = this.deliveryService.checkIfOpen(this.deliveryTime);
-    });
-  }
-
-  setSessionRestaurant() {
-    this.sessionService.setSessionRestaurant(this.restaurantId, this.restaurant, this.restaurantDelivery, this.isOpen)
-  }
-
-
-  goToMenu(restaurant: Restaurant) {
+  goToMenu(restaurant: SearchedRestaurant) {
     const formattedName = restaurant.name.replace(/[\s,]+/g, '-');
-    sessionStorage.setItem('restaurantId', restaurant.id.toString());
+    this.searchedRestaurantService.setSelectedRestaurant(restaurant.restaurantId);
 
-    this.setSessionRestaurant();
     this.router.navigate(['/menu', formattedName]);
   }
 

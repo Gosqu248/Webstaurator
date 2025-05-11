@@ -66,14 +66,13 @@
 
 .order-item {
   width: 70%;
-  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: whitesmoke 0px 0px 10px;
-  margin-bottom: 20px;
+  box-shadow: whitesmoke 0 0 10px;
+  margin: auto auto 20px;
 }
 

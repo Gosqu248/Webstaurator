@@ -1,19 +1,18 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormGroup, FormsModule} from "@angular/forms";
-import {LanguageService} from "../../../../services/language.service";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {LanguageService} from "../../../../services/state/language.service";
 import {LanguageTranslations} from "../../../../interfaces/language.interface";
 import {NgForOf} from "@angular/common";
 import {Menu} from "../../../../interfaces/menu";
 
 @Component({
-  selector: 'app-menu-form',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf
-  ],
-  templateUrl: './menu-form.component.html',
-  styleUrl: './menu-form.component.css'
+    selector: 'app-menu-form',
+    imports: [
+        FormsModule,
+        NgForOf
+    ],
+    templateUrl: './menu-form.component.html',
+    styleUrl: './menu-form.component.css'
 })
 export class MenuFormComponent implements  OnChanges{
   @Output() menuItemsChange = new EventEmitter<Menu[]>();
