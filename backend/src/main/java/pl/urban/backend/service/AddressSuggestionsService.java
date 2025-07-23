@@ -17,9 +17,9 @@ public class AddressSuggestionsService {
 
     public List<SuggestResponse> getSuggestions(String partialName) {
         List<AddressSuggestions> addressSuggestions = addressSuggestionsRepository.findTop5ByNameContainingIgnoreCase(partialName);
-        return addressSuggestions.parallelStream()
+        return addressSuggestions.stream()
                 .map(this::toAddressSuggestions)
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
     }
 
     public CoordinatesResponse getCoordinates(String address) {
@@ -35,7 +35,4 @@ public class AddressSuggestionsService {
                 addressSuggestions.getName()
         );
     }
-
-
-
 }

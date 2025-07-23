@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="delivery_hour")
+@Table(name="delivery_hours")
 public class DeliveryHour {
 
     @Id

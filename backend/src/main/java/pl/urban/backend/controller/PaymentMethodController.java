@@ -13,12 +13,12 @@ import java.util.List;
 public class PaymentMethodController {
     private final PaymentMethodService paymentMethodService;
 
-    @GetMapping("/getRestaurantPayments")
+    @GetMapping("/restaurant")
     public List<PaymentResponse> getAllPaymentForRestaurant(@RequestParam Long restaurantId) {
         return paymentMethodService.getALlPaymentsByRestaurantId(restaurantId);
     }
 
-    @GetMapping("/getAllPayments")
+    @GetMapping
     public List<PaymentResponse> getAllPayments() {
         return paymentMethodService.getAllPayments();
     }

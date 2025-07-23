@@ -16,15 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/suggestions")
 public class AddressSuggestionsController {
-
     private final AddressSuggestionsService addressSuggestionsService;
 
-    @GetMapping("/get")
+    @GetMapping
     public List<SuggestResponse> getSuggestions(@RequestParam String partialName) {
         return addressSuggestionsService.getSuggestions(partialName);
     }
 
-    @GetMapping("/getCoordinates")
+    @GetMapping("/coordinates")
     public CoordinatesResponse getCoordinates(@RequestParam String address) {
         return addressSuggestionsService.getCoordinates(address);
     }

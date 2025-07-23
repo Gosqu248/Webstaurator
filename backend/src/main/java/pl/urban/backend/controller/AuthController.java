@@ -1,5 +1,6 @@
 package pl.urban.backend.controller;
 
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -30,7 +31,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
-
     private final UserService userService;
     private final JwtUtil jwtToken;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -102,7 +102,7 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordResetRequest request) {
+    public ResponseEntity<?> resetPassword(@RequestBody @Valid PasswordResetRequest request) throws MessagingException {
         User user = userService.getUserBySubject(request.email());
 
         if (user == null) {

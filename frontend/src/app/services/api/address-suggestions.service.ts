@@ -14,10 +14,10 @@ export class AddressSuggestionsService {
   constructor(private http: HttpClient) { }
 
   getSuggestions(partialName: string): Observable<Suggest[]> {
-    return this.http.get<Suggest[]>(`${this.apiUrl}/get?partialName=${partialName}`);
+    return this.http.get<Suggest[]>(`${this.apiUrl}?partialName=${partialName}`);
   }
 
   getCoordinates(address: string): Observable<Coordinates> {
-    return this.http.get<Coordinates>(`${this.apiUrl}/getCoordinates?address=${address}`);
+    return this.http.get<Coordinates>(`${this.apiUrl}/coordinates?address=${address}`);
   }
 }

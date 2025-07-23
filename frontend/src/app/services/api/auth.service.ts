@@ -75,6 +75,12 @@ export class AuthService {
     );
   }
 
+  initiateGoogleLogin(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = environment.api + '/oauth2/authorization/google';
+    }
+  }
+
   resetPassword(email: string): Observable<any> {
     return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, {email}).pipe(
       catchError(error => {

@@ -11,17 +11,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/delivery")
+@RequestMapping("/api/deliveries")
 public class DeliveryController {
     private final DeliveryHourService deliveryHourService;
     private final DeliveryService deliveryService;
 
-    @GetMapping("")
+    @GetMapping
     public DeliveryResponse getDelivery(@RequestParam Long restaurantId) {
         return deliveryService.getDelivery(restaurantId);
     }
 
-    @GetMapping("/time")
+    @GetMapping("/times")
     public List<DeliveryHourResponse> getDeliveryTime(@RequestParam Long restaurantId) {
         return deliveryHourService.getDeliveryTimeFromRestaurantId(restaurantId);
     }

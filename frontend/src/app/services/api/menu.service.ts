@@ -8,14 +8,14 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class MenuService {
-  private apiUrl = environment.api + '/api/menu';
+  private apiUrl = environment.api + '/api/menus';
   constructor(private http: HttpClient) {}
 
   getMenuByRestaurantId(id: number): Observable<Menu[]>{
-    return this.http.get<Menu[]>(`${this.apiUrl}/getRestaurantMenu?restaurantId=${id}`);
+    return this.http.get<Menu[]>(`${this.apiUrl}/restaurant?restaurantId=${id}`);
   }
 
   getCategories(id: number): Observable<string[]>{
-    return this.http.get<string[]>(`${this.apiUrl}/menuCategories?restaurantId=${id}`);
+    return this.http.get<string[]>(`${this.apiUrl}/categories?restaurantId=${id}`);
   }
 }

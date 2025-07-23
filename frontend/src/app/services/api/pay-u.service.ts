@@ -17,6 +17,6 @@ export class PayUService {
   }
 
   getPaymentStatus(orderId: string): Observable<string> {
-    return this.http.get(`${this.apiUrl}/getPaymentStatus?orderId=${orderId}`, { responseType: 'text' });
+    return this.http.get(`${this.apiUrl}/status?orderId=${orderId}`, { responseType: 'text' });
   }
 }

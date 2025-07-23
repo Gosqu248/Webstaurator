@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="menu")
+@Table(name="menus")
 public class Menu {
 
     @Id

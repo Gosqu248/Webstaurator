@@ -14,11 +14,11 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/menu")
+@RequestMapping("/api/menus")
 public class MenuController {
     private final MenuService menuService;
 
-    @GetMapping("/getRestaurantMenu")
+    @GetMapping("/restaurant")
     public ResponseEntity<List<MenuResponse>> getMenuByRestaurantId(@RequestParam Long restaurantId) {
         try {
             return ResponseEntity.ok(menuService.getRestaurantMenu(restaurantId));
@@ -26,11 +26,11 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    @GetMapping("/menuCategories")
+    @GetMapping("/categories")
     public Set<String> getMenuCategories(@RequestParam Long restaurantId) {
         return menuService.getRestaurantMenuCategories(restaurantId);
     }
-    @PostMapping("/{restaurantId}/addMenu")
+    @PostMapping("/{restaurantId}")
     public ResponseEntity<RestaurantResponse> addMenuToRestaurant(@PathVariable Long restaurantId, @RequestBody Menu menu) {
         try {
             RestaurantResponse updatedRestaurant = menuService.addMenuToRestaurant(restaurantId, menu);
@@ -40,7 +40,7 @@ public class MenuController {
         }
     }
 
-    @DeleteMapping("/{restaurantId}/removeMenu/{menuId}")
+    @DeleteMapping("/{menuId}/restaurant/{restaurantId}")
     public ResponseEntity<RestaurantResponse> removeMenuFromRestaurant(@PathVariable Long restaurantId, @PathVariable Long menuId) {
         try {
             return ResponseEntity.ok(menuService.removeMenuFromRestaurant(restaurantId, menuId));

@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "payment")
+@Table(name = "payments")
 public class Payment {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

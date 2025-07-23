@@ -14,7 +14,7 @@ import pl.urban.backend.service.IpService;
 public class IpController {
     private final IpService ipService;
 
-    @GetMapping("/get")
+    @GetMapping
     public String getClientIp(HttpServletRequest request) {
         return ipService.getClientIp(request);
     }

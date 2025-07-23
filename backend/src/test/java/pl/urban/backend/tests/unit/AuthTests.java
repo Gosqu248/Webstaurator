@@ -1,5 +1,6 @@
 package pl.urban.backend.tests.unit;
 
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -83,7 +84,7 @@ class AuthTests {
     }
 
     @Test
-    void testLoginUserSuccess() {
+    void testLoginUserSuccess() throws MessagingException {
         logger.info("Running testLoginUserSuccess");
         UserRequest userRequest = new UserRequest(
                 "Test User",
