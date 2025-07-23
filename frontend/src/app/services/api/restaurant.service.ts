@@ -9,23 +9,27 @@ import {Observable} from "rxjs";
 })
 export class RestaurantService {
 
-  private apiUrl = environment.api + '/api/restaurant';
+  private apiUrl = environment.api + '/api/restaurants';
   constructor(private http: HttpClient) {}
 
   getRestaurantById(id: number): Observable<Restaurant> {
-    return this.http.get<Restaurant>(`${this.apiUrl}/getRestaurant?id=${id}`);
+    return this.http.get<Restaurant>(`${this.apiUrl}/restaurant?id=${id}`);
   }
 
   getAllRestaurants(): Observable<Restaurant[]> {
-    return this.http.get<Restaurant[]>(`${this.apiUrl}/getAll`);
+    return this.http.get<Restaurant[]>(`${this.apiUrl}`);
   }
 
   getLogo(id: number): Observable<string> {
-    return this.http.get(`${this.apiUrl}/getLogo?id=${id}`, { responseType: 'text' });
+    return this.http.get(`${this.apiUrl}/logo?id=${id}`, { responseType: 'text' });
+  }
+
+  getRestaurantForEdit(id: number): Observable<AddRestaurant> {
+    return this.http.get<AddRestaurant>(`${this.apiUrl}/edit?id=${id}`)
   }
 
   addRestaurant(restaurant: AddRestaurant) {
-    return this.http.post<AddRestaurant>(`${this.apiUrl}/addRestaurant`, restaurant).subscribe({
+    return this.http.post<AddRestaurant>(`${this.apiUrl}`, restaurant).subscribe({
       next: () => {
         console.log('Restaurant added');
       },
@@ -35,12 +39,8 @@ export class RestaurantService {
     });
   }
 
-  getRestaurantForEdit(id: number): Observable<AddRestaurant> {
-    return this.http.get<AddRestaurant>(`${this.apiUrl}/getForEdit?id=${id}`)
-  }
-
   updateRestaurant(id: number, restaurant: AddRestaurant) {
-    return this.http.put<AddRestaurant>(`${this.apiUrl}/update?id=${id}`, restaurant).subscribe({
+    return this.http.put<AddRestaurant>(`${this.apiUrl}?id=${id}`, restaurant).subscribe({
       next: () => {
         console.log('Restaurant updated');
       },
@@ -51,7 +51,7 @@ export class RestaurantService {
   }
 
   removeRestaurant(id: number) {
-    return this.http.delete(`${this.apiUrl}/remove?id=${id}`).subscribe({
+    return this.http.delete(`${this.apiUrl}?id=${id}`).subscribe({
       next: () => {
         console.log('Restaurant removed', id);
         window.location.reload();
@@ -61,5 +61,4 @@ export class RestaurantService {
       }
     });
   }
-
 }

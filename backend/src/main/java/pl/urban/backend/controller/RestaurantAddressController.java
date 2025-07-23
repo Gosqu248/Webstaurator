@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurantAddress")
+@RequestMapping("/api/restaurants/addresses")
 public class RestaurantAddressController {
     private final RestaurantAddressService restaurantAddressService;
 
@@ -25,12 +25,12 @@ public class RestaurantAddressController {
     }
 
 
-    @GetMapping("/get")
+    @GetMapping
     public RestaurantAddressResponse getRestaurantAddress(@RequestParam Long restaurantId) {
         return restaurantAddressService.getRestaurantAddress(restaurantId);
     }
 
-    @GetMapping("/getCoordinates")
+    @GetMapping("/coordinates")
     public ResponseEntity<CoordinatesResponse> getCoordinates(@RequestParam Long restaurantId) {
         return ResponseEntity.ok(restaurantAddressService.getCoordinatesByRestaurantId(restaurantId));
     }

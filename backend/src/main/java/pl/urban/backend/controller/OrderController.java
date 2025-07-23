@@ -1,4 +1,3 @@
-// OrderController.java
 package pl.urban.backend.controller;
 
 import lombok.RequiredArgsConstructor;
@@ -16,13 +15,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/order")
-@Slf4j // Add logging capability
+@RequestMapping("/api/orders")
+@Slf4j
 public class OrderController {
     private final OrderService orderService;
     private final JwtUtil jwtToken;
 
-    @GetMapping("/getAllOrders")
+    @GetMapping
     public ResponseEntity<?> getAllOrders() {
         try {
             List<AdminOrderResponse> orders = orderService.getAllOrders();
@@ -34,10 +33,9 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/getUserOrders")
+    @GetMapping("/user")
     public ResponseEntity<?> getUserOrders(@RequestHeader("Authorization") String token) {
         try {
-            // Validate token format
             if (token == null || !token.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("Invalid authorization token format");
@@ -57,7 +55,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/createOrder")
+    @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest order) {
         try {
             OrderResponse createdOrder = orderService.createOrder(order);
@@ -73,7 +71,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/updateOrderStatus")
+    @PutMapping
     public ResponseEntity<?> updateOrderStatus(@RequestParam Long orderId) {
         try {
             if (orderId == null) {

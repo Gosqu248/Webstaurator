@@ -13,13 +13,10 @@ export class PaymentMethodsService {
   constructor(private http: HttpClient) {}
 
   getRestaurantPaymentMethods(id: number): Observable<PaymentMethod[]>{
-    return this.http.get<PaymentMethod[]>(`${this.apiUrl}/getRestaurantPayments?restaurantId=${id}`);
+    return this.http.get<PaymentMethod[]>(`${this.apiUrl}/restaurant?restaurantId=${id}`);
   }
 
   getPaymentMethods(): Observable<PaymentMethod[]>{
-    return this.http.get<PaymentMethod[]>(`${this.apiUrl}/getAllPayments`);
+    return this.http.get<PaymentMethod[]>(`${this.apiUrl}`);
   }
-
-
-
 }

@@ -34,7 +34,7 @@ public class PayUController {
         }
     }
 
-    @GetMapping("/getPaymentStatus")
+    @GetMapping("/status")
     public ResponseEntity<String> getPayUOrderStatus(@RequestParam String orderId) {
         try {
             String status = payUService.getOrderStatus(orderId);

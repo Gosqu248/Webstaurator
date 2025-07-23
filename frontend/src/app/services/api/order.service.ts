@@ -10,7 +10,7 @@ import {isPlatformBrowser} from "@angular/common";
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = environment.api + '/api/order';
+  private apiUrl = environment.api + '/api/orders';
 
   private orderMenus = new BehaviorSubject<OrderMenu[]>(this.loadOrderMenusFromLocalStorage());
   orderMenus$ = this.orderMenus.asObservable();
@@ -20,12 +20,12 @@ export class OrderService {
 
   getUserOrders(token: string) {
     const headers = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-    return this.http.get<OrderDTO[]>(`${this.apiUrl}/getUserOrders`, {headers});
+    return this.http.get<OrderDTO[]>(`${this.apiUrl}/user`, {headers});
   }
 
   createOrder(order: OrderRequest) {
     order.totalPrice = parseFloat(order.totalPrice.toFixed(2));
-    return this.http.post<Order>(`${this.apiUrl}/createOrder`, order).subscribe({
+    return this.http.post<Order>(`${this.apiUrl}`, order).subscribe({
       next: () => {
         this.cartService.deleteCartFromLocalStorage();
       },
@@ -36,11 +36,11 @@ export class OrderService {
   }
 
   getAllOrders() {
-    return this.http.get<AdminOrderDTO[]>(`${this.apiUrl}/getAllOrders`)
+    return this.http.get<AdminOrderDTO[]>(`${this.apiUrl}`)
   }
 
   updateOrderStatus(orderId: number) {
-    return this.http.put(`${this.apiUrl}/updateOrderStatus?orderId=${orderId}`, {});
+    return this.http.put(`${this.apiUrl}?orderId=${orderId}`, {});
   }
 
   private loadOrderMenusFromLocalStorage(): OrderMenu[] {
@@ -74,5 +74,4 @@ export class OrderService {
         return {ordersPrice, deliveryPrice: 0, totalPrice: ordersPrice};
       }
     }
-
 }

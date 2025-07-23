@@ -8,12 +8,12 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class FavouriteService {
-  private apiUrl = environment.api + '/api/favourite';
+  private apiUrl = environment.api + '/api/favourites';
 
   constructor(private http:HttpClient) { }
 
   getUserFavourites(id: number): Observable<Favourites[]>{
-    return this.http.get<Favourites[]>(`${this.apiUrl}/all?userId=${id}`);
+    return this.http.get<Favourites[]>(`${this.apiUrl}?userId=${id}`);
   }
 
   isFavorite(userId: number, restaurantId: number): Observable<boolean> {
@@ -21,14 +21,14 @@ export class FavouriteService {
   }
 
   addFavourite(userId: number, restaurantId: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/add`, {
+    return this.http.post<void>(`${this.apiUrl}`, {
       userId,
       restaurantId
     });
   }
 
   deleteFavourite(userId: number, restaurantId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete`, {
+    return this.http.delete<void>(`${this.apiUrl}`, {
       body: {
         userId,
         restaurantId

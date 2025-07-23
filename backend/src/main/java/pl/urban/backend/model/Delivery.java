@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="delivery")
+@Table(name="deliveries")
 public class Delivery {
 
     @Id

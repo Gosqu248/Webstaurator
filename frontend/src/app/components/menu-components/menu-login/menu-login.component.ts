@@ -4,7 +4,6 @@ import {NgClass, NgIf} from "@angular/common";
 import {LanguageService} from "../../../services/state/language.service";
 import {AuthService} from "../../../services/api/auth.service";
 import {LanguageTranslations} from "../../../interfaces/language.interface";
-import {Router} from "@angular/router";
 import {MenuComponent} from "../menu/menu.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MenuRegisterComponent} from "../menu-register/menu-register.component";
@@ -30,11 +29,9 @@ export class MenuLoginComponent {
   showForgotPassword: boolean = false;
   resetEmail: string = '';
 
-
   constructor(private languageService: LanguageService,
               private authService: AuthService,
               private fb: FormBuilder,
-              private router: Router,
               private dialog: MatDialog,
               public dialogRef: MatDialogRef<MenuLoginComponent>) {
     this.loginForm = this.fb.group({
@@ -93,7 +90,7 @@ export class MenuLoginComponent {
   }
 
   loginWithGoogle() {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    this.authService.initiateGoogleLogin();
   }
 
   getTranslation<K extends keyof LanguageTranslations>(key: K): string {

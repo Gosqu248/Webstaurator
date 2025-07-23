@@ -14,7 +14,7 @@ import {RestaurantService} from "./restaurant.service";
   providedIn: 'root'
 })
 export class RestaurantAddressService {
-  private apiUrl = environment.api + '/api/restaurantAddress';
+  private apiUrl = environment.api + '/api/restaurants/addresses';
 
   constructor(
     private http: HttpClient,
@@ -25,7 +25,7 @@ export class RestaurantAddressService {
   ) {}
 
   getRestaurantAddress(id: number): Observable<RestaurantAddress> {
-    return this.http.get<RestaurantAddress>(`${this.apiUrl}/get?restaurantId=${id}`);
+    return this.http.get<RestaurantAddress>(`${this.apiUrl}?restaurantId=${id}`);
   }
 
   searchRestaurant(address: string): Observable<SearchedRestaurant[]> {
@@ -76,6 +76,6 @@ export class RestaurantAddressService {
   }
 
   getCoordinates(id: number): Observable<Coordinates> {
-    return this.http.get<Coordinates>(`${this.apiUrl}/getCoordinates?restaurantId=${id}`);
+    return this.http.get<Coordinates>(`${this.apiUrl}/coordinates?restaurantId=${id}`);
   }
 }

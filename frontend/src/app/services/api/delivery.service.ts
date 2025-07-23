@@ -7,7 +7,7 @@ import {Delivery, DeliveryHour} from "../../interfaces/delivery.interface";
   providedIn: 'root'
 })
 export class DeliveryService {
-  private apiUrl = environment.api + '/api/delivery';
+  private apiUrl = environment.api + '/api/deliveries';
   constructor(private http:HttpClient) { }
 
 
@@ -16,7 +16,7 @@ export class DeliveryService {
   }
 
   getDeliveryTIme(restaurantId: number) {
-    return this.http.get<DeliveryHour[]>(`${this.apiUrl}/time`, {
+    return this.http.get<DeliveryHour[]>(`${this.apiUrl}/times`, {
       params: {
         restaurantId: restaurantId
       }

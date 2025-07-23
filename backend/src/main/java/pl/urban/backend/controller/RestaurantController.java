@@ -10,50 +10,39 @@ import pl.urban.backend.dto.response.RestaurantResponse;
 import pl.urban.backend.service.RestaurantService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurant")
+@RequestMapping("/api/restaurants")
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<RestaurantResponse> getAllRestaurants() {
         return restaurantService.getAllRestaurants();
     }
 
-    @PostMapping("/addRestaurant")
-    public RestaurantResponse addRestaurant(@RequestBody AddRestaurantRequest restaurant) {
-        return restaurantService.addRestaurant(restaurant);
-    }
-
-    @GetMapping("/getRestaurant")
+    @GetMapping("/restaurant")
     public RestaurantResponse getRestaurant(@RequestParam Long id) {
         return restaurantService.getRestaurantById(id);
     }
 
-    @GetMapping("/getForEdit")
+    @GetMapping("/edit")
     public AddRestaurantResponse getRestaurantForEdit(@RequestParam Long id) {
         return restaurantService.getRestaurantForEdit(id);
     }
 
-    @GetMapping("/getLogo")
+    @GetMapping("/logo")
     public String getLogo(@RequestParam Long id) {
         return restaurantService.getLogo(id);
     }
 
-    @GetMapping("/getLogoAndImage")
-    public ResponseEntity<Map<String, String>> getLogoAndImage(@RequestParam Long id) {
-        try {
-            Map<String, String> logoAndImage = restaurantService.getLogoAndImage(id);
-            return ResponseEntity.ok(logoAndImage);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+    @PostMapping
+    public RestaurantResponse addRestaurant(@RequestBody AddRestaurantRequest restaurant) {
+        return restaurantService.addRestaurant(restaurant);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<RestaurantResponse> updateRestaurant(@RequestParam Long id, @RequestBody AddRestaurantRequest dto) {
         try {
             RestaurantResponse updatedRestaurant = restaurantService.updateRestaurant(dto, id);
@@ -63,7 +52,7 @@ public class RestaurantController {
         }
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping
     public ResponseEntity<Void> removeRestaurant(@RequestParam Long id) {
         try {
             restaurantService.removeRestaurant(id);

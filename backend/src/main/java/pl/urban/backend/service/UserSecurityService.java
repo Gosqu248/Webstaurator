@@ -1,5 +1,6 @@
 package pl.urban.backend.service;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.urban.backend.model.User;
@@ -43,7 +44,7 @@ public class UserSecurityService {
         return false;
     }
 
-    public void generateAndSendTwoFactorCode(User user) {
+    public void generateAndSendTwoFactorCode(User user) throws MessagingException {
         UserSecurity userSecurity =  ensureUserSecurity(user);
 
         Random random = new Random();

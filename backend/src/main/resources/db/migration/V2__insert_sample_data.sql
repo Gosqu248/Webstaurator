@@ -1,20 +1,20 @@
-INSERT INTO payment (id, image, method) VALUES (1, '/img/cash.png', 'Gotówka');
-INSERT INTO payment (id, image, method) VALUES (2, '/img/payU.png', 'PayU');
+INSERT INTO payments (id, image, method) VALUES (1, '/img/cash.png', 'Gotówka');
+INSERT INTO payments (id, image, method) VALUES (2, '/img/payU.png', 'PayU');
 
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (8, 'Napoje', null, null, 'Sprite®', 7.9);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (9, 'Napoje', null, null, 'Coca-Cola® Zero', 7.9);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (2, 'McWrapy i Sałatki', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/863138906', null, 'McZestaw McWrap® Chrupiący Klasyczny', 31.4);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (4, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/1909301366', null, 'McZestaw Big Mac®', 31.6);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (3, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/1162314903', null, 'Big Mac®', 22.3);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (1, 'McWrapy i Sałatki', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/-1466655237', null, 'McWrap® Chrupiący Klasyczny', 23.2);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (5, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/220639894', null, 'WieśMac® Podwójny', 28.6);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (7, 'Napoje', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/-879071002', null, 'Coca-Cola®', 7.9);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (6, 'Napoje', null, null, 'Woda gazowana', 8.5);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (10, 'Przystawki', '', 'pieczywo, burrata, mortadela, bazylia', 'Bruschetta', 41);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (11, 'Przystawki', '', 'tuńczyk, mango, ogórek, mięta, piklowana cebula, pieczywo', 'Tartare di tonno', 56);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (12, 'Pizza', '', 'sos pomidorowy, mozzarella, szynka, pieczarki', 'Pizza Prosciutto e Funghi', 45.5);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (13, 'Pizza', '', 'ciasto, sos, ananas, ser, kurczak', 'Pizza Hawajska 40cm', 49);
-INSERT INTO menu (id, category, image, ingredients, name, price) VALUES (14, 'Pieczywo', 'xd', 'chleb', 'Chleb', 10);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (8, 'Napoje', null, null, 'Sprite®', 7.9);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (9, 'Napoje', null, null, 'Coca-Cola® Zero', 7.9);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (2, 'McWrapy i Sałatki', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/863138906', null, 'McZestaw McWrap® Chrupiący Klasyczny', 31.4);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (4, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/1909301366', null, 'McZestaw Big Mac®', 31.6);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (3, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/1162314903', null, 'Big Mac®', 22.3);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (1, 'McWrapy i Sałatki', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/-1466655237', null, 'McWrap® Chrupiący Klasyczny', 23.2);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (5, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/220639894', null, 'WieśMac® Podwójny', 28.6);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (7, 'Napoje', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/ar_1:1,c_thumb,h_120,w_120/f_auto/q_auto/dpr_1.0/v1729850698/static-takeaway-com/images/restaurants/pl/QP7O33RN/products/-879071002', null, 'Coca-Cola®', 7.9);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (6, 'Napoje', null, null, 'Woda gazowana', 8.5);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (10, 'Przystawki', '', 'pieczywo, burrata, mortadela, bazylia', 'Bruschetta', 41);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (11, 'Przystawki', '', 'tuńczyk, mango, ogórek, mięta, piklowana cebula, pieczywo', 'Tartare di tonno', 56);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (12, 'Pizza', '', 'sos pomidorowy, mozzarella, szynka, pieczarki', 'Pizza Prosciutto e Funghi', 45.5);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (13, 'Pizza', '', 'ciasto, sos, ananas, ser, kurczak', 'Pizza Hawajska 40cm', 49);
+INSERT INTO menus (id, category, image, ingredients, name, price) VALUES (14, 'Pieczywo', 'xd', 'chleb', 'Chleb', 10);
 
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (1, 'Amerykańska', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header/headers/header', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header_standard/logo_465x320', 'McDonald''s Tarnów, Krakowska');
 INSERT INTO restaurants (id, category, image_url, logo_url, name) VALUES (2, 'Burgery', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,w_1097,h_480/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header/headers/header', 'https://res.cloudinary.com/tkwy-prod-eu/image/upload/c_thumb,h_120,w_176/f_auto/q_auto/dpr_1.0/v1729851960/static-takeaway-com/images/chains/pl/mcdonalds_header_standard/logo_465x320', 'McDonald''s Tarnów, Jana Pawła');
@@ -42,162 +42,162 @@ INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, st
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (12, 'Zakopane', '10', 49.296559650000006, 19.959398831789837, 'Sienkiewicza', '34-500', 12);
 INSERT INTO restaurant_addresses (id, city, flat_number, latitude, longitude, street, zip_code, restaurant_id) VALUES (4, 'Tarnów', '2', 0, 0, 'Kasprowicza', '33-100', 4);
 
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (2, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (2, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (1, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (1, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (3, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (3, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (5, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (6, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (7, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (8, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (9, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (10, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (11, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (5, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (6, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (7, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (8, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (9, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (10, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (11, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (12, 2);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (12, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (4, 1);
-INSERT INTO restaurant_payment (restaurant_id, payment_id) VALUES (4, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (2, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (2, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (1, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (1, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (3, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (3, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (5, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (6, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (7, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (8, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (9, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (10, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (11, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (5, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (6, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (7, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (8, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (9, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (10, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (11, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (12, 2);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (12, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (4, 1);
+INSERT INTO restaurant_payments (restaurant_id, payment_id) VALUES (4, 2);
 
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (1, 65, 40, 2, 30, 0, 1);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (2, 65, 40, 7, 30, 15, 2);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (3, 65, 40, 7, 30, 0, 3);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (4, 70, 35, 7, 60, 20, 4);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (5, 60, 30, 0, 60, 15, 5);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (6, 50, 25, 6, 60, 20, 6);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (7, 45, 20, 10, 50, 15, 7);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (8, 50, 30, 6, 40, 15, 8);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (9, 45, 20, 5, 45, 15, 9);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (10, 75, 50, 5, 25, 15, 10);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (11, 70, 50, 6, 45, 20, 11);
-INSERT INTO delivery (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (12, 60, 20, 4, 35, 15, 12);
-
-
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (1, '22:45', 0, '11:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (2, '22:45', 1, '11:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (3, '22:45', 2, '11:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (4, '22:45', 5, '11:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (5, '22:45', 6, '11:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (6, '22:45', 4, '12:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (7, '22:45', 3, '12:45', 1);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (8, '22:45', 4, '11:45', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (11, '22:45', 0, '11:45', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (12, '22:45', 1, '11:45', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (13, '22:45', 2, '11:45', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (14, '22:45', 3, '11:45', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (15, '22:45', 2, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (16, '22:45', 3, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (17, '22:45', 4, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (18, '22:45', 5, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (19, '22:45', 6, '11:15', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (20, '22:45', 0, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (21, '22:45', 1, '11:45', 3);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (22, '20:00', 3, '11:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (23, '20:00', 4, '11:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (24, '20:00', 5, '11:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (27, '20:00', 1, '11:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (28, '20:00', 2, '11:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (29, '20:30', 2, '12:00', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (30, '20:30', 4, '12:00', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (31, 'null', 5, 'null', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (32, 'null', 6, 'null', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (33, '20:30', 0, '12:00', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (34, '20:30', 1, '12:00', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (35, '20:30', 3, '12:00', 5);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (36, '21:00', 6, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (37, '21:00', 0, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (38, '21:00', 1, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (39, '21:00', 2, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (40, '21:00', 3, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (41, '21:00', 4, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (42, '21:00', 5, '12:00', 6);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (43, '18:00', 3, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (44, '18:00', 4, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (45, '18:00', 5, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (46, '18:00', 6, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (47, '18:00', 2, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (48, '18:00', 1, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (49, '18:00', 0, '10:00', 7);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (50, '21:00', 3, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (51, '21:00', 4, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (52, '21:00', 5, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (53, '21:00', 6, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (54, '21:00', 0, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (55, '21:00', 1, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (56, '21:00', 2, '13:00', 8);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (57, '22:30', 3, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (58, '22:30', 4, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (59, '22:30', 5, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (60, '22:30', 6, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (61, '22:30', 0, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (62, '22:30', 1, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (63, '22:30', 2, '10:00', 9);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (64, '17:30', 3, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (65, '17:30', 4, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (66, '17:30', 5, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (67, '17:30', 6, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (68, '17:30', 0, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (69, '17:30', 1, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (70, '17:30', 2, '10:00', 10);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (71, '20:30', 3, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (72, '20:30', 4, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (73, '20:30', 5, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (74, '20:30', 6, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (75, '20:30', 0, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (76, '20:30', 1, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (77, '20:30', 2, '11:00', 11);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (9, '22:45', 5, '0:15', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (10, '22:45', 6, '00:15', 2);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (78, '22:00', 1, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (25, '23:00', 6, '14:30', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (26, '22:00', 0, '14:00', 4);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (79, '22:00', 2, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (80, '22:00', 3, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (81, '22:00', 4, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (82, '22:00', 5, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (83, '23:00', 6, '13:00', 12);
-INSERT INTO delivery_hour (id, close_time, day_of_week, open_time, restaurant_id) VALUES (84, '23:00', 0, '13:00', 12);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (1, 65, 40, 2, 30, 0, 1);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (2, 65, 40, 7, 30, 15, 2);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (3, 65, 40, 7, 30, 0, 3);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (4, 70, 35, 7, 60, 20, 4);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (5, 60, 30, 0, 60, 15, 5);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (6, 50, 25, 6, 60, 20, 6);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (7, 45, 20, 10, 50, 15, 7);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (8, 50, 30, 6, 40, 15, 8);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (9, 45, 20, 5, 45, 15, 9);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (10, 75, 50, 5, 25, 15, 10);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (11, 70, 50, 6, 45, 20, 11);
+INSERT INTO deliveries (id, delivery_max_time, delivery_min_time, delivery_price, minimum_price, pickup_time, restaurant_id) VALUES (12, 60, 20, 4, 35, 15, 12);
 
 
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 3);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 7);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 9);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 1);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 4);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 2);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 8);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 5);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (2, 6);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 3);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 7);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 9);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 1);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 4);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 2);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 8);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 5);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (1, 6);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 3);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 7);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 9);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 1);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 4);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 2);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 8);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 5);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (3, 6);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 10);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 11);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (12, 12);
-INSERT INTO restaurant_menu (restaurant_id, menu_id) VALUES (4, 13);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (1, '22:45', 0, '11:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (2, '22:45', 1, '11:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (3, '22:45', 2, '11:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (4, '22:45', 5, '11:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (5, '22:45', 6, '11:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (6, '22:45', 4, '12:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (7, '22:45', 3, '12:45', 1);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (8, '22:45', 4, '11:45', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (11, '22:45', 0, '11:45', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (12, '22:45', 1, '11:45', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (13, '22:45', 2, '11:45', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (14, '22:45', 3, '11:45', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (15, '22:45', 2, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (16, '22:45', 3, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (17, '22:45', 4, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (18, '22:45', 5, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (19, '22:45', 6, '11:15', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (20, '22:45', 0, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (21, '22:45', 1, '11:45', 3);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (22, '20:00', 3, '11:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (23, '20:00', 4, '11:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (24, '20:00', 5, '11:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (27, '20:00', 1, '11:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (28, '20:00', 2, '11:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (29, '20:30', 2, '12:00', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (30, '20:30', 4, '12:00', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (31, 'null', 5, 'null', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (32, 'null', 6, 'null', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (33, '20:30', 0, '12:00', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (34, '20:30', 1, '12:00', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (35, '20:30', 3, '12:00', 5);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (36, '21:00', 6, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (37, '21:00', 0, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (38, '21:00', 1, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (39, '21:00', 2, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (40, '21:00', 3, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (41, '21:00', 4, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (42, '21:00', 5, '12:00', 6);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (43, '18:00', 3, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (44, '18:00', 4, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (45, '18:00', 5, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (46, '18:00', 6, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (47, '18:00', 2, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (48, '18:00', 1, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (49, '18:00', 0, '10:00', 7);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (50, '21:00', 3, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (51, '21:00', 4, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (52, '21:00', 5, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (53, '21:00', 6, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (54, '21:00', 0, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (55, '21:00', 1, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (56, '21:00', 2, '13:00', 8);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (57, '22:30', 3, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (58, '22:30', 4, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (59, '22:30', 5, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (60, '22:30', 6, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (61, '22:30', 0, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (62, '22:30', 1, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (63, '22:30', 2, '10:00', 9);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (64, '17:30', 3, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (65, '17:30', 4, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (66, '17:30', 5, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (67, '17:30', 6, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (68, '17:30', 0, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (69, '17:30', 1, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (70, '17:30', 2, '10:00', 10);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (71, '20:30', 3, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (72, '20:30', 4, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (73, '20:30', 5, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (74, '20:30', 6, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (75, '20:30', 0, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (76, '20:30', 1, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (77, '20:30', 2, '11:00', 11);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (9, '22:45', 5, '0:15', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (10, '22:45', 6, '00:15', 2);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (78, '22:00', 1, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (25, '23:00', 6, '14:30', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (26, '22:00', 0, '14:00', 4);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (79, '22:00', 2, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (80, '22:00', 3, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (81, '22:00', 4, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (82, '22:00', 5, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (83, '23:00', 6, '13:00', 12);
+INSERT INTO delivery_hours (id, close_time, day_of_week, open_time, restaurant_id) VALUES (84, '23:00', 0, '13:00', 12);
+
+
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 3);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 7);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 9);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 1);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 4);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 2);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 8);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 5);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (2, 6);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 3);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 7);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 9);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 1);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 4);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 2);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 8);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 5);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (1, 6);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 3);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 7);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 9);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 1);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 4);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 2);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 8);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 5);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (3, 6);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (12, 10);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (12, 11);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (12, 12);
+INSERT INTO restaurant_menus (restaurant_id, menu_id) VALUES (4, 13);
 
 
 INSERT INTO additives (id, name, price, value) VALUES (1, 'Rozmiar', 0, 'McZestaw');
@@ -262,13 +262,13 @@ SELECT setval(
        );
 
 SELECT setval(
-               pg_get_serial_sequence('payment', 'id'),
-               (SELECT COALESCE(MAX(id),0) FROM payment)
+               pg_get_serial_sequence('payments', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM payments)
        );
 
 SELECT setval(
-               pg_get_serial_sequence('menu', 'id'),
-               (SELECT COALESCE(MAX(id),0) FROM menu)
+               pg_get_serial_sequence('menus', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM menus)
        );
 
 SELECT setval(
@@ -277,13 +277,13 @@ SELECT setval(
        );
 
 SELECT setval(
-               pg_get_serial_sequence('delivery', 'id'),
-               (SELECT COALESCE(MAX(id),0) FROM delivery)
+               pg_get_serial_sequence('deliveries', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM deliveries)
        );
 
 SELECT setval(
-               pg_get_serial_sequence('delivery_hour', 'id'),
-               (SELECT COALESCE(MAX(id),0) FROM delivery_hour)
+               pg_get_serial_sequence('delivery_hours', 'id'),
+               (SELECT COALESCE(MAX(id),0) FROM delivery_hours)
        );
 
 SELECT setval(

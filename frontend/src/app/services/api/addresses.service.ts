@@ -9,21 +9,21 @@ import {Coordinates} from "../../interfaces/coordinates";
   providedIn: 'root'
 })
 export class AddressesService {
-  private apiUrl = environment.api + '/api/address';
+  private apiUrl = environment.api + '/api/users/addresses';
 
   phoneNumber = new BehaviorSubject<string>('')
   phoneNumber$ = this.phoneNumber.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  addAddress(token: string, address: UserAddress): Observable<UserAddress> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<UserAddress>(`${this.apiUrl}/add`, address, { headers });
-  }
-
   getUserAddresses(token: string): Observable<UserAddress[]> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<UserAddress[]>(`${this.apiUrl}/all`, { headers });
+    return this.http.get<UserAddress[]>(`${this.apiUrl}`, { headers });
+  }
+
+  addAddress(token: string, address: UserAddress): Observable<UserAddress> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<UserAddress>(`${this.apiUrl}`, address, { headers });
   }
 
   getAddress(token: string, id: number): Observable<UserAddress> {
@@ -49,7 +49,4 @@ export class AddressesService {
   setPhoneNumber(phoneNumber: string): void {
     this.phoneNumber.next(phoneNumber);
   }
-
-
-
 }

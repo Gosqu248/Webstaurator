@@ -14,17 +14,17 @@ import java.util.List;
 public class RestaurantOpinionController {
     private final RestaurantOpinionService restaurantOpinionService;
 
-    @GetMapping("/restaurantOpinions")
+    @GetMapping("/restaurant")
     public List<RestaurantOpinionResponse> getRestaurantOpinion(@RequestParam Long restaurantId) {
         return restaurantOpinionService.getRestaurantOpinion(restaurantId);
     }
 
-    @PostMapping("/addOpinion")
+    @PostMapping
     public RestaurantOpinionResponse addOpinion(@RequestBody RestaurantOpinionRequest opinionRequest, @RequestParam Long orderId) {
         return restaurantOpinionService.addOpinion(opinionRequest, orderId);
     }
 
-    @GetMapping("/getRatingRestaurant")
+    @GetMapping("/rating")
     public double getRestaurantQualityRating(@RequestParam Long restaurantId) {
         return restaurantOpinionService.getRestaurantRating(restaurantId);
     }

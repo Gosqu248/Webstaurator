@@ -10,22 +10,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/favourite")
+@RequestMapping("/api/favourites")
 public class FavouriteRestaurantController {
-
     private final FavouriteRestaurantService favouriteRestaurantService;
 
-    @GetMapping("/all")
+    @GetMapping
     public List<FavouriteRestaurantResponse> getAllUserFavouriteRestaurants(@RequestParam Long userId) {
         return favouriteRestaurantService.getAllUserFavouriteRestaurants(userId);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void addFavouriteRestaurant(@RequestBody FavouriteRequest favouriteRequest) {
         favouriteRestaurantService.addFavouriteRestaurant(favouriteRequest.userId(), favouriteRequest.restaurantId());
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public void deleteFavouriteRestaurant(@RequestBody FavouriteRequest favouriteRequest) {
         favouriteRestaurantService.deleteFavouriteRestaurant(favouriteRequest.userId(), favouriteRequest.restaurantId());
     }

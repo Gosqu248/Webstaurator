@@ -12,18 +12,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/address")
+@RequestMapping("/api/users/addresses")
 public class UserAddressController {
     private final UserAddressService userAddressService;
     private final JwtUtil jwtToken;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<UserAddressResponse>> getAllUserAddresses(@RequestHeader("Authorization") String token) {
         String subject = jwtToken.extractSubject(token.substring(7));
         return ResponseEntity.ok(userAddressService.getAllAddresses(subject));
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<UserAddressResponse> addAddressToUser(@RequestHeader("Authorization") String token, @RequestBody UserAddressRequest addressRequest) {
         String subject = jwtToken.extractSubject(token.substring(7));
         return ResponseEntity.ok(userAddressService.addAddress(subject, addressRequest));
