@@ -52,7 +52,7 @@ Platforma food delivery klasy Uber Eats / Bolt Food zbudowana jako **architektur
 - **Spring Kafka** — komunikacja async przez Kafka
 
 ### Infrastruktura
-- **Kafka 3.9 KRaft** — message broker bez Zookeeper
+- **Kafka KRaft** (latest) — message broker bez Zookeeper
 - **PostgreSQL 17** — główna baza relacyjna
 - **MongoDB 8** — baza dokumentowa
 - **Redis 7** — cache + distributed locks + rate limiting
