@@ -5,14 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Repository Structure
 
 ```
-old/        — v1 of the project (legacy code for comparison)
-  backend/
-  frontend/
-  gateway/
-  docker-compose.yml
+old/                    — v1 (legacy, do porównania)
+backend/                — Spring Boot 4 / Java 25 microservices (v2)
+  ARCHITECTURE.md       — pełna dokumentacja architektury, fazy, konwencje
+frontend/               — Angular 22 + Tailwind CSS (v2)
+k8s/                    — Kubernetes manifesty + Helm charts
+monitoring/             — Prometheus config
+docker-compose.yml      — dev infrastruktura (Kafka, PostgreSQL, MongoDB, Redis, …)
+.env.example            — szablon zmiennych środowiskowych
 ```
 
-The new v2 modules will be added at the root level as they are created.
+Szczegółowa architektura backendu: `backend/ARCHITECTURE.md`
 
 ## Project Overview
 

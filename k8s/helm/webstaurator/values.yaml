@@ -1,0 +1,63 @@
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  namespace: webstaurator
+
+  postgres:
+    host: postgres.webstaurator-infra.svc.cluster.local
+    port: 5432
+    database: webstaurator_db
+
+  mongodb:
+    host: mongodb.webstaurator-infra.svc.cluster.local
+    port: 27017
+    database: webstaurator_db
+
+  kafka:
+    bootstrapServers: kafka.webstaurator-infra.svc.cluster.local:9092
+
+  redis:
+    host: redis.webstaurator-infra.svc.cluster.local
+    port: 6379
+
+  elasticsearch:
+    host: elasticsearch.webstaurator-infra.svc.cluster.local
+    port: 9200
+
+  jaeger:
+    endpoint: http://jaeger.webstaurator-monitoring.svc.cluster.local:4318/v1/traces
+
+api-gateway:
+  replicaCount: 2
+  image:
+    repository: webstaurator/api-gateway
+    tag: latest
+  service:
+    port: 8080
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+auth-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/auth-service
+    tag: latest
+  service:
+    port: 8081
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+# Remaining services follow the same pattern
+# (user-service: 8082, restaurant-service: 8083, order-service: 8084,
+#  payment-service: 8085, notification-service: 8086,
+#  delivery-service: 8087, review-service: 8088)

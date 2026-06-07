@@ -1,0 +1,35 @@
+apiVersion: v2
+name: webstaurator
+description: Webstaurator food delivery platform — umbrella Helm chart
+type: application
+version: 0.1.0
+appVersion: "2.0.0"
+
+dependencies:
+  - name: api-gateway
+    version: "0.1.0"
+    repository: "file://charts/api-gateway"
+  - name: auth-service
+    version: "0.1.0"
+    repository: "file://charts/auth-service"
+  - name: user-service
+    version: "0.1.0"
+    repository: "file://charts/user-service"
+  - name: restaurant-service
+    version: "0.1.0"
+    repository: "file://charts/restaurant-service"
+  - name: order-service
+    version: "0.1.0"
+    repository: "file://charts/order-service"
+  - name: payment-service
+    version: "0.1.0"
+    repository: "file://charts/payment-service"
+  - name: notification-service
+    version: "0.1.0"
+    repository: "file://charts/notification-service"
+  - name: delivery-service
+    version: "0.1.0"
+    repository: "file://charts/delivery-service"
+  - name: review-service
+    version: "0.1.0"
+    repository: "file://charts/review-service"
