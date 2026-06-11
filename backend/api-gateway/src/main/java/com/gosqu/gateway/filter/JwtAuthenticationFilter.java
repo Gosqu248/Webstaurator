@@ -25,16 +25,26 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             "/auth/login",
             "/auth/verify-2fa",
             "/auth/reset-password",
-            "/auth/oauth2/failure",
+            "/auth/oauth2",
             "/login/oauth2",
-            "/oauth2/authorization",
-            "/actuator"
+            "/oauth2/authorization"
     );
 
     private final JwtUtil jwtUtil;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // Strip all trust headers unconditionally — clients must never inject these
+        ServerHttpRequest stripped = exchange.getRequest().mutate()
+                .headers(h -> {
+                    h.remove("X-User-Email");
+                    h.remove("X-User-Role");
+                    h.remove("X-User-Id");
+                    h.remove("X-Internal-Service");
+                })
+                .build();
+        exchange = exchange.mutate().request(stripped).build();
+
         String path = exchange.getRequest().getURI().getPath();
 
         if (PUBLIC_PATHS.stream().anyMatch(path::startsWith)) {
@@ -52,6 +62,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             ServerHttpRequest enrichedRequest = exchange.getRequest().mutate()
                     .header("X-User-Email", claims.getSubject())
                     .header("X-User-Role", claims.get("role", String.class))
+                    .header("X-User-Id", String.valueOf(claims.get("userId", Long.class)))
                     .build();
             return chain.filter(exchange.mutate().request(enrichedRequest).build());
         } catch (JwtException e) {
