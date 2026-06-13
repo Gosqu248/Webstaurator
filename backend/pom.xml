@@ -33,7 +33,7 @@
         <java.version>25</java.version>
         <!-- Verify compatible version at https://spring.io/projects/spring-cloud -->
         <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <jjwt.version>0.12.6</jjwt.version>
+        <jjwt.version>0.13.0</jjwt.version>
     </properties>
 
     <dependencyManagement>
