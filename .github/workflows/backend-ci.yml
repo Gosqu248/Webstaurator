@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - main
-      - 'next/**'
+      - 'next/develop'
     paths:
       - 'backend/**'
       - '.github/workflows/backend-ci.yml'
