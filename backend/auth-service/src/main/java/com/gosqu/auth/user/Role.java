@@ -1,7 +1,7 @@
-package com.gosqu.auth.model;
+package com.gosqu.auth.user;
 
 public enum Role {
-    CUSTOMER,
+    USER,
     RESTAURANT_ADMIN,
     SYSTEM_ADMIN
 }

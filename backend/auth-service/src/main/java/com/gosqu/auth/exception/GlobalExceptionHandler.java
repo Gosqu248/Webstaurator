@@ -1,6 +1,7 @@
 package com.gosqu.auth.exception;
 
 import com.gosqu.auth.dto.response.MessageResponse;
+import com.gosqu.auth.refreshToken.exception.InvalidRefreshTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
         return new MessageResponse(ex.getMessage());
     }
 
-    @ExceptionHandler({InvalidCodeException.class, BadCredentialsException.class})
+    @ExceptionHandler({InvalidCodeException.class, BadCredentialsException.class, InvalidRefreshTokenException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public MessageResponse handleUnauthorized(RuntimeException ex) {
         return new MessageResponse(ex.getMessage());
