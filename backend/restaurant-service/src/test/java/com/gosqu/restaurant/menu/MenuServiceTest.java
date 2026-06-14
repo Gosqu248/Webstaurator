@@ -5,6 +5,7 @@ import com.gosqu.restaurant.menu.dto.request.MenuItemRequest;
 import com.gosqu.restaurant.menu.dto.response.CategoryResponse;
 import com.gosqu.restaurant.menu.exception.CategoryNotFoundException;
 import com.gosqu.restaurant.menu.exception.MenuItemNotFoundException;
+import com.gosqu.restaurant.menu.mapper.MenuMapper;
 import com.gosqu.restaurant.restaurant.RestaurantService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -43,6 +44,9 @@ class MenuServiceTest {
     @Mock
     private RestaurantService restaurantService;
 
+    @Mock
+    private MenuMapper menuMapper;
+
     @InjectMocks
     private MenuService service;
 
@@ -55,6 +59,7 @@ class MenuServiceTest {
         void addCategory_ownerMatches_savesAndReturns() {
             var cat = Category.builder().id(CAT_ID).restaurantId(REST_ID).name("Przystawki").displayOrder(0).build();
             when(categoryRepository.save(any())).thenReturn(cat);
+            when(menuMapper.toResponse(cat)).thenReturn(new CategoryResponse(CAT_ID, "Przystawki", 0));
 
             CategoryResponse result = service.addCategory(OWNER_ID, REST_ID, new CategoryRequest("Przystawki", null));
 

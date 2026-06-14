@@ -3,6 +3,7 @@ package com.gosqu.restaurant.common.exception;
 import com.gosqu.restaurant.menu.exception.CategoryNotFoundException;
 import com.gosqu.restaurant.menu.exception.MenuItemNotFoundException;
 import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -47,6 +48,15 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleValidation(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+        return Map.of("error", message);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleConstraintViolation(ConstraintViolationException ex) {
+        String message = ex.getConstraintViolations().stream()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
                 .collect(Collectors.joining(", "));
         return Map.of("error", message);
     }

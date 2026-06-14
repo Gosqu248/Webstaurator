@@ -4,6 +4,7 @@ import com.gosqu.restaurant.common.exception.ForbiddenException;
 import com.gosqu.restaurant.restaurant.dto.request.RestaurantRequest;
 import com.gosqu.restaurant.restaurant.dto.response.RestaurantResponse;
 import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
+import com.gosqu.restaurant.restaurant.mapper.RestaurantMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,12 +31,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RestaurantServiceTest {
 
-    static final UUID ID_1    = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    static final UUID ID_1     = UUID.fromString("00000000-0000-0000-0000-000000000001");
     static final UUID OWNER_10 = UUID.fromString("00000000-0000-0000-0000-000000000010");
     static final UUID OWNER_99 = UUID.fromString("00000000-0000-0000-0000-000000000099");
 
     @Mock
     private RestaurantRepository restaurantRepository;
+
+    @Mock
+    private RestaurantMapper restaurantMapper;
+
+    @Mock
+    private RestaurantEventPublisher eventPublisher;
 
     @InjectMocks
     private RestaurantService service;
@@ -53,6 +60,12 @@ class RestaurantServiceTest {
                 new BigDecimal("5.00"), new BigDecimal("20.00"));
     }
 
+    private RestaurantResponse responseFor(UUID id, String name) {
+        return new RestaurantResponse(id, name, null, "PIZZA", "ul. Testowa 1", "Kraków",
+                null, null, null, null, null, true, 0.0, 30,
+                new BigDecimal("5.00"), new BigDecimal("20.00"));
+    }
+
     @Nested
     @DisplayName("getById")
     class GetById {
@@ -61,7 +74,9 @@ class RestaurantServiceTest {
         @DisplayName("returns response when restaurant exists")
         void getById_exists_returnsResponse() {
             var r = restaurant(ID_1, OWNER_10);
+            var expected = responseFor(ID_1, "Testowa Restauracja");
             when(restaurantRepository.findById(ID_1)).thenReturn(Optional.of(r));
+            when(restaurantMapper.toResponse(r)).thenReturn(expected);
 
             RestaurantResponse result = service.getById(ID_1);
 
@@ -88,12 +103,16 @@ class RestaurantServiceTest {
         @DisplayName("saves and returns response")
         void create_validRequest_savesAndReturns() {
             var r = restaurant(ID_1, OWNER_10);
-            when(restaurantRepository.save(any())).thenReturn(r);
+            var expected = responseFor(ID_1, "Testowa Restauracja");
+            when(restaurantMapper.toEntity(any())).thenReturn(r);
+            when(restaurantRepository.save(r)).thenReturn(r);
+            when(restaurantMapper.toResponse(r)).thenReturn(expected);
 
             RestaurantResponse result = service.create(OWNER_10, restaurantRequest());
 
             assertThat(result.name()).isEqualTo("Testowa Restauracja");
-            verify(restaurantRepository).save(any(Restaurant.class));
+            verify(restaurantRepository).save(r);
+            verify(eventPublisher).publishCreated(any());
         }
     }
 
@@ -105,12 +124,15 @@ class RestaurantServiceTest {
         @DisplayName("updates when owner matches")
         void update_ownerMatches_updates() {
             var r = restaurant(ID_1, OWNER_10);
+            var expected = responseFor(ID_1, "Testowa Restauracja");
             when(restaurantRepository.findById(ID_1)).thenReturn(Optional.of(r));
-            when(restaurantRepository.save(any())).thenReturn(r);
+            when(restaurantRepository.save(r)).thenReturn(r);
+            when(restaurantMapper.toResponse(r)).thenReturn(expected);
 
             service.update(OWNER_10, ID_1, restaurantRequest());
 
             verify(restaurantRepository).save(r);
+            verify(eventPublisher).publishUpdated(any());
         }
 
         @Test
@@ -168,22 +190,19 @@ class RestaurantServiceTest {
     class UpdateAvgRating {
 
         @Test
-        @DisplayName("updates rating when restaurant exists")
+        @DisplayName("updates rating atomically when restaurant exists")
         void updateAvgRating_exists_updatesRating() {
-            var r = restaurant(ID_1, OWNER_10);
-            when(restaurantRepository.findById(ID_1)).thenReturn(Optional.of(r));
-            when(restaurantRepository.save(any())).thenReturn(r);
+            when(restaurantRepository.existsById(ID_1)).thenReturn(true);
 
             service.updateAvgRating(ID_1, 4.5);
 
-            verify(restaurantRepository).save(r);
-            assertThat(r.getAvgRating()).isEqualTo(4.5);
+            verify(restaurantRepository).updateAvgRating(ID_1, 4.5);
         }
 
         @Test
         @DisplayName("throws RestaurantNotFoundException when restaurant missing")
         void updateAvgRating_missing_throws() {
-            when(restaurantRepository.findById(OWNER_99)).thenReturn(Optional.empty());
+            when(restaurantRepository.existsById(OWNER_99)).thenReturn(false);
 
             assertThatThrownBy(() -> service.updateAvgRating(OWNER_99, 4.5))
                     .isInstanceOf(RestaurantNotFoundException.class);

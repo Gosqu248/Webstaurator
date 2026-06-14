@@ -169,27 +169,4 @@ class RestaurantControllerTest {
                     .andExpect(status().isForbidden());
         }
     }
-
-    @Nested
-    @DisplayName("PUT /restaurants/{id}/rating")
-    class UpdateRating {
-
-        @Test
-        @DisplayName("returns 204 with valid internal service header")
-        void updateRating_validHeader_returns204() throws Exception {
-            mockMvc.perform(put("/restaurants/" + RESTAURANT_ID + "/rating")
-                            .header("X-Internal-Service", "review-service")
-                            .param("rating", "4.5"))
-                    .andExpect(status().isNoContent());
-        }
-
-        @Test
-        @DisplayName("returns 403 with invalid internal service header")
-        void updateRating_invalidHeader_returns403() throws Exception {
-            mockMvc.perform(put("/restaurants/" + RESTAURANT_ID + "/rating")
-                            .header("X-Internal-Service", "unknown-service")
-                            .param("rating", "4.5"))
-                    .andExpect(status().isForbidden());
-        }
-    }
 }

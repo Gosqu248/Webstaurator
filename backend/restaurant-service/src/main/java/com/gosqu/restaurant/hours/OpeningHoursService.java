@@ -3,12 +3,14 @@ package com.gosqu.restaurant.hours;
 import com.gosqu.restaurant.hours.dto.OpeningHoursRequest;
 import com.gosqu.restaurant.restaurant.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,5 +32,6 @@ public class OpeningHoursService {
                         .build())
                 .toList();
         openingHoursRepository.saveAll(hours);
+        log.info("opening_hours_updated restaurantId={} count={}", restaurantId, hours.size());
     }
 }

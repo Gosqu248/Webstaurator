@@ -1,8 +1,5 @@
 package com.gosqu.restaurant.restaurant.dto.response;
 
-
-import com.gosqu.restaurant.restaurant.Restaurant;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -23,15 +20,4 @@ public record RestaurantResponse(
         Integer deliveryTimeMin,
         BigDecimal deliveryFee,
         BigDecimal minOrderAmount
-) {
-    public static RestaurantResponse from(Restaurant r) {
-        return new RestaurantResponse(
-                r.getId(), r.getName(), r.getDescription(),
-                r.getCuisineType().name(), r.getAddress(), r.getCity(),
-                r.getLatitude(), r.getLongitude(), r.getPhoneNumber(),
-                r.getLogoUrl(), r.getBannerUrl(), r.getIsActive(),
-                r.getAvgRating(), r.getDeliveryTimeMin(),
-                r.getDeliveryFee(), r.getMinOrderAmount()
-        );
-    }
-}
+) {}

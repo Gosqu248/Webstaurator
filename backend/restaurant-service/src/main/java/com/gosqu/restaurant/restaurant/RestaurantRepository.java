@@ -3,6 +3,7 @@ package com.gosqu.restaurant.restaurant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -10,13 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, UUID> {
-
-    Page<Restaurant> findAllByIsActiveTrue(Pageable pageable);
-
-    Page<Restaurant> findAllByCityIgnoreCaseAndIsActiveTrue(String city, Pageable pageable);
-
-    Page<Restaurant> findAllByCityIgnoreCaseAndCuisineTypeAndIsActiveTrue(
-            String city, CuisineType cuisineType, Pageable pageable);
 
     List<Restaurant> findAllByOwnerId(UUID ownerId);
 
@@ -31,4 +25,12 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, UUID> {
                             @Param("cuisineType") CuisineType cuisineType,
                             @Param("search") String search,
                             Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE Restaurant r SET r.avgRating = :rating WHERE r.id = :id")
+    void updateAvgRating(@Param("id") UUID id, @Param("rating") Double rating);
+
+    @Modifying
+    @Query("UPDATE Restaurant r SET r.isActive = false WHERE r.id = :id")
+    void deactivateById(@Param("id") UUID id);
 }
