@@ -5,6 +5,8 @@ import com.gosqu.restaurant.restaurant.dto.request.RestaurantRequest;
 import com.gosqu.restaurant.restaurant.dto.response.RestaurantResponse;
 import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
 import com.gosqu.restaurant.restaurant.mapper.RestaurantMapper;
+import com.gosqu.restaurant.search.RestaurantSearchResult;
+import com.gosqu.restaurant.search.RestaurantSearchService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
@@ -43,6 +44,9 @@ class RestaurantServiceTest {
 
     @Mock
     private RestaurantEventPublisher eventPublisher;
+
+    @Mock
+    private RestaurantSearchService restaurantSearchService;
 
     @InjectMocks
     private RestaurantService service;
@@ -153,34 +157,55 @@ class RestaurantServiceTest {
     class Search {
 
         @Test
-        @DisplayName("delegates to repository with nulls when no filters given")
+        @DisplayName("delegates to search service with nulls when no filters given")
         void search_noFilters_delegatesWithNulls() {
             var pageable = PageRequest.of(0, 20);
-            when(restaurantRepository.search(null, null, null, pageable))
-                    .thenReturn(new PageImpl<>(List.of()));
+            when(restaurantSearchService.search(null, null, null, null, null, null, pageable))
+                    .thenReturn(new RestaurantSearchResult(List.of(), 0));
+            when(restaurantRepository.findAllById(List.of())).thenReturn(List.of());
 
-            Page<RestaurantResponse> result = service.search(null, null, null, pageable);
+            Page<RestaurantResponse> result = service.search(null, null, null, null, null, null, pageable);
 
             assertThat(result).isEmpty();
-            verify(restaurantRepository).search(null, null, null, pageable);
+            verify(restaurantSearchService).search(null, null, null, null, null, null, pageable);
         }
 
         @Test
-        @DisplayName("converts cuisineType string to enum")
+        @DisplayName("converts cuisineType string to enum name before delegating")
         void search_withCuisineType_convertsEnum() {
             var pageable = PageRequest.of(0, 20);
-            when(restaurantRepository.search(null, CuisineType.PIZZA, null, pageable))
-                    .thenReturn(new PageImpl<>(List.of()));
+            when(restaurantSearchService.search(null, "PIZZA", null, null, null, null, pageable))
+                    .thenReturn(new RestaurantSearchResult(List.of(), 0));
+            when(restaurantRepository.findAllById(List.of())).thenReturn(List.of());
 
-            service.search(null, "PIZZA", null, pageable);
+            service.search(null, "PIZZA", null, null, null, null, pageable);
 
-            verify(restaurantRepository).search(null, CuisineType.PIZZA, null, pageable);
+            verify(restaurantSearchService).search(null, "PIZZA", null, null, null, null, pageable);
+        }
+
+        @Test
+        @DisplayName("hydrates from Postgres preserving ES relevance order")
+        void search_withResults_preservesOrderFromSearchService() {
+            var pageable = PageRequest.of(0, 20);
+            var r1 = restaurant(ID_1, OWNER_10);
+            var r2 = restaurant(OWNER_99, OWNER_10);
+            when(restaurantSearchService.search(null, null, "pizza", null, null, null, pageable))
+                    .thenReturn(new RestaurantSearchResult(List.of(OWNER_99, ID_1), 2));
+            // findAllById nie gwarantuje kolejności — zwracamy je odwrotnie niż zażądano
+            when(restaurantRepository.findAllById(List.of(OWNER_99, ID_1))).thenReturn(List.of(r1, r2));
+            when(restaurantMapper.toResponse(r1)).thenReturn(responseFor(ID_1, "Pierwsza"));
+            when(restaurantMapper.toResponse(r2)).thenReturn(responseFor(OWNER_99, "Druga"));
+
+            Page<RestaurantResponse> result = service.search(null, null, "pizza", null, null, null, pageable);
+
+            assertThat(result.getContent()).extracting(RestaurantResponse::id)
+                    .containsExactly(OWNER_99, ID_1);
         }
 
         @Test
         @DisplayName("throws IllegalArgumentException for invalid cuisineType")
         void search_invalidCuisineType_throwsIllegalArgument() {
-            assertThatThrownBy(() -> service.search(null, "INVALID_TYPE", null, PageRequest.of(0, 20)))
+            assertThatThrownBy(() -> service.search(null, "INVALID_TYPE", null, null, null, null, PageRequest.of(0, 20)))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

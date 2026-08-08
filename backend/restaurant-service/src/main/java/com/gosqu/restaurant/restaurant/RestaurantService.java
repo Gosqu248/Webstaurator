@@ -8,18 +8,25 @@ import com.gosqu.restaurant.restaurant.event.RestaurantDeactivatedEvent;
 import com.gosqu.restaurant.restaurant.event.RestaurantUpdatedEvent;
 import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
 import com.gosqu.restaurant.restaurant.mapper.RestaurantMapper;
+import com.gosqu.restaurant.search.RestaurantSearchResult;
+import com.gosqu.restaurant.search.RestaurantSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,10 +37,27 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
     private final RestaurantEventPublisher eventPublisher;
+    private final RestaurantSearchService restaurantSearchService;
 
-    public Page<RestaurantResponse> search(String city, String cuisineType, String q, Pageable pageable) {
+    public Page<RestaurantResponse> search(String city, String cuisineType, String q,
+                                           Double lat, Double lon, Double radiusKm,
+                                           Pageable pageable) {
         CuisineType ct = parseCuisineType(cuisineType);
-        return restaurantRepository.search(city, ct, q, pageable).map(restaurantMapper::toResponse);
+        RestaurantSearchResult result = restaurantSearchService.search(
+                city, ct != null ? ct.name() : null, q, lat, lon, radiusKm, pageable);
+
+        // ES daje kolejność trafności + całkowitą liczbę wyników; pełne dane restauracji
+        // wciąż dociągamy z Postgresa (źródło prawdy) i odtwarzamy tę kolejność, bo
+        // findAllById() jej nie gwarantuje.
+        Map<UUID, Restaurant> byId = restaurantRepository.findAllById(result.orderedIds()).stream()
+                .collect(Collectors.toMap(Restaurant::getId, r -> r));
+        List<RestaurantResponse> ordered = result.orderedIds().stream()
+                .map(byId::get)
+                .filter(Objects::nonNull)
+                .map(restaurantMapper::toResponse)
+                .toList();
+
+        return new PageImpl<>(ordered, pageable, result.totalHits());
     }
 
     @Cacheable(value = "restaurant", key = "#id")
@@ -42,7 +66,6 @@ public class RestaurantService {
     }
 
     @Transactional
-    @CacheEvict(value = "restaurant-search", allEntries = true)
     public RestaurantResponse create(UUID ownerId, RestaurantRequest request) {
         Restaurant restaurant = restaurantMapper.toEntity(request);
         restaurant.setOwnerId(ownerId);
@@ -62,8 +85,7 @@ public class RestaurantService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "restaurant", key = "#restaurantId"),
-            @CacheEvict(value = "menu", key = "#restaurantId"),
-            @CacheEvict(value = "restaurant-search", allEntries = true)
+            @CacheEvict(value = "menu", key = "#restaurantId")
     })
     public RestaurantResponse update(UUID ownerId, UUID restaurantId, RestaurantRequest request) {
         Restaurant restaurant = findOrThrowOwned(ownerId, restaurantId);
@@ -94,8 +116,7 @@ public class RestaurantService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "restaurant", key = "#restaurantId"),
-            @CacheEvict(value = "menu", key = "#restaurantId"),
-            @CacheEvict(value = "restaurant-search", allEntries = true)
+            @CacheEvict(value = "menu", key = "#restaurantId")
     })
     public void deactivate(UUID ownerId, UUID restaurantId) {
         Restaurant restaurant = findOrThrowOwned(ownerId, restaurantId);

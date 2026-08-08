@@ -25,9 +25,11 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @Builder.Default
     @Column(nullable = false)
     private Integer displayOrder = 0;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isActive = true;
 }
