@@ -22,7 +22,7 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2SuccessHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -30,7 +30,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/register", "/auth/login", "/auth/verify-2fa",
                                 "/auth/reset-password/**", "/auth/oauth2/**",
-                                "/login/oauth2/**", "/oauth2/authorization/**"
+                                "/login/oauth2/**", "/oauth2/authorization/**",
+                                "/internal/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
