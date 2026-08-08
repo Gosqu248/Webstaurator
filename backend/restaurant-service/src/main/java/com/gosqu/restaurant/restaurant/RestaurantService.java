@@ -113,6 +113,10 @@ public class RestaurantService {
                 .orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
+    public UUID getOwnerId(UUID restaurantId) {
+        return findOrThrow(restaurantId).getOwnerId();
+    }
+
     public Restaurant findOrThrowOwned(UUID ownerId, UUID restaurantId) {
         Restaurant restaurant = findOrThrow(restaurantId);
         if (!restaurant.getOwnerId().equals(ownerId)) {
