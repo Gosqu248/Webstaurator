@@ -12,6 +12,7 @@ import com.gosqu.order.application.port.out.RestaurantClientPort;
 import com.gosqu.order.application.port.out.UserAddressClientPort;
 import com.gosqu.order.domain.exception.OrderNotFoundException;
 import com.gosqu.order.domain.model.*;
+import com.gosqu.order.infrastructure.cache.RestaurantAvailabilityCache;
 import com.gosqu.order.infrastructure.client.dto.AddressSnapshot;
 import com.gosqu.order.infrastructure.client.dto.MenuItemSnapshot;
 import com.gosqu.order.infrastructure.client.dto.RestaurantSnapshot;
@@ -35,11 +36,16 @@ public class OrderApplicationService implements CreateOrderUseCase, GetOrderUseC
     private final OrderEventPublisherPort eventPublisher;
     private final RestaurantClientPort restaurantClient;
     private final UserAddressClientPort addressClient;
+    private final RestaurantAvailabilityCache restaurantAvailabilityCache;
 
     @Override
     @Transactional
     public OrderResponse createOrder(CreateOrderCommand command) {
         log.info("action=create_order customerId={} restaurantId={}", command.customerId(), command.restaurantId());
+
+        if (restaurantAvailabilityCache.isUnavailable(command.restaurantId())) {
+            throw new IllegalArgumentException("Restaurant is not active: " + command.restaurantId());
+        }
 
         RestaurantSnapshot restaurant = restaurantClient.getRestaurant(command.restaurantId());
         if (Boolean.FALSE.equals(restaurant.isActive())) {

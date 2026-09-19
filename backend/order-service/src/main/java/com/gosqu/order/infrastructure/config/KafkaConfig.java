@@ -38,4 +38,21 @@ public class KafkaConfig {
     public NewTopic orderCancelledTopic() {
         return TopicBuilder.name(KafkaTopics.ORDER_CANCELLED).partitions(3).replicas(1).build();
     }
+
+    // Dead-letter topiki dla konsumentów tego serwisu (Część 3.1) — ta sama liczba partycji
+    // co temat źródłowy; DeadLetterPublishingRecoverer i tak wymusza wybór partycji na -1.
+    @Bean
+    public NewTopic paymentCompletedDltTopic() {
+        return TopicBuilder.name(KafkaTopics.PAYMENT_COMPLETED + ".DLT").partitions(3).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic paymentFailedDltTopic() {
+        return TopicBuilder.name(KafkaTopics.PAYMENT_FAILED + ".DLT").partitions(3).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic restaurantDeactivatedDltTopic() {
+        return TopicBuilder.name(KafkaTopics.RESTAURANT_DEACTIVATED + ".DLT").partitions(3).replicas(1).build();
+    }
 }
