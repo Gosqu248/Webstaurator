@@ -1,20 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:200');
+/* You can add global styles to this file, and also import other style files */
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: 'Roboto', sans-serif;
-}
-
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
-
-.mat-tab-group.mat-primary .mat-ink-bar {
-  height: 20px; /* Adjust the height to increase the thickness */
-}
-
-
+@import 'tailwindcss';

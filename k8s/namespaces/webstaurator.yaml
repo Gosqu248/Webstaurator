@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webstaurator
+  labels:
+    app: webstaurator
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webstaurator-infra
+  labels:
+    app: webstaurator
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webstaurator-monitoring
+  labels:
+    app: webstaurator
