@@ -153,26 +153,6 @@ services:
     ports:
       - "5601:5601"
 
-  # ─── Object Storage (MinIO) ────────────────────────────────────────────────
-  minio:
-    image: minio/minio:latest
-    container_name: webs-minio
-    restart: unless-stopped
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio_data:/data
-    healthcheck:
-      test: [ "CMD", "mc", "ready", "local" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   # ─── Distributed Tracing (Jaeger) ─────────────────────────────────────────
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -219,6 +199,14 @@ services:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
       - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
 
+  # ─── Floci (AWS simulator) ────────────────────────────────────────────────────
+  floci:
+    image: floci/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   # ─── Dev Mail (MailDev) ────────────────────────────────────────────────────
   maildev:
     image: maildev/maildev
@@ -234,5 +222,4 @@ volumes:
   kafka_data:
   redis_data:
   elasticsearch_data:
-  minio_data:
   grafana_data:
