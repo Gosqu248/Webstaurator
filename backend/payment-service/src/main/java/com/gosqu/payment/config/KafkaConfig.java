@@ -18,4 +18,15 @@ public class KafkaConfig {
     public NewTopic paymentFailedTopic() {
         return TopicBuilder.name(KafkaTopics.PAYMENT_FAILED).partitions(3).replicas(1).build();
     }
+
+    // Dead-letter topiki dla konsumentów tego serwisu (Część 3.1)
+    @Bean
+    public NewTopic orderCreatedDltTopic() {
+        return TopicBuilder.name(KafkaTopics.ORDER_CREATED + ".DLT").partitions(3).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic orderCancelledDltTopic() {
+        return TopicBuilder.name(KafkaTopics.ORDER_CANCELLED + ".DLT").partitions(3).replicas(1).build();
+    }
 }

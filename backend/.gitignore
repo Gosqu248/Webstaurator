@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/md/todo/
+/auth-service/src/main/resources/keys/
+/api-gateway/src/main/resources/keys/

@@ -7,6 +7,7 @@ import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
 import com.gosqu.restaurant.restaurant.mapper.RestaurantMapper;
 import com.gosqu.restaurant.search.RestaurantSearchResult;
 import com.gosqu.restaurant.search.RestaurantSearchService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -48,6 +53,18 @@ class RestaurantServiceTest {
     @Mock
     private RestaurantSearchService restaurantSearchService;
 
+    @Mock
+    private CacheManager cacheManager;
+
+    @Mock
+    private Cache cache;
+
+    @Mock
+    private StringRedisTemplate redisTemplate;
+
+    @Mock
+    private ValueOperations<String, String> valueOperations;
+
     @InjectMocks
     private RestaurantService service;
 
@@ -73,6 +90,13 @@ class RestaurantServiceTest {
     @Nested
     @DisplayName("getById")
     class GetById {
+
+        @BeforeEach
+        void setUpCacheAndLock() {
+            when(cacheManager.getCache("restaurant")).thenReturn(cache);
+            when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+            when(valueOperations.setIfAbsent(any(), any(), any())).thenReturn(true);
+        }
 
         @Test
         @DisplayName("returns response when restaurant exists")

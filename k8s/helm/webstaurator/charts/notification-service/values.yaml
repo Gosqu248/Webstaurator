@@ -1,0 +1,60 @@
+replicaCount: 2
+
+image:
+  repository: webstaurator/notification-service
+  tag: latest
+
+service:
+  port: 8086
+
+metricsPort: 9096
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+pdb:
+  minAvailable: 1
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilization: 70
+
+configMap:
+  data:
+    MONGO_HOST: "mongodb.webstaurator-infra.svc.cluster.local"
+    MONGO_PORT: "27017"
+    MONGO_DB: "webstaurator_db"
+    KAFKA_BOOTSTRAP_SERVERS: "kafka.webstaurator-infra.svc.cluster.local:9092"
+    MAIL_HOST: "maildev.webstaurator-infra.svc.cluster.local"
+    MAIL_PORT: "1025"
+    JAEGER_HOST: "jaeger.webstaurator-monitoring.svc.cluster.local"
+    AUTH_SERVICE_URL: "http://auth-service:8081"
+
+# Placeholdery CHANGE_ME — nadpisz przez osobny, niecommitowany plik values (analogicznie do
+# services/notification-service/secret.yaml, gitignored), NIE edytuj tego pliku z realnymi sekretami.
+secret:
+  stringData:
+    MONGO_USER: "CHANGE_ME"
+    MONGO_PASSWORD: "CHANGE_ME"
+    INTERNAL_API_KEY: "CHANGE_ME"
+
+networkPolicy:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+      ports:
+        - port: 8086
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator-monitoring
+      ports:
+        - port: 9096

@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mongodb-allow-from-services
+  namespace: webstaurator-infra
+spec:
+  podSelector:
+    matchLabels:
+      app: mongodb
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: review-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: notification-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: delivery-service
+      ports:
+        - port: 27017

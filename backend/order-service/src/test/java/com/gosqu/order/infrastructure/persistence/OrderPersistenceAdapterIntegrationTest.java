@@ -8,10 +8,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.kafka.ConfluentKafkaContainer;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,25 +21,17 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration"
-)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Testcontainers
 class OrderPersistenceAdapterIntegrationTest {
 
-    @SuppressWarnings("resource")
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+    @Container
+    @ServiceConnection
+    static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
 
-    static {
-        postgres.start();
-    }
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
+    @Container
+    @ServiceConnection
+    static final ConfluentKafkaContainer kafka = new ConfluentKafkaContainer("confluentinc/cp-kafka:7.7.1");
 
     @MockitoBean
     private OrderEventPublisherPort eventPublisher;

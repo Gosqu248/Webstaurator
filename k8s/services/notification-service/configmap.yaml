@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-service-config
+  namespace: webstaurator
+data:
+  MONGO_HOST: mongodb.webstaurator-infra.svc.cluster.local
+  MONGO_PORT: "27017"
+  MONGO_DB: webstaurator_db
+  KAFKA_BOOTSTRAP_SERVERS: kafka.webstaurator-infra.svc.cluster.local:9092
+  # MailDev nie ma jeszcze manifestu w k8s/infrastructure/ — patrz komentarz w
+  # auth-service/configmap.yaml.
+  MAIL_HOST: maildev.webstaurator-infra.svc.cluster.local
+  MAIL_PORT: "1025"
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local
+  AUTH_SERVICE_URL: http://auth-service:8081

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: notification-service
+description: Webstaurator notification-service — Helm subchart
+type: application
+version: 0.1.0
+appVersion: "2.0.0"

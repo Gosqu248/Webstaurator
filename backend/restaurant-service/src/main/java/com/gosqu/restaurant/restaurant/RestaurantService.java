@@ -12,15 +12,18 @@ import com.gosqu.restaurant.search.RestaurantSearchResult;
 import com.gosqu.restaurant.search.RestaurantSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +37,20 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class RestaurantService {
 
+    // Cache stampede protection (md/todo-v2/02-redis-mid-senior.md, sekcja 2) — SETNX jest atomowy w Redisie
+    // (single-threaded event loop po stronie serwera), więc dwie instancje nigdy nie zdobędą tego samego locka
+    // równocześnie, w przeciwieństwie do EXISTS+SET (dwie operacje = race condition).
+    private static final Duration LOCK_TTL = Duration.ofSeconds(5);
+    private static final Duration LOCK_WAIT_INTERVAL = Duration.ofMillis(50);
+    private static final int LOCK_WAIT_ATTEMPTS = 10;
+
     private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
     private final RestaurantEventPublisher eventPublisher;
     private final RestaurantSearchService restaurantSearchService;
+    private final CacheManager cacheManager;
+    private final StringRedisTemplate redisTemplate;
+
 
     public Page<RestaurantResponse> search(String city, String cuisineType, String q,
                                            Double lat, Double lon, Double radiusKm,
@@ -60,9 +73,49 @@ public class RestaurantService {
         return new PageImpl<>(ordered, pageable, result.totalHits());
     }
 
-    @Cacheable(value = "restaurant", key = "#id")
     public RestaurantResponse getById(UUID id) {
-        return restaurantMapper.toResponse(findOrThrow(id));
+        Cache cache = cacheManager.getCache("restaurant");
+        RestaurantResponse cached = cache != null ? cache.get(id, RestaurantResponse.class) : null;
+        if (cached != null) {
+            return cached;
+        }
+
+        String lockKey = "lock:restaurant:" + id;
+        boolean lockAcquired = Boolean.TRUE.equals(
+                redisTemplate.opsForValue().setIfAbsent(lockKey, "1", LOCK_TTL));
+
+        if (!lockAcquired) {
+            // Ktos inny juz odbudowuje ten wpis — czekamy zamiast rownolegle bic w baze (stampede).
+            for (int attempt = 0; attempt < LOCK_WAIT_ATTEMPTS; attempt++) {
+                sleep(LOCK_WAIT_INTERVAL);
+                cached = cache != null ? cache.get(id, RestaurantResponse.class) : null;
+                if (cached != null) {
+                    return cached;
+                }
+            }
+            // Lock trzymajacy proces nie zdazyl uzupelnic cache w rozsadnym czasie — czytamy z bazy
+            // wprost, zamiast blokowac zadanie w nieskonczonosc.
+            return restaurantMapper.toResponse(findOrThrow(id));
+        }
+
+        try {
+            RestaurantResponse response = restaurantMapper.toResponse(findOrThrow(id));
+            if (cache != null) {
+                cache.put(id, response);
+            }
+            return response;
+        } finally {
+            redisTemplate.delete(lockKey);
+        }
+    }
+
+    private void sleep(Duration duration) {
+        try {
+            Thread.sleep(duration.toMillis());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Przerwano oczekiwanie na lock cache", e);
+        }
     }
 
     @Transactional

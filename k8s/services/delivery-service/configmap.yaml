@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: delivery-service-config
+  namespace: webstaurator
+data:
+  MONGO_HOST: mongodb.webstaurator-infra.svc.cluster.local
+  MONGO_PORT: "27017"
+  MONGO_DB: webstaurator_db
+  KAFKA_BOOTSTRAP_SERVERS: kafka.webstaurator-infra.svc.cluster.local:9092
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local

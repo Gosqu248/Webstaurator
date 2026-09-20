@@ -3,13 +3,16 @@ package com.gosqu.gateway.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.DefaultResourceLoader;
 
-import javax.crypto.SecretKey;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
@@ -20,54 +23,52 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JwtUtilTest {
 
-    private static final String TEST_SECRET = Base64.getEncoder().encodeToString(
-            "webstaurator-test-secret-key-must-be-at-least-256-bits-long!!".getBytes());
+    private static KeyPair keyPair;
+    private static KeyPair wrongKeyPair;
 
     private JwtUtil jwtUtil;
 
+    @BeforeAll
+    static void generateKeys() throws Exception {
+        keyPair = generateRsaKeyPair();
+        wrongKeyPair = generateRsaKeyPair();
+    }
+
     @BeforeEach
-    void setUp() {
-        jwtUtil = new JwtUtil(TEST_SECRET);
+    void setUp() throws Exception {
+        jwtUtil = new JwtUtil(new DefaultResourceLoader(), toPem(keyPair.getPublic()));
     }
 
     @Test
     @DisplayName("extractClaims return correct subject, role, userId")
     void extractClaims_validToken_returnCorrectClaims() {
-        String token = buildToken("gosqu@gosqu.com", "ADMIN", 777L, 3_600_000);
+        String token = buildToken(keyPair.getPrivate(), "gosqu@gosqu.com", "ADMIN", "777", 3_600_000);
 
         Claims claims = jwtUtil.extractClaims(token);
 
         assertEquals("gosqu@gosqu.com", claims.getSubject());
         assertEquals("ADMIN", claims.get("role", String.class));
-        assertEquals(777L, claims.get("userId", Long.class));
+        assertEquals("777", claims.get("userId", String.class));
     }
 
     @Test
     @DisplayName("isValid return true for fresh token")
     void isValid_freshToken_returnsTrue() {
-        String token = buildToken("gosqu@test.gosqu", "CUSTOMER", 1L, 3_600_000);
+        String token = buildToken(keyPair.getPrivate(), "gosqu@test.gosqu", "CUSTOMER", "1", 3_600_000);
         assertThat(jwtUtil.isValid(token)).isTrue();
     }
 
     @Test
     @DisplayName("isValid return false for expired token")
     void isValid_expiredToken_returnsFalse() {
-        String token = buildToken("gosqu@gosqu.com", "CUSTOMER", 1L, -1_000);
+        String token = buildToken(keyPair.getPrivate(), "gosqu@gosqu.com", "CUSTOMER", "1", -1_000);
         assertThat(jwtUtil.isValid(token)).isFalse();
     }
 
     @Test
-    @DisplayName("isValid return false for token signed with wrong secret")
-    void isValid_wrongSecret_returnsFalse() {
-        String wrongSecret = Base64.getEncoder().encodeToString(
-                "completely-different-secret-key-at-least-256-bits-long!!".getBytes());
-        SecretKey wrongKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(wrongSecret));
-        String tampered = Jwts.builder()
-                .subject("hacker@evil.com")
-                .expiration(new Date(System.currentTimeMillis() + 3_600_000))
-                .signWith(wrongKey)
-                .compact();
-
+    @DisplayName("isValid return false for token signed with wrong key")
+    void isValid_wrongKey_returnsFalse() {
+        String tampered = buildToken(wrongKeyPair.getPrivate(), "hacker@evil.com", "ADMIN", "1", 3_600_000);
         assertThat(jwtUtil.isValid(tampered)).isFalse();
     }
 
@@ -78,14 +79,26 @@ class JwtUtilTest {
                 .isInstanceOf(JwtException.class);
     }
 
-    private String buildToken(String email, String role, long userId, long expiresInMs) {
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(TEST_SECRET));
+    // expiresInMs w nazwie, plusSeconds w implementacji — zachowane z oryginalnego testu, żeby
+    // nie zmieniać efektywnych okien czasowych testu przy okazji migracji HMAC -> RSA.
+    private static String buildToken(PrivateKey privateKey, String email, String role, String userId, long expiresInMs) {
         return Jwts.builder()
                 .subject(email)
                 .claim("role", role)
                 .claim("userId", userId)
                 .expiration(Date.from(Instant.now().plusSeconds(expiresInMs)))
-                .signWith(key)
+                .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
+    }
+
+    private static KeyPair generateRsaKeyPair() throws Exception {
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+        generator.initialize(2048);
+        return generator.generateKeyPair();
+    }
+
+    private static String toPem(PublicKey key) {
+        String base64 = Base64.getEncoder().encodeToString(key.getEncoded());
+        return "-----BEGIN PUBLIC KEY-----\n" + base64 + "\n-----END PUBLIC KEY-----";
     }
 }

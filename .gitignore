@@ -31,3 +31,35 @@ build/
 ### VS Code ###
 .vscode/
 .env
+# Added by code-review-graph
+.code-review-graph/
+/.claude/settings.json
+/.github/code-review-graph.instruction.md
+
+# K8s Secret manifesty z realnymi wartościami — nigdy w repo w plaintext
+# (patrz backend/md/todo/15-kubernetes-manifests-guide.md, sekcja 2).
+# Commitowane są tylko *.example.yaml jako szablon.
+k8s/**/secret.yaml
+
+# OS metadata
+.DS_Store
+**/.DS_Store
+
+# Multi-tool AI assistant integration files (auto-generated duplicates of CLAUDE.md /
+# local MCP config for tools other than Claude Code — machine-specific, not portable)
+.mcp.json
+.cursorrules
+.windsurfrules
+.codebuddy/
+.gemini/
+.kiro/
+.qoder/
+.claude/skills/
+AGENTS.md
+CODEBUDDY.md
+GEMINI.md
+QODER.md
+opencode.jsonc
+
+# token-optimizer local cache/index
+**/.token-optimizer/
