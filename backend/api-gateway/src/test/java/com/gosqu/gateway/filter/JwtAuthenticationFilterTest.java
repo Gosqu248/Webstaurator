@@ -117,7 +117,7 @@ class JwtAuthenticationFilterTest {
         Claims claims = mock(Claims.class);
         when(claims.getSubject()).thenReturn("gosqu@gosqu.com");
         when(claims.get("role", String.class)).thenReturn("ADMIN");
-        when(claims.get("userId", Long.class)).thenReturn(777L);
+        when(claims.get("userId", String.class)).thenReturn("777");
         when(jwtUtil.extractClaims("valid.token")).thenReturn(claims);
 
         ArgumentCaptor<ServerWebExchange> captor = ArgumentCaptor.forClass(ServerWebExchange.class);

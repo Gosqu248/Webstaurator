@@ -59,10 +59,13 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String token = authHeader.substring(7);
         try {
             Claims claims = jwtUtil.extractClaims(token);
+            // userId to UUID zapisany jako String w tokenie (JwtService.generateToken w
+            // auth-service robi userId.toString()) — wszyscy konsumenci X-User-Id w pozostałych
+            // 8 serwisach oczekują @RequestHeader(...) UUID, nie liczby.
             ServerHttpRequest enrichedRequest = exchange.getRequest().mutate()
                     .header("X-User-Email", claims.getSubject())
                     .header("X-User-Role", claims.get("role", String.class))
-                    .header("X-User-Id", String.valueOf(claims.get("userId", Long.class)))
+                    .header("X-User-Id", claims.get("userId", String.class))
                     .build();
             return chain.filter(exchange.mutate().request(enrichedRequest).build());
         } catch (JwtException e) {
