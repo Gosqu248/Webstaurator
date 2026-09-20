@@ -3,6 +3,8 @@ package com.gosqu.order.infrastructure.controller;
 import com.gosqu.order.domain.exception.ForbiddenOrderAccessException;
 import com.gosqu.order.domain.exception.InvalidOrderTransitionException;
 import com.gosqu.order.domain.exception.OrderNotFoundException;
+import com.gosqu.order.domain.exception.RestaurantServiceUnavailableException;
+import com.gosqu.order.domain.exception.UserServiceUnavailableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleIllegalArgument(IllegalArgumentException ex) {
+        return Map.of("error", ex.getMessage());
+    }
+
+    @ExceptionHandler({RestaurantServiceUnavailableException.class, UserServiceUnavailableException.class})
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public Map<String, String> handleUpstreamServiceUnavailable(RuntimeException ex) {
         return Map.of("error", ex.getMessage());
     }
 

@@ -12,14 +12,19 @@ import com.gosqu.payment.messaging.producer.PaymentEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.gosqu.payment.exception.ForbiddenException;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.UUID;
 
 @Slf4j
@@ -31,6 +36,12 @@ public class PaymentService {
     private final PayUClient payUClient;
     private final PayUProperties payUProperties;
     private final PaymentEventProducer eventProducer;
+    private final StringRedisTemplate redisTemplate;
+
+    // Idempotencja webhooka PayU (md/todo-v2/02-redis-mid-senior.md, sekcja 3) — PayU moze wyslac
+    // to samo powiadomienie wielokrotnie (retry po stronie PayU, gdy nasza odpowiedz sie zgubi).
+    // Klucz zawiera statusCode, bo COMPLETED->COMPLETED i PENDING->COMPLETED to rozne zdarzenia.
+    private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
 
     @Value("${server.address:localhost}")
     private String serverAddress;
@@ -182,6 +193,28 @@ public class PaymentService {
         }
         paymentRepository.findByProviderTransactionId(payuOrderId)
                 .ifPresentOrElse(payment -> {
+                    String idempotencyKey = "payu:webhook:%s:%s".formatted(payuOrderId, statusCode);
+                    boolean firstProcessing = Boolean.TRUE.equals(redisTemplate.opsForValue()
+                            .setIfAbsent(idempotencyKey, Instant.now().toString(), IDEMPOTENCY_TTL));
+                    if (!firstProcessing) {
+                        log.info("action=payu_ipn_duplicate_ignored payuOrderId={} status={}", payuOrderId, statusCode);
+                        return;
+                    }
+
+                    // Klucz idempotencji zyje w Redisie poza transakcja DB — jesli commit sie nie powiedzie
+                    // (albo cokolwiek ponizej rzuci wyjatek), trzeba go usunac. Inaczej retry od PayU trafi
+                    // w "duplicate_ignored", a platnosc utknie bez jakiegokolwiek eventu az do wygasniecia TTL.
+                    if (TransactionSynchronizationManager.isSynchronizationActive()) {
+                        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                            @Override
+                            public void afterCompletion(int status) {
+                                if (status != TransactionSynchronization.STATUS_COMMITTED) {
+                                    redisTemplate.delete(idempotencyKey);
+                                }
+                            }
+                        });
+                    }
+
                     switch (statusCode) {
                         case "COMPLETED" -> {
                             payment.setStatus(PaymentStatus.COMPLETED);

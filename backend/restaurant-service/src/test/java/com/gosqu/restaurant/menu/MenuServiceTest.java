@@ -47,6 +47,9 @@ class MenuServiceTest {
     @Mock
     private MenuMapper menuMapper;
 
+    @Mock
+    private MenuEventPublisher menuEventPublisher;
+
     @InjectMocks
     private MenuService service;
 

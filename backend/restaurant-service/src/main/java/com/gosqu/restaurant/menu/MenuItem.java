@@ -37,6 +37,7 @@ public class MenuItem {
 
     private String imageUrl;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isAvailable = true;
 

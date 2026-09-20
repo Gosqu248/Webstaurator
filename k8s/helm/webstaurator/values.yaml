@@ -57,7 +57,107 @@ auth-service:
       memory: "512Mi"
       cpu: "500m"
 
-# Remaining services follow the same pattern
-# (user-service: 8082, restaurant-service: 8083, order-service: 8084,
-#  payment-service: 8085, notification-service: 8086,
-#  delivery-service: 8087, review-service: 8088)
+user-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/user-service
+    tag: latest
+  service:
+    port: 8082
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+restaurant-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/restaurant-service
+    tag: latest
+  service:
+    port: 8083
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+order-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/order-service
+    tag: latest
+  service:
+    port: 8084
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+payment-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/payment-service
+    tag: latest
+  service:
+    port: 8085
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+notification-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/notification-service
+    tag: latest
+  service:
+    port: 8086
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+delivery-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/delivery-service
+    tag: latest
+  service:
+    port: 8087
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+review-service:
+  replicaCount: 2
+  image:
+    repository: webstaurator/review-service
+    tag: latest
+  service:
+    port: 8088
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,9 +32,12 @@ public class RestaurantController {
             @RequestParam(required = false) @Size(max = 100) String city,
             @RequestParam(required = false) String cuisineType,
             @RequestParam(required = false) @Size(max = 100) String q,
+            @RequestParam(required = false) @DecimalMin("-90") @DecimalMax("90") Double lat,
+            @RequestParam(required = false) @DecimalMin("-180") @DecimalMax("180") Double lon,
+            @RequestParam(required = false) @Positive Double radiusKm,
             @RequestParam(defaultValue = "0") @Min(0) int page,
             @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size) {
-        return restaurantService.search(city, cuisineType, q, PageRequest.of(page, size));
+        return restaurantService.search(city, cuisineType, q, lat, lon, radiusKm, PageRequest.of(page, size));
     }
 
     @GetMapping("/{id}")

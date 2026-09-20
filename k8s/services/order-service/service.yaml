@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: webstaurator
+spec:
+  selector:
+    app: order-service
+  ports:
+    - port: 8084
+      targetPort: 8084
+  type: ClusterIP

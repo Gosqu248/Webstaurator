@@ -48,9 +48,11 @@ public class Restaurant {
     private String logoUrl;
     private String bannerUrl;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean isActive = true;
 
+    @Builder.Default
     private Double avgRating = 0.0;
 
     private Integer deliveryTimeMin;

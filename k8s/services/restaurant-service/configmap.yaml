@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restaurant-service-config
+  namespace: webstaurator
+data:
+  POSTGRES_HOST: postgres.webstaurator-infra.svc.cluster.local
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: webstaurator_db
+  REDIS_HOST: redis.webstaurator-infra.svc.cluster.local
+  REDIS_PORT: "6379"
+  ELASTICSEARCH_HOST: elasticsearch.webstaurator-infra.svc.cluster.local
+  ELASTICSEARCH_PORT: "9200"
+  KAFKA_BOOTSTRAP_SERVERS: kafka.webstaurator-infra.svc.cluster.local:9092
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local

@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: elasticsearch-allow-ingress
+  namespace: webstaurator-infra
+spec:
+  podSelector:
+    matchLabels:
+      app: elasticsearch
+  policyTypes:
+    - Ingress
+  ingress:
+    # Jedyny klient HTTP dziś: restaurant-service (wyszukiwanie restauracji).
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: restaurant-service
+      ports:
+        - port: 9200
+    # Transport port między node'ami klastra ES (discovery + replikacja shardów) — bez tego 3-node
+    # klaster nigdy się nie sformuje pod default-deny.
+    - from:
+        - podSelector:
+            matchLabels:
+              app: elasticsearch
+      ports:
+        - port: 9300

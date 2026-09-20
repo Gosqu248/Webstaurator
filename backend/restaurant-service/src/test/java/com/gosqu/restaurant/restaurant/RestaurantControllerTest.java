@@ -74,7 +74,7 @@ class RestaurantControllerTest {
         @Test
         @DisplayName("returns 200 without query parameters")
         void search_noParams_returns200() throws Exception {
-            when(restaurantService.search(any(), any(), any(), any()))
+            when(restaurantService.search(any(), any(), any(), any(), any(), any(), any()))
                     .thenReturn(new PageImpl<>(List.of(), PageRequest.of(0, 20), 0));
 
             mockMvc.perform(get("/restaurants"))
@@ -84,7 +84,7 @@ class RestaurantControllerTest {
         @Test
         @DisplayName("returns 400 when service throws IllegalArgumentException for invalid enum")
         void search_invalidCuisineType_returns400() throws Exception {
-            when(restaurantService.search(any(), eq("INVALID"), any(), any()))
+            when(restaurantService.search(any(), eq("INVALID"), any(), any(), any(), any(), any()))
                     .thenThrow(new IllegalArgumentException("No enum constant: INVALID"));
 
             mockMvc.perform(get("/restaurants").param("cuisineType", "INVALID"))

@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: delivery-service-pdb
+  namespace: webstaurator
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: delivery-service

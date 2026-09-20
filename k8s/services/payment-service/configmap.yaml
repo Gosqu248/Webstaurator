@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-service-config
+  namespace: webstaurator
+data:
+  POSTGRES_HOST: postgres.webstaurator-infra.svc.cluster.local
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: webstaurator_db
+  KAFKA_BOOTSTRAP_SERVERS: kafka.webstaurator-infra.svc.cluster.local:9092
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local

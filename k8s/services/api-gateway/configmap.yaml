@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+  namespace: webstaurator
+data:
+  # Pozostałe 8 mikroserwisów żyje w tym samym namespace ("webstaurator") — krótka nazwa Service'u
+  # wystarcza do rozwiązania DNS, FQDN potrzebny tylko przy odwołaniach między namespace'ami
+  # (patrz REDIS_HOST/JAEGER_HOST poniżej, infra i monitoring są w innych namespace'ach).
+  AUTH_SERVICE_URL: http://auth-service:8081
+  USER_SERVICE_URL: http://user-service:8082
+  RESTAURANT_SERVICE_URL: http://restaurant-service:8083
+  ORDER_SERVICE_URL: http://order-service:8084
+  PAYMENT_SERVICE_URL: http://payment-service:8085
+  NOTIFICATION_SERVICE_URL: http://notification-service:8086
+  DELIVERY_SERVICE_URL: http://delivery-service:8087
+  REVIEW_SERVICE_URL: http://review-service:8088
+  REDIS_HOST: redis.webstaurator-infra.svc.cluster.local
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local
+  CORS_ALLOWED_ORIGINS: http://localhost:4200

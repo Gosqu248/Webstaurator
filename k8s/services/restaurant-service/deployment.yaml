@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-service
+  namespace: webstaurator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: restaurant-service
+  template:
+    metadata:
+      labels:
+        app: restaurant-service
+    spec:
+      containers:
+        - name: restaurant-service
+          image: webstaurator/restaurant-service:latest
+          ports:
+            - containerPort: 8083
+            - containerPort: 9093
+          envFrom:
+            - configMapRef:
+                name: restaurant-service-config
+            - secretRef:
+                name: restaurant-service-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              # Port 9093 (unikalny actuator restaurant-service), nie 9090 jak w przykładzie
+              # przewodnika — ten sam port 9090 na wszystkich serwisach był bugiem naprawionym
+              # wcześniej w tej sesji (kolizja przy odpalaniu 9 serwisów na hoście).
+              port: 9093
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9093
+            initialDelaySeconds: 30
+            periodSeconds: 15

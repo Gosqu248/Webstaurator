@@ -1,0 +1,68 @@
+replicaCount: 2
+
+image:
+  repository: webstaurator/auth-service
+  tag: latest
+
+service:
+  port: 8081
+
+metricsPort: 9091
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+pdb:
+  minAvailable: 1
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilization: 70
+
+configMap:
+  data:
+    POSTGRES_HOST: "postgres.webstaurator-infra.svc.cluster.local"
+    POSTGRES_PORT: "5432"
+    POSTGRES_DB: "webstaurator_db"
+    REDIS_HOST: "redis.webstaurator-infra.svc.cluster.local"
+    MAIL_HOST: "maildev.webstaurator-infra.svc.cluster.local"
+    MAIL_PORT: "1025"
+    FRONTEND_URL: "http://localhost:4200"
+    JAEGER_HOST: "jaeger.webstaurator-monitoring.svc.cluster.local"
+
+# Placeholdery CHANGE_ME — nadpisz przez osobny, niecommitowany plik values (analogicznie do
+# services/auth-service/secret.yaml, gitignored), NIE edytuj tego pliku z realnymi sekretami.
+secret:
+  stringData:
+    POSTGRES_USER: "CHANGE_ME"
+    POSTGRES_PASSWORD: "CHANGE_ME"
+    REDIS_PASSWORD: "CHANGE_ME"
+    GOOGLE_CLIENT_ID: "CHANGE_ME"
+    GOOGLE_CLIENT_SECRET: "CHANGE_ME"
+    INTERNAL_API_KEY: "CHANGE_ME"
+    AUTH_PRIVATE: "CHANGE_ME_PEM_PRIVATE_KEY"
+    AUTH_PUBLIC: "CHANGE_ME_PEM_PUBLIC_KEY"
+
+networkPolicy:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: api-gateway
+        - podSelector:
+            matchLabels:
+              app: notification-service
+      ports:
+        - port: 8081
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator-monitoring
+      ports:
+        - port: 9091

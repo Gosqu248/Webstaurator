@@ -7,48 +7,52 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  # Spring Boot microservices — actuator/prometheus endpoint
+  # Spring Boot microservices — actuator/prometheus endpoint.
+  # Serwisy działają na hoście (IDE/mvnw), nie w Dockerze — Prometheus (kontener) dobija się do
+  # nich przez host.docker.internal, nie przez nazwy kontenerów. Actuator ma osobny, izolowany
+  # port per serwis (9090-9098, nie ten sam co publiczne API 8080-8088) — patrz
+  # management.server.port w application.properties każdego serwisu.
   - job_name: 'api-gateway'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['api-gateway:8080']
+      - targets: ['host.docker.internal:9090']
 
   - job_name: 'auth-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['auth-service:8081']
+      - targets: ['host.docker.internal:9091']
 
   - job_name: 'user-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['user-service:8082']
+      - targets: ['host.docker.internal:9092']
 
   - job_name: 'restaurant-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['restaurant-service:8083']
+      - targets: ['host.docker.internal:9093']
 
   - job_name: 'order-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['order-service:8084']
+      - targets: ['host.docker.internal:9094']
 
   - job_name: 'payment-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['payment-service:8085']
+      - targets: ['host.docker.internal:9095']
 
   - job_name: 'notification-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['notification-service:8086']
+      - targets: ['host.docker.internal:9096']
 
   - job_name: 'delivery-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['delivery-service:8087']
+      - targets: ['host.docker.internal:9097']
 
   - job_name: 'review-service'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['review-service:8088']
+      - targets: ['host.docker.internal:9098']

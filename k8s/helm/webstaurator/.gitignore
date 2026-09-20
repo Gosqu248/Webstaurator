@@ -1,0 +1,4 @@
+# Generowane przez `helm dependency update` — podchart-y są w katalogu charts/<serwis>/
+# jako zwykłe katalogi, więc te artefakty nie muszą (i nie powinny) trafiać do repo.
+charts/*.tgz
+Chart.lock

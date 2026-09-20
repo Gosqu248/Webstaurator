@@ -13,4 +13,10 @@ public class KafkaConfig {
     public NewTopic reviewRestaurantRatedTopic() {
         return TopicBuilder.name(KafkaTopics.REVIEW_RESTAURANT_RATED).partitions(3).replicas(1).build();
     }
+
+    // Dead-letter topik dla konsumenta tego serwisu (Część 3.1)
+    @Bean
+    public NewTopic orderDeliveredDltTopic() {
+        return TopicBuilder.name(KafkaTopics.ORDER_DELIVERED + ".DLT").partitions(3).replicas(1).build();
+    }
 }
