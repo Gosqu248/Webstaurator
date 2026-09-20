@@ -38,6 +38,7 @@ Platforma food delivery klasy Uber Eats / Bolt Food zbudowana jako **architektur
 | `payment.completed` | payment-service | order-service |
 | `payment.failed` | payment-service | order-service, notification-service |
 | `delivery.location` | delivery-service | order-service (real-time tracking) |
+| `review.restaurant-rated` | review-service | restaurant-service (aktualizacja avgRating) |
 
 ---
 
@@ -138,16 +139,17 @@ helm install webstaurator k8s/helm/webstaurator/
 - [x] Prometheus config
 - [x] Ta dokumentacja
 
-### Faza 2 — API Gateway + Auth
-- [ ] `api-gateway` — Spring Cloud Gateway, JWT filter, rate limiting
-- [ ] `auth-service` — rejestracja, login, 2FA email, Google OAuth2, reset hasła
-- [ ] Flyway migracje dla auth-service
-- [ ] Maven parent POM
+### Faza 2 — API Gateway + Auth ✅
+- [x] `api-gateway` — Spring Cloud Gateway, JWT filter (+X-User-Id header), header stripping
+- [x] `auth-service` — rejestracja, login, 2FA email, Google OAuth2 (one-time code), reset hasła
+- [x] Flyway migracje dla auth-service
+- [x] Maven parent POM
+- [x] Security: token nie w URL, nagłówki zaufania czyszczone, user enumeration fix, actuator na porcie 9090
 
-### Faza 3 — Core domain
-- [ ] `user-service` — profile, adresy dostawy
-- [ ] `restaurant-service` — CRUD restauracji, menu, kategorie, godziny otwarcia
-- [ ] Flyway migracje
+### Faza 3 — Core domain ✅
+- [x] `user-service` — profile, adresy dostawy (port 8082)
+- [x] `restaurant-service` — CRUD restauracji, menu, kategorie, godziny otwarcia (port 8083)
+- [x] Flyway migracje dla obu serwisów
 
 ### Faza 4 — Order flow + Kafka
 - [ ] `order-service` — tworzenie zamówień, statusy, Kafka producer
@@ -176,3 +178,155 @@ helm install webstaurator k8s/helm/webstaurator/
 - Komunikacja async: Kafka events
 - Każdy serwis ma własne migracje Flyway / własną kolekcję MongoDB
 - Testy: JUnit 5 + Testcontainers (integration), Mockito (unit)
+
+---
+
+## Domain-Driven Design (DDD)
+
+Webstaurator stosuje taktyczne wzorce DDD w obrębie każdego serwisu. Architektura mikroserwisowa naturalnie pokrywa się z podziałem na **Bounded Contexts** — każdy serwis jest odrębnym kontekstem domenowym z własnym językiem ubiquitous language.
+
+### Bounded Contexts
+
+| Serwis | Bounded Context | Rdzeń domenowy |
+|---|---|---|
+| `auth-service` | Identity & Access | użytkownicy, sesje, tokeny |
+| `user-service` | User Profile | profil, adresy dostawy |
+| `restaurant-service` | Restaurant Catalog | restauracje, menu, kategorie |
+| `order-service` | Order Management | cykl życia zamówienia |
+| `payment-service` | Payments | płatności, historia |
+| `notification-service` | Notifications | powiadomienia async |
+| `delivery-service` | Delivery & Tracking | kurierzy, geolokalizacja |
+| `review-service` | Reviews | oceny, recenzje |
+
+Konteksty komunikują się przez zdarzenia domenowe (Kafka) — nie współdzielą bazy danych.
+
+### Agregaty
+
+Każdy serwis definiuje własne agregaty. Reguła: **repozytorium tylko dla korzenia agregatu** (Aggregate Root).
+
+Przykłady:
+
+| Serwis | Aggregate Root | Encje wewnątrz agregatu |
+|---|---|---|
+| `restaurant-service` | `Restaurant` | `OpeningHours` (ściśle związane z restauracją, brak sensu bez kontekstu) |
+| `restaurant-service` | `Category` | `MenuItem` (kategoria zarządza swoimi pozycjami) |
+| `order-service` | `Order` | `OrderItem` |
+| `payment-service` | `Payment` | `PaymentEvent` |
+
+**Decyzja projektowa**: `Category` i `MenuItem` są *oddzielnymi agregatami* (nie zagnieżdżonymi w `Restaurant`), bo:
+- `MenuItem` może mieć setki rekordów — ładowanie całego menu przy każdej zmianie restauracji to antywzorzec
+- Operacje na pozycjach menu (toggle dostępności, zmiana ceny) są niezależne od operacji na restauracji
+- Niezmiennik agregatu jest lokalny: `MenuItem.restaurantId` musi wskazywać na restaurację właściciela — sprawdzamy to w warstwie serwisowej przed każdą mutacją
+
+### Value Objects
+
+Preferujemy `record` do enkapsulowania pojęć domenowych bez tożsamości:
+
+```java
+// Zamiast rozproszonych pól BigDecimal w encjach
+public record Money(BigDecimal amount, String currency) {
+    public Money {
+        if (amount.compareTo(BigDecimal.ZERO) < 0)
+            throw new IllegalArgumentException("Amount cannot be negative");
+    }
+    public Money add(Money other) { return new Money(amount.add(other.amount), currency); }
+}
+
+// Adres jako spójny Value Object
+public record Address(String street, String city, String postalCode) {}
+```
+
+Docelowe Value Objects do wydzielenia:
+- `Money` — ceny (deliveryFee, minOrderAmount, menuItem.price)
+- `Address` — adres restauracji
+- `OpeningTimeSlot` — (dayOfWeek, openTime, closeTime)
+- `GeoPoint` — (latitude, longitude) dla delivery-service
+
+### Zdarzenia domenowe (Domain Events)
+
+Kafka topics = zdarzenia domenowe między kontekstami. Każde zdarzenie ma: typ, identyfikator agregatu, payload, timestamp.
+
+```java
+// Przykładowe zdarzenie — OrderCreatedEvent (order-service → payment-service)
+public record OrderCreatedEvent(
+    String eventId,
+    Long orderId,
+    Long customerId,
+    Long restaurantId,
+    BigDecimal totalAmount,
+    Instant occurredAt
+) {}
+```
+
+Aktualne zdarzenia (patrz sekcja Kafka Topics):
+
+| Zdarzenie | Producent | Konsumenci |
+|---|---|---|
+| `order.created` | order-service | payment-service, notification-service |
+| `order.delivered` | order-service | review-service, notification-service |
+| `payment.completed` | payment-service | order-service |
+
+Zasada: zdarzenie opisuje **co się stało** (past tense), nie polecenie. `OrderCreated` — tak. `CreateOrder` — nie.
+
+### Struktura pakietów wewnątrz serwisu
+
+Stosujemy podział na warstwy zgodny z DDD, unikając pakietów technicznych (`model/`, `repository/`) jako jedynego poziomu organizacji:
+
+```
+com.gosqu.<service>/
+  domain/
+    model/          — encje, Value Objects, Aggregate Roots
+    event/          — zdarzenia domenowe (rekordy publikowane przez Kafka)
+    exception/      — wyjątki domenowe (RestaurantNotFoundException, itp.)
+    repository/     — interfejsy repozytoriów (kontrakt, nie implementacja)
+  application/
+    service/        — Application Services (orkiestracja use-case'ów)
+    dto/
+      request/      — DTO wejściowe (rekordy z Bean Validation)
+      response/     — DTO wyjściowe (rekordy z fabryką from())
+  infrastructure/
+    persistence/    — implementacje JPA repozytoriów (jeśli oddzielone od interfejsu)
+    messaging/      — Kafka producers / consumers
+    config/         — SecurityConfig, konfiguracja Spring
+    controller/     — REST kontrolery (cienka warstwa adaptacyjna)
+```
+
+Obecne serwisy (auth, restaurant) mają płaski podział — **migracja do tej struktury będzie incremental**, przy dodawaniu nowych serwisów (order, payment) stosujemy już ten layout od razu.
+
+### Application Service vs Domain Service
+
+| Rodzaj | Co robi | Przykład |
+|---|---|---|
+| **Application Service** | Orkiestruje: wczytaj agregat, wykonaj domenową operację, zapisz, opublikuj zdarzenie | `RestaurantService.create()` |
+| **Domain Service** | Logika domenowa nieprzynależąca do jednego agregatu, bez infrastruktury | `PricingService.applyDeliveryDiscount(order, restaurant)` |
+
+W obecnych serwisach klasy `*Service` pełnią rolę Application Services. Domain Services pojawią się gdy logika biznesowa przekroczy granicę jednego agregatu (np. walidacja minimów zamówienia łącząca dane z restaurant-service i order-service).
+
+### Anti-Corruption Layer
+
+Każdy serwis konsumujący dane z innego serwisu (przez REST lub Kafka) definiuje własne DTO — nie współdzieli modelu domenowego. Przykład: `order-service` nie importuje encji z `restaurant-service`; pobiera dane przez REST i mapuje na swój wewnętrzny `RestaurantSnapshot`.
+
+### Priorytety DDD na kolejne fazy
+
+- **Faza 4 (order-service)**: stosujemy pełną strukturę pakietów DDD od początku; `Order` jako bogaty agregat z metodami domenowymi zamiast anemic model
+- **Faza 5 (review-service)**: zdarzenie `order.delivered` → domain event consumer → tworzenie `Review` (Event-Driven DDD)
+- **Refaktor restaurant-service**: wydzielenie Value Objects (`Money`, `Address`), testy przed refaktorem
+
+---
+
+## Media Storage (S3 / floci)
+
+Upload avatara (`user-service`) i loga restauracji (`restaurant-service`) idzie bezpośrednio pod
+`software.amazon.awssdk:s3`, bez pośredniej warstwy (MinIO SDK celowo pominięty — patrz
+`backend/md/todo-v2/08-floci-eks-s3.md`).
+
+- **Dev**: `floci` (kontener w `docker-compose.yml`, port 4566) emuluje S3 lokalnie, bez konta AWS.
+- **Prod/EKS**: `aws.s3.endpoint` puste → SDK używa prawdziwego AWS i domyślnego łańcucha
+  poświadczeń (docelowo IRSA — ServiceAccount z adnotacją `eks.amazonaws.com/role-arn`).
+- W bazie danych (`Restaurant.logoUrl`, `UserProfile.avatarUrl`) przechowywany jest **klucz obiektu
+  S3**, nie publiczny URL. Wyświetlany link to zawsze świeżo wygenerowany presigned URL
+  (`GET /restaurants/{id}/logo/url`, `GET /users/me/avatar/url`), ważny domyślnie 15 minut
+  (`aws.s3.presign-ttl-minutes`) — bucket pozostaje prywatny.
+- Terraform (`infra/terraform/local/main.tf`) tworzy bucket `webstaurator-media` na floci; skrypt
+  `k8s/scripts/floci-eks-bootstrap.sh` stawia klaster EKS na floci i wdraża na nim manifesty z
+  `k8s/`.
