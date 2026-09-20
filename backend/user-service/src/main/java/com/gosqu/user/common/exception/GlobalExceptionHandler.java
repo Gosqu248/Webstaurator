@@ -2,6 +2,7 @@ package com.gosqu.user.common.exception;
 
 import com.gosqu.user.address.exception.AddressLimitExceededException;
 import com.gosqu.user.address.exception.AddressNotFoundException;
+import com.gosqu.user.media.exception.AvatarNotFoundException;
 import com.gosqu.user.profile.exception.ProfileNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AddressLimitExceededException.class)
     public ResponseEntity<Map<String, String>> handleAddressLimit(AddressLimitExceededException ex) {
         return ResponseEntity.status(422).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AvatarNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleAvatarNotFound(AvatarNotFoundException ex) {
+        return Map.of("error", ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleIllegalArgument(IllegalArgumentException ex) {
+        return Map.of("error", ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
