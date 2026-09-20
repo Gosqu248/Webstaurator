@@ -48,4 +48,16 @@ secret:
 
 networkPolicy:
   ingress:
-    - {}
+    # Publiczny wjazd (Ingress Controller) ograniczony do portu 8080 — port 9090
+    # (actuator/metryki, bez autoryzacji) nie może być otwarty na cały ruch z klastra.
+    - from:
+        - {}
+      ports:
+        - port: 8080
+    # Prometheus (namespace webstaurator-monitoring) scrapuje /actuator/prometheus na porcie metryk.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator-monitoring
+      ports:
+        - port: 9090

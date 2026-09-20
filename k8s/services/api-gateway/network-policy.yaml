@@ -13,5 +13,17 @@ spec:
     # api-gateway to jedyny punkt wejścia z zewnątrz klastra (przez Ingress Controller, np. ingress-nginx,
     # zwykle w innym namespace). Nie znamy z góry etykiet poda kontrolera, więc "- {}" zezwala na cały ruch
     # przychodzący — świadomy wyjątek od modelu default-deny, bo to jest właśnie ta brama, którą reszta
-    # polityk wymusza jako jedyną drogę do serwisów wewnętrznych.
-    - {}
+    # polityk wymusza jako jedyną drogę do serwisów wewnętrznych. Ograniczone do portu 8080 (publiczne API) —
+    # bez tego port 9090 (actuator/metryki, bez autoryzacji) byłby też otwarty na cały ruch z klastra.
+    - from:
+        - {}
+      ports:
+        - port: 8080
+    # Prometheus (namespace webstaurator-monitoring) scrapuje /actuator/prometheus na porcie metryk —
+    # bez tej reguły default-deny zablokuje scraping, gdy Prometheus faktycznie tam wyląduje (temat 06).
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator-monitoring
+      ports:
+        - port: 9090
