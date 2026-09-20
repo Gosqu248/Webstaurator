@@ -40,7 +40,6 @@ public class CacheConfig {
                 .cacheDefaults(defaults)
                 .withCacheConfiguration("restaurant", defaults.entryTtl(Duration.ofMinutes(5)))
                 .withCacheConfiguration("menu", defaults.entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("restaurant-search", defaults.entryTtl(Duration.ofMinutes(2)))
                 .build();
     }
 

@@ -5,6 +5,9 @@ import com.gosqu.restaurant.menu.dto.request.MenuItemRequest;
 import com.gosqu.restaurant.menu.dto.response.CategoryResponse;
 import com.gosqu.restaurant.menu.dto.response.MenuItemResponse;
 import com.gosqu.restaurant.menu.dto.response.MenuResponse;
+import com.gosqu.restaurant.menu.event.MenuItemCreatedEvent;
+import com.gosqu.restaurant.menu.event.MenuItemDeletedEvent;
+import com.gosqu.restaurant.menu.event.MenuItemUpdatedEvent;
 import com.gosqu.restaurant.menu.exception.CategoryNotFoundException;
 import com.gosqu.restaurant.menu.exception.MenuItemNotFoundException;
 import com.gosqu.restaurant.menu.mapper.MenuMapper;
@@ -17,6 +20,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +36,7 @@ public class MenuService {
     private final MenuItemRepository menuItemRepository;
     private final RestaurantService restaurantService;
     private final MenuMapper menuMapper;
+    private final MenuEventPublisher menuEventPublisher;
 
     @Cacheable(value = "menu", key = "#restaurantId")
     public MenuResponse getMenu(UUID restaurantId) {
@@ -110,6 +115,9 @@ public class MenuService {
                 .build();
         MenuItemResponse response = menuMapper.toResponse(menuItemRepository.save(item));
         log.info("menu_item_added restaurantId={} itemId={}", restaurantId, response.id());
+        menuEventPublisher.publishItemCreated(new MenuItemCreatedEvent(
+                UUID.randomUUID().toString(), response.id(), restaurantId, response.name(), Instant.now()
+        ));
         return response;
     }
 
@@ -128,6 +136,9 @@ public class MenuService {
         item.setCalories(request.calories());
         MenuItemResponse response = menuMapper.toResponse(menuItemRepository.save(item));
         log.info("menu_item_updated restaurantId={} itemId={}", restaurantId, itemId);
+        menuEventPublisher.publishItemUpdated(new MenuItemUpdatedEvent(
+                UUID.randomUUID().toString(), itemId, restaurantId, response.name(), Instant.now()
+        ));
         return response;
     }
 
@@ -139,5 +150,8 @@ public class MenuService {
                 .orElseThrow(() -> new MenuItemNotFoundException(itemId));
         menuItemRepository.deleteById(itemId);
         log.info("menu_item_deleted restaurantId={} itemId={}", restaurantId, itemId);
+        menuEventPublisher.publishItemDeleted(new MenuItemDeletedEvent(
+                UUID.randomUUID().toString(), itemId, restaurantId, Instant.now()
+        ));
     }
 }
