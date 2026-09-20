@@ -13,3 +13,8 @@ data:
   ELASTICSEARCH_PORT: "9200"
   KAFKA_BOOTSTRAP_SERVERS: kafka.webstaurator-infra.svc.cluster.local:9092
   JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local
+  # S3 (logo restauracji). Puste AWS_S3_ENDPOINT = prawdziwy AWS, poświadczenia przez IRSA
+  # (ServiceAccount z adnotacją eks.amazonaws.com/role-arn) — nie przez ten ConfigMap/Secret.
+  AWS_S3_ENDPOINT: ""
+  AWS_REGION: "us-east-1"
+  AWS_S3_BUCKET: "webstaurator-media"

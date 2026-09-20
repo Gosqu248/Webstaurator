@@ -36,6 +36,9 @@ configMap:
     ELASTICSEARCH_PORT: "9200"
     KAFKA_BOOTSTRAP_SERVERS: "kafka.webstaurator-infra.svc.cluster.local:9092"
     JAEGER_HOST: "jaeger.webstaurator-monitoring.svc.cluster.local"
+    AWS_S3_ENDPOINT: ""
+    AWS_REGION: "us-east-1"
+    AWS_S3_BUCKET: "webstaurator-media"
 
 # Placeholdery CHANGE_ME — nadpisz przez osobny, niecommitowany plik values (analogicznie do
 # services/restaurant-service/secret.yaml, gitignored), NIE edytuj tego pliku z realnymi sekretami.

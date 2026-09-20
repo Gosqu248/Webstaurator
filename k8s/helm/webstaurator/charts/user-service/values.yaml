@@ -33,6 +33,9 @@ configMap:
     REDIS_HOST: "redis.webstaurator-infra.svc.cluster.local"
     REDIS_PORT: "6379"
     JAEGER_HOST: "jaeger.webstaurator-monitoring.svc.cluster.local"
+    AWS_S3_ENDPOINT: ""
+    AWS_REGION: "us-east-1"
+    AWS_S3_BUCKET: "webstaurator-media"
 
 # Placeholdery CHANGE_ME — nadpisz przez osobny, niecommitowany plik values (analogicznie do
 # services/user-service/secret.yaml, gitignored), NIE edytuj tego pliku z realnymi sekretami.
