@@ -34,6 +34,7 @@
         <!-- Verify compatible version at https://spring.io/projects/spring-cloud -->
         <spring-cloud.version>2025.1.3</spring-cloud.version>
         <jjwt.version>0.13.0</jjwt.version>
+        <awssdk.version>2.55.0</awssdk.version>
     </properties>
 
     <dependencyManagement>
@@ -42,6 +43,13 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${awssdk.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
