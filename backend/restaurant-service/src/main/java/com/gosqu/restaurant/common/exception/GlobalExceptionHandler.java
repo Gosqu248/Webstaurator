@@ -1,5 +1,6 @@
 package com.gosqu.restaurant.common.exception;
 
+import com.gosqu.restaurant.media.exception.LogoNotFoundException;
 import com.gosqu.restaurant.menu.exception.CategoryNotFoundException;
 import com.gosqu.restaurant.menu.exception.MenuItemNotFoundException;
 import com.gosqu.restaurant.restaurant.exception.RestaurantNotFoundException;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MenuItemNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleMenuItemNotFound(MenuItemNotFoundException ex) {
+        return Map.of("error", ex.getMessage());
+    }
+
+    @ExceptionHandler(LogoNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleLogoNotFound(LogoNotFoundException ex) {
         return Map.of("error", ex.getMessage());
     }
 
