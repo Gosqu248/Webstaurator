@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: webstaurator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: webstaurator/api-gateway:latest
+          ports:
+            - containerPort: 8080
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: api-gateway-config
+            - secretRef:
+                name: api-gateway-secret
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9090
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9090
+            initialDelaySeconds: 30
+            periodSeconds: 15

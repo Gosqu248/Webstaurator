@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+  namespace: webstaurator
+data:
+  POSTGRES_HOST: postgres.webstaurator-infra.svc.cluster.local
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: webstaurator_db
+  REDIS_HOST: redis.webstaurator-infra.svc.cluster.local
+  # MailDev nie ma jeszcze manifestu w k8s/infrastructure/ (poza zakresem sekcji 3 przewodnika —
+  # ta piątka to mongodb/redis/kafka/elasticsearch/minio). Ta wartość zadziała dopiero, gdy ktoś
+  # go doda jako Deployment+Service "maildev" w namespace webstaurator-infra.
+  MAIL_HOST: maildev.webstaurator-infra.svc.cluster.local
+  MAIL_PORT: "1025"
+  FRONTEND_URL: http://localhost:4200
+  JAEGER_HOST: jaeger.webstaurator-monitoring.svc.cluster.local

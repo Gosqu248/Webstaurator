@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+  namespace: webstaurator-infra
+spec:
+  serviceName: elasticsearch-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      # Elasticsearch wymaga vm.max_map_count >= 262144 na węźle hosta — na Linuksie (gołym K8s,
+      # nie Docker Desktop na Macu/Windows, gdzie to już zwykle ustawione) bez tego initContainera
+      # dostaniesz CrashLoopBackOff z logiem o "max virtual memory areas". Patrz k8s/README.md sekcja 3.
+      initContainers:
+        - name: sysctl
+          image: busybox:1.36
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+      containers:
+        - name: elasticsearch
+          image: elasticsearch:9.2.0
+          ports:
+            - name: http
+              containerPort: 9200
+            # Transport port — komunikacja między-węzłowa (discovery, replikacja shardów).
+            # Bez tego portu w NetworkPolicy self-to-self (patrz network-policy.yaml) węzły
+            # nie sformują klastra pod default-deny.
+            - name: transport
+              containerPort: 9300
+          env:
+            - name: cluster.name
+              value: webstaurator-es-cluster
+            # discovery.type: single-node USUNIĘTE — 3 repliki muszą się nawzajem odnaleźć przez
+            # seed_hosts (headless Service daje DNS elasticsearch-0.elasticsearch-headless...,
+            # elasticsearch-1..., elasticsearch-2...) i wybrać initial master spośród siebie.
+            - name: discovery.seed_hosts
+              value: "elasticsearch-0.elasticsearch-headless,elasticsearch-1.elasticsearch-headless,elasticsearch-2.elasticsearch-headless"
+            - name: cluster.initial_master_nodes
+              value: "elasticsearch-0,elasticsearch-1,elasticsearch-2"
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: xpack.security.enabled
+              value: "false"
+            - name: ES_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+          livenessProbe:
+            # curl | grep wymaga shella — w przeciwieństwie do redis-cli/mongosh/kafka-topics.sh
+            # to nie jest "CMD" pomyłka, tylko faktyczna potrzeba potoku, stąd sh -c.
+            exec:
+              command: ["sh", "-c", "curl -s http://localhost:9200/_cluster/health | grep -q 'green\\|yellow'"]
+            initialDelaySeconds: 30
+            periodSeconds: 15
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+---
+# Headless Service — wymagany przez StatefulSet i przez discovery.seed_hosts powyżej (DNS per-pod).
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-headless
+  namespace: webstaurator-infra
+spec:
+  clusterIP: None
+  selector:
+    app: elasticsearch
+  ports:
+    - name: http
+      port: 9200
+    - name: transport
+      port: 9300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  namespace: webstaurator-infra
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+    - port: 9200
+      targetPort: 9200
+  type: ClusterIP

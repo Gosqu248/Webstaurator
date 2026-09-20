@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-gateway-allow-ingress
+  namespace: webstaurator
+spec:
+  podSelector:
+    matchLabels:
+      app: api-gateway
+  policyTypes:
+    - Ingress
+  ingress:
+    # api-gateway to jedyny punkt wejścia z zewnątrz klastra (przez Ingress Controller, np. ingress-nginx,
+    # zwykle w innym namespace). Nie znamy z góry etykiet poda kontrolera, więc "- {}" zezwala na cały ruch
+    # przychodzący — świadomy wyjątek od modelu default-deny, bo to jest właśnie ta brama, którą reszta
+    # polityk wymusza jako jedyną drogę do serwisów wewnętrznych.
+    - {}

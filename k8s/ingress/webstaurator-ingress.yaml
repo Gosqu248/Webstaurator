@@ -1,0 +1,21 @@
+# Wymaga zainstalowanego Ingress Controllera (np. ingress-nginx) — sam obiekt Ingress bez niego
+# nic nie robi. Tylko api-gateway jest osiągalny spoza klastra, resztę routinguje
+# GatewayRoutesConfig.java (patrz md/todo/15-kubernetes-manifests-guide.md, sekcja 6).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webstaurator-ingress
+  namespace: webstaurator
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.webstaurator.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080

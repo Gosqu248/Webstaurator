@@ -1,9 +1,15 @@
+# StatefulSet zamiast Deployment — spójność nazewnictwa z resztą infry (kafka, elasticsearch)
+# i stabilny identyfikator "postgres-0" zamiast losowego hasha w nazwie poda. Przy replicas: 1
+# nie zmienia to zachowania klastra (nie ma tu żadnego mechanizmu replikacji Postgresa), ale
+# volumeClaimTemplates zamiast ręcznego PVC to i tak właściwy wzorzec dla danych, które muszą
+# przeżyć restart poda. Patrz k8s/README.md, sekcja "Deployment vs StatefulSet".
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: postgres
   namespace: webstaurator-infra
 spec:
+  serviceName: postgres-headless
   replicas: 1
   selector:
     matchLabels:
@@ -39,10 +45,31 @@ spec:
               command: ["pg_isready", "-U", "$(POSTGRES_USER)"]
             initialDelaySeconds: 30
             periodSeconds: 10
-      volumes:
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+---
+# Headless Service — wymagany przez StatefulSet (pole serviceName), daje stabilny DNS per-pod
+# (postgres-0.postgres-headless...). Przy replicas: 1 nikt tego DNS-u nie potrzebuje funkcjonalnie,
+# ale StatefulSet i tak go wymaga do poprawnego zarządzania tożsamością poda.
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-headless
+  namespace: webstaurator-infra
+spec:
+  clusterIP: None
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
 ---
 apiVersion: v1
 kind: Service
@@ -56,15 +83,3 @@ spec:
     - port: 5432
       targetPort: 5432
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pvc
-  namespace: webstaurator-infra
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi

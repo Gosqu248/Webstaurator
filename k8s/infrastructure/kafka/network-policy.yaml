@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kafka-allow-ingress
+  namespace: webstaurator-infra
+spec:
+  podSelector:
+    matchLabels:
+      app: kafka
+  policyTypes:
+    - Ingress
+  ingress:
+    # Klienci (produkcja/konsumpcja) z namespace webstaurator, port klienta.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: restaurant-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: order-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: payment-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: notification-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: delivery-service
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: webstaurator
+          podSelector:
+            matchLabels:
+              app: review-service
+      ports:
+        - port: 9092
+    # Ruch między brokerami samej Kafki: inter-broker replication (PLAINTEXT, ten sam port 9092) i
+    # KRaft controller quorum (9093) — bez tej reguły default-deny w webstaurator-infra uniemożliwia
+    # kafka-0/1/2 nawzajem się zobaczyć i klaster nigdy nie sformuje quorum.
+    - from:
+        - podSelector:
+            matchLabels:
+              app: kafka
+      ports:
+        - port: 9092
+        - port: 9093
