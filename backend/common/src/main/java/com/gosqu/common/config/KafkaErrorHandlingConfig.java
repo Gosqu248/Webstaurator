@@ -1,4 +1,4 @@
-package com.gosqu.notificationservice.config;
+package com.gosqu.common.config;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;

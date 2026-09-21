@@ -1,4 +1,4 @@
-package com.gosqu.user.config;
+package com.gosqu.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
