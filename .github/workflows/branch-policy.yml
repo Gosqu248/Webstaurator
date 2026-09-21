@@ -1,0 +1,22 @@
+name: Branch Policy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  enforce-next-target:
+    name: next/* -> next/develop only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR base branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          echo "PR: $HEAD_REF -> $BASE_REF"
+
+          if [[ "$HEAD_REF" == next/* && "$BASE_REF" != "next/develop" ]]; then
+            echo "::error::Gałęzie 'next/*' mogą być mergowane wyłącznie do 'next/develop' (próba: '$BASE_REF')."
+            exit 1
+          fi
